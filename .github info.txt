@@ -15,9 +15,8 @@ git push -u origin master
 ---- su heroku
 
 git init
-heroku git:remote -a glossario-gestisco 
 
-heroku git:remote -a metaglossario-gestisco 
+heroku git:remote -a aqi-luftdaten
 
 git add .
 git commit -m "messaggio qui"
