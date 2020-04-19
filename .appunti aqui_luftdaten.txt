@@ -1,0 +1,3 @@
+aggiungo app ad amdmin
+
+creo urls py nell'app

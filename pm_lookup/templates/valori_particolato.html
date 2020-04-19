@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% load static %}
+
+    <h1>Valori del Particolato</h1>
+    
+    <br>
+
+    <p>In console sono ritornati i valori del particolato</p>
+
+    {{PM10_mean}} <br>
+    {{PM25_mean}}
+
+
+<!-- CSS -->
+{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
+{% endblock %}
