@@ -1,4 +1,0 @@
-
-cd "C:\Users\Tommaso\Django rest framework\Udemy Django\aqi_luftdaten"
-
-conda activate met5
