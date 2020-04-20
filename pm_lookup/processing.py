@@ -1,12 +1,16 @@
 
 import numpy as np 
+import time
+from datetime import datetime
+import json
+import requests
 
 def get_pm():    
     
-    import json
+    
     
     # va su internet, prende le API e le porta indietro
-    import requests
+    
 
     # go grab the api
 
@@ -24,13 +28,11 @@ def get_pm():
     if Luftdaten_API_method == "area":
 
         api_URL = "https://data.sensor.community/airrohr/v1/filter/area=" + str(center_lat) + "," + str(center_long) + "," +  str(radius)
+        # https://data.sensor.community/airrohr/v1/filter/area=45.463704,9.187689,10
 
         api_request = requests.get(api_URL)
-
-        
-
-        # https://data.sensor.community/airrohr/v1/filter/area=45.463704,9.187689,10
-    
+       
+    record_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
     # È possibile utilizzare delle funzioni di concatena 
     #  per cambiare programmaticamente Come scritto l'URL 
@@ -159,6 +161,7 @@ def get_pm():
 
                     'api_URL':api_URL, 
                     'api':api, 
+                    'record_time':record_time,
 
                     'PM10_mean':PM10_mean, 
                     'PM25_mean':PM25_mean, 
