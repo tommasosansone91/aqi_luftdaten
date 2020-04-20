@@ -11,8 +11,8 @@ from .processing import get_pm
 def home(request):
     return render(request, 'home.html', {})
 
-def about(request):
-    return render(request, 'about.html', {})
+# def about(request):
+#     return render(request, 'about.html', {})
 
 def valori_particolato(request):
     

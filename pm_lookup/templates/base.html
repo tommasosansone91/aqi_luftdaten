@@ -39,22 +39,28 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
+
+              {% comment %}
               <!-- Info -->   
               <li class="nav-item dropdown">
 
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Info</a>
+                
                 
 
                 <div class="dropdown-menu">
 
                   <a class="dropdown-item" href="{% url 'about' %}">About</a>
                 
-                  {% comment %} <div class="dropdown-divider"></div> {% endcomment %}
+                  <div class="dropdown-divider"></div> 
 
                 </div>
 
-              </li>
+                
 
+              </li>
+              
+              {% endcomment %}
 
               <!-- Pag 1 -->
               <li class="nav-item">
@@ -170,15 +176,11 @@
 
       <div class="bottom-bar">
 
-        {% comment %} <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/lombardia-minilogo.png' %}" align="middle"></i></span>
-        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/ticino-minilogo.png' %}" align="middle"></i></span>
-        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/poli-minilogo.png' %}" align="middle"></i></span>
-        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/fpm-minilogo.png' %}" align="middle"></i></span>
-        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/supsi-minilogo.png' %}" align="middle"></i></span>
-        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/como-minilogo.png' %}" align="middle"></i></span>
-        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/varese-minilogo.png' %}" align="middle"></i></span>
-        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_partner/arpap-minilogo.png' %}" align="middle"></i></span>
-         {% endcomment %}
+        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_footbar/logo-Resilient-GAP.png' %}" align="middle"></i></span>
+        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_footbar/logo-Cittadini-per-lAria.png' %}" align="middle"></i></span>
+        <span>  <i><img id="logo_bottom_bar" src="{% static 'img/loghi_footbar/logo-salvaciclisti.png' %}" align="middle"></i></span>
+     
+        
 
       </div>
 
@@ -197,8 +199,8 @@
     {% comment %} <script type="text/javascript" src={% static "js/update_script_status.js" %}></script> {% endcomment %}
 
     <!-- css -->
-    {% comment %} <link rel="stylesheet" type="text/css" href={% static "css/top_navbar_style.css" %}>
-    <link rel="stylesheet" type="text/css" href={% static "css/bottom_navbar_style.css" %}> {% endcomment %}
+    {% comment %} <link rel="stylesheet" type="text/css" href={% static "css/top_navbar_style.css" %}> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href={% static "css/bottom_navbar_style.css" %}> 
 
     
   

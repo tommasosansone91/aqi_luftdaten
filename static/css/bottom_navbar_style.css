@@ -1,0 +1,22 @@
+
+#logo_bottom_bar{
+
+    height: 30px;
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+
+}
+
+div.bottom-bar {
+    display: table;
+    width: 80%;
+    table-layout: fixed;    /* For cells of equal size */
+    margin: auto; 
+    /* questo si usa per diche che dentro a quel div gli elementi come immagini e altro vanno allineati al centro */
+    
+}
+
+div.bottom-bar span {
+    display: table-cell;
+    text-align: center;
+}
