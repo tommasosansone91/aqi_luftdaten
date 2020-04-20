@@ -8,14 +8,68 @@
     
     <br>
 
-    <p>In console sono ritornati i valori del particolato</p>
+    <p>Di seguito sono mostrati i valori medi real-time del PM10 e PM2.5 in diverse città.</p>
 
-    {{PM10_mean}} <br>
-    {{PM25_mean}}
+    <br>
+
+    <h3>Milano</h3>
+
+    <p>I valori si riferiscono ad una media aritmetica eseguita sui valori registrate dalle centraline nel raggio di {{radius}} km dal Duomo di Milano (<!-- <a target="_blank"  href="https://www.google.it/maps/@{{center_lat}},{{center_long}}"> --> {{center_lat}}, {{center_long}}</a>).</p>
+
+
+
+    <p>
+        PM10 medio: 
+
+        {% if PM10_mean %}
+    
+        <a class="{{PM10_cathegory}}">
+        {{PM10_mean}} µg/m³  
+        </a>
+
+        &nbsp &nbsp
+
+        <a class="{{PM10_cathegory}}">
+        {{PM10_quality}}
+        </a>
+
+        {% else %}
+
+            Dato non disponibile
+
+        {% endif %}
+
+    </p> 
+        
+
+
+
+    <p>
+        PM2.5 medio: 
+
+        {% if PM25_mean %}
+    
+            <a class="{{PM25_cathegory}}">
+            {{PM25_mean}} µg/m³
+            </a>
+
+            &nbsp &nbsp
+
+            <a class="{{PM25_cathegory}}">
+                {{PM25_quality}}
+            </a>
+
+        {% else %}
+
+            Dato non disponibile
+
+        {% endif %}
+
+    </p>
 
 
 <!-- CSS -->
-{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+<link rel="stylesheet" type="text/css" href={% static "css/AQ_cathegories.css" %}>
 
 <!-- Javascript -->
 {% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}

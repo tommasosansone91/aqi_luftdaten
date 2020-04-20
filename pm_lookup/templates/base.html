@@ -107,6 +107,8 @@
 
               {% elif not user.is_authenticated %}
 
+              {% comment %}
+
               <li class="nav-item dropdown">
 
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Login menu</a>
@@ -115,6 +117,8 @@
 
                   
                   <a class="dropdown-item" href="{% url 'home' %}">Accedi</a>
+
+                  {% endcomment %}
 
                   {% comment %} <a class="dropdown-item" href="{% url 'home' %}">Richiedi l'accesso</a> {% endcomment %}
 
