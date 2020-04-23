@@ -13,6 +13,13 @@ class target_area_input_data(models.Model):
     Longitude = models.FloatField(null=True, blank=True)
 
     Radius = models.FloatField(null=False, blank=False)
+    # deve essere integer
+
+
+    def __str__(self):    
+    # print("%s is %d years old." % (name, age))    
+        return  "%s"  %  (self.Name)  
+        #quello che fa apparire nella sezione admin, attributo che riassume tutti gli altri, quindi una primary key presumibilmente, pouò anche esesere la combinazione degli altri
 
 
 class target_area_output_data(models.Model):
@@ -30,13 +37,20 @@ class target_area_output_data(models.Model):
 
     PM25_mean = models.FloatField(null=False, blank=False)
 
-    Last_update_time = models.DateField(blank=False, null=False, default=timezone.now )
+    Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
     n_selected_sensors = models.IntegerField(null=True)
 
     PM10_n_missing_data = models.IntegerField(null=True)
 
     PM25_n_missing_data = models.IntegerField(null=True)
+
+
+    def __str__(self):    
+    # print("%s is %d years old." % (name, age))    
+        return  "%s"  %  (self.Target_area_name)  
+        #quello che fa apparire nella sezione admin, attributo che riassume tutti gli altri, quindi una primary key presumibilmente, pouò anche esesere la combinazione degli altri
+
 
     #     def __str__(self):    
     #     # print("%s is %d years old." % (name, age))    
