@@ -5,6 +5,7 @@ from datetime import datetime
 import json
 import requests
 
+
 def get_pm():    
     
     
@@ -18,9 +19,7 @@ def get_pm():
     Luftdaten_API_method = "area"
 
     # rea method parameters
-    center_lat = 45.464211
-
-    #wgs84
+    center_lat = 45.464211 #wgs84    
     center_long = 9.191383 #wgs84
     radius = 8 #km
 
@@ -32,7 +31,7 @@ def get_pm():
 
         api_request = requests.get(api_URL)
        
-    record_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    record_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
 
     # È possibile utilizzare delle funzioni di concatena 
     #  per cambiare programmaticamente Come scritto l'URL 

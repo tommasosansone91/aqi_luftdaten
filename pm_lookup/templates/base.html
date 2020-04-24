@@ -79,13 +79,19 @@
 
               <!-- menu visibile a chi è loggato come utente -->
 
+              
+
               {% if user.is_authenticated %}
+
+              {% comment %}
 
               <li class="nav-item dropdown">
 
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{request.user.username}}</a>
                 
-                <div class="dropdown-menu dropdown-menu-right">
+                
+
+                <div class="dropdown-menu dropdown-menu-right"> {% endcomment %}
 
                   {% comment %} non sono riuscito ad implementare un menu utenti per visualizzarne i dati bio del modello userprofileinfo {% endcomment %}
                   {% comment %} <a class="dropdown-item" href="">Profilo</a>   {% endcomment %}
@@ -98,13 +104,14 @@
                     <!-- menu visibile a chi è loggato come superuser -->
 
                       {% elif request.user.is_staff %}
-                    
-                        <a class="dropdown-item" href="{% url 'admin:index' %}">Sezione admin</a>
+
+                      
+                      {% comment %} <a class="dropdown-item" href="{% url 'admin:index' %}">Sezione admin</a>{% endcomment %}
 
                       
                       {% endif %}
                   
-                  <a class="dropdown-item" href="{% url 'home' %}">Log out</a>
+                      {% comment %} <a class="dropdown-item" href="{% url 'home' %}">Log out</a>{% endcomment %}
 
                 </div>
                 

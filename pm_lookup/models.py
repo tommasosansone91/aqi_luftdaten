@@ -6,7 +6,7 @@ from django.utils import timezone
 
 class target_area_input_data(models.Model):
 
-    Name = models.CharField(max_length=256, blank=False, null=False)
+    Name = models.CharField(max_length=256, blank=False, null=False, unique=True)
 
     Latitude = models.FloatField(null=False, blank=False)
 
