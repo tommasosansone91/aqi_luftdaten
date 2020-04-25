@@ -64,14 +64,18 @@
 
               <!-- Pag 1 -->
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'valori_particolato' %}">Valori del particolato</a>                
+                <a class="nav-link" href="{% url 'particolato_milano' %}">Milano</a>                
               </li>
 
 
-                <!-- Pag 1 -->
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="{% url 'home' %}">Pag 1<span class="sr-only">(current)</span></a>                
-              </li> -->
+              <!-- Pag 1 -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'valori_particolato' %}">Valori del particolato</a>                
+              </li>
+
+              <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin:index' %}">Sezione admin</a>
+            </li>
 
 
 
@@ -104,12 +108,13 @@
                     <!-- menu visibile a chi è loggato come superuser -->
 
                       {% elif request.user.is_staff %}
-
-                      
-                      {% comment %} <a class="dropdown-item" href="{% url 'admin:index' %}">Sezione admin</a>{% endcomment %}
-
-                      
+                      <!-- <a class="dropdown-item" href="}">Sezione admin</a> -->
                       {% endif %}
+
+                      
+
+                      
+                      
                   
                       {% comment %} <a class="dropdown-item" href="{% url 'home' %}">Log out</a>{% endcomment %}
 

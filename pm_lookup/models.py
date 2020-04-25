@@ -33,24 +33,31 @@ class target_area_output_data(models.Model):
     )
     # il primo attributo è il modello cui è associato
 
-    PM10_mean = models.FloatField(null=False, blank=False)
-
-    PM25_mean = models.FloatField(null=False, blank=False)
-
     Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
+    PM10_mean = models.FloatField(null=False, blank=False)
+    PM25_mean = models.FloatField(null=False, blank=False)
+
+    PM10_quality = models.CharField(max_length=256, blank=False, null=False)
+    PM25_quality = models.CharField(max_length=256, blank=False, null=False)
+
+    PM10_cathegory = models.CharField(max_length=256, blank=False, null=False)
+    PM25_cathegory = models.CharField(max_length=256, blank=False, null=False)
+
     n_selected_sensors = models.IntegerField(null=True)
+    # n_selected_sensors = models.CharField(max_length=256, null=True)
 
     PM10_n_missing_data = models.IntegerField(null=True)
-
     PM25_n_missing_data = models.IntegerField(null=True)
 
+    # PM10_n_missing_data = models.CharField(max_length=256, null=True)
+    # PM25_n_missing_data = models.CharField(max_length=256, null=True)
 
-    def __str__(self):    
-    # print("%s is %d years old." % (name, age))    
-        return  "%s"  %  (self.Target_area_name)  
-        #quello che fa apparire nella sezione admin, attributo che riassume tutti gli altri, quindi una primary key presumibilmente, pouò anche esesere la combinazione degli altri
 
+    def __str__(self):       
+        return  "%s - %s"  %  (self.Target_area_name, self.Last_update_time)  
+
+# --------------------------------
 
     #     def __str__(self):    
     #     # print("%s is %d years old." % (name, age))    
