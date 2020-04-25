@@ -10,8 +10,6 @@ import requests
 
 from .models import target_area_input_data, target_area_output_data
 
-def erase_output_model(): 
-    target_area_output_data.objects.all().delete()
 
 
 def get_pm_2():    
@@ -46,17 +44,17 @@ def get_pm_2():
         place_name = place.Name
 
         # predo lat e long e raggio della località input
-        x_p = place.Longitude
-        y_p = place.Latitude
-        rho = place.Radius
+        x_p = float(place.Longitude)
+        y_p = float(place.Latitude)
+        rho = float(place.Radius)
 
         PM10_list = []
         PM25_list = []
     
         for sensor in api_data:
 
-            x_s = sensor["location"]["longitude"]
-            y_s = sensor["location"]["latitude"]
+            x_s = float(sensor["location"]["longitude"])
+            y_s = float(sensor["location"]["latitude"])
                         
             # termine 1 della formula
             t1 = math.sqrt( ( x_s - x_p )**2 + ( y_s - y_p )**2 )
