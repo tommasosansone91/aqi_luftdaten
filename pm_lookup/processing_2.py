@@ -23,7 +23,7 @@ def get_pm_2():
     api_request = requests.get(api_URL)
 
     # save time
-    record_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+    record_time = datetime.now()
 
     # record parse
     try:
@@ -46,7 +46,7 @@ def get_pm_2():
         # predo lat e long e raggio della località input
         x_p = float(place.Longitude)
         y_p = float(place.Latitude)
-        rho = float(place.Radius)
+        rho = 0.011300045235255235 * float(place.Radius) # fattore di trasformazione (coord/km)
 
         PM10_list = []
         PM25_list = []
@@ -55,15 +55,26 @@ def get_pm_2():
 
             x_s = float(sensor["location"]["longitude"])
             y_s = float(sensor["location"]["latitude"])
+
+            # print("Latitudine e longitudine del sensore in esame: %s, %s" % (y_s, x_s) )
                         
             # termine 1 della formula
+
             t1 = math.sqrt( ( x_s - x_p )**2 + ( y_s - y_p )**2 )
-            
+
             # termine 2 è rho
 
             if t1 <= rho:
 
-            # allora estrai  le info del pm 
+            # no perchè latitudine longitudine e rho non hanno la stessa unità di misura
+            # ho convertito il raggio in lat e logn-- 8km ~~ 0.043702 .... per milano
+
+
+
+                print("Trovato un sensore entro l'area definita per %s" % place_name)
+                print("Latitudine e longitudine del sensore in esame: %s, %s" % (y_s, x_s) )
+
+                # allora estrai  le info del pm 
 
                 for physical_quantity_recorded in sensor['sensordatavalues']:
 
@@ -79,6 +90,10 @@ def get_pm_2():
 
         # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
 
+        n_selected_sensors = len(PM10_list)
+
+        print("Valori del particolato raccolti da %s sensori per %s" % (n_selected_sensors, place_name))
+
         print(PM10_list)  
         print(PM25_list)   
 
@@ -92,6 +107,8 @@ def get_pm_2():
 
         PM10_mean = round(np.mean(PM10_array), 2)
         PM25_mean = round(np.mean(PM25_array), 2)
+
+
 
 
         # categorie di qualità dell'aria rispetto a PM 10
@@ -152,10 +169,14 @@ def get_pm_2():
         else:
             PM25_quality="No data"
             PM25_cathegory="nessuna"
-             
+
+            
+        print("Valore medio del PM10 per %s: %s µg/m³. %s" % (place_name, PM10_mean, PM10_quality))
+        print("Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_quality))
+
 
         new_record = target_area_output_data(
-                                                Target_area_name=place_name,
+                                                Target_area_name=target_area_input_data.objects.get(Name=place_name),
                                                 Last_update_time=record_time,
 
                                                 PM10_mean=PM10_mean,
@@ -174,10 +195,10 @@ def get_pm_2():
 
     # quando ha processato tutti i posti
 
-    context_dict = {
+    common_output = {
             'api_URL':api_URL, 
             'api_data':api_data, 
             'record_time':record_time,
             }
 
-    return context_dict
+    return common_output
