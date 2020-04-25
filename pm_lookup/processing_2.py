@@ -19,11 +19,15 @@ def get_pm_2():
     api_URL = "https://data.sensor.community/static/v2/data.1h.json"
         # https://data.sensor.community/static/v2/data.1h.json
 
+    print("In attesa di ricevere i dati...")
+
     # go grab the api
     api_request = requests.get(api_URL)
 
     # save time
     record_time = datetime.now()
+
+    print("Dati ricevuti!")
 
     # record parse
     try:
@@ -31,6 +35,9 @@ def get_pm_2():
         api_data = json.loads(api_request.content)
     except Exception as e:
         api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
+
+    # voglio un solo record per ogni location
+    target_area_output_data.objects.all().delete()
 
 
     # prende dati input e dispone in vettori le info di ognuna
@@ -177,6 +184,11 @@ def get_pm_2():
 
         new_record = target_area_output_data(
                                                 Target_area_name=target_area_input_data.objects.get(Name=place_name),
+                                                
+                                                Latitude = place.Longitude,
+                                                Longitude = place.Latitude,
+                                                Radius = place.Radius,                                             
+                                                
                                                 Last_update_time=record_time,
 
                                                 PM10_mean=PM10_mean,
@@ -192,6 +204,8 @@ def get_pm_2():
         )
         
         new_record.save()
+
+        print("Salvati i dati per %s" % place_name)
 
     # quando ha processato tutti i posti
 

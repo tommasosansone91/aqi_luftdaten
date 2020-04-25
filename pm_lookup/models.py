@@ -10,7 +10,7 @@ class target_area_input_data(models.Model):
 
     Latitude = models.FloatField(null=False, blank=False)
 
-    Longitude = models.FloatField(null=True, blank=True)
+    Longitude = models.FloatField(null=False, blank=False)
 
     Radius = models.FloatField(null=False, blank=False)
     # deve essere integer
@@ -32,6 +32,10 @@ class target_area_output_data(models.Model):
         on_delete=models.CASCADE,
     )
     # il primo attributo è il modello cui è associato
+
+    Latitude = models.FloatField(null=False, blank=False)
+    Longitude = models.FloatField(null=False, blank=True)
+    Radius = models.FloatField(null=False, blank=False)
 
     Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 

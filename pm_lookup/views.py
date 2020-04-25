@@ -30,11 +30,14 @@ def valori_particolato(request):
     
     common_output = get_pm_2()
 
-    aree_di_interesse = target_area_input_data.objects.all()
+    aree_di_interesse = target_area_input_data.objects.all()    
+    n_aree_di_interesse = target_area_input_data.objects.all().count()    
+
     record_sensori = target_area_output_data.objects.all()
 
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,
+                    'n_aree_di_interesse':n_aree_di_interesse,
                     'common_output':common_output,
                     'record_sensori':record_sensori
                     }
