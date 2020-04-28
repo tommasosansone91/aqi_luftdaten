@@ -16,8 +16,9 @@ def get_pm_2():
 
     
     # url generating
-    api_URL = "https://data.sensor.community/static/v2/data.1h.json"
-        # https://data.sensor.community/static/v2/data.1h.json
+    api_URL = "https://data.sensor.community/static/v2/data.json"
+        # https://data.sensor.community/static/v2/data.1h.json dati 1h
+        # https://data.sensor.community/static/v2/data.json dati 5 min
 
     print("In attesa di ricevere i dati...")
 
@@ -25,7 +26,8 @@ def get_pm_2():
     api_request = requests.get(api_URL)
 
     # save time
-    record_time = datetime.now()
+    # record_time = datetime.now()
+    #  l'ho definito dopo
 
     print("Dati ricevuti!")
 
@@ -57,6 +59,7 @@ def get_pm_2():
 
         PM10_list = []
         PM25_list = []
+        timestamp_list=[]
     
         for sensor in api_data:
 
@@ -83,17 +86,28 @@ def get_pm_2():
 
                 # allora estrai  le info del pm 
 
+
+
                 for physical_quantity_recorded in sensor['sensordatavalues']:
 
                     if physical_quantity_recorded['value_type'] == 'P1':
 
                         PM10_value = physical_quantity_recorded['value']               
                         PM10_list.append(PM10_value)
+                        got_PM_value=1
 
                     if physical_quantity_recorded['value_type'] == 'P2':
 
                         PM25_value = physical_quantity_recorded['value']                
                         PM25_list.append(PM25_value)
+                        got_PM_value=1
+
+                    if got_PM_value==1:
+                        
+                        timestamp_value= sensor['timestamp']
+                        timestamp_list.append(timestamp_value)
+
+                    got_PM_value=0
 
         # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
 
@@ -101,8 +115,14 @@ def get_pm_2():
 
         print("Valori del particolato raccolti da %s sensori per %s" % (n_selected_sensors, place_name))
 
+        print("PM10:")
         print(PM10_list)  
-        print(PM25_list)   
+
+        print("PM2.5:")
+        print(PM25_list)  
+
+        print("Ora delle rilevazioni:")
+        print(timestamp_list) 
 
         n_selected_sensors = len(PM10_list)
         
@@ -112,10 +132,11 @@ def get_pm_2():
         PM25_array = np.array(PM25_list)
         PM25_array = PM25_array.astype(np.float)
 
+        timestamp_array = np.array(timestamp_list)
+
         PM10_mean = round(np.mean(PM10_array), 2)
         PM25_mean = round(np.mean(PM25_array), 2)
-
-
+        record_time = min(timestamp_array)
 
 
         # categorie di qualità dell'aria rispetto a PM 10

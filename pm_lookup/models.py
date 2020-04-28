@@ -16,9 +16,10 @@ class target_area_input_data(models.Model):
     # deve essere integer
 
 
-    def __str__(self):    
-    # print("%s is %d years old." % (name, age))    
+    def __str__(self):       
         return  "%s"  %  (self.Name)  
+   
+    # print("%s is %d years old." % (name, age))    
         #quello che fa apparire nella sezione admin, attributo che riassume tutti gli altri, quindi una primary key presumibilmente, pouò anche esesere la combinazione degli altri
 
 
@@ -32,9 +33,9 @@ class target_area_output_data(models.Model):
         on_delete=models.CASCADE,
     )
     # il primo attributo è il modello cui è associato
-
-    Latitude = models.FloatField(null=False, blank=False)
+    
     Longitude = models.FloatField(null=False, blank=True)
+    Latitude = models.FloatField(null=False, blank=False)
     Radius = models.FloatField(null=False, blank=False)
 
     Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
@@ -59,7 +60,7 @@ class target_area_output_data(models.Model):
 
 
     def __str__(self):       
-        return  "%s - %s"  %  (self.Target_area_name, self.Last_update_time)  
+        return  "%s --- (%s, %s - Radius: %s km)"  %  (self.Target_area_name, self.Latitude, self.Longitude, self.Radius)  
 
 # --------------------------------
 

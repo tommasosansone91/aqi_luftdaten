@@ -1,0 +1,10 @@
+splitta funzione view in
+una che cerca nei modelli e dispone
+poi funzione sleep esegue processing
+un pulzante permette di forzare il provecccisng
+milano rel time elimina
+pemetti all'utente di modificare la tista degli input con un form e funzione modifica o cancella
+
+recupera dalla search anche il time stamp e fanne una lista, 
+poi prendi come valore rappesentativo per ogni sensore l'orario più tardo
+e salvalo nel modello
