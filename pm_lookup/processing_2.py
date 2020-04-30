@@ -4,6 +4,7 @@ import math
 
 import time
 from datetime import datetime
+from django.utils import timezone
 
 import json
 import requests
@@ -44,6 +45,8 @@ def get_pm_2():
 
     # prende dati input e dispone in vettori le info di ognuna
     input_data = target_area_input_data.objects.all()
+
+    
 
 
     # dai dati acquisiti, individua quelli che corrispondono al perimetro delle località selezionate, 
@@ -94,20 +97,20 @@ def get_pm_2():
 
                         PM10_value = physical_quantity_recorded['value']               
                         PM10_list.append(PM10_value)
-                        got_PM_value=1
+                        got_PM_value = 1
 
                     if physical_quantity_recorded['value_type'] == 'P2':
 
                         PM25_value = physical_quantity_recorded['value']                
                         PM25_list.append(PM25_value)
-                        got_PM_value=1
+                        got_PM_value = 1
 
                     if got_PM_value==1:
                         
-                        timestamp_value= sensor['timestamp']
+                        timestamp_value = sensor['timestamp']
                         timestamp_list.append(timestamp_value)
 
-                    got_PM_value=0
+                    got_PM_value = 0
 
         # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
 
@@ -136,8 +139,15 @@ def get_pm_2():
 
         PM10_mean = round(np.mean(PM10_array), 2)
         PM25_mean = round(np.mean(PM25_array), 2)
-        record_time = min(timestamp_array)
 
+        # col min prendo il tempo del sensore aggiornato meno di recente, per garanzia di aggiornamento minimo
+        # record_time = min(timestamp_array)
+        record_time = max(timestamp_array)
+        
+
+        # datetime.strptime(record_time, "%Y-%m-%d %H:%M:%S")
+
+        # record_time = record_time.strftime("%d-%m-%Y %H:%M:%S")
 
         # categorie di qualità dell'aria rispetto a PM 10
         if PM10_mean <=20:
@@ -201,6 +211,7 @@ def get_pm_2():
             
         print("Valore medio del PM10 per %s: %s µg/m³. %s" % (place_name, PM10_mean, PM10_quality))
         print("Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_quality))
+        print("Timestamp delle osservazioni per %s: %s" % (place_name, record_time))
 
 
         new_record = target_area_output_data(
