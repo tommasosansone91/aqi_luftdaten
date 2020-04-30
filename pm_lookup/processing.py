@@ -60,17 +60,34 @@ def get_pm():
 
     for sensor in api_data:
 
+        got_PM_value = 0
+
         for physical_quantity_recorded in sensor['sensordatavalues']:
 
             if physical_quantity_recorded['value_type'] == 'P1':
 
                 PM10_value = physical_quantity_recorded['value']               
                 PM10_list.append(PM10_value)
+                got_PM_value = 1
+                print("    PM10: %s" % PM10_value)
 
             if physical_quantity_recorded['value_type'] == 'P2':
 
                 PM25_value = physical_quantity_recorded['value']                
                 PM25_list.append(PM25_value)
+                got_PM_value = 1
+                print("    PM2.5: %s" % PM25_value)
+
+        # fuori dal loop delle grandezze fisiche, c'è un solo timestamp per ogni centralina
+        if got_PM_value==1: 
+            print("    Timestamp: %s" % sensor['timestamp'])                  
+
+        else:
+            print("Questo sensore non possiede dati di particolato")    
+
+# da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
+
+    n_selected_sensors = len (PM10_list)
 
 
 

@@ -22,6 +22,11 @@ class target_area_input_data(models.Model):
     # print("%s is %d years old." % (name, age))    
         #quello che fa apparire nella sezione admin, attributo che riassume tutti gli altri, quindi una primary key presumibilmente, pouò anche esesere la combinazione degli altri
 
+    class Meta:
+        ordering = ['-Radius', 'Name']
+
+
+
 
 class target_area_output_data(models.Model):
 
@@ -61,6 +66,10 @@ class target_area_output_data(models.Model):
 
     def __str__(self):       
         return  "%s --- (%s, %s - Radius: %s km)"  %  (self.Target_area_name, self.Latitude, self.Longitude, self.Radius)  
+
+
+    class Meta:
+        ordering = ['-Radius', 'Target_area_name']
 
 # --------------------------------
 

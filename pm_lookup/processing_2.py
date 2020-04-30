@@ -92,8 +92,8 @@ def get_pm_2():
 
 
 
-                print("Trovato un sensore entro l'area definita per %s" % place_name)
-                print("Latitudine e longitudine del sensore in esame: %s, %s" % (y_s, x_s) )
+                print("Trovato un sensore entro l'area definita per %s:" % place_name)
+                print("    Latitudine e longitudine: %s, %s" % (y_s, x_s) )
 
                 # allora estrai  le info del pm 
 
@@ -106,20 +106,24 @@ def get_pm_2():
                         PM10_value = physical_quantity_recorded['value']               
                         PM10_list.append(PM10_value)
                         got_PM_value = 1
+                        print("    PM10: %s" % PM10_value)
 
                     if physical_quantity_recorded['value_type'] == 'P2':
 
                         PM25_value = physical_quantity_recorded['value']                
                         PM25_list.append(PM25_value)
                         got_PM_value = 1
+                        print("    PM2.5: %s" % PM25_value)
 
                 # fuori dal loop delle grandezze fisiche, c'è un solo timestamp per ogni centralina
                 if got_PM_value==1:
                     
                     timestamp_value = sensor['timestamp']
-                    timestamp_list.append(timestamp_value)
+                    timestamp_list.append(timestamp_value)  
+                    print("    Timestamp: %s" % timestamp_value)                  
 
-                    
+                else:
+                    print("    Questo sensore non possiede dati di particolato")    
 
         # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
 
@@ -251,7 +255,7 @@ def get_pm_2():
 
         print("Dati per %s salvati nel modello!" % place_name)
 
-        print("---------------------------------------------------!")
+        print("---------------------------------------------------")
 
     # quando ha processato tutti i posti
 
