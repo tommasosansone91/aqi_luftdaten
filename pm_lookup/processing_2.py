@@ -53,7 +53,11 @@ def get_pm_2():
     # e salvane i valori
     for place in input_data:
 
+        
+
         place_name = place.Name
+
+        print("Inizio ricerca dati per %s..." % place_name)
 
         # predo lat e long e raggio della località input
         x_p = float(place.Longitude)
@@ -65,6 +69,8 @@ def get_pm_2():
         timestamp_list=[]
     
         for sensor in api_data:
+
+            got_PM_value = 0
 
             x_s = float(sensor["location"]["longitude"])
             y_s = float(sensor["location"]["latitude"])
@@ -79,8 +85,10 @@ def get_pm_2():
 
             if t1 <= rho:
 
-            # no perchè latitudine longitudine e rho non hanno la stessa unità di misura
-            # ho convertito il raggio in lat e logn-- 8km ~~ 0.043702 .... per milano
+                
+
+                # no perchè latitudine longitudine e rho non hanno la stessa unità di misura
+                # ho convertito il raggio in lat e logn-- 8km ~~ 0.043702 .... per milano
 
 
 
@@ -105,16 +113,17 @@ def get_pm_2():
                         PM25_list.append(PM25_value)
                         got_PM_value = 1
 
-                    if got_PM_value==1:
-                        
-                        timestamp_value = sensor['timestamp']
-                        timestamp_list.append(timestamp_value)
+                # fuori dal loop delle grandezze fisiche, c'è un solo timestamp per ogni centralina
+                if got_PM_value==1:
+                    
+                    timestamp_value = sensor['timestamp']
+                    timestamp_list.append(timestamp_value)
 
-                    got_PM_value = 0
+                    
 
         # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
 
-        n_selected_sensors = len(PM10_list)
+        n_selected_sensors = len (PM10_list)
 
         print("Valori del particolato raccolti da %s sensori per %s" % (n_selected_sensors, place_name))
 
@@ -141,13 +150,16 @@ def get_pm_2():
         PM25_mean = round(np.mean(PM25_array), 2)
 
         # col min prendo il tempo del sensore aggiornato meno di recente, per garanzia di aggiornamento minimo
-        # record_time = min(timestamp_array)
-        record_time = max(timestamp_array)
+        record_time = min(timestamp_array)
+        # record_time = max(timestamp_array)
         
-
-        # datetime.strptime(record_time, "%Y-%m-%d %H:%M:%S")
+        # da solo non è necessario
+        record_time = datetime.strptime(record_time, "%Y-%m-%d %H:%M:%S")
 
         # record_time = record_time.strftime("%d-%m-%Y %H:%M:%S")
+        #  se lo metto dice che deve essere formattato in formato che mantega anche la timezone
+
+
 
         # categorie di qualità dell'aria rispetto a PM 10
         if PM10_mean <=20:
@@ -237,7 +249,9 @@ def get_pm_2():
         
         new_record.save()
 
-        print("Salvati i dati per %s" % place_name)
+        print("Dati per %s salvati nel modello!" % place_name)
+
+        print("---------------------------------------------------!")
 
     # quando ha processato tutti i posti
 
