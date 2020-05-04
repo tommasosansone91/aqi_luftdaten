@@ -57,8 +57,8 @@ class target_area_output_data(models.Model):
     n_selected_sensors = models.IntegerField(null=True)
     # n_selected_sensors = models.CharField(max_length=256, null=True)
 
-    PM10_n_missing_data = models.IntegerField(null=True)
-    PM25_n_missing_data = models.IntegerField(null=True)
+    # PM10_n_missing_data = models.IntegerField(null=True)
+    # PM25_n_missing_data = models.IntegerField(null=True)
 
     # PM10_n_missing_data = models.CharField(max_length=256, null=True)
     # PM25_n_missing_data = models.CharField(max_length=256, null=True)
@@ -70,6 +70,55 @@ class target_area_output_data(models.Model):
 
     class Meta:
         ordering = ['-Radius', 'Target_area_name']
+
+
+
+class target_area_history_data(models.Model):
+
+    # nota che è maiuscolo
+    Target_area_name = models.ForeignKey(
+        'target_area_input_data',
+
+        # nota che l'attributo è in minuscolo
+        on_delete=models.CASCADE,
+    )
+    # il primo attributo è il modello cui è associato
+    
+    Longitude = models.FloatField(null=False, blank=True)
+    Latitude = models.FloatField(null=False, blank=False)
+    Radius = models.FloatField(null=False, blank=False)
+
+    Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+
+    PM10_mean = models.FloatField(null=False, blank=False)
+    PM25_mean = models.FloatField(null=False, blank=False)
+
+    PM10_quality = models.CharField(max_length=256, blank=False, null=False)
+    PM25_quality = models.CharField(max_length=256, blank=False, null=False)
+
+    PM10_cathegory = models.CharField(max_length=256, blank=False, null=False)
+    PM25_cathegory = models.CharField(max_length=256, blank=False, null=False)
+
+    n_selected_sensors = models.IntegerField(null=True)
+    # n_selected_sensors = models.CharField(max_length=256, null=True)
+
+    # PM10_n_missing_data = models.IntegerField(null=True)
+    # PM25_n_missing_data = models.IntegerField(null=True)
+
+    # PM10_n_missing_data = models.CharField(max_length=256, null=True)
+    # PM25_n_missing_data = models.CharField(max_length=256, null=True)
+
+
+    def __str__(self):       
+        return  "%s --- [%s]"  %  (self.Target_area_name, self.Last_update_time)  
+
+
+    class Meta:
+        ordering = ['-Radius', 'Target_area_name', '-Last_update_time']
+    
+        unique_together = ('Target_area_name', 'Last_update_time', 'PM10_mean', 'PM25_mean')
+        # altrimenti non ha senso salvare un altro record... se è lo stesso
+        # metto il try nel momento del salvataggio
 
 # --------------------------------
 

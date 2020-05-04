@@ -25,4 +25,7 @@ urlpatterns = [
     #per includere i nuovi urls dell'app
     # prende tutti quegli url e li aggiunge in coda al path indicato lì. 
     # quindi col path vuoto sono gli stessi
+
+    # path('api/', include('pm_lookup.urls')), 
+
 ]

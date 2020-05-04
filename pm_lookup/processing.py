@@ -29,7 +29,9 @@ def get_pm():
         api_URL = "https://data.sensor.community/airrohr/v1/filter/area=" + str(center_lat) + "," + str(center_long) + "," +  str(radius)
         # https://data.sensor.community/airrohr/v1/filter/area=45.463704,9.187689,10
 
+        print("In attesa di ricevere i dati...")
         api_request = requests.get(api_URL)
+        print("Dati ricevuti!")
        
     record_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
 
