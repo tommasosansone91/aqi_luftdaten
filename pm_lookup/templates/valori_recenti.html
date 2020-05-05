@@ -35,7 +35,7 @@
 
             {% if record.PM10_mean %}
             
-            <span title={{record.PM10_quality}}>
+            <span title="{{record.PM10_quality}}">
             <a class="{{record.PM10_cathegory}}">
             {{record.PM10_mean}} µg/m³  
             </a>
@@ -64,7 +64,7 @@
 
             {% if record.PM25_mean %}
 
-                <span title={{record.PM25_quality}}>
+                <span title="{{record.PM25_quality}}"">
                 <a class="{{record.PM25_cathegory}}">
                     {{record.PM25_mean}} µg/m³
                 </a>
@@ -83,6 +83,8 @@
             {% endif %}
 
         </p>
+
+        <p>Sensori contribuenti: {{ record.n_selected_sensors }}</p>
 
         <p>Ultimo aggiornamento: {{ record.Last_update_time | date:'H:i:s d/m/Y' }}</p>
 

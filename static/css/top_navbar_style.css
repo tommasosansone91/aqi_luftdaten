@@ -1,0 +1,51 @@
+.nav-item:hover { 
+    background-color: #485058f3;
+}
+
+/*.navbar {    
+     border: 0px; 
+}*/
+
+.nav-item {
+
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+    
+}
+
+/* ------- dropdown menu -------  */
+
+.nav-item dropdown {
+
+    background-color: #485058f3;
+}
+
+/* tendina */
+.dropdown-menu {
+
+    background-color: #485058f3;
+    border-radius: 0px;
+    margin: 0px;
+}
+
+/* pulsante */
+.nav-link dropdown-toggle{
+
+    background-color: #343a40;
+}
+
+/* elemento della tendina */
+.dropdown-item{
+    color:  #9a9da0;
+    background-color: #343a40;
+}
+
+.dropdown-item:hover{
+    color:  #c8d3d5;
+    background-color: #485058f3;
+}
+
+.dropdown-divider{
+    border-color: #485058f3;
+}

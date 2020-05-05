@@ -62,11 +62,11 @@ def evaluate_PM10(PM10_value):
         PM10_cathegory="seconda"
     
     elif PM10_value>=35 and PM10_value <=50:
-        PM10_quality="Al_limite_dell'accettabilità"
+        PM10_quality="Al limite dell'accettabilità"
         PM10_cathegory="terza"
 
     elif PM10_value>=50 and PM10_value <=100:
-        PM10_quality="Fuori_legge"
+        PM10_quality="Fuori legge"
         PM10_cathegory="quarta"
 
     elif PM10_value>=100 and PM10_value <=200:
@@ -74,11 +74,11 @@ def evaluate_PM10(PM10_value):
         PM10_cathegory="quita"
 
     elif PM10_value>=200:
-        PM10_quality="Emergenza!_Evacuazione!"
+        PM10_quality="Emergenza! Evacuazione!"
         PM10_cathegory="sesta"
 
     else:
-        PM10_quality="No_data"
+        PM10_quality="No data"
         PM10_cathegory="nessuna"
 
     return (PM10_quality, PM10_cathegory)
@@ -98,11 +98,11 @@ def evaluate_PM25(PM25_value):
         PM25_cathegory="seconda"
     
     elif PM25_value>=20 and PM25_value <=25:
-        PM25_quality="Al_limite_dell'accettabilità"
+        PM25_quality="Al limite dell'accettabilità"
         PM25_cathegory="terza"
 
     elif PM25_value>=25 and PM25_value <=50:
-        PM25_quality="Fuori_legge"
+        PM25_quality="Fuori legge"
         PM25_cathegory="quarta"
 
     elif PM25_value>=50 and PM25_value <=100:
@@ -110,7 +110,7 @@ def evaluate_PM25(PM25_value):
         PM25_cathegory="quinta"
 
     elif PM25_value>=100:
-        PM25_quality="Emergenza!_Evacuazione!"
+        PM25_quality="Emergenza! Evacuazione!"
         PM25_cathegory="sesta"
 
     else:

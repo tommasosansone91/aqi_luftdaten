@@ -40,19 +40,30 @@
             <ul class="navbar-nav mr-auto">
 
 
-              {% comment %}
+              
               <!-- Info -->   
               <li class="nav-item dropdown">
 
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Info</a>
+            
                 
-                
-
                 <div class="dropdown-menu">
 
-                  <a class="dropdown-item" href="{% url 'about' %}">About</a>
-                
+                  <a class="dropdown-item" target="_blank" href="https://italia.maps.sensor.community/#6/42.000/12.000">Mappa delle centraline</a>
+
+                  <a class="dropdown-item" target="_blank" href="https://www.produzionidalbasso.com/project/1-000-centraline-dal-basso-in-italia/">Acquista la tua centralina</a>
+
+                  <a class="dropdown-item" target="_blank" href="http://centralinedalbasso.org/">Costruisci la tua centralina</a>
+
+                  <a class="dropdown-item" target="_blank" href="https://www.facebook.com/centralinedalbasso/">Centraline dal basso su Facebook</a>
+                  <!-- extend laterale con sito, facebook e twitter -->
+
+                  <a class="dropdown-item" target="_blank" href="https://luftdaten.info/">Luftdaten</a>
+                  <!-- extend laterale con sito, facebook e twitter -->
+
                   <div class="dropdown-divider"></div> 
+
+                  <a class="dropdown-item" href="#">Author</a>
 
                 </div>
 
@@ -60,8 +71,7 @@
 
               </li>
 
-              {% endcomment %}
-
+            
 
 
 
@@ -83,16 +93,7 @@
             </li>
 
 
-            <!-- Pag 1 -->
-            <li class="nav-item">
-              <a class="nav-link" target="_blank" href="https://sensor.community/en/">Mappa delle centraline</a>
-            </li>
-
-
-            <!-- crowdfunding -->
-            <li class="nav-item">
-              <a class="nav-link" target="_blank"href="https://www.produzionidalbasso.com/project/1-000-centraline-dal-basso-in-italia/">Acquista la tua centralina</a>
-            </li>
+            
             
 
             <!-- admin -->
@@ -139,7 +140,7 @@
                       <!-- <a class="dropdown-item" href="}">Sezione admin</a> -->
                       {% endif %}
 
-                      
+                   
 
                       
                       
@@ -239,7 +240,7 @@
     {% comment %} <script type="text/javascript" src={% static "js/update_script_status.js" %}></script> {% endcomment %}
 
     <!-- css -->
-    {% comment %} <link rel="stylesheet" type="text/css" href={% static "css/top_navbar_style.css" %}> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href={% static "css/top_navbar_style.css" %}>
     <link rel="stylesheet" type="text/css" href={% static "css/bottom_navbar_style.css" %}> 
 
     
