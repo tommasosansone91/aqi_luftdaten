@@ -6,7 +6,7 @@ import json
 import requests
 
 
-def get_pm():    
+def get_single_location_pm():    
     
     
     

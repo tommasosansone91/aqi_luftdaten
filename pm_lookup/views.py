@@ -1,14 +1,18 @@
 from django.shortcuts import render
 import numpy as np
 
-from . import processing
-from . import processing_2
+from pm_lookup.processing.single_location_processing import get_single_location_pm
+from pm_lookup.processing.realtime_processing import get_realtime_pm
 
-from .processing import get_pm
-from .processing_2 import get_pm_2
-from .processing_2 import save_in_history
+# provvisorio
+from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
 
-from .models import target_area_input_data, target_area_output_data
+
+
+from .models import target_area_input_data
+from .models import target_area_output_data
+from .models import target_area_output_data
+
 
 # Create your views here.
 
@@ -22,17 +26,21 @@ def home(request):
 
 def particolato_milano(request):
     
-    context_dict = get_pm()
+    context_dict = get_single_location_pm()
 
     return render(request, 'particolato_milano.html', context_dict)
 
 
-def valori_particolato(request):
+def valori_recenti(request):
     
-    common_output = get_pm_2()
 
+    #  ranna il processing prendendo i cmmon result in una variabile
+    # common_output = get_realtime_and_save_history_pm()
 
+    #  ranna il processing senza rendere niente in una variabile
+    get_realtime_and_save_history_pm()
 
+    # va a prendere i dati nei modelli
     aree_di_interesse = target_area_input_data.objects.all()    
     n_aree_di_interesse = target_area_input_data.objects.all().count()    
 
@@ -41,12 +49,12 @@ def valori_particolato(request):
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,
                     'n_aree_di_interesse':n_aree_di_interesse,
-                    'common_output':common_output,
+                    # 'common_output':common_output,
                     'record_sensori':record_sensori
                     }
 
 
-    return render(request, 'valori_particolato.html', context_dict)
+    return render(request, 'valori_recenti.html', context_dict)
 
 
 def serie_storiche(request):
@@ -59,8 +67,12 @@ def serie_storiche(request):
 
     dt = 0.01
     t = np.arange(0, 30, dt)
+
+    # sono liste
     nse1 = np.random.randn(len(t))                 # white noise 1
-    nse2 = np.random.randn(len(t))                 # white noise 2
+    nse2 = np.random.randn(len(t))          
+    
+    print(nse1)       # white noise 2
 
     # Two signals with a coherent part at 10Hz and a random part
     s1 = np.sin(2 * np.pi * 10 * t) + nse1
@@ -74,6 +86,11 @@ def serie_storiche(request):
     axs[0].grid(True)
 
     cxy, f = axs[1].cohere(s1, s2, 256, 1. / dt)
+
+    # sono liste
+    print(cxy)
+    print(f)
+
     axs[1].set_ylabel('coherence')
 
     fig.tight_layout()

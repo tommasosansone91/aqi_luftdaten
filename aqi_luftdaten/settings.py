@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
     'pm_lookup',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -1,16 +1,15 @@
-splitta funzione view in
-una che cerca nei modelli e dispone
-poi funzione sleep esegue processing
-un pulzante permette di forzare il provecccisng
+la pagina di real time cerca i valori ogni volta nella view e li salva nel modello realtime
+
+la pagina di serie storiche semplicemente pesca i dati dal modello storico per fare i grafici
+i modelli d questa pagina non ricevon i dati dall apg real time salvandosi poi in history
+ma li ricevono perchè uno scheduler nel tempo aggiunge dati ai mdoellli
 
 milano rel time elimina
 
 pemetti all'utente di modificare la tista degli input con un form e funzione modifica o cancella
 
-
-V
-recupera dalla search anche il time stamp e fanne una lista, 
-poi prendi come valore rappesentativo per ogni sensore l'orario più tardo
-e salvalo nel modello
+sostituisci solo l'ora hh della data timestamp con la hh della data attuale timezone.now()
 
 display data on template
+
+
