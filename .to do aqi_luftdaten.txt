@@ -12,4 +12,8 @@ sostituisci solo l'ora hh della data timestamp con la hh della data attuale time
 
 display data on template
 
+funzione che esegue allineamento data dei sensori alla data attuale, 
+sapendo che la timezone di provenienza è utc
+
+
 

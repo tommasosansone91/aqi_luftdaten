@@ -7,11 +7,10 @@ from pm_lookup.processing.realtime_processing import get_realtime_pm
 # provvisorio
 from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
 
-
-
 from .models import target_area_input_data
 from .models import target_area_output_data
 from .models import target_area_output_data
+
 
 
 # Create your views here.
@@ -99,3 +98,5 @@ def serie_storiche(request):
     context_dict={}
 
     return render(request, 'serie_storiche.html', context_dict)
+
+
