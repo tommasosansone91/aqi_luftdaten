@@ -229,9 +229,10 @@ def get_realtime_and_save_history_pm():
         #     print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica." % (place_name, record_time, PM10_mean, PM25_mean) )
         #     print("I dati acquisiti non sono stati salvati.")
 
-        #     print("---------------------------------------------------")
+        print("---------------------------------------------------")
 
     # quando ha processato tutti i posti
+    # print("---------------------------------------------------")
 
     # salvo tutto ciò che c'è nel modello output anche nel modello history
     save_in_history() 

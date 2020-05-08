@@ -52,7 +52,9 @@ def save_in_history():
         except:
 
             print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
-            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.Target_area_input_data.Name, element.Last_update_timee, element.PM10_mean, element.PM25_mean) )
+            # questo vincolo c'è solo sui dati storici
+
+            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.Target_area_input_data.Name, element.Last_update_time, element.PM10_mean, element.PM25_mean) )
             print("I dati acquisiti non sono stati salvati.")
 
 
