@@ -18,16 +18,11 @@ def save_in_history():
         try:       
 
             new_record = target_area_history_data(
-                                                    # Target_area_name=target_area_output_data.objects.get(Name=place_name),
                                                     Target_area_input_data=target_area_input_data.objects.get(id=element_id),
-
-                                                    # Target_area_input_data=target_area_output_data.objects.get(id=element.Target_area_input_data.id),
+                                                    
                                                     # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                     # quindi qui dico: salva i dati nel campo foreign key 
-                                                    # che rimanda all'oggetto avente per id quello che mi sono salvato
-
-                                                    # Target_area_name=target_area_input_data.objects.get(Name=place_name),
-                                                                                            
+                                                    # che rimanda all'oggetto avente per id quello che mi sono salvato                                                                                            
                                                     
                                                     Last_update_time=element.Last_update_time,
 
@@ -50,6 +45,7 @@ def save_in_history():
             print("Dati per %s salvati nel modello storico!" % element_name)
 
         except:
+            # dovrei aggiungere che si tratta di errore di unique together
 
             print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
             # questo vincolo c'è solo sui dati storici

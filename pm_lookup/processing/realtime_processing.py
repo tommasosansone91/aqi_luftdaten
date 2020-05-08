@@ -196,7 +196,7 @@ def get_realtime_pm():
 
 
         new_record = target_area_output_data(
-                                                Target_area_input_data=input_data.objects.get(id=place_id),
+                                                Target_area_input_data=input_data.get(id=place_id),
                                                 # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                 # quindi qui dico: salva i dati nel campo foreign key 
                                                 # che rimanda all'oggetto avente per id quello che mi sono salvato
@@ -228,14 +228,11 @@ def get_realtime_pm():
     # quando ha processato tutti i posti
     print("---------------------------------------------------")
 
-    # salvo tutto ciò che c'è nel modello output anche nel modello history
-    # save_in_history() 
     # estrae solo gli attuali, ma non li salva in history
 
     common_output = {
             'api_URL':api_URL, 
-            'api_data':api_data, 
-            'record_time':record_time,
+            'api_data':api_data,             
             }
 
     return common_output

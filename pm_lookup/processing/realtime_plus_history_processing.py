@@ -246,8 +246,7 @@ def get_realtime_and_save_history_pm():
 
     common_output = {
             'api_URL':api_URL, 
-            'api_data':api_data, 
-            'record_time':record_time,
+            'api_data':api_data,             
             }
 
     return common_output

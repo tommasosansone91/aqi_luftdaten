@@ -23,11 +23,11 @@ def home(request):
 # def about(request):
 #     return render(request, 'about.html', {})
 
-def particolato_milano(request):
+# def particolato_milano(request):
     
-    context_dict = get_single_location_pm()
+#     context_dict = get_single_location_pm()
 
-    return render(request, 'particolato_milano.html', context_dict)
+#     return render(request, 'particolato_milano.html', context_dict)
 
 
 def valori_recenti(request):
