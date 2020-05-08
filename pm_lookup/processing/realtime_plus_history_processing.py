@@ -58,7 +58,7 @@ def get_realtime_and_save_history_pm():
     # e salvane i valori
     for place in input_data:
 
-        
+        place_id = place.id
 
         place_name = place.Name
 
@@ -194,12 +194,17 @@ def get_realtime_and_save_history_pm():
         print("Timestamp delle osservazioni per %s: %s" % (place_name, record_time))
 
 
+        # try:
+
         new_record = target_area_output_data(
-                                                Target_area_name=target_area_input_data.objects.get(Name=place_name),
-                                                
-                                                Latitude = place.Longitude,
-                                                Longitude = place.Latitude,
-                                                Radius = place.Radius,                                             
+                                                Target_area_input_data=input_data.get(id=place_id),
+                                                # qui non vuole objects tra nome del modello e get...perchè?
+                                                # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
+                                                # quindi qui dico: salva i dati nel campo foreign key 
+                                                # che rimanda all'oggetto avente per id quello che mi sono salvato
+
+                                                # Target_area_name=target_area_input_data.objects.get(Name=place_name),
+                                                                                        
                                                 
                                                 Last_update_time=record_time,
 
@@ -217,16 +222,25 @@ def get_realtime_and_save_history_pm():
         
         new_record.save()
 
-        print("Dati per %s salvati nel modello!" % place_name)
+        print("Dati per %s salvati nel modello real-time!" % place_name)
 
-        print("---------------------------------------------------")
+        # except:
+        #     print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
+        #     print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica." % (place_name, record_time, PM10_mean, PM25_mean) )
+        #     print("I dati acquisiti non sono stati salvati.")
 
+        #     print("---------------------------------------------------")
 
     # quando ha processato tutti i posti
-    print("---------------------------------------------------")
 
     # salvo tutto ciò che c'è nel modello output anche nel modello history
     save_in_history() 
+                
+    print("I nuovi dati per tutte le località sono stati salvati nel modello storico!")
+
+    print("---------------------------------------------------")
+
+    
 
 
     common_output = {

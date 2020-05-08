@@ -37,22 +37,26 @@ class target_area_input_data(models.Model):
 
 class target_area_output_data(models.Model):
 
-    # nota che è maiuscolo
-    Target_area_name = models.ForeignKey(
-        'target_area_input_data',
-        # Target_area_name = models.ForeignKey('target_area_input_data', on_delete....)
-        # vuol dire: in questo campo metti l'id del modello 'target_area_input_data'
-        
-        # nota che l'attributo è in minuscolo
-        on_delete=models.CASCADE,
-    )
-    # il primo attributo è il modello cui è associato
+    # id = models.AutoField(primary_key=True)
 
-    # aggiungo una key per fare il one to one
+    # nota che è maiuscolo
+    Target_area_input_data = models.OneToOneField(
+        'target_area_input_data',
+        on_delete=models.CASCADE,
+        
+    )
     
-    Longitude = models.FloatField(null=False, blank=True)
-    Latitude = models.FloatField(null=False, blank=False)
-    Radius = models.FloatField(null=False, blank=False)
+    # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .Name. .Radius, ecc
+    
+    # Target_area_name = models.ForeignKey(
+    #     'target_area_input_data',
+    #     # Target_area_name = models.ForeignKey('target_area_input_data', on_delete....)
+    #     # vuol dire: in questo campo metti l'id del modello 'target_area_input_data'
+        
+    #     # nota che l'attributo è in minuscolo
+    #     on_delete=models.CASCADE,
+    # )
+    # il primo attributo è il modello cui è associato
 
     Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
@@ -66,7 +70,7 @@ class target_area_output_data(models.Model):
     PM25_cathegory = models.CharField(max_length=256, blank=False, null=False)
 
     n_selected_sensors = models.IntegerField(null=True)
-    # n_selected_sensors = models.CharField(max_length=256, null=True)
+    
 
     # PM10_n_missing_data = models.IntegerField(null=True)
     # PM25_n_missing_data = models.IntegerField(null=True)
@@ -76,30 +80,25 @@ class target_area_output_data(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- (%s, %s - Radius: %s km)"  %  (self.Target_area_name, self.Latitude, self.Longitude, self.Radius)  
+        return  "%s [Ultimo aggiornamento: %s]"  %  (self.Target_area_input_data.Name, self.Last_update_time )  
 
 
-    class Meta:
-        ordering = ['-Radius', 'Target_area_name']
+    # class Meta:
+    #     ordering = ['-Target_area_input_data.Radius', 'Target_area_input_data.Name']
 
 
 
 class target_area_history_data(models.Model):
 
-    # nota che è maiuscolo
-    Target_area_name = models.ForeignKey(
-        'target_area_input_data',
-        # Target_area_name = models.ForeignKey('target_area_input_data', on_delete....)
-        # vuol dire: in questo campo metti l'id del modello 'target_area_input_data'
+    # id = models.AutoField(primary_key=True)
 
-        # nota che l'attributo è in minuscolo
+    # nota che è maiuscolo
+    Target_area_input_data = models.ForeignKey(
+        'target_area_input_data',
         on_delete=models.CASCADE,
+        
     )
     # il primo attributo è il modello cui è associato
-    
-    Longitude = models.FloatField(null=False, blank=True)
-    Latitude = models.FloatField(null=False, blank=False)
-    Radius = models.FloatField(null=False, blank=False)
 
     Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
@@ -123,14 +122,13 @@ class target_area_history_data(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [%s]"  %  (self.Target_area_name, self.Last_update_time)  
-
-
+        return  "%s [Timestamp: %s]"  %  (self.Target_area_input_data.Name, self.Last_update_time )  
+ 
     class Meta:
-        ordering = ['-Radius', 'Target_area_name', '-Last_update_time']
+    #         ordering = ['-Target_area_input_data.Radius', 'Target_area_input_data.Name', '-Last_update_time']
 
         # svuota i modelli e poi la attivo
-        # unique_together = ('Target_area_name', 'Last_update_time', 'PM10_mean', 'PM25_mean')
+        unique_together = ('Target_area_input_data', 'Last_update_time', 'PM10_mean', 'PM25_mean')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 

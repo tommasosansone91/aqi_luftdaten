@@ -15,7 +15,7 @@ from pm_lookup.models import target_area_history_data
 
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
-from .auxiliary_processing import save_in_history
+# from .auxiliary_processing import save_in_history
 
 
 def get_realtime_pm():    
@@ -45,7 +45,8 @@ def get_realtime_pm():
         api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
 
     # voglio un solo record per ogni location
-    target_area_output_data.objects.all().delete()
+    # target_area_output_data.objects.all().delete()
+    # qui salvo solo nel modello storico
 
 
     # prende dati input e dispone in vettori le info di ognuna
@@ -58,7 +59,7 @@ def get_realtime_pm():
     # e salvane i valori
     for place in input_data:
 
-        
+        place_id = place.id
 
         place_name = place.Name
 
@@ -193,40 +194,50 @@ def get_realtime_pm():
         print("Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_quality))
         print("Timestamp delle osservazioni per %s: %s" % (place_name, record_time))
 
+        try:
 
-        new_record = target_area_output_data(
-                                                Target_area_name=target_area_input_data.objects.get(Name=place_name),
+            new_record = target_area_history_data(
+                                                    Target_area_input_data=input_data.objects.get(id=place_id),
+                                                    # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
+                                                    # quindi qui dico: salva i dati nel campo foreign key 
+                                                    # che rimanda all'oggetto avente per id quello che mi sono salvato
+
+                                                    # Target_area_name=target_area_input_data.objects.get(Name=place_name),
+                                                                                            
                                                 
-                                                Latitude = place.Longitude,
-                                                Longitude = place.Latitude,
-                                                Radius = place.Radius,                                             
-                                                
-                                                Last_update_time=record_time,
+                                                    Last_update_time=record_time,
 
-                                                PM10_mean=PM10_mean,
-                                                PM25_mean=PM25_mean,
+                                                    PM10_mean=PM10_mean,
+                                                    PM25_mean=PM25_mean,
 
-                                                PM10_quality=PM10_quality, 
-                                                PM25_quality=PM25_quality,
+                                                    PM10_quality=PM10_quality, 
+                                                    PM25_quality=PM25_quality,
 
-                                                PM10_cathegory=PM10_cathegory,
-                                                PM25_cathegory=PM25_cathegory,
+                                                    PM10_cathegory=PM10_cathegory,
+                                                    PM25_cathegory=PM25_cathegory,
 
-                                                n_selected_sensors=n_selected_sensors,
-        )
-        
-        new_record.save()
+                                                    n_selected_sensors=n_selected_sensors,
+            )
+            
+            new_record.save()
 
-        print("Dati per %s salvati nel modello!" % place_name)
+            print("Dati per %s salvati nel modello!" % place_name)
 
-        print("---------------------------------------------------")
+        except:
+            print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
+            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (place_name, record_time, PM10_mean, PM25_mean) )
+            print("I dati acquisiti non sono stati salvati.")
+
+            print("---------------------------------------------------")
 
 
     # quando ha processato tutti i posti
+    print("I nuovi dati per tutte le località sono stati salvati nel modello storico!")
+
     print("---------------------------------------------------")
 
     # salvo tutto ciò che c'è nel modello output anche nel modello history
-    save_in_history()
+    # save_in_history()
 
 
     # non ritorna niente perchè deve solo alvare in history

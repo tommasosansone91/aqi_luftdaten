@@ -7,42 +7,54 @@ from pm_lookup.models import target_area_history_data
 def save_in_history():
 
     latest_data = target_area_output_data.objects.all()
+    
 
-    for element in latest_data:        
+    for element in latest_data: 
 
-        new_record = target_area_history_data(
-                                                # Target_area_name=target_area_output_data.objects.get(Name=place_name),
-                                                Target_area_name=element.Target_area_name,
-                                                
-                                                Latitude = element.Longitude,
-                                                Longitude = element.Latitude,
-                                                Radius = element.Radius,                                             
-                                                
-                                                Last_update_time=element.Last_update_time,
-
-                                                PM10_mean=element.PM10_mean,
-                                                PM25_mean=element.PM25_mean,
-
-                                                PM10_quality=element.PM10_quality, 
-                                                PM25_quality=element.PM25_quality,
-
-                                                PM10_cathegory=element.PM10_cathegory,
-                                                PM25_cathegory=element.PM25_cathegory,
-
-                                                n_selected_sensors=element.n_selected_sensors,
-
-                                                # la pk è insieme di nome e timestamp
-        )
+        element_id = element.Target_area_input_data.id
+        element_name = element.Target_area_input_data.Name
         
 
-        try:
+        try:       
+
+            new_record = target_area_history_data(
+                                                    # Target_area_name=target_area_output_data.objects.get(Name=place_name),
+                                                    Target_area_input_data=target_area_input_data.objects.get(id=element_id),
+
+                                                    # Target_area_input_data=target_area_output_data.objects.get(id=element.Target_area_input_data.id),
+                                                    # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
+                                                    # quindi qui dico: salva i dati nel campo foreign key 
+                                                    # che rimanda all'oggetto avente per id quello che mi sono salvato
+
+                                                    # Target_area_name=target_area_input_data.objects.get(Name=place_name),
+                                                                                            
+                                                    
+                                                    Last_update_time=element.Last_update_time,
+
+                                                    PM10_mean=element.PM10_mean,
+                                                    PM25_mean=element.PM25_mean,
+
+                                                    PM10_quality=element.PM10_quality, 
+                                                    PM25_quality=element.PM25_quality,
+
+                                                    PM10_cathegory=element.PM10_cathegory,
+                                                    PM25_cathegory=element.PM25_cathegory,
+
+                                                    n_selected_sensors=element.n_selected_sensors,
+
+                                                    # la pk è insieme di nome e timestamp
+            )
+        
             new_record.save()
+
+            print("Dati per %s salvati nel modello storico!" % element_name)
+
         except:
-            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica perchè questo record è già presente nella serie storica e si vogliono evitare ripetizioni." % (element.Target_area_name, element.Last_update_time, element.PM10_mean, element.PM25_mean) )
 
-        print("I nuovi dati per %s sono stati aggiunti alla serie storica!" % element.Target_area_name)
+            print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
+            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.Target_area_input_data.Name, element.Last_update_timee, element.PM10_mean, element.PM25_mean) )
+            print("I dati acquisiti non sono stati salvati.")
 
-    print("I nuovi dati di tutte le località sono stati aggiunti alle serie storiche!")
 
     print("---------------------------------------------------")
     
