@@ -4,7 +4,12 @@ from django.utils import timezone
 # Create your models here.
 # nota che i modelli sono tutti in minuscolo
 
+# ogni modello django possiede per default
+# id = models.AutoField(primary_key=True)
+
 class target_area_input_data(models.Model):
+
+    # id = models.AutoField(primary_key=True)
 
     Name = models.CharField(max_length=256, blank=False, null=False, unique=True)
 
@@ -17,7 +22,9 @@ class target_area_input_data(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  (self.Name)  
+        return  "%s --- (%s, %s - Radius: %s km)"  %  (self.Name, self.Latitude, self.Longitude, self.Radius)  
+
+        # lo metto solo perchè se no me li fa apparire ogni volta che 
    
     # print("%s is %d years old." % (name, age))    
         #quello che fa apparire nella sezione admin, attributo che riassume tutti gli altri, quindi una primary key presumibilmente, pouò anche esesere la combinazione degli altri
@@ -33,11 +40,15 @@ class target_area_output_data(models.Model):
     # nota che è maiuscolo
     Target_area_name = models.ForeignKey(
         'target_area_input_data',
-
+        # Target_area_name = models.ForeignKey('target_area_input_data', on_delete....)
+        # vuol dire: in questo campo metti l'id del modello 'target_area_input_data'
+        
         # nota che l'attributo è in minuscolo
         on_delete=models.CASCADE,
     )
     # il primo attributo è il modello cui è associato
+
+    # aggiungo una key per fare il one to one
     
     Longitude = models.FloatField(null=False, blank=True)
     Latitude = models.FloatField(null=False, blank=False)
@@ -78,6 +89,8 @@ class target_area_history_data(models.Model):
     # nota che è maiuscolo
     Target_area_name = models.ForeignKey(
         'target_area_input_data',
+        # Target_area_name = models.ForeignKey('target_area_input_data', on_delete....)
+        # vuol dire: in questo campo metti l'id del modello 'target_area_input_data'
 
         # nota che l'attributo è in minuscolo
         on_delete=models.CASCADE,
@@ -115,8 +128,9 @@ class target_area_history_data(models.Model):
 
     class Meta:
         ordering = ['-Radius', 'Target_area_name', '-Last_update_time']
-    
-        unique_together = ('Target_area_name', 'Last_update_time', 'PM10_mean', 'PM25_mean')
+
+        # svuota i modelli e poi la attivo
+        # unique_together = ('Target_area_name', 'Last_update_time', 'PM10_mean', 'PM25_mean')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 

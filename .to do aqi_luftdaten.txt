@@ -15,5 +15,9 @@ display data on template
 funzione che esegue allineamento data dei sensori alla data attuale, 
 sapendo che la timezone di provenienza è utc
 
+la foreign key non va sul nome della città input, ma sull'id con on cascade=delete
+perche il nome ha gli spazi
+quindi anche nei modelli history e realtime va creato un campo id che sia lo stesso della città input
+
 
 

@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    
+    'import_export',
     'pm_lookup',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -145,3 +145,6 @@ STATICFILES_DIRS = [
 STATICSTORAGE = "Whitenoise.storage.CompressedManifestStaticFilesStorage" #zips up static files
 
 django_heroku.settings(locals())  ###
+
+#aggiunto per far funzionare il modulo di importazione csv in admin
+IMPORT_EXPORT_USE_TRANSACTIONS = True
