@@ -18,7 +18,7 @@ from .auxiliary_processing import evaluate_PM25
 from .auxiliary_processing import save_in_history
 
 from .auxiliary_processing import convert_datetime_timezone
-from .auxiliary_processing import is_dst
+
 from .auxiliary_processing import add_one_hour
 
 def get_realtime_and_save_history_pm():    
@@ -146,7 +146,7 @@ def get_realtime_and_save_history_pm():
                     
                     # e sposta avanti la lancetta di uno se è attiva l'ora legale. infatti il server di luftdaten non ne tiene conto.
                     
-                    # se è attiva l'ora legale nella timezone 2
+                    # se è attiva l'ora legale nel tempo locale
                     if time.localtime().tm_isdst != 0:
                         # sposta le lancette avanti di uno
                         timestamp_value = add_one_hour(timestamp_value)

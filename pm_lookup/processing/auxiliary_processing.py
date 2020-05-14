@@ -147,17 +147,21 @@ def convert_datetime_timezone(date_and_time_input, tz1, tz2):
 
     return dt
 
-
-# controlla se è attiva l'ora legale
-def is_dst(dt,timeZone):
-   aware_dt = timeZone.localize(dt)
-   return aware_dt.dst() != datetime.timedelta(0,0)
-
-
 #sposta le lancette avanti di uno
 def add_one_hour(date_and_time_input):
+    # modo semplice per dire che sposti le ore avanti di 1
     dt = convert_datetime_timezone(date_and_time_input, "Europe/London", "Europe/Berlin")
     return dt
+
+
+
+# controlla se è attiva l'ora legale
+# def is_dst(dt,timeZone):
+#    aware_dt = timeZone.localize(dt)
+#    return aware_dt.dst() != datetime.timedelta(0,0)
+
+
+
 
 
 # def convert_timezone_and_add_one_hour(date_and_time_input, tz1, tz2):
