@@ -138,8 +138,19 @@ def get_realtime_pm():
                 if got_PM_value==1:
                     
                     timestamp_value = sensor['timestamp']
+
+                    # correzione del timestamp da una zona ad un'altra 
+                    timestamp_value = convert_datetime_timezone(timestamp_value, "Europe/London", "Europe/Berlin")
+                    
+                    # e sposta avanti la lancetta di uno se è attiva l'ora legale. infatti il server di luftdaten non ne tiene conto.
+                    
+                    # se è attiva l'ora legale nel tempo locale
+                    if time.localtime().tm_isdst != 0:
+                        # sposta le lancette avanti di uno
+                        timestamp_value = add_one_hour(timestamp_value)
+
                     timestamp_list.append(timestamp_value)  
-                    print("    Timestamp: %s" % timestamp_value)                  
+                    print("    Timestamp: %s" % timestamp_value)                 
 
                 else:
                     print("    Questo sensore non possiede dati di particolato")    
