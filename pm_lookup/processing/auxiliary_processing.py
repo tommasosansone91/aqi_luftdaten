@@ -1,3 +1,8 @@
+# servono a convert_timezone
+import datetime
+
+import pytz
+
 # servono a save_in_history()
 from pm_lookup.models import target_area_input_data
 from pm_lookup.models import target_area_output_data
@@ -128,3 +133,56 @@ def evaluate_PM25(PM25_value):
         PM25_cathegory="nessuna"
 
     return (PM25_quality, PM25_cathegory)
+
+
+# converte da una timezone ad un'altra
+def convert_datetime_timezone(date_and_time_input, tz1, tz2):
+    tz1 = pytz.timezone(tz1)
+    tz2 = pytz.timezone(tz2)
+
+    dt = datetime.datetime.strptime(date_and_time_input,"%Y-%m-%d %H:%M:%S")
+    dt = tz1.localize(dt)
+    dt = dt.astimezone(tz2)
+    dt = dt.strftime("%Y-%m-%d %H:%M:%S")
+
+    return dt
+
+
+# controlla se è attiva l'ora legale
+def is_dst(dt,timeZone):
+   aware_dt = timeZone.localize(dt)
+   return aware_dt.dst() != datetime.timedelta(0,0)
+
+
+#sposta le lancette avanti di uno
+def add_one_hour(date_and_time_input):
+    dt = convert_datetime_timezone(date_and_time_input, "Europe/London", "Europe/Berlin")
+    return dt
+
+
+# def convert_timezone_and_add_one_hour(date_and_time_input, tz1, tz2):
+#     dt = convert_datetime_timezone(date_and_time_input, tz1, tz2)
+#     dt = add_one_hour(dt)
+#     return dt
+
+# controlla se è attiva l'ora legale
+# def is_dst(dt=None, timezone="UTC"):
+#     if dt is None:
+#         dt = datetime.utcnow()
+#     timezone = pytz.timezone(timezone)
+#     timezone_aware_date = timezone.localize(dt, is_dst=None)
+#     return timezone_aware_date.tzinfo._dst.seconds != 0
+
+
+
+
+# def convert_timezone_and_check_summertime(date_and_time_input, tz1, tz2):
+
+#     # converte da una zona all'altra
+#     dt = convert_datetime_timezone(date_and_time_input, tz1, tz2)
+
+#     # se è attiva l'ora legale nella timezone di destinazione
+#     if is_dst(dt, tz2):
+#         dt = add_one_hour(dt)
+
+#     return dt

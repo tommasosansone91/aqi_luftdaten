@@ -16,6 +16,8 @@ funzione che esegue allineamento data dei sensori alla data attuale,
 sapendo che la timezone di provenienza è utc
 
 
+consigliano asincio
+
 
 
 
