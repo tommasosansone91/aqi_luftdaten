@@ -77,7 +77,7 @@
 
             <!-- Pag 1 -->
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'valori_recenti' %}">Dati real-time</a>                
+              <a class="nav-link" href="{% url 'valori_realtime' %}">Dati real-time</a>                
             </li>
 
 
@@ -94,13 +94,35 @@
             {% endcomment %}
 
             
-            
-
+            {% comment %}
             <!-- admin -->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'admin:index' %}">Sezione admin</a>
             </li>
+            {% endcomment %}
 
+
+            
+
+            {% if user.is_staff %}
+
+            <li class="nav-item dropdown">
+
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menu Admin</a>
+
+              <div class="dropdown-menu dropdown-menu-right">
+
+                <a class="dropdown-item" target="_blank" href="{% url 'admin:index' %}">Sezione admin</a>   
+                
+                <a class="dropdown-item" href="{% url 'valori_realtime_forced_to_history' %}">Mostra valori realtime forzandone l'inserimento nelle serie storici</a>   
+              
+              </div>
+
+               {% endif %}
+  
+              
+              
+            </li>
 
 
 

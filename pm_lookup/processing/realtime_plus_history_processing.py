@@ -17,8 +17,8 @@ from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
 from .auxiliary_processing import save_in_history
 
+# per conversione della timezone e check ora legale
 from .auxiliary_processing import convert_datetime_timezone
-
 from .auxiliary_processing import add_one_hour
 
 def get_realtime_and_save_history_pm():    

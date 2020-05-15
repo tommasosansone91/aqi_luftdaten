@@ -1,0 +1,103 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% load static %}
+
+    <h1>Valori del particolato real-time</h1>
+    
+    <br>
+
+    <p>Di seguito sono mostrati i valori medi real-time del PM10 e PM2.5 in diverse città.</p>
+
+    <br>
+
+    {% for record in record_sensori %}
+
+        <h3>{{record.Target_area_input_data.Name}}</h3>
+
+        <p>
+            
+            I valori si riferiscono ad una media aritmetica eseguita sui valori registrate dalle centraline 
+            nel raggio di {{record.Target_area_input_data.Radius}} km dal punto di coordinate 
+            (
+                <a target="_blank"  href="https://www.google.com/search?q={{record.Target_area_input_data.Longitude}}, {{record.Target_area_input_data.Latitude}}">
+                    {{record.Target_area_input_data.Longitude}}, {{record.Target_area_input_data.Latitude}}
+                </a>
+            ).
+        
+        </p>
+
+
+
+        <p>
+            PM10 medio: 
+
+            {% if record.PM10_mean %}
+            
+            <span title="{{record.PM10_quality}}">
+            <a class="{{record.PM10_cathegory}}">
+            {{record.PM10_mean}} µg/m³  
+            </a>
+            </span>
+
+            <!-- &nbsp &nbsp -->             
+
+
+            {% else %}
+
+            <span title="No data">
+            <a class="nessuna">
+                Dato non disponibile
+            </a>
+            </span>          
+
+            {% endif %}
+
+        </p> 
+            
+
+
+
+        <p>
+            PM2.5 medio: 
+
+            {% if record.PM25_mean %}
+
+                <span title="{{record.PM25_quality}}"">
+                <a class="{{record.PM25_cathegory}}">
+                    {{record.PM25_mean}} µg/m³
+                </a>
+                </span>
+
+                <!-- &nbsp &nbsp -->
+
+            {% else %}
+            
+                <span title="No data">
+                <a class="nessuna">       
+                    Dato non disponibile
+                </a>
+                </span>
+
+            {% endif %}
+
+        </p>
+
+        <p>Sensori contribuenti: {{ record.n_selected_sensors }}</p>
+
+        <p>Ultimo aggiornamento: {{ record.Last_update_time | date:'H:i:s d/m/Y' }}</p>
+
+        <br>
+
+    {% endfor %}
+
+
+
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href={% static "css/AQ_cathegories.css" %}>
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
+{% endblock %}

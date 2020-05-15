@@ -5,8 +5,13 @@ from . import views_api # devo aggiungerlo perchè ho delle altre views
 urlpatterns = [
     path('', views.home, name="home"),
     # path('about.html', views.about, name="about"),
-    path('valori_recenti', views.valori_recenti, name="valori_recenti"),
+    path('valori_realtime', views.valori_realtime, name="valori_realtime"),
     # path('particolato_milano', views.particolato_milano, name="particolato_milano"),
+
+    path('valori_realtime_forced_to_history', views.valori_realtime_forced_to_history, name="valori_realtime_forced_to_history"),
+
+
+
     path('serie_storiche', views.serie_storiche, name="serie_storiche"),
 
     # viste delle api

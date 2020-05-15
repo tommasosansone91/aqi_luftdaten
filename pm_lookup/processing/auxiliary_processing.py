@@ -154,39 +154,3 @@ def add_one_hour(date_and_time_input):
     return dt
 
 
-
-# controlla se è attiva l'ora legale
-# def is_dst(dt,timeZone):
-#    aware_dt = timeZone.localize(dt)
-#    return aware_dt.dst() != datetime.timedelta(0,0)
-
-
-
-
-
-# def convert_timezone_and_add_one_hour(date_and_time_input, tz1, tz2):
-#     dt = convert_datetime_timezone(date_and_time_input, tz1, tz2)
-#     dt = add_one_hour(dt)
-#     return dt
-
-# controlla se è attiva l'ora legale
-# def is_dst(dt=None, timezone="UTC"):
-#     if dt is None:
-#         dt = datetime.utcnow()
-#     timezone = pytz.timezone(timezone)
-#     timezone_aware_date = timezone.localize(dt, is_dst=None)
-#     return timezone_aware_date.tzinfo._dst.seconds != 0
-
-
-
-
-# def convert_timezone_and_check_summertime(date_and_time_input, tz1, tz2):
-
-#     # converte da una zona all'altra
-#     dt = convert_datetime_timezone(date_and_time_input, tz1, tz2)
-
-#     # se è attiva l'ora legale nella timezone di destinazione
-#     if is_dst(dt, tz2):
-#         dt = add_one_hour(dt)
-
-#     return dt

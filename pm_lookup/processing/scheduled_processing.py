@@ -15,10 +15,13 @@ from pm_lookup.models import target_area_history_data
 
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
-# from .auxiliary_processing import save_in_history
+
+# per conversione della timezone e check ora legale
+from .auxiliary_processing import convert_datetime_timezone
+from .auxiliary_processing import add_one_hour
 
 
-def get_realtime_pm():    
+def save_history_pm():    
 
     
     # url generating
@@ -232,7 +235,7 @@ def get_realtime_pm():
             
             new_record.save()
 
-            print("Dati per %s salvati nel modello!" % place_name)
+            print("Dati per %s salvati nel modello storico!" % place_name)
 
         except:
             print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
@@ -251,13 +254,6 @@ def get_realtime_pm():
 
 
     # non ritorna niente perchè deve solo alvare in history
-
-    # common_output = {
-    #         'api_URL':api_URL, 
-    #         'api_data':api_data,     #         
-    #         }
-
-    # return common_output
 
 
 

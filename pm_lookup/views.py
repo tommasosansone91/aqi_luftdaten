@@ -3,6 +3,7 @@ import numpy as np
 
 from pm_lookup.processing.single_location_processing import get_single_location_pm
 from pm_lookup.processing.realtime_processing import get_realtime_pm
+# from pm_lookup.processing.scheduled_processing import save_history_pm # qui non serve. non ha vista. vive solo in backend
 
 # provvisorio
 from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
@@ -11,7 +12,7 @@ from .models import target_area_input_data
 from .models import target_area_output_data
 from .models import target_area_output_data
 
-
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 
@@ -30,11 +31,29 @@ def home(request):
 #     return render(request, 'particolato_milano.html', context_dict)
 
 
-def valori_recenti(request):
+def valori_realtime(request):
     
+    #  ranna il processing senza rendere niente in una variabile
+    get_realtime_pm()
 
-    #  ranna il processing prendendo i cmmon result in una variabile
-    # common_output = get_realtime_and_save_history_pm()
+    # va a prendere i dati nei modelli
+    aree_di_interesse = target_area_input_data.objects.all()    
+    n_aree_di_interesse = target_area_input_data.objects.all().count()    
+
+    record_sensori = target_area_output_data.objects.all()
+
+    context_dict = {
+                    'aree_di_interesse':aree_di_interesse,
+                    'n_aree_di_interesse':n_aree_di_interesse,
+                    # 'common_output':common_output,
+                    'record_sensori':record_sensori
+                    }
+
+    return render(request, 'valori_realtime.html', context_dict)
+
+@staff_member_required
+def valori_realtime_forced_to_history(request):
+    
 
     #  ranna il processing senza rendere niente in una variabile
     get_realtime_and_save_history_pm()
@@ -52,11 +71,16 @@ def valori_recenti(request):
                     'record_sensori':record_sensori
                     }
 
+    return render(request, 'valori_realtime_forced_to_history.html', context_dict)
 
-    return render(request, 'valori_recenti.html', context_dict)
 
-
+# solo raffigurazione
 def serie_storiche(request):
+
+    aree_di_interesse = target_area_input_data.objects.all()    
+    n_aree_di_interesse = target_area_input_data.objects.all().count()    
+
+    record_sensori = target_area_history_data.objects.all()
 
     import numpy as np
     import matplotlib.pyplot as plt
