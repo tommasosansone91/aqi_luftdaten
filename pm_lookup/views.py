@@ -3,14 +3,11 @@ import numpy as np
 
 from pm_lookup.processing.single_location_processing import get_single_location_pm
 from pm_lookup.processing.realtime_processing import get_realtime_pm
-# from pm_lookup.processing.scheduled_processing import save_history_pm # qui non serve. non ha vista. vive solo in backend
-
-# provvisorio
 from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
 
 from .models import target_area_input_data
 from .models import target_area_output_data
-from .models import target_area_output_data
+from .models import target_area_history_data
 
 from django.contrib.admin.views.decorators import staff_member_required
 
