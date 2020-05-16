@@ -14,7 +14,7 @@ class Command(BaseCommand):
         sched = BlockingScheduler()
         sched.start()
 
-        @sched.interval_schedule(minutes=0.084)
+        @sched.interval_schedule(minutes=1)
         def job_function():
             print ("Hello World")
 
