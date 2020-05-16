@@ -1,8 +1,9 @@
 
-from apscheduler.schedulers.blocking import BlockingScheduler
+# from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from pm_lookup.processing.scheduled_processing import save_history_pm
 
-sched = BlockingScheduler()
+sched = BackgroundScheduler()
 
 @sched.scheduled_job('interval', minutes=1)
 def timed_job():

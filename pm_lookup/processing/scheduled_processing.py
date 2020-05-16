@@ -160,9 +160,14 @@ def save_history_pm():
 
         # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
 
-        n_selected_sensors = len (PM10_list)
+        n_selected_sensors = max ( len(PM10_list), len(PM25_list), len(timestamp_list) )
 
-        print("Valori del particolato raccolti da %s sensori per %s" % (n_selected_sensors, place_name))
+        if n_selected_sensors == 0:
+            print("Nell'area selezionata per %s non ci sono sensori, oppure non sono reperibili!" % place_name)
+            print("---------------------------------------------------")
+            continue
+
+        print("Valori del particolato raccolti da %s sensori per %s:" % (n_selected_sensors, place_name))
 
         print("PM10:")
         print(PM10_list)  
