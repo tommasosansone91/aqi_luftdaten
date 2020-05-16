@@ -163,6 +163,7 @@ def get_realtime_and_save_history_pm():
 
         if n_selected_sensors == 0:
             print("Nell'area selezionata per %s non ci sono sensori, oppure non sono reperibili!" % place_name)
+            print("---------------------------------------------------")
             continue
 
         print("Valori del particolato raccolti da %s sensori per %s:" % (n_selected_sensors, place_name))
