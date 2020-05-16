@@ -1,24 +1,24 @@
 from django.core.management.base import BaseCommand
 
-from datetime import datetime
-from apscheduler.schedulers.blocking import BlockingScheduler
+# from datetime import datetime
+# from apscheduler.schedulers.blocking import BlockingScheduler
 
-from pm_lookup.processing.scheduled_processing import save_history_pm
+# from pm_lookup.processing.scheduled_processing import save_history_pm
 
-# quando scrivo
-# python manage.py calcolo1
-# la funzione command viene rannata automaticamente
+# # quando scrivo
+# # python manage.py calcolo1
+# # la funzione command viene rannata automaticamente
 
-class Command(BaseCommand):
-    def handle(self, *args, **options):
+# class Command(BaseCommand):
+#     def handle(self, *args, **options):
 
-        # Start the scheduler
-        sched = BlockingScheduler()
-        sched.start()
+#         # Start the scheduler
+#         sched = BlockingScheduler()
+#         sched.start()
 
-        @sched.interval_schedule(seconds=10)
-        def job_function():
-            save_history_pm()
+#         @sched.interval_schedule(seconds=10)
+#         def job_function():
+#             save_history_pm()
 
 
         
