@@ -1,7 +1,8 @@
-from django.core.management.base import BaseCommand
+# creo uno script per poterlo usare nell'heroku scheduler
+# ne faccio un base command, così ogni tot heroku lo ranna ed è come se lo runnasse da consolle
 
-from datetime import datetime
-from apscheduler.schedulers.blocking import BlockingScheduler
+
+from django.core.management.base import BaseCommand
 
 from pm_lookup.processing.scheduled_processing import save_history_pm
 
