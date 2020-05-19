@@ -82,6 +82,13 @@ def serie_storiche(request):
 
     nomi_aree_di_interesse = [i.Name for i in aree_di_interesse]
 
+    # creo un dataframe in cui ogni colonna è una info e ogni riga è una località - fortunatamente nessuna info è un vettore
+
+    for nome_area in nomi_aree_di_interesse:
+
+        # serie_storica = 
+        pass
+
     print(nomi_aree_di_interesse)
 
     # target_area_history_data.get(id=place_id)

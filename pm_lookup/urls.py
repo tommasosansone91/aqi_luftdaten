@@ -29,7 +29,7 @@ urlpatterns = [
     # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
 
     path('api/city_detail/<int:pk>', views_api.city_detail_api, name="city_detail"),
-
+    path('api/realtime_data_detail/<int:pk>', views_api.realtime_data_detail_api, name="realtime_data_detail"),
 
     # mantieni lo standard di nomenclatura tra i tre termini
 ]
