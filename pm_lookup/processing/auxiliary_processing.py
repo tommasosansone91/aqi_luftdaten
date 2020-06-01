@@ -77,7 +77,7 @@ def evaluate_PM10(PM10_value):
         PM10_cathegory="seconda"
     
     elif PM10_value>=35 and PM10_value <=50:
-        PM10_quality="Al limite dell'accettabilità"
+        PM10_quality="Al limite dell'accettabile"
         PM10_cathegory="terza"
 
     elif PM10_value>=50 and PM10_value <=100:
@@ -113,7 +113,7 @@ def evaluate_PM25(PM25_value):
         PM25_cathegory="seconda"
     
     elif PM25_value>=20 and PM25_value <=25:
-        PM25_quality="Al limite dell'accettabilità"
+        PM25_quality="Al limite dell'accettabile"
         PM25_cathegory="terza"
 
     elif PM25_value>=25 and PM25_value <=50:

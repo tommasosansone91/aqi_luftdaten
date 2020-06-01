@@ -4,7 +4,7 @@
 
 {% load static %}
 
-    <h1>Valori del particolato real-time</h1>
+    <h1>Valori real-time del particolato</h1>
     
     <br>
 
@@ -22,7 +22,7 @@
             nel raggio di {{record.Target_area_input_data.Radius}} km dal punto di coordinate 
             (
                 <a target="_blank"  href="https://www.google.com/search?q={{record.Target_area_input_data.Longitude}}, {{record.Target_area_input_data.Latitude}}">
-                    {{record.Target_area_input_data.Longitude}}, {{record.Target_area_input_data.Latitude}}
+                    {{record.Target_area_input_data.Latitude}}, {{record.Target_area_input_data.Longitude}}
                 </a>
             ).
         

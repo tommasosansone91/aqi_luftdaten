@@ -18,6 +18,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 def home(request):
     return render(request, 'home.html', {})
 
+def catalogo_api(request):
+    return render(request, 'catalogo_api.html', {})
+
 # def about(request):
 #     return render(request, 'about.html', {})
 
@@ -72,63 +75,158 @@ def valori_realtime_forced_to_history(request):
     return render(request, 'valori_realtime_forced_to_history.html', context_dict)
 
 
+import numpy as np
+import plotly.offline as pyo
+import plotly.graph_objs as go
+
+
 # solo raffigurazione
 def serie_storiche(request):
 
-    aree_di_interesse = target_area_input_data.objects.all()    
-    n_aree_di_interesse = target_area_input_data.objects.all().count() 
+    print("Inizio disposizione dati storici in una serie storica per ogni località...")
 
-    dati_storici = target_area_history_data.objects.all()
+    serie_storiche = []
 
-    nomi_aree_di_interesse = [i.Name for i in aree_di_interesse]
+    for area_di_interesse in target_area_input_data.objects.all():
+        
+        # isola i record di una località - è cmq un gruppo di oggetti
+        records_serie_storica = target_area_history_data.objects.filter(Target_area_input_data=area_di_interesse)
+        
+        # prendo i record delle 24 ore degli ultimi 30 giorni
+        Lunghezza_temporale = 24*30
 
-    # creo un dataframe in cui ogni colonna è una info e ogni riga è una località - fortunatamente nessuna info è un vettore
+        records_serie_storica = records_serie_storica[: Lunghezza_temporale - 1]
 
-    for nome_area in nomi_aree_di_interesse:
+        # nota: i dati sno già ordinati per default in ordine decrescente
 
-        # serie_storica = 
-        pass
+        serie_storica = {
+                        #ce n'è solo una perchè l'ho filtrata
+                        "Target_area_input_data" : area_di_interesse.Name,
 
-    print(nomi_aree_di_interesse)
+                        # questi sono vettori di valori
 
-    # target_area_history_data.get(id=place_id)
+                        "Last_update_time" : [i.Last_update_time for i in records_serie_storica],
 
-    # import numpy as np
-    # import matplotlib.pyplot as plt
+                        "PM10_mean" : [i.PM10_mean for i in records_serie_storica],
+                        "PM25_mean" : [i.PM25_mean for i in records_serie_storica],
 
-    # # Fixing random state for reproducibility
-    # np.random.seed(19680801)
+                        "PM10_quality" : [i.PM10_quality for i in records_serie_storica],
+                        "PM25_quality" : [i.PM25_quality for i in records_serie_storica],
 
-    # dt = 0.01
-    # t = np.arange(0, 30, dt)
+                        "PM10_cathegory" : [i.PM10_cathegory for i in records_serie_storica],
+                        "PM25_cathegory" : [i.PM25_cathegory for i in records_serie_storica],
 
-    # # sono liste
-    # nse1 = np.random.randn(len(t))                 # white noise 1
-    # nse2 = np.random.randn(len(t))          
-    
-    # print(nse1)       # white noise 2
+                        "n_selected_sensors" : [i.n_selected_sensors for i in records_serie_storica],
 
-    # # Two signals with a coherent part at 10Hz and a random part
-    # s1 = np.sin(2 * np.pi * 10 * t) + nse1
-    # s2 = np.sin(2 * np.pi * 10 * t) + nse2
+                        }
 
-    # fig, axs = plt.subplots(2, 1)
-    # axs[0].plot(t, s1, t, s2)
-    # axs[0].set_xlim(0, 2)
-    # axs[0].set_xlabel('time')
-    # axs[0].set_ylabel('s1 and s2')
-    # axs[0].grid(True)
+        # print(serie_storica)
 
-    # cxy, f = axs[1].cohere(s1, s2, 256, 1. / dt)
+        serie_storiche.append(serie_storica)
+        print("Predisposti dati per %s" % area_di_interesse.Name)
 
-    # # sono liste
-    # print(cxy)
-    # print(f)
+    # la posizione di serie storiche indica la città
 
-    # axs[1].set_ylabel('coherence')
+    # print(serie_storiche[0].keys())
 
-    # fig.tight_layout()
-    # plt.show()
+    # time array
+    x_values = np.array(serie_storiche[0]['Last_update_time'])
+
+    # values
+    PM10_values = np.array(serie_storiche[0]['PM10_mean'])
+    PM25_values = np.array(serie_storiche[0]['PM25_mean'])
+
+    # pm10 maxs
+    PM10_daily_max_35_days_max = np.array([50 for i in x_values])
+    PM10_annual_mean_max = np.array([40 for i in x_values])
+
+    #PM2.5 maxs
+    PM25_annual_mean_max = np.array([20 for i in x_values])
+
+    PM10_line = go.Scatter(
+                    x=x_values, 
+                    y=PM10_values,
+                    mode='lines',
+                    name="PM 10 [µg/m³]", 
+
+                    marker=dict(
+                                color='rgb(128,128,128)',
+                                )                    
+                    )
+
+
+    PM10_daily_max_35_days_max_line = go.Scatter(
+                                            x=x_values, 
+                                            y=PM10_daily_max_35_days_max,
+                                            mode='lines',
+                                            name="Soglia massima per la concentrazione giornaliera del PM10", 
+                                            
+                                            marker=dict(
+                                                        # size=12,
+                                                        color='rgb(255,0,0)',
+                                                        # symbol='pentagon',
+                                                        # line = {'width':2}    
+                                                        )
+
+                                            )
+    # ha senso rappresentarla?
+    PM10_annual_mean_max_line = go.Scatter(
+                    x=x_values, 
+                    y=PM10_annual_mean_max,
+                    mode='lines',
+                    name="Soglia massima per la concentrazione media annuale del PM10", 
+                    
+                    marker=dict(
+                                # size=12,
+                                color='rgb(220,20,60)',
+                                # symbol='pentagon',
+                                # line = {'width':2}    
+                                )
+
+                    )                  
+
+# ----------------------------------------------
+
+    PM25_line = go.Scatter(
+                x=x_values, 
+                y=PM25_values,
+                mode='lines',
+                name="PM 2.5 [µg/m³]", 
+
+                marker=dict(
+                            color='rgb(105,105,105)',
+                            )
+                )  
+
+        # ha senso rappresentarla?
+    PM25_annual_mean_max_line = go.Scatter(
+                    x=x_values, 
+                    y=PM25_annual_mean_max,
+                    mode='lines',
+                    name="Soglia massima per la concentrazione media annuale del PM2.5", 
+                    
+                    marker=dict(
+                                # size=12,
+                                color='rgb(0,206,209)',
+                                # symbol='pentagon',
+                                # line = {'width':2}    
+                                )
+                )
+
+
+    data=[ PM10_line, PM10_annual_mean_max_line, PM10_daily_max_35_days_max_line,  ]
+
+    # PM25_line, PM25_annual_mean_max_line
+
+    layout=go.Layout(title="Line Charts")
+
+    fig=go.Figure(data=data, layout=layout)
+
+    pyo.plot(fig, filename="My line plot.html")
+
+
+# ---
+
 
     context_dict={}
 

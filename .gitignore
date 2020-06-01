@@ -1,8 +1,9 @@
-.env
+
 .appunti aqi_luftdaten.txt
-.github info.txt
-.directory.txt
+.appunti heroku.txt
 .credenziali.txt
-
-
+.directory.txt
+.env
+.github info.txt
+.to do aqi_luftdaten.txt
 

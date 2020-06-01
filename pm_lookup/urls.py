@@ -3,14 +3,17 @@ from . import views # nota che con questo importo tutte le liste
 from . import views_api # devo aggiungerlo perchè ho delle altre views
 
 urlpatterns = [
+
+    # path, vista, nome di richiamo
+
     path('', views.home, name="home"),
-    # path('about.html', views.about, name="about"),
+
+    path('catalogo_api', views.catalogo_api, name="catalogo_api"),
+    
     path('valori_realtime', views.valori_realtime, name="valori_realtime"),
     # path('particolato_milano', views.particolato_milano, name="particolato_milano"),
 
     path('valori_realtime_forced_to_history', views.valori_realtime_forced_to_history, name="valori_realtime_forced_to_history"),
-
-
 
     path('serie_storiche', views.serie_storiche, name="serie_storiche"),
 
@@ -30,6 +33,8 @@ urlpatterns = [
 
     path('api/city_detail/<int:pk>', views_api.city_detail_api, name="city_detail"),
     path('api/realtime_data_detail/<int:pk>', views_api.realtime_data_detail_api, name="realtime_data_detail"),
+    path('api/historical_data_detail/<int:pk>', views_api.historical_data_detail_api, name="historical_data_detail"),
 
+    
     # mantieni lo standard di nomenclatura tra i tre termini
 ]
