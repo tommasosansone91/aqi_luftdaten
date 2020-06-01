@@ -11,6 +11,10 @@ from .models import target_area_history_data
 
 from django.contrib.admin.views.decorators import staff_member_required
 
+# importo i drawers
+from pm_lookup.drawers.drawer1 import draw_historical_PM10_graph
+from pm_lookup.drawers.drawer1 import draw_historical_PM25_graph
+
 # Create your views here.
 
 # ogni volta che un user va su un sito e clicca su un url sta facendo una request
@@ -75,9 +79,7 @@ def valori_realtime_forced_to_history(request):
     return render(request, 'valori_realtime_forced_to_history.html', context_dict)
 
 
-import numpy as np
-import plotly.offline as pyo
-import plotly.graph_objs as go
+
 
 
 # solo raffigurazione
@@ -130,106 +132,36 @@ def serie_storiche(request):
     # print(serie_storiche[0].keys())
 
     # time array
-    x_values = np.array(serie_storiche[0]['Last_update_time'])
+    time_values = np.array(serie_storiche[0]['Last_update_time'])
 
     # values
     PM10_values = np.array(serie_storiche[0]['PM10_mean'])
     PM25_values = np.array(serie_storiche[0]['PM25_mean'])
 
+    # colora il retro del grafico per fasce anzchè fare le linee di soglia
+
     # pm10 maxs
-    PM10_daily_max_35_days_max = np.array([50 for i in x_values])
-    PM10_annual_mean_max = np.array([40 for i in x_values])
+    PM10_daily_max_35_days_max = np.array([50 for i in time_values])
+    PM10_annual_mean_max = np.array([40 for i in time_values])
 
     #PM2.5 maxs
-    PM25_annual_mean_max = np.array([20 for i in x_values])
+    PM25_annual_mean_max = np.array([20 for i in time_values])
 
-    PM10_line = go.Scatter(
-                    x=x_values, 
-                    y=PM10_values,
-                    mode='lines',
-                    name="PM 10 [µg/m³]", 
+    # traccio i grafici e ottengo il javascript
+    graph_PM10 = draw_historical_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max)
+    graph_PM25 = draw_historical_PM25_graph(time_values, PM25_values)
 
-                    marker=dict(
-                                color='rgb(128,128,128)',
-                                )                    
-                    )
-
-
-    PM10_daily_max_35_days_max_line = go.Scatter(
-                                            x=x_values, 
-                                            y=PM10_daily_max_35_days_max,
-                                            mode='lines',
-                                            name="Soglia massima per la concentrazione giornaliera del PM10", 
-                                            
-                                            marker=dict(
-                                                        # size=12,
-                                                        color='rgb(255,0,0)',
-                                                        # symbol='pentagon',
-                                                        # line = {'width':2}    
-                                                        )
-
-                                            )
-    # ha senso rappresentarla?
-    PM10_annual_mean_max_line = go.Scatter(
-                    x=x_values, 
-                    y=PM10_annual_mean_max,
-                    mode='lines',
-                    name="Soglia massima per la concentrazione media annuale del PM10", 
-                    
-                    marker=dict(
-                                # size=12,
-                                color='rgb(220,20,60)',
-                                # symbol='pentagon',
-                                # line = {'width':2}    
-                                )
-
-                    )                  
-
-# ----------------------------------------------
-
-    PM25_line = go.Scatter(
-                x=x_values, 
-                y=PM25_values,
-                mode='lines',
-                name="PM 2.5 [µg/m³]", 
-
-                marker=dict(
-                            color='rgb(105,105,105)',
-                            )
-                )  
-
-        # ha senso rappresentarla?
-    PM25_annual_mean_max_line = go.Scatter(
-                    x=x_values, 
-                    y=PM25_annual_mean_max,
-                    mode='lines',
-                    name="Soglia massima per la concentrazione media annuale del PM2.5", 
-                    
-                    marker=dict(
-                                # size=12,
-                                color='rgb(0,206,209)',
-                                # symbol='pentagon',
-                                # line = {'width':2}    
-                                )
-                )
-
-
-    data=[ PM10_line, PM10_annual_mean_max_line, PM10_daily_max_35_days_max_line,  ]
-
-    # PM25_line, PM25_annual_mean_max_line
-
-    layout=go.Layout(title="Line Charts")
-
-    fig=go.Figure(data=data, layout=layout)
-
-    pyo.plot(fig, filename="My line plot.html")
 
 
 # ---
 
 
-    context_dict={}
+    context_dict={
+        "graph_PM10":graph_PM10,
+        "graph_PM25":graph_PM25 
+    }
 
     return render(request, 'serie_storiche.html', context_dict)
+
 
 
