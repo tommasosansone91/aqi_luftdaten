@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import target_area_input_data
 from .models import target_area_output_data
 from .models import target_area_history_data
+# from .models import target_area_history_series
 
 # Register your models here.
 # admin.site.register(target_area_input_data)
@@ -54,7 +55,7 @@ class target_area_output_dataAdmin(ImportExportModelAdmin):
 admin.site.register(target_area_output_data, target_area_output_dataAdmin)
 
 
-#  registrazione modello history
+#  registrazione modello history data
 
 # questo modello controlla i field associati al tool import export, non all'admin
 class target_area_history_dataResource(resources.ModelResource):
@@ -69,3 +70,20 @@ class target_area_history_dataAdmin(ImportExportModelAdmin):
     resource_class = target_area_history_dataResource
 
 admin.site.register(target_area_history_data, target_area_history_dataAdmin)
+
+
+# #  registrazione modello history series
+
+# # questo modello controlla i field associati al tool import export, non all'admin
+# class target_area_history_seriesResource(resources.ModelResource):
+
+#     class Meta:
+#         model = target_area_history_series
+        
+#         # fields = ('id', 'name', 'price') # per includere i campi
+#         # exclude = ('id') # per escludere i campi
+
+# class target_area_history_seriesAdmin(ImportExportModelAdmin):
+#     resource_class = target_area_history_seriesResource
+
+# admin.site.register(target_area_history_series, target_area_history_seriesAdmin)

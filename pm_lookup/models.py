@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime
 
+from django.contrib.postgres.fields import ArrayField
+
 # Create your models here.
 # nota che i modelli sono tutti in minuscolo
 
@@ -128,3 +130,40 @@ class target_area_history_data(models.Model):
         # metto il try nel momento del salvataggio
 
 # --------------------------------
+
+
+# class target_area_history_series(models.Model):
+
+#     # nota che è maiuscolo
+#     Target_area_input_data = models.ForeignKey(
+#         'target_area_input_data',
+#         on_delete=models.CASCADE,
+        
+#     )
+#     # il primo attributo è il modello cui è associato
+
+#     # postgres non prende array + datetime
+#     Record_time_values = ArrayField(models.DateTimeField(), blank=False, null=False) 
+
+#     PM10_mean_values = ArrayField(models.FloatField(), null=False, blank=False)
+#     PM25_mean_values = ArrayField(models.FloatField(), null=False, blank=False)
+
+#     PM10_quality_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
+#     PM25_quality_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
+
+#     PM10_cathegory_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
+#     PM25_cathegory_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
+
+#     n_selected_sensors_values = ArrayField(models.IntegerField(null=True))
+
+#     PM10_graph_div = models.TextField()
+#     PM25_graph_div = models.TextField()
+
+
+
+#     def __str__(self):       
+#         return  "%s --- [ %s ]"  %  (self.Target_area_input_data.Name )  
+        
+ 
+#     class Meta:
+#         ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']

@@ -8,14 +8,39 @@
     
     <br>
 
-    
+    <p>Di seguito sono mostrate le serie storiche dei valori medi del PM10 e PM2.5 in diverse città.</p>
 
+    <br>
 
-    {{ graph_PM10|safe }}
+    {% for graph_data in dataset_dei_grafici %}
 
-    {{ graph_PM25|safe }}
+        <h3>{{ graph_data.Target_area_input_data.Name }}</h3>
 
+        <br>
 
+        <p>
+            
+            I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
+            nel raggio di {{graph_data.Target_area_input_data.Radius}} km dal punto di coordinate 
+            (
+                <a target="_blank"  href="https://www.google.com/search?q={{graph_data.Target_area_input_data.Latitude}}, {{graph_data.Target_area_input_data.Longitude}}">
+                    {{graph_data.Target_area_input_data.Latitude}}, {{graph_data.Target_area_input_data.Longitude}}
+                </a>
+            ).
+        
+        </p>
+
+        <h5>Serie storiche del PM10 per {{ graph_data.Target_area_input_data.Name }}</h5>
+
+        {{ graph_data.graph_PM10|safe }}
+
+        <h5>Serie storiche del PM2.5 per {{ graph_data.Target_area_input_data.Name }}</h5>
+
+        {{ graph_data.graph_PM25|safe }}
+
+        <hr>
+
+    {% endfor %}
 
 
 <!-- CSS -->
