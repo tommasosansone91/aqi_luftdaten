@@ -134,6 +134,7 @@ def realtime_data_detail_api(request, pk):
 
 
 
+# deve attingere da un modello serie storica
 
 # api/historical_data_detail/<int:pk>
 def historical_data_detail_api(request, pk):

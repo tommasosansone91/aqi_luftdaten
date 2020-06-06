@@ -132,38 +132,38 @@ class target_area_history_data(models.Model):
 # --------------------------------
 
 
-# class target_area_history_series(models.Model):
+class target_area_history_serie(models.Model):
 
-#     # nota che è maiuscolo
-#     Target_area_input_data = models.ForeignKey(
-#         'target_area_input_data',
-#         on_delete=models.CASCADE,
+    # nota che è maiuscolo
+    Target_area_input_data = models.ForeignKey(
+        'target_area_input_data',
+        on_delete=models.CASCADE,
         
-#     )
-#     # il primo attributo è il modello cui è associato
+    )
+    # il primo attributo è il modello cui è associato
 
-#     # postgres non prende array + datetime
-#     Record_time_values = ArrayField(models.DateTimeField(), blank=False, null=False) 
+    # postgres non prende array + datetime
+    Record_time_values = models.TextField( blank=False, null=False) 
 
-#     PM10_mean_values = ArrayField(models.FloatField(), null=False, blank=False)
-#     PM25_mean_values = ArrayField(models.FloatField(), null=False, blank=False)
+    PM10_mean_values = models.TextField( null=False, blank=False)
+    PM25_mean_values = models.TextField( null=False, blank=False)
 
-#     PM10_quality_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
-#     PM25_quality_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
+    PM10_quality_values = models.TextField( blank=False, null=False)
+    PM25_quality_values = models.TextField( blank=False, null=False)
 
-#     PM10_cathegory_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
-#     PM25_cathegory_values = ArrayField(models.CharField(max_length=256), blank=False, null=False)
+    PM10_cathegory_values = models.TextField( blank=False, null=False)
+    PM25_cathegory_values = models.TextField( blank=False, null=False)
 
-#     n_selected_sensors_values = ArrayField(models.IntegerField(null=True))
+    n_selected_sensors_values = models.TextField(null=True)
 
-#     PM10_graph_div = models.TextField()
-#     PM25_graph_div = models.TextField()
+    PM10_graph_div = models.TextField()
+    PM25_graph_div = models.TextField()
 
 
 
-#     def __str__(self):       
-#         return  "%s --- [ %s ]"  %  (self.Target_area_input_data.Name )  
+    def __str__(self):       
+        return  "%s"  %  (self.Target_area_input_data.Name )  
         
  
-#     class Meta:
-#         ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+    class Meta:
+        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
