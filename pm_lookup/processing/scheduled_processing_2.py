@@ -92,18 +92,18 @@ def arrange_time_series_and_graphs():
 
                                                     # questi sono vettori di valori
 
-                                                    Record_time_values = ',,'.join(str(e) for e in  serie_storica['Last_update_time'] ),
+                                                    Record_time_values = '; '.join(str(e) for e in  serie_storica['Last_update_time'] ),
 
-                                                    PM10_mean_values = ',,'.join(str(e) for e in  serie_storica['PM10_mean'] ),
-                                                    PM25_mean_values = ',,'.join(str(e) for e in  serie_storica['PM25_mean'] ),
+                                                    PM10_mean_values = '; '.join(str(e) for e in  serie_storica['PM10_mean'] ),
+                                                    PM25_mean_values = '; '.join(str(e) for e in  serie_storica['PM25_mean'] ),
 
-                                                    PM10_quality_values = ',,'.join(str(e) for e in  serie_storica['PM10_quality'] ),
-                                                    PM25_quality_values = ',,'.join(str(e) for e in  serie_storica['PM25_quality'] ),
+                                                    PM10_quality_values = '; '.join(str(e) for e in  serie_storica['PM10_quality'] ),
+                                                    PM25_quality_values = '; '.join(str(e) for e in  serie_storica['PM25_quality'] ),
 
-                                                    PM10_cathegory_values = ',,'.join(str(e) for e in  serie_storica['PM10_cathegory'] ),
-                                                    PM25_cathegory_values = ',,'.join(str(e) for e in  serie_storica['PM25_cathegory'] ),
+                                                    PM10_cathegory_values = '; '.join(str(e) for e in  serie_storica['PM10_cathegory'] ),
+                                                    PM25_cathegory_values = '; '.join(str(e) for e in  serie_storica['PM25_cathegory'] ),
 
-                                                    n_selected_sensors_values = ',,'.join(str(e) for e in  serie_storica['n_selected_sensors'] ),
+                                                    n_selected_sensors_values = '; '.join(str(e) for e in  serie_storica['n_selected_sensors'] ),
 
                                                     PM10_graph_div = graph_PM10,
                                                     PM25_graph_div = graph_PM25,

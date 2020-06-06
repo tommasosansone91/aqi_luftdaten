@@ -12,8 +12,8 @@ from .models import target_area_history_serie
 
 from django.contrib.admin.views.decorators import staff_member_required
 
-# poi da rimuovere, lo farà il command
-from pm_lookup.processing.scheduled_processing_2 import arrange_time_series_and_graphs
+
+
 
 # Create your views here.
 
@@ -85,12 +85,9 @@ def valori_realtime_forced_to_history(request):
 # solo raffigurazione
 def serie_storiche(request):
 
-    arrange_time_series_and_graphs()
-
+    print("Richiamo dati in target_area_history_serie...")
     dataset_dei_grafici = target_area_history_serie.objects.all()
-
-# ---
-
+    print("Dati in target_area_history_serie acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici
