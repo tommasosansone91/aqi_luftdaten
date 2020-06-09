@@ -26,8 +26,10 @@ urlpatterns = [
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
     path('api/cities_list', views_api.cities_list_api, name="cities_list"),
-    path('api/historical_data', views_api.historical_data_api, name="historical_data"),
     path('api/realtime_data', views_api.realtime_data_api, name="realtime_data"),
+    path('api/historical_data', views_api.historical_data_api, name="historical_data"),    
+    path('api/historical_series', views_api.historical_series_api, name="historical_series"),
+    
 
     # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
 

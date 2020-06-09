@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from .models import target_area_input_data
 from .models import target_area_output_data
 from .models import target_area_history_data
+from .models import target_area_history_serie
 
 
 def cities_list_api(request):
@@ -28,6 +29,15 @@ def realtime_data_api(request):
 def historical_data_api(request):
     h_records = target_area_history_data.objects.all()
     data = {"historical_records":list(h_records.values())}
+    # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
+    # ma la parentesi deve esistere
+    response = JsonResponse(data)
+    return response
+
+
+def historical_series_api(request):
+    h_series = target_area_history_serie.objects.all()
+    data = {"historical_series":list(h_series.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
     response = JsonResponse(data)
