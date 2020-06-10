@@ -35,7 +35,11 @@ urlpatterns = [
 
     path('api/city_detail/<int:pk>', views_api.city_detail_api, name="city_detail"),
     path('api/realtime_data_detail/<int:pk>', views_api.realtime_data_detail_api, name="realtime_data_detail"),
-    path('api/historical_data_detail/<int:pk>', views_api.historical_data_detail_api, name="historical_data_detail"),
+
+    # così prendo un record solo. è inutile.. ho una ok per ogni record.
+    # path('api/historical_data_detail/<int:pk>', views_api.historical_data_detail_api, name="historical_data_detail"),
+
+    path('api/historical_series_detail/<int:pk>', views_api.historical_series_detail_api, name="historical_series_detail"),
 
     
     # mantieni lo standard di nomenclatura tra i tre termini
