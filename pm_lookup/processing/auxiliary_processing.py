@@ -5,13 +5,13 @@ import pytz
 
 # servono a save_in_history()
 from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_output_data
+from pm_lookup.models import target_area_realtime_data
 from pm_lookup.models import target_area_history_data
 
 
 def save_in_history():
 
-    latest_data = target_area_output_data.objects.all()
+    latest_data = target_area_realtime_data.objects.all()
     
 
     for element in latest_data: 

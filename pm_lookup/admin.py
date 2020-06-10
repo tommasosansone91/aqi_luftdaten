@@ -1,13 +1,13 @@
 from django.contrib import admin
 
 from .models import target_area_input_data
-from .models import target_area_output_data
+from .models import target_area_realtime_data
 from .models import target_area_history_data
-from .models import target_area_history_serie
+from .models import target_area_time_serie
 
 # Register your models here.
 # admin.site.register(target_area_input_data)
-# admin.site.register(target_area_output_data)
+# admin.site.register(target_area_realtime_data)
 # admin.site.register(target_area_history_data)
 
 # sono registrati in seguito mettendo in input anche il relativo modello Admin, 
@@ -41,18 +41,18 @@ admin.site.register(target_area_input_data, target_area_input_dataAdmin)
 # registrazione modello realtime
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_area_output_dataResource(resources.ModelResource):
+class target_area_realtime_dataResource(resources.ModelResource):
 
     class Meta:
-        model = target_area_output_data
+        model = target_area_realtime_data
         
         # fields = ('id', 'name', 'price') # per includere i campi
         exclude = ('id') # per escludere i campi
 
-class target_area_output_dataAdmin(ImportExportModelAdmin):
-    resource_class = target_area_output_dataResource
+class target_area_realtime_dataAdmin(ImportExportModelAdmin):
+    resource_class = target_area_realtime_dataResource
 
-admin.site.register(target_area_output_data, target_area_output_dataAdmin)
+admin.site.register(target_area_realtime_data, target_area_realtime_dataAdmin)
 
 
 #  registrazione modello history data
@@ -75,15 +75,15 @@ admin.site.register(target_area_history_data, target_area_history_dataAdmin)
 #  registrazione modello history series
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_area_history_serieResource(resources.ModelResource):
+class target_area_time_serieResource(resources.ModelResource):
 
     class Meta:
-        model = target_area_history_serie
+        model = target_area_time_serie
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class target_area_history_serieAdmin(ImportExportModelAdmin):
-    resource_class = target_area_history_serieResource
+class target_area_time_serieAdmin(ImportExportModelAdmin):
+    resource_class = target_area_time_serieResource
 
-admin.site.register(target_area_history_serie, target_area_history_serieAdmin)
+admin.site.register(target_area_time_serie, target_area_time_serieAdmin)

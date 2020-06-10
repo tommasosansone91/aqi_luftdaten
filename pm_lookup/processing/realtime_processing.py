@@ -10,7 +10,7 @@ import json
 import requests
 
 from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_output_data
+from pm_lookup.models import target_area_realtime_data
 from pm_lookup.models import target_area_history_data
 
 from .auxiliary_processing import evaluate_PM10
@@ -49,7 +49,7 @@ def get_realtime_pm():
         api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
 
     # nel modello realtime voglio un solo record per ogni location
-    target_area_output_data.objects.all().delete()
+    target_area_realtime_data.objects.all().delete()
 
     # non tocco il modello history
 
@@ -215,7 +215,7 @@ def get_realtime_pm():
         print("Timestamp delle osservazioni per %s: %s" % (place_name, record_time))
 
 
-        new_record = target_area_output_data(
+        new_record = target_area_realtime_data(
                                                 Target_area_input_data=input_data.get(id=place_id),
                                                 # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                 # quindi qui dico: salva i dati nel campo foreign key 

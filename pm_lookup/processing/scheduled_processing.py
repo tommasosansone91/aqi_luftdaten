@@ -10,7 +10,7 @@ import json
 import requests
 
 from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_output_data
+from pm_lookup.models import target_area_realtime_data
 from pm_lookup.models import target_area_history_data
 
 from .auxiliary_processing import evaluate_PM10
@@ -48,7 +48,7 @@ def save_history_pm():
         api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
 
     # voglio un solo record per ogni location
-    # target_area_output_data.objects.all().delete()
+    # target_area_realtime_data.objects.all().delete()
     # qui salvo solo nel modello storico
 
 

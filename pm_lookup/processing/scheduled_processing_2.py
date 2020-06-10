@@ -1,7 +1,7 @@
 import numpy as np
 
 from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_output_data
+from pm_lookup.models import target_area_realtime_data
 from pm_lookup.models import target_area_history_data
 from pm_lookup.models import target_area_history_serie
 

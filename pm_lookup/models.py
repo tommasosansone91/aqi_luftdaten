@@ -33,7 +33,7 @@ class target_area_input_data(models.Model):
 
 
 
-class target_area_output_data(models.Model):
+class target_area_realtime_data(models.Model):
 
     # nota che è maiuscolo
     Target_area_input_data = models.OneToOneField(
@@ -132,7 +132,7 @@ class target_area_history_data(models.Model):
 # --------------------------------
 
 
-class target_area_history_serie(models.Model):
+class target_area_time_serie(models.Model):
 
     # nota che è maiuscolo
     Target_area_input_data = models.ForeignKey(

@@ -3,9 +3,9 @@
 from django.http import JsonResponse
 
 from .models import target_area_input_data
-from .models import target_area_output_data
+from .models import target_area_realtime_data
 from .models import target_area_history_data
-from .models import target_area_history_serie
+from .models import target_area_time_serie
 
 
 def cities_list_api(request):
@@ -18,7 +18,7 @@ def realtime_data_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
 
-    rt_records = target_area_output_data.objects.all()
+    rt_records = target_area_realtime_data.objects.all()
     data = {"realtime_records":list(rt_records.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -36,7 +36,7 @@ def historical_data_api(request):
 
 
 def historical_series_api(request):
-    h_series = target_area_history_serie.objects.all()
+    h_series = target_area_time_serie.objects.all()
     data = {"historical_series":list(h_series.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -90,7 +90,7 @@ def realtime_data_detail_api(request, pk):
         city = target_area_input_data.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = target_area_output_data.objects.get(Target_area_input_data=city)
+        record = target_area_realtime_data.objects.get(Target_area_input_data=city)
 
       
         data = {
@@ -153,7 +153,7 @@ def realtime_data_detail_api(request, pk):
 #         city = target_area_input_data.objects.get(pk=pk)
 #         # ne prende molti
 
-#         record = target_area_output_data.objects.get(Target_area_input_data=city)
+#         record = target_area_realtime_data.objects.get(Target_area_input_data=city)
 
       
 #         data = {
@@ -215,7 +215,7 @@ def historical_series_detail_api(request, pk):
         city = target_area_input_data.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = target_area_history_serie.objects.get(Target_area_input_data=city)
+        record = target_area_time_serie.objects.get(Target_area_input_data=city)
 
       
         data = {

@@ -6,9 +6,9 @@ from pm_lookup.processing.realtime_processing import get_realtime_pm
 from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
 
 from .models import target_area_input_data
-from .models import target_area_output_data
+from .models import target_area_realtime_data
 from .models import target_area_history_data
-from .models import target_area_history_serie
+from .models import target_area_time_serie
 
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -44,7 +44,7 @@ def valori_realtime(request):
     aree_di_interesse = target_area_input_data.objects.all()    
     n_aree_di_interesse = target_area_input_data.objects.all().count()    
 
-    record_sensori = target_area_output_data.objects.all()
+    record_sensori = target_area_realtime_data.objects.all()
 
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,
@@ -67,7 +67,7 @@ def valori_realtime_forced_to_history(request):
     aree_di_interesse = target_area_input_data.objects.all()    
     n_aree_di_interesse = target_area_input_data.objects.all().count()    
 
-    record_sensori = target_area_output_data.objects.all()
+    record_sensori = target_area_realtime_data.objects.all()
 
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,
@@ -85,9 +85,9 @@ def valori_realtime_forced_to_history(request):
 # solo raffigurazione
 def serie_storiche(request):
 
-    print("Richiamo dati in target_area_history_serie...")
-    dataset_dei_grafici = target_area_history_serie.objects.all()
-    print("Dati in target_area_history_serie acquisiti!")
+    print("Richiamo dati in target_area_time_serie...")
+    dataset_dei_grafici = target_area_time_serie.objects.all()
+    print("Dati in target_area_time_serie acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici
