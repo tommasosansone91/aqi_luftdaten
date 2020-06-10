@@ -35,9 +35,9 @@ def historical_data_api(request):
     return response
 
 
-def historical_series_api(request):
+def time_series_api(request):
     h_series = target_area_time_serie.objects.all()
-    data = {"historical_series":list(h_series.values())}
+    data = {"time_series":list(h_series.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
     response = JsonResponse(data)
@@ -208,8 +208,8 @@ def realtime_data_detail_api(request, pk):
 
 
     
-    # api/historical_series_detail/<int:pk>
-def historical_series_detail_api(request, pk):
+    # api/time_series_detail/<int:pk>
+def time_series_detail_api(request, pk):
 
     try:
         city = target_area_input_data.objects.get(pk=pk)

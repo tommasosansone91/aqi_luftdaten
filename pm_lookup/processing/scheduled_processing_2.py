@@ -3,18 +3,18 @@ import numpy as np
 from pm_lookup.models import target_area_input_data
 from pm_lookup.models import target_area_realtime_data
 from pm_lookup.models import target_area_history_data
-from pm_lookup.models import target_area_history_serie
+from pm_lookup.models import target_area_time_serie
 
 # importo i drawers
-from pm_lookup.drawers.drawer1 import draw_historical_PM10_graph
-from pm_lookup.drawers.drawer1 import draw_historical_PM25_graph
+from pm_lookup.drawers.drawer1 import draw_timeserie_PM10_graph
+from pm_lookup.drawers.drawer1 import draw_timeserie_PM25_graph
 
 
 def arrange_time_series_and_graphs():
 
-    target_area_history_serie.objects.all().delete()
+    target_area_time_serie.objects.all().delete()
 
-    print("Eliminate tutte le serie storiche in target_area_history_serie!")
+    print("Eliminate tutte le serie storiche in target_area_time_serie!")
 
     print("Inizio disposizione dati in serie storiche per ogni località...")
 
@@ -81,12 +81,12 @@ def arrange_time_series_and_graphs():
             
 
         # traccio i grafici e ottengo il javascript
-        graph_PM10 = draw_historical_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max)
-        graph_PM25 = draw_historical_PM25_graph(time_values, PM25_values)
+        graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max)
+        graph_PM25 = draw_timeserie_PM25_graph(time_values, PM25_values)
 
         
 
-        elementi_grafico = target_area_history_serie(
+        elementi_grafico = target_area_time_serie(
                                                     # errore qui
                                                     Target_area_input_data = target_area_input_data.objects.get(Name=area_di_interesse.Name),
 

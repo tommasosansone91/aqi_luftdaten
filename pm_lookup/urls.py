@@ -11,7 +11,7 @@ urlpatterns = [
     path('catalogo_api', views.catalogo_api, name="catalogo_api"),
     
     path('valori_realtime', views.valori_realtime, name="valori_realtime"),
-    # path('particolato_milano', views.particolato_milano, name="particolato_milano"),
+    
 
     path('valori_realtime_forced_to_history', views.valori_realtime_forced_to_history, name="valori_realtime_forced_to_history"),
 
@@ -28,7 +28,7 @@ urlpatterns = [
     path('api/cities_list', views_api.cities_list_api, name="cities_list"),
     path('api/realtime_data', views_api.realtime_data_api, name="realtime_data"),
     path('api/historical_data', views_api.historical_data_api, name="historical_data"),    
-    path('api/historical_series', views_api.historical_series_api, name="historical_series"),
+    path('api/time_series', views_api.time_series_api, name="time_series"),
     
 
     # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
@@ -39,7 +39,7 @@ urlpatterns = [
     # così prendo un record solo. è inutile.. ho una ok per ogni record.
     # path('api/historical_data_detail/<int:pk>', views_api.historical_data_detail_api, name="historical_data_detail"),
 
-    path('api/historical_series_detail/<int:pk>', views_api.historical_series_detail_api, name="historical_series_detail"),
+    path('api/time_series_detail/<int:pk>', views_api.time_series_detail_api, name="time_series_detail"),
 
     
     # mantieni lo standard di nomenclatura tra i tre termini

@@ -1,7 +1,5 @@
 from django.shortcuts import render
 
-
-from pm_lookup.processing.single_location_processing import get_single_location_pm
 from pm_lookup.processing.realtime_processing import get_realtime_pm
 from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
 

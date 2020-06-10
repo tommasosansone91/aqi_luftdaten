@@ -3,7 +3,7 @@ import numpy as np
 import plotly.offline as pyo
 import plotly.graph_objs as go
 
-def draw_historical_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max=None, AQ_intervals=None):
+def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max=None, AQ_intervals=None):
    
     PM10_line = go.Scatter(
                     x=time_values, 
@@ -51,7 +51,7 @@ def draw_historical_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_
 
     # -------------------------------------
 
-def draw_historical_PM25_graph(time_values, PM25_values, AQ_intervals=None):
+def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None):
    
     PM25_line = go.Scatter(
                     x=time_values, 
