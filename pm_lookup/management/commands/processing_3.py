@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from pm_lookup.models import target_area_input_data, target_area_output_data
+from pm_lookup.models import target_area_input_data, target_area_realtime_data
 
 import numpy as np 
 import math
@@ -161,7 +161,7 @@ class Command(BaseCommand):
                 PM25_cathegory="nessuna"
                 
 
-            new_record = target_area_output_data(
+            new_record = target_area_realtime_data(
                                                     Target_area_name=target_area_input_data.objects.get(Name=place_name),
                                                     Last_update_time=record_time,
 

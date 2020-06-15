@@ -8,23 +8,36 @@
     
     <br>
 
-    <h4>Liste:</h4>
+    <p>L'applicazione dispone di servizi API in stile REST che permettono ad altre applicazioni o script di accedere ai valori di particolato registrati dalle centraline Luftdaten. 
+        Il servizio permette l'accesso ai valori di particolato, sia realtime sia storici, per una località desiderata, grazie ad un paradigma di URL statico illustrato di seguito. 
+        Eventuali errori nell'utilizzo delle API vengono segnalati attraverso codici di risposta HTTP. 
+        Per tutte le richieste e le risposte dall'API viene utilizzato il formato JSON.</p>
+    
+    </p>Di seguito è mostrato il paradigma delle API e delle relative informazioni associate.</p>
 
-    <p><a href="{% url 'cities_list' %}">Lista delle località</a></p>
+    <br>
 
-    <p><a href="{% url 'realtime_data' %}">Lista dei valori real-time del particolato</a></p>
+    <h4>Liste di elementi:</h4>
 
-    <p><a href="{% url 'historical_data' %}">Lista dei valori storici del particolato</a></p>
+    <br>
+
+    <p><a target="_blank" href="{% url 'cities_list' %}">Lista delle località</a></p>
+
+    <p><a target="_blank" href="{% url 'realtime_data' %}">Lista dei valori real-time del particolato</a></p>
+
+    <p><a target="_blank" href="{% url 'historical_data' %}">Lista dei valori storici del particolato</a></p>
 
     <br>
 
     <h4>Elementi al dettaglio:</h4>
 
-    <p><a href="{% url 'city_detail' pk=1 %}">Specifiche di una località</a></p>
+    <br>
 
-    <p><a href="{% url 'realtime_data_detail' pk=1 %}">Valori real-time del particolato di una località</a></p>
+    <p><a target="_blank" href="{% url 'city_detail' pk=1 %}">Parametri di definizione di una località</a></p>
 
-    <p><a href="{% url 'historical_data_detail' pk=1 %}">Valori storici del particolato di una località</a></p>
+    <p><a target="_blank" href="{% url 'realtime_data_detail' pk=1 %}">Valori real-time del particolato di una località</a></p>
+
+    <p><a target="_blank" href="{% url 'time_serie_detail' pk=1 %}">Serie storica del particolato di una località</a></p>
 
 
 

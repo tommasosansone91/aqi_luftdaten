@@ -209,7 +209,7 @@ def realtime_data_detail_api(request, pk):
 
     
     # api/time_series_detail/<int:pk>
-def time_series_detail_api(request, pk):
+def time_serie_detail_api(request, pk):
 
     try:
         city = target_area_input_data.objects.get(pk=pk)

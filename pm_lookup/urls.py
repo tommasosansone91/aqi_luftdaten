@@ -37,9 +37,10 @@ urlpatterns = [
     path('api/realtime_data_detail/<int:pk>', views_api.realtime_data_detail_api, name="realtime_data_detail"),
 
     # così prendo un record solo. è inutile.. ho una ok per ogni record.
+    # prendere un insieme di record corrisondenti ad una città ... è prendere una serie storica, quindi tanto vale
     # path('api/historical_data_detail/<int:pk>', views_api.historical_data_detail_api, name="historical_data_detail"),
 
-    path('api/time_series_detail/<int:pk>', views_api.time_series_detail_api, name="time_series_detail"),
+    path('api/time_serie_detail/<int:pk>', views_api.time_serie_detail_api, name="time_serie_detail"),
 
     
     # mantieni lo standard di nomenclatura tra i tre termini
