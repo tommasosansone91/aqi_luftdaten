@@ -21,6 +21,8 @@
 
     <br>
 
+    <p>Queste API mostrano la lista dei dati associati a tutte le località contenute nel database.</p>
+
     <p><a target="_blank" href="{% url 'cities_list' %}">Lista delle località</a></p>
 
     <p><a target="_blank" href="{% url 'realtime_data' %}">Lista dei valori real-time del particolato</a></p>
@@ -29,9 +31,13 @@
 
     <br>
 
-    <h4>Elementi al dettaglio:</h4>
+    <h4 id="elementi_al_dettaglio">Elementi al dettaglio:</h4>
 
     <br>
+
+    <p>Queste API mostrano la lista dei dati associati a una specifica località contenuta nel database. <br>
+        Ogni località è identificata da un corrispondente ID. La lista delle località disponibili con relativo ID è consultabile <a target="_blank" href="{% url 'catalogo_localita' %}">qui</a>.</p>
+
 
     <p><a target="_blank" href="{% url 'city_detail' pk=1 %}">Parametri di definizione di una località</a></p>
 

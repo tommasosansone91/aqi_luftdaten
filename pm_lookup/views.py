@@ -32,6 +32,15 @@ def catalogo_api(request):
 
 #     return render(request, 'particolato_milano.html', context_dict)
 
+def catalogo_localita(request):
+
+    aree_di_interesse = target_area_input_data.objects.all().order_by('id')
+    # from target_area_input_data select *, order by id
+
+    context_dict =  {'aree_di_interesse':aree_di_interesse}
+
+    return render(request, 'catalogo_localita.html', context_dict)
+
 
 def valori_realtime(request):
     
@@ -75,8 +84,6 @@ def valori_realtime_forced_to_history(request):
                     }
 
     return render(request, 'valori_realtime_forced_to_history.html', context_dict)
-
-
 
 
 

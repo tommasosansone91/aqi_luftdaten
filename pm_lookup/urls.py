@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.home, name="home"),
 
     path('catalogo_api', views.catalogo_api, name="catalogo_api"),
+    path('catalogo_localita', views.catalogo_localita, name="catalogo_localita"),
     
     path('valori_realtime', views.valori_realtime, name="valori_realtime"),
     

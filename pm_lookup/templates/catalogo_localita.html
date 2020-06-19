@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% load static %}
+
+    <h1>Catalogo delle località</h1>
+    
+    <br>
+
+    <p>Di seguito è mostratovl'elenco delle località per cui sono disponibili i dati di qualità dell'aria.<br>
+        Il relativo ID può essere inserito negli URL delle <a href="{% url 'catalogo_api' %}#elementi_al_dettaglio">API riferite ad una singola località</a> per ottenere i dati corrispondenti.</p>
+
+    <table>
+        
+        <tr>
+            <th>ID</th>
+            <th>Località</th>              
+        </tr>
+
+        {% for area in aree_di_interesse %}
+
+            <tr>               
+                <td>{{area.id}}</td>
+                <td>{{area.Name}}</td>
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+<!-- CSS -->
+{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
+{% endblock %}
