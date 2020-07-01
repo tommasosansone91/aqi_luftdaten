@@ -17,6 +17,7 @@ urlpatterns = [
     path('valori_realtime_forced_to_history', views.valori_realtime_forced_to_history, name="valori_realtime_forced_to_history"),
 
     path('serie_storiche', views.serie_storiche, name="serie_storiche"),
+    path('serie_storiche_giornaliere', views.serie_storiche_giornaliere, name="serie_storiche_giornaliere"),
 
     # viste delle api
 

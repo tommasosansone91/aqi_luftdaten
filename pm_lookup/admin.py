@@ -4,6 +4,7 @@ from .models import target_area_input_data
 from .models import target_area_realtime_data
 from .models import target_area_history_data
 from .models import target_area_time_serie
+from .models import target_area_daily_time_serie
 
 # Register your models here.
 # admin.site.register(target_area_input_data)
@@ -72,7 +73,7 @@ class target_area_history_dataAdmin(ImportExportModelAdmin):
 admin.site.register(target_area_history_data, target_area_history_dataAdmin)
 
 
-#  registrazione modello history series
+#  registrazione modello time series
 
 # questo modello controlla i field associati al tool import export, non all'admin
 class target_area_time_serieResource(resources.ModelResource):
@@ -87,3 +88,21 @@ class target_area_time_serieAdmin(ImportExportModelAdmin):
     resource_class = target_area_time_serieResource
 
 admin.site.register(target_area_time_serie, target_area_time_serieAdmin)
+
+
+
+#  registrazione modello daily time series
+
+# questo modello controlla i field associati al tool import export, non all'admin
+class target_area_daily_time_serieResource(resources.ModelResource):
+
+    class Meta:
+        model = target_area_daily_time_serie
+        
+        # fields = ('id', 'name', 'price') # per includere i campi
+        # exclude = ('id') # per escludere i campi
+
+class target_area_daily_time_serieAdmin(ImportExportModelAdmin):
+    resource_class = target_area_daily_time_serieResource
+
+admin.site.register(target_area_daily_time_serie, target_area_daily_time_serieAdmin)

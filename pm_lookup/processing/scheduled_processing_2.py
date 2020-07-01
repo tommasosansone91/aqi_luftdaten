@@ -18,6 +18,9 @@ def arrange_time_series_and_graphs():
 
     print("Inizio disposizione dati in serie storiche per ogni località...")
 
+    # prendo i record delle 24 ore degli ultimi 30 giorni
+    Lunghezza_temporale = 24*30
+
     for area_di_interesse in target_area_input_data.objects.all():
 
         print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.Name)
@@ -25,9 +28,6 @@ def arrange_time_series_and_graphs():
         # isola i record di una località - è cmq un gruppo di oggetti
         records_serie_storica = target_area_history_data.objects.filter(Target_area_input_data=area_di_interesse)
         
-        # prendo i record delle 24 ore degli ultimi 30 giorni
-        Lunghezza_temporale = 24*30
-
         records_serie_storica = records_serie_storica[: Lunghezza_temporale - 1]
 
         # nota: i dati sno già ordinati per default in ordine decrescente
@@ -81,7 +81,7 @@ def arrange_time_series_and_graphs():
             
 
         # traccio i grafici e ottengo il javascript
-        graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max)
+        graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values)
         graph_PM25 = draw_timeserie_PM25_graph(time_values, PM25_values)
 
         

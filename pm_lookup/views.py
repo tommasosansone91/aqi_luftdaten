@@ -7,6 +7,7 @@ from .models import target_area_input_data
 from .models import target_area_realtime_data
 from .models import target_area_history_data
 from .models import target_area_time_serie
+from .models import target_area_daily_time_serie
 
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -102,3 +103,17 @@ def serie_storiche(request):
 
 
 
+
+
+# solo raffigurazione
+def serie_storiche_giornaliere(request):
+
+    print("Richiamo dati in target_area_daily_time_serie...")
+    dataset_dei_grafici = target_area_daily_time_serie.objects.all()
+    print("Dati in target_area_daily_time_serie acquisiti!")
+
+    context_dict={
+        "dataset_dei_grafici":dataset_dei_grafici
+                }
+
+    return render(request, 'serie_storiche_giornaliere.html', context_dict)

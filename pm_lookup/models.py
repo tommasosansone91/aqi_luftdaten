@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime
 
-from django.contrib.postgres.fields import ArrayField
+
 
 # Create your models here.
 # nota che i modelli sono tutti in minuscolo
@@ -133,6 +133,46 @@ class target_area_history_data(models.Model):
 
 
 class target_area_time_serie(models.Model):
+
+    # nota che è maiuscolo
+    Target_area_input_data = models.ForeignKey(
+        'target_area_input_data',
+        on_delete=models.CASCADE,
+        
+    )
+    # il primo attributo è il modello cui è associato
+
+    # postgres non prende array + datetime
+    Record_time_values = models.TextField( blank=False, null=False) 
+
+    PM10_mean_values = models.TextField( null=False, blank=False)
+    PM25_mean_values = models.TextField( null=False, blank=False)
+
+    PM10_quality_values = models.TextField( blank=False, null=False)
+    PM25_quality_values = models.TextField( blank=False, null=False)
+
+    PM10_cathegory_values = models.TextField( blank=False, null=False)
+    PM25_cathegory_values = models.TextField( blank=False, null=False)
+
+    n_selected_sensors_values = models.TextField(null=True)
+
+    PM10_graph_div = models.TextField()
+    PM25_graph_div = models.TextField()
+
+
+
+    def __str__(self):       
+        return  "%s"  %  (self.Target_area_input_data.Name )  
+        
+ 
+    class Meta:
+        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+
+
+
+# serie giornaliere
+
+class target_area_daily_time_serie(models.Model):
 
     # nota che è maiuscolo
     Target_area_input_data = models.ForeignKey(

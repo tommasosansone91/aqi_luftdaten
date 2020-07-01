@@ -16,26 +16,31 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
                                 )                    
                     )
 
+    if PM10_daily_max_35_days_max is None: 
+        data = [ PM10_line, ]
 
-    PM10_daily_max_35_days_max_line = go.Scatter(
-                                            x=time_values, 
-                                            y=PM10_daily_max_35_days_max,
-                                            mode='lines',
-                                            name="Soglia massima per la concentrazione giornaliera del PM10", 
-                                            
-                                            marker=dict(
-                                                        # size=12,
-                                                        color='rgb(220,20,60)',
-                                                        # symbol='pentagon',
-                                                        # line = {'width':2}    
-                                                        )
+    else:         
 
-                                            ) 
-      
+        PM10_daily_max_35_days_max_line = go.Scatter(
+                                                x=time_values, 
+                                                y=PM10_daily_max_35_days_max,
+                                                mode='lines',
+                                                name="Soglia massima per la concentrazione giornaliera del PM10", 
+                                                
+                                                marker=dict(
+                                                            # size=12,
+                                                            color='rgb(220,20,60)',
+                                                            # symbol='pentagon',
+                                                            # line = {'width':2}    
+                                                            )
+
+                                                ) 
+
+        data = [ PM10_line, PM10_daily_max_35_days_max_line ]   
 
 
 
-    data = [ PM10_line, PM10_daily_max_35_days_max_line ]
+    
 
     layout = go.Layout(showlegend=True)
     fig = go.Figure(data=data, layout=layout)
