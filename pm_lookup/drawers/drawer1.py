@@ -3,7 +3,7 @@ import numpy as np
 import plotly.offline as pyo
 import plotly.graph_objs as go
 
-def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max=None, AQ_intervals=None):
+def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max=None, AQ_intervals=None, graph_title=None):
    
     PM10_line = go.Scatter(
                     x=time_values, 
@@ -37,17 +37,19 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
                                                 ) 
 
         data = [ PM10_line, PM10_daily_max_35_days_max_line ]   
+   
+    if graph_title is None:
+        layout = go.Layout(showlegend=True)
+    else:
+        layout = go.Layout(showlegend=True, title=graph_title)
 
 
-
-    
-
-    layout = go.Layout(showlegend=True)
     fig = go.Figure(data=data, layout=layout)
 
-    fig = go.Figure(data=data)
-
+    # con una sola traccia funziona solo dopo
     fig.update_layout(showlegend=True)
+
+
 
     plt_div = pyo.plot(fig, output_type='div')
 
@@ -56,7 +58,7 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
 
     # -------------------------------------
 
-def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None):
+def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph_title=None):
    
     PM25_line = go.Scatter(
                     x=time_values, 
@@ -72,10 +74,13 @@ def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None):
 
     data = [ PM25_line ]
 
-    layout = go.Layout(showlegend=True)
-    fig = go.Figure(data=data, layout=layout)
+    if graph_title is None:
+        layout = go.Layout(showlegend=True)
+    else:
+        layout = go.Layout(showlegend=True, title=graph_title)
 
-    fig = go.Figure(data=data)
+
+    fig = go.Figure(data=data, layout=layout)
 
     # con una sola traccia funziona solo dopo
     fig.update_layout(showlegend=True)

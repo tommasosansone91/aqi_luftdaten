@@ -69,20 +69,26 @@ def arrange_time_series_and_graphs():
 
             # colora il retro del grafico per fasce anzchè fare le linee di soglia
 
+
+        # questo script è orario, non servono i limiti normativi
+        
         # pm10 maxs
-        PM10_daily_max_35_days_max = np.array([50 for i in time_values])
-        PM10_annual_mean_max = np.array([40 for i in time_values])
+        # PM10_daily_max_35_days_max = np.array([50 for i in time_values])
+        # PM10_annual_mean_max = np.array([40 for i in time_values])
 
         #PM2.5 maxs
-        PM25_annual_mean_max = np.array([20 for i in time_values])
+        # PM25_annual_mean_max = np.array([20 for i in time_values])
 
         # trovare un modo per far comparire nelle etichette del grafico
          
             
 
         # traccio i grafici e ottengo il javascript
-        graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values)
-        graph_PM25 = draw_timeserie_PM25_graph(time_values, PM25_values)
+        graph_PM10_title = "Serie storiche orarie del PM10 per "+area_di_interesse.Name
+        graph_PM25_title = "Serie storiche orarie del PM2.5 per "+area_di_interesse.Name
+
+        graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values, graph_title=graph_PM10_title)
+        graph_PM25 = draw_timeserie_PM25_graph(time_values, PM25_values, graph_title=graph_PM25_title)
 
         
 
@@ -113,3 +119,5 @@ def arrange_time_series_and_graphs():
         elementi_grafico.save()
 
         print("Predisposti dati ed elementi del grafico per la serie storica per %s!" % area_di_interesse.Name)  
+
+    print("Predisposti dati ed elementi dei grafici per le serie storiche per tutte le località!")  

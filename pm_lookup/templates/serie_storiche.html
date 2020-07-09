@@ -4,7 +4,7 @@
 
 {% load static %}
 
-    <h1>Serie storiche dei valori del particolato</h1>
+    <h1>Serie storiche orarie dei valori del particolato</h1>
     
     <br>
 
@@ -29,12 +29,14 @@
             ).
         
         </p>
-
-        <h5>Serie storiche del PM10 per {{ graph_data.Target_area_input_data.Name }}</h5>
+        
+        <!-- titolo nel grafico -->
+        <!-- <h5>Serie storiche del PM10 per {{ graph_data.Target_area_input_data.Name }}</h5> -->
 
         {{ graph_data.PM10_graph_div|safe }}
-
-        <h5>Serie storiche del PM2.5 per {{ graph_data.Target_area_input_data.Name }}</h5>
+        
+        <!-- titolo nel grafico -->
+        <!-- <h5>Serie storiche del PM2.5 per {{ graph_data.Target_area_input_data.Name }}</h5> -->
 
         {{ graph_data.PM25_graph_div|safe }}
 
