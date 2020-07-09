@@ -23,20 +23,26 @@
 
     <p>Queste API mostrano la lista dei dati associati a tutte le località contenute nel database.</p>
 
+    <br>
+
     <p><a target="_blank" href="{% url 'cities_list' %}">Lista delle località</a></p>
 
     <p><a target="_blank" href="{% url 'realtime_data' %}">Lista dei valori real-time del particolato</a></p>
 
     <p><a target="_blank" href="{% url 'historical_data' %}">Lista dei valori storici del particolato</a></p>
 
-    <br>
+    <br><br>
 
     <h4 id="elementi_al_dettaglio">Elementi al dettaglio:</h4>
 
     <br>
 
-    <p>Queste API mostrano la lista dei dati associati a una specifica località contenuta nel database. <br>
-        Ogni località è identificata da un corrispondente ID. La lista delle località disponibili con relativo ID è consultabile <a target="_blank" href="{% url 'catalogo_localita' %}">qui</a>.</p>
+    <p>Queste API mostrano la lista dei dati associati a una specifica località contenuta nel database. 
+        Ogni località è identificata da un corrispondente ID.</p>
+    <p>È possibile reperire dati associati ad una specifica località contenuta nel database inserendo il suo ID nell'endpoint dell'API, avendo cura di inserirlo nella posizione corretta. 
+        Il <b>catalogo delle località con relativo ID</b> è consultabile a <a target="_blank" href="{% url 'catalogo_localita' %}">questo link</a>.</p>
+
+    <br>
 
 
     <p><a target="_blank" href="{% url 'city_detail' pk=1 %}">Parametri di definizione di una località</a></p>
