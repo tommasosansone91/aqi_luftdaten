@@ -13,6 +13,9 @@ from pm_lookup.drawers.drawer1 import draw_timeserie_PM25_graph
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
 
+#  per strippare le date dell'ora
+from datetime import datetime
+
 
 def arrange_daily_time_series_and_graphs():
 
@@ -44,7 +47,7 @@ def arrange_daily_time_series_and_graphs():
         n_selected_sensors = [i.n_selected_sensors for i in records_serie_storica]
         Last_update_time = [ i.Last_update_time for i in records_serie_storica]
 
-
+        # nota che non ho bsogno di ritrasformare la stringa salvata nel db in numeri, me li legge già come numeri.
         PM10_daily_mean = [ round( np.mean( PM10_mean[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(30) ]
         PM25_daily_mean = [ round( np.mean( PM25_mean[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(30) ]
 
@@ -58,9 +61,9 @@ def arrange_daily_time_series_and_graphs():
         Mean_n_selected_sensors = [ round( np.mean( n_selected_sensors[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(30) ]
 
         Update_date = [ Last_update_time[ 0 + 24*i ]  for i in range(30) ]
-        # Update_date = [ i.split()[0] for i in Update_date ]
-
-
+        
+        # poi questo va strippato delle ore, lasciando solo il giorno
+        Update_date = datetime.strptime(Update_date, '%a %b %d %Y')
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
