@@ -63,7 +63,7 @@ def arrange_daily_time_series_and_graphs():
         Update_date = [ Last_update_time[ 0 + 24*i ]  for i in range(30) ]
         
         # poi questo va strippato delle ore, lasciando solo il giorno
-        Update_date = datetime.strptime(Update_date, '%a %b %d %Y')
+        # Update_date = datetime.strptime(Update_date, '%a %b %d %Y')
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
