@@ -3,8 +3,9 @@ import numpy as np
 import plotly.offline as pyo
 import plotly.graph_objs as go
 
+
 def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max=None, AQ_intervals=None, graph_title=None):
-   
+
     PM10_line = go.Scatter(
                     x=time_values, 
                     y=PM10_values,
@@ -15,6 +16,9 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
                                 color='rgb(128,128,128)',
                                 )                    
                     )
+
+    #scelta di aggiunta al grafico della linea di massima della normativa
+    #se la linea è in input col giusto nome, aggiungila alla lista data, altrimenti no
 
     if PM10_daily_max_35_days_max is None: 
         data = [ PM10_line, ]
@@ -37,7 +41,10 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
                                                 ) 
 
         data = [ PM10_line, PM10_daily_max_35_days_max_line ]   
-   
+
+    #scelta di aggiunta al grafico il titolo del grafico
+    #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
+
     if graph_title is None:
         layout = go.Layout(showlegend=True)
     else:
@@ -48,8 +55,6 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
 
     # con una sola traccia funziona solo dopo
     fig.update_layout(showlegend=True)
-
-
 
     plt_div = pyo.plot(fig, output_type='div')
 
@@ -73,6 +78,9 @@ def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph
 
 
     data = [ PM25_line ]
+
+    #scelta di aggiunta al grafico il titolo del grafico
+    #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
 
     if graph_title is None:
         layout = go.Layout(showlegend=True)

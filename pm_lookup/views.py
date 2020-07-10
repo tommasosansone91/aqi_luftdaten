@@ -99,6 +99,8 @@ def serie_storiche(request):
         "dataset_dei_grafici":dataset_dei_grafici
                 }
 
+    print("Dati in trasmissione al template!")
+
     return render(request, 'serie_storiche.html', context_dict)
 
 
@@ -115,5 +117,7 @@ def serie_storiche_giornaliere(request):
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici
                 }
+
+    print("Dati in trasmissione al template!")
 
     return render(request, 'serie_storiche_giornaliere.html', context_dict)
