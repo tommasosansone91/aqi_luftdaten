@@ -46,19 +46,137 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
     #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
 
     if graph_title is None:
-        layout = go.Layout(showlegend=True)
+        layout = go.Layout(showlegend=True, )
     else:
         layout = go.Layout(showlegend=True, title=graph_title)
 
-
     fig = go.Figure(data=data, layout=layout)
 
-    # con una sola traccia funziona solo dopo
-    fig.update_layout(showlegend=True)
+
+    # Aggiungo delle fasce colorate indicative della qualità dell’aria
+    fig.update_layout(
+        shapes=[
+            # Fascia colorata di qualità dell’aria 1
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=0, #[µg/m³]
+                x1=1, #fine x
+                y1=20, #[µg/m³]
+                fillcolor="#50f085", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+
+            ),
+            
+            # Fascia colorata di qualità dell’aria 2
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=20, #[µg/m³]
+                x1=1, #fine x
+                y1=35, #[µg/m³]
+                fillcolor="#80ca3a", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            # Fascia colorata di qualità dell’aria 3
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=35, #[µg/m³]
+                x1=1, #fine x
+                y1=50, #[µg/m³]
+                fillcolor="#f0e641", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            
+            # Fascia colorata di qualità dell’aria 4
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=50, #[µg/m³]
+                x1=1, #fine x
+                y1=100, #[µg/m³]
+                fillcolor="#fa5050", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            # Fascia colorata di qualità dell’aria 5
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=100, #[µg/m³]
+                x1=1, #fine x
+                y1=200, #[µg/m³]
+                fillcolor="#960032", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            
+            # Fascia colorata di qualità dell’aria 6
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=200, #[µg/m³]
+                x1=1, #fine x
+                y1=1000, #[µg/m³]
+                fillcolor="#50003c", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            
+        ]
+    )
+
+
+
+
+    # padding dell'asse y rispetto alla linea del grafico    
+
+    linea_PM10_y_padding = 0.1 * ( max(PM10_values) - min(PM10_values) ) #[µg/m³]
+
+    
+    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM10_values)-linea_PM10_y_padding ,max(PM10_values)+ linea_PM10_y_padding]))
+    # con una sola traccia, showlegend funziona solo dopo
+    
 
     plt_div = pyo.plot(fig, output_type='div')
 
     return plt_div
+
+
+
+
+
+
+
+
+
 
 
     # -------------------------------------
@@ -90,8 +208,118 @@ def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph
 
     fig = go.Figure(data=data, layout=layout)
 
-    # con una sola traccia funziona solo dopo
-    fig.update_layout(showlegend=True)
+
+    # Aggiungo delle fasce colorate indicative della qualità dell’aria
+
+    fig.update_layout(
+        shapes=[
+            # Fascia colorata di qualità dell’aria 1
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=0, #[µg/m³]
+                x1=1, #fine x
+                y1=10, #[µg/m³]
+                fillcolor="#50f085", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+
+            ),
+            
+            # Fascia colorata di qualità dell’aria 2
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=10, #[µg/m³]
+                x1=1, #fine x
+                y1=20, #[µg/m³]
+                fillcolor="#80ca3a", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            # Fascia colorata di qualità dell’aria 3
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=20, #[µg/m³]
+                x1=1, #fine x
+                y1=25, #[µg/m³]
+                fillcolor="#f0e641", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            
+            # Fascia colorata di qualità dell’aria 4
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=25, #[µg/m³]
+                x1=1, #fine x
+                y1=50, #[µg/m³]
+                fillcolor="#fa5050", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            # Fascia colorata di qualità dell’aria 5
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=50, #[µg/m³]
+                x1=1, #fine x
+                y1=100, #[µg/m³]
+                fillcolor="#960032", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            
+            # Fascia colorata di qualità dell’aria 6
+            dict(
+                type="rect",
+                xref="paper", # i valori che fornirò per x si riferitranno agli assi
+                yref="y", # i valori he fornirò per y non hanno limiti
+                x0=0, #fine x
+                y0=100, #[µg/m³]
+                x1=1, #fine x
+                y1=1000, #[µg/m³]
+                fillcolor="#50003c", #colore
+                opacity=0.5,
+                layer="below",
+                line_width=0,
+            ),
+            
+            
+        ]
+    )
+
+
+
+
+    # padding dell'asse y rispetto alla linea del grafico    
+
+    linea_PM25_y_padding = 0.1 * ( max(PM25_values) - min(PM25_values) ) #[µg/m³]
+
+    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM25_values)-linea_PM25_y_padding ,max(PM25_values)+ linea_PM25_y_padding]))
+
+    # con una sola traccia, showlegend funziona solo dopo
 
     plt_div = pyo.plot(fig, output_type='div')
 
