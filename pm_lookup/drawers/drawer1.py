@@ -158,10 +158,16 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
 
     # padding dell'asse y rispetto alla linea del grafico    
 
-    linea_PM10_y_padding = 0.1 * ( max(PM10_values) - min(PM10_values) ) #[µg/m³]
+    padding_sup_linea_PM10 = 0.1 * ( max(PM10_values) - min(PM10_values) ) #[µg/m³]
 
-    
-    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM10_values)-linea_PM10_y_padding ,max(PM10_values)+ linea_PM10_y_padding]))
+    if min(PM10_values)-padding_sup_linea_PM10<=0:
+        padding_inf_linea_PM10 = 0
+
+    else:
+        padding_inf_linea_PM10 = padding_sup_linea_PM10
+
+
+    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM10_values)-padding_inf_linea_PM10 ,max(PM10_values)+ padding_sup_linea_PM10]))
     # con una sola traccia, showlegend funziona solo dopo
     
 
@@ -315,9 +321,16 @@ def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph
 
     # padding dell'asse y rispetto alla linea del grafico    
 
-    linea_PM25_y_padding = 0.1 * ( max(PM25_values) - min(PM25_values) ) #[µg/m³]
+    padding_sup_linea_PM25 = 0.1 * ( max(PM25_values) - min(PM25_values) ) #[µg/m³]
 
-    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM25_values)-linea_PM25_y_padding ,max(PM25_values)+ linea_PM25_y_padding]))
+    if min(PM25_values)-padding_sup_linea_PM25<=0:
+        padding_inf_linea_PM25 = 0
+
+    else:
+        padding_inf_linea_PM25 = padding_sup_linea_PM25
+
+
+    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM25_values)-padding_inf_linea_PM25 ,max(PM25_values)+ padding_sup_linea_PM25]))
 
     # con una sola traccia, showlegend funziona solo dopo
 
