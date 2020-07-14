@@ -148,5 +148,6 @@ django_heroku.settings(locals())  ###
 
 #aggiunto per far funzionare il modulo di importazione csv in admin
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
 
