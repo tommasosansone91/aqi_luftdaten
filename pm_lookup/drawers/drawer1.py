@@ -9,7 +9,7 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
     PM10_line = go.Scatter(
                     x=time_values, 
                     y=PM10_values,
-                    mode='lines',
+                    mode='lines+markers',
                     name="PM 10 [µg/m³]", 
 
                     marker=dict(
@@ -192,7 +192,7 @@ def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph
     PM25_line = go.Scatter(
                     x=time_values, 
                     y=PM25_values,
-                    mode='lines',
+                    mode='lines+markers',
                     name="PM 2.5 [µg/m³]", 
 
                     marker=dict(
