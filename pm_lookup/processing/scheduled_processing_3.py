@@ -16,6 +16,9 @@ from .auxiliary_processing import evaluate_PM25
 #  per strippare le date dell'ora
 from datetime import datetime
 
+# per usare la funzione fllor in caso i dati storici orari non siano sufficienti per coprire i n giorni di dati medi dichiarati
+import math
+
 
 def arrange_daily_time_series_and_graphs():
 
@@ -25,22 +28,67 @@ def arrange_daily_time_series_and_graphs():
 
     # print("Inizio disposizione dati in serie storiche giornaliere per ogni località...")
 
-    # prendo i record delle 24 ore degli ultimi 30 giorni
-    Lunghezza_temporale = 24*30
+
 
 
     for area_di_interesse in target_area_input_data.objects.all():
 
         print("Predisposizione dati ed elementi del grafico per la serie storica giornaliera per %s..." % area_di_interesse.Name)
 
+        # prendo i record delle 24 ore degli ultimi x giorni
+        # aggiornamento unitùà temporali al default
+        n_ore = 24
+        n_giorni = 30
+        Lunghezza_temporale = n_ore * n_giorni
+
         # isola i record di una località - è cmq un gruppo di oggetti
         records_serie_storica = target_area_history_data.objects.filter(Target_area_input_data=area_di_interesse)
         
+        n_target_area_history_data_records = records_serie_storica.count()
+
+
+        # se Se i dati storici non contengono abbastanza record 
+        # da raggiungere i giorni dichiarati per la lunghezza della serie storica giornaliera 
+        # ( per default ho messo 30 giorni),  
+        # allora Bisogna porre il numero di giorni uguale 
+        # alla divisione arrotondata per difetto tra 
+        # i dati presenti nel modello storico orario e 24 ore 
+        if n_target_area_history_data_records < Lunghezza_temporale:
+            
+            print("Non ci sono dati sufficienti per realizzare la serie storica di almeno %s giorni." % n_giorni)
+            
+            # aggiornamento unitùà temporali
+            n_giorni = int (math.floor( n_target_area_history_data_records / n_ore ) )
+            Lunghezza_temporale = n_ore * n_giorni
+
+            
+
+            # Se i dati storici non contengono abbastanza record da raggiungere 
+            # Neanche le 24 ore necessario per comporre una serie storica di lunghezza un giorno,
+            # Allora Bisogna porre il numero di giorni pari ad uno e 
+            # il numero di ore pari 
+            # alla quantità di dati presenti all'interno del modello storico giornaliero
+            if n_giorni == 0:
+                
+                print("Non ci sono dati sufficienti per realizzare la serie storica di almeno 1 giorno.")
+                
+                # aggiornamento unitùà temporali
+                n_giorni = 1
+                n_ore = n_target_area_history_data_records                
+                Lunghezza_temporale = n_ore * n_giorni
+                # in pratica sto dicendo di far finta che un giorno abbia n_ore con n_ore < 24
+                print("Viene eseguita la media dei valori solo sui %s dati contenuti in target_area_history_data." % n_ore)
+                
+                # non ha senso fare il check di 1 ora perchè lo script è lanciato solo 1 volta ogni 24 ore, quindi ce ne sono sicuramente più di una 
+                # a meno che il db sia cancellato tra le 23 e le 24
+
+            print("Viene mostrata una serie storica lunga solo %s giorni." % n_giorni)
+
         records_serie_storica = records_serie_storica[: Lunghezza_temporale - 1]
 
         # nota: i dati sno già ordinati per default in ordine decrescente
 
-        # records_serie_storica = [  round( np.mean( records_serie_storica[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(30)]
+        # records_serie_storica = [  round( np.mean( records_serie_storica[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(n_giorni)]
 
         PM10_mean = [i.PM10_mean for i in records_serie_storica]
         PM25_mean = [i.PM25_mean for i in records_serie_storica]
@@ -48,8 +96,8 @@ def arrange_daily_time_series_and_graphs():
         Last_update_time = [ i.Last_update_time for i in records_serie_storica]
 
         # nota che non ho bsogno di ritrasformare la stringa salvata nel db in numeri, me li legge già come numeri.
-        PM10_daily_mean = [ round( np.mean( PM10_mean[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(30) ]
-        PM25_daily_mean = [ round( np.mean( PM25_mean[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(30) ]
+        PM10_daily_mean = [ round( np.mean( PM10_mean[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
+        PM25_daily_mean = [ round( np.mean( PM25_mean[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
 
         PM10_daily_quality = [ evaluate_PM10(i)[0] for i in PM10_daily_mean ]
         PM25_daily_quality = [ evaluate_PM25(i)[0] for i in PM25_daily_mean ]
@@ -58,9 +106,9 @@ def arrange_daily_time_series_and_graphs():
         PM25_daily_cathegory = [ evaluate_PM25(i)[1] for i in PM25_daily_mean ]
 
 
-        Mean_n_selected_sensors = [ round( np.mean( n_selected_sensors[ 0 + 24*i : 24 + 24*i] ) , 2)  for i in range(30) ]
+        Mean_n_selected_sensors = [ round( np.mean( n_selected_sensors[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
 
-        Update_date = [ Last_update_time[ 0 + 24*i ]  for i in range(30) ]
+        Update_date = [ Last_update_time[ 0 + n_ore*i ]  for i in range(n_giorni) ]
         
         # le date+ore vengono strippate delle ore, lasciando solo il giorno
         Update_date = [ element.date() for element in Update_date ]
