@@ -14,6 +14,8 @@ class target_area_input_data(models.Model):
 
     # id = models.AutoField(primary_key=True)
 
+    # Ho reso il nome univoco così sono obbligato a specificare la diversità nel nome se anche cambio 
+    # le coordinate del centro o il raggio
     Name = models.CharField(max_length=256, blank=False, null=False, unique=True)
 
     Latitude = models.FloatField(null=False, blank=False)
@@ -120,7 +122,7 @@ class target_area_history_data(models.Model):
         
  
     class Meta:
-        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name', '-Last_update_time']
+        ordering = ['-Last_update_time', '-Target_area_input_data__Radius', 'Target_area_input_data__Name']
 
         # fixato così
         # ordering = ['-Target_area_input_data.Radius', 'Target_area_input_data.Name', '-Last_update_time']

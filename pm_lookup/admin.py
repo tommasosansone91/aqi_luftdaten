@@ -70,6 +70,9 @@ class target_area_history_dataResource(resources.ModelResource):
 class target_area_history_dataAdmin(ImportExportModelAdmin):
     resource_class = target_area_history_dataResource
 
+    # aggiungo il filtro laterale per selezionare a seconda della località
+    list_filter = ['Target_area_input_data__Name']
+
 admin.site.register(target_area_history_data, target_area_history_dataAdmin)
 
 
