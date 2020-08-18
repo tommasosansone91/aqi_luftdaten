@@ -19,6 +19,10 @@ from datetime import datetime
 # per usare la funzione fllor in caso i dati storici orari non siano sufficienti per coprire i n giorni di dati medi dichiarati
 import math
 
+# aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
+# errore sopraggiunto dopo il reset del db?
+from pm_lookup.processing.auxiliary_processing import fix_timezone_mismatch_1
+
 
 def arrange_daily_time_series_and_graphs():
 
@@ -94,6 +98,12 @@ def arrange_daily_time_series_and_graphs():
         PM25_mean = [i.PM25_mean for i in records_serie_storica]
         n_selected_sensors = [i.n_selected_sensors for i in records_serie_storica]
         Last_update_time = [ i.Last_update_time for i in records_serie_storica]
+
+
+        # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
+        # errore sopraggiunto dopo il reset del db?
+        Last_update_time = fix_timezone_mismatch_1(Last_update_time)
+
 
         # nota che non ho bsogno di ritrasformare la stringa salvata nel db in numeri, me li legge già come numeri.
         PM10_daily_mean = [ round( np.mean( PM10_mean[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]

@@ -3,6 +3,8 @@ import datetime
 
 import pytz
 
+import time
+
 # servono a save_in_history()
 from pm_lookup.models import target_area_input_data
 from pm_lookup.models import target_area_realtime_data
@@ -154,3 +156,27 @@ def add_one_hour(date_and_time_input):
     return dt
 
 
+# aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
+# errore sopraggiunto dopo il reset del db?
+def add_hours_to_array(date_and_time_input, hours):
+
+    hours_added = datetime.timedelta(hours = hours)
+
+    future_date_and_time = [ i + hours_added for i in date_and_time_input ]
+
+    return future_date_and_time
+
+
+
+def fix_timezone_mismatch_1(date_and_time_input):
+
+    # se è attiva l'ora legale nel tempo locale
+    if time.localtime().tm_isdst != 0:        
+        hours = -time.timezone/3600 + 1
+
+    elif time.localtime().tm_isdst == 0:
+        hours = -time.timezone/3600
+
+    future_date_and_time = add_hours_to_array(date_and_time_input, hours)
+
+    return future_date_and_time

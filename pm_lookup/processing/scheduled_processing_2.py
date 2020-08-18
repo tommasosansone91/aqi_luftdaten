@@ -9,6 +9,9 @@ from pm_lookup.models import target_area_time_serie
 from pm_lookup.drawers.drawer1 import draw_timeserie_PM10_graph
 from pm_lookup.drawers.drawer1 import draw_timeserie_PM25_graph
 
+# aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
+# errore sopraggiunto dopo il reset del db?
+from pm_lookup.processing.auxiliary_processing import fix_timezone_mismatch_1
 
 def arrange_time_series_and_graphs():
 
@@ -54,7 +57,10 @@ def arrange_time_series_and_graphs():
                         }
 
 
-        
+        # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
+        # errore sopraggiunto dopo il reset del db?
+        serie_storica["Last_update_time"] = fix_timezone_mismatch_1(serie_storica["Last_update_time"])
+
 
         # la posizione di serie storiche indica la città
 
