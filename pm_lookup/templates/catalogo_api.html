@@ -17,7 +17,7 @@
 
     <br>
 
-    <h4>Liste di elementi:</h4>
+    <h2>Liste di elementi:</h2>
 
     <br>
 
@@ -25,15 +25,39 @@
 
     <br>
 
-    <p><a target="_blank" href="{% url 'cities_list' %}">Lista delle località</a></p>
 
-    <p><a target="_blank" href="{% url 'realtime_data' %}">Lista dei valori real-time del particolato</a></p>
 
-    <p><a target="_blank" href="{% url 'historical_data' %}">Lista dei valori storici del particolato</a></p>
+    <h5>Lista di tutte le località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'cities_list' %}">{{ request.get_host }}{% url 'cities_list' %}</a></code>
+    </div>
 
     <br><br>
 
-    <h4 id="elementi_al_dettaglio">Elementi al dettaglio:</h4>
+    <h5>Lista dei valori real-time del particolato per tutte le località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'realtime_data' %}">{{ request.get_host }}{% url 'realtime_data' %}</a></code>
+    </div>
+
+    <br><br>
+
+    <h5>Lista dei valori storici del particolato per tutte le località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'historical_data' %}">{{ request.get_host }}{% url 'historical_data' %}</a></code>
+    </div>
+
+    <br><br>
+
+
+    <hr>
+    
+    <h2 id="elementi_al_dettaglio">Elementi al dettaglio:</h2>
 
     <br>
 
@@ -44,17 +68,42 @@
 
     <br>
 
+    
+    <h5>Parametri di definizione di una specifica località</h5>
 
-    <p><a target="_blank" href="{% url 'city_detail' pk=1 %}">Parametri di definizione di una località</a></p>
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'city_detail' pk=1 %}">{{ request.get_host }}{% url 'city_detail' pk=1 %}</a></code>
+    </div>
 
-    <p><a target="_blank" href="{% url 'realtime_data_detail' pk=1 %}">Valori real-time del particolato di una località</a></p>
+    <br><br>
 
-    <p><a target="_blank" href="{% url 'time_serie_detail' pk=1 %}">Serie storica del particolato di una località</a></p>
+
+    <h5>Valori real-time del particolato di una specifica località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'realtime_data_detail' pk=1 %}">{{ request.get_host }}{% url 'realtime_data_detail' pk=1 %}</a></code>
+    </div>
+
+    <br><br>
+
+    
+    <h5>Serie storica del particolato di una specifica località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'time_serie_detail' pk=1 %}">{{ request.get_host }}{% url 'time_serie_detail' pk=1 %}</a></code>
+    </div>
+
+    <br><br>
 
 
 
 <!-- CSS -->
 {% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+<link rel="stylesheet" type="text/css" href={% static "css/API_catalog_style.css" %}>
+
 
 <!-- Javascript -->
 {% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
