@@ -17,7 +17,7 @@
 
     <br>
 
-    <h2>Liste di elementi:</h2>
+    <h2>Liste di elementi</h2>
 
     <br>
 
@@ -27,7 +27,7 @@
 
 
 
-    <h5>Lista di tutte le località</h5>
+    <h5>Lista di tutte le località e dei relativi parametri di definizione</h5>
 
     
     <div class="container">
@@ -55,9 +55,29 @@
     <br><br>
 
 
+    <h5>Lista delle serie storiche orarie del particolato per tutte le località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'time_series' %}">{{ request.get_host }}{% url 'time_series' %}</a></code>
+    </div>
+
+    <br><br>
+
+
+    <h5>Lista delle serie storiche giornaliere del particolato per tutte le località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'daily_time_series' %}">{{ request.get_host }}{% url 'daily_time_series' %}</a></code>
+    </div>
+
+    <br><br>
+
+
     <hr>
     
-    <h2 id="elementi_al_dettaglio">Elementi al dettaglio:</h2>
+    <h2 id="elementi_al_dettaglio">Elementi al dettaglio</h2>
 
     <br>
 
@@ -89,11 +109,25 @@
     <br><br>
 
     
-    <h5>Serie storica del particolato di una specifica località</h5>
+    <!-- qua non è previsto l'elemento al dettaglio del db di tutti i dati storici di tutte le località 
+        perchè non avrebbe senso -->
+
+
+    <h5>Serie storica oraria del particolato di una specifica località</h5>
 
     
     <div class="container">
     <code><a target="_blank" href="{% url 'time_serie_detail' pk=1 %}">{{ request.get_host }}{% url 'time_serie_detail' pk=1 %}</a></code>
+    </div>
+
+    <br><br>
+
+
+    <h5>Serie storica giornaliera del particolato di una specifica località</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'daily_time_serie_detail' pk=1 %}">{{ request.get_host }}{% url 'daily_time_serie_detail' pk=1 %}</a></code>
     </div>
 
     <br><br>

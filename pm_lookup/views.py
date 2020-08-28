@@ -63,28 +63,28 @@ def valori_realtime(request):
 
     return render(request, 'valori_realtime.html', context_dict)
 
-
-@staff_member_required
-def valori_realtime_forced_to_history(request):
+# disabilitato
+# @staff_member_required
+# def valori_realtime_forced_to_history(request):
     
 
-    #  ranna il processing senza rendere niente in una variabile
-    get_realtime_and_save_history_pm()
+#     #  ranna il processing senza rendere niente in una variabile
+#     get_realtime_and_save_history_pm()
 
-    # va a prendere i dati nei modelli
-    aree_di_interesse = target_area_input_data.objects.all()    
-    n_aree_di_interesse = target_area_input_data.objects.all().count()    
+#     # va a prendere i dati nei modelli
+#     aree_di_interesse = target_area_input_data.objects.all()    
+#     n_aree_di_interesse = target_area_input_data.objects.all().count()    
 
-    record_sensori = target_area_realtime_data.objects.all()
+#     record_sensori = target_area_realtime_data.objects.all()
 
-    context_dict = {
-                    'aree_di_interesse':aree_di_interesse,
-                    'n_aree_di_interesse':n_aree_di_interesse,
-                    # 'common_output':common_output,
-                    'record_sensori':record_sensori
-                    }
+#     context_dict = {
+#                     'aree_di_interesse':aree_di_interesse,
+#                     'n_aree_di_interesse':n_aree_di_interesse,
+#                     # 'common_output':common_output,
+#                     'record_sensori':record_sensori
+#                     }
 
-    return render(request, 'valori_realtime_forced_to_history.html', context_dict)
+#     return render(request, 'valori_realtime_forced_to_history.html', context_dict)
 
 
 

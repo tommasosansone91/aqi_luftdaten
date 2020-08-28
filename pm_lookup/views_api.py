@@ -6,6 +6,7 @@ from .models import target_area_input_data
 from .models import target_area_realtime_data
 from .models import target_area_history_data
 from .models import target_area_time_serie
+from .models import target_area_daily_time_serie
 
 
 def cities_list_api(request):
@@ -43,6 +44,14 @@ def time_series_api(request):
     response = JsonResponse(data)
     return response
 
+
+def daily_time_series_api(request):
+    d_series = target_area_daily_time_serie.objects.all()
+    data = {"daily_time_series":list(d_series.values())}
+    # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
+    # ma la parentesi deve esistere
+    response = JsonResponse(data)
+    return response
 
 # le viste api qui sotto hanno le i dati filterati per città, e poi limitati a 24*30, per ogni città
 
@@ -208,7 +217,7 @@ def realtime_data_detail_api(request, pk):
 
 
     
-    # api/time_series_detail/<int:pk>
+# api/time_series_detail/<int:pk>
 def time_serie_detail_api(request, pk):
 
     try:
@@ -222,6 +231,71 @@ def time_serie_detail_api(request, pk):
                 # "city":dict(city).items()
 
                 "time_serie":
+                    {   
+                        # così la pk per richiamare
+                        "pk":record.Target_area_input_data.pk,
+
+                        # dati della città associata
+                        "Name":record.Target_area_input_data.Name,
+                        "Longitude":record.Target_area_input_data.Longitude,
+                        "Latitude":record.Target_area_input_data.Latitude,
+                        "Radius":record.Target_area_input_data.Radius,
+
+                        # dati della rilevazione                        
+                        "Record_time_values" : record.Record_time_values, 
+
+                        "PM10_mean_values" : record.PM10_mean_values,
+                        "PM25_mean_values" : record.PM25_mean_values, 
+
+                        "PM10_quality_values" : record.PM10_quality_values,
+                        "PM25_quality_values"  : record.PM25_quality_values,
+
+                        "PM10_cathegory_values" : record.PM10_cathegory_values,
+                        "PM25_cathegory_values" : record.PM25_cathegory_values,
+
+                        "n_selected_sensor_values" : record.n_selected_sensors_values,
+
+                        "PM10_graph_div" : record.PM10_graph_div,
+                        "PM25_graph_div" : record.PM25_graph_div,
+
+                    }        
+                } 
+        # stavolta non ho bisogno di listare perchè i valori che cerco sono in un singolo dizionario, non in una lista di dizionari
+        response = JsonResponse(data)
+        return response
+
+    except city.DoesNotExist:
+        # allora devo inserire nella risposta json un messaggio di errore
+        response = JsonResponse(
+            {
+            "error":{
+                    "code":404,
+                    "message": "Città oppure record non trovati. Verifica la correttezza dei parametri in input."
+                    }
+            },
+            status=404 # questo messaggio d'errore serve al frontend framework
+        )
+    
+    return response
+
+
+
+
+
+# api/daily_time_series_detail/<int:pk>
+def daily_time_serie_detail_api(request, pk):
+
+    try:
+        city = target_area_input_data.objects.get(pk=pk)
+        # confidando che ne prenda solo uno, il get è sulla pk!
+
+        record = target_area_daily_time_serie.objects.get(Target_area_input_data=city)
+
+      
+        data = {
+                # "city":dict(city).items()
+
+                "daily_time_serie":
                     {   
                         # così la pk per richiamare
                         "pk":record.Target_area_input_data.pk,
