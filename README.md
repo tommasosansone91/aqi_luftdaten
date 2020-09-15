@@ -25,6 +25,6 @@
 </p>
 
 <div style="text-align:center">
-	<img src="https://github.com/tommasosansone91/aqi_luftdaten/blob/master/static/img/grafico_Roma.jpg" style="width:60%;" align="middle" alt="Grafico dei valori storici orari del PM 10 nella città di roma" >
+	<img src="https://github.com/tommasosansone91/aqi_luftdaten/blob/master/static/img/grafico_Roma.jpg" style="width:40%;" align="middle" alt="Grafico dei valori storici orari del PM 10 nella città di roma" >
 </div>
 
