@@ -24,7 +24,8 @@
     specificando la categoria della qualità dell'aria in cui ricadono i valori monitorati.
 </p>
 
-<div style="text-align:center">
-	<img src="https://github.com/tommasosansone91/Metaglossario-Gestisco/blob/master/static/img/info_SR_platform.png" style="width:60%;" align="middle" alt="Area transfrontaliera interessata dal progetto Gestisco" >
+<br>
+<div style="text-align:center" >
+	<img src="https://github.com/tommasosansone91/aqi_luftdaten/blob/master/static/img/grafico_Roma.jpg" style="width:50px" align="middle" alt="Grafico dei valori storici orari del PM 10 nella città di roma" >
 </div>
-grafico_Roma.jpg
+
