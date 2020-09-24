@@ -174,7 +174,7 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
         # posizionamento legenda fuori dal grafico in basso iniziale
         legend=dict(
             yanchor="top",
-            y=-0.15, # il meno la manda sotto il grafico
+            y=-0.25, # il meno la manda sotto il grafico
             xanchor="left",
             x=0.05 # poco prima di metà
         ),
@@ -353,7 +353,7 @@ def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph
                     # posizionamento legenda fuori dal grafico in basso iniziale
                     legend=dict(
                         yanchor="top",
-                        y=-0.15, # il meno la manda sotto il grafico
+                        y=-0.25, # il meno la manda sotto il grafico
                         xanchor="left",
                         x=0.05 # poco prima di metà
                     ),
