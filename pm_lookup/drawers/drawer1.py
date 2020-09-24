@@ -167,9 +167,26 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
         padding_inf_linea_PM10 = padding_sup_linea_PM10
 
 
-    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM10_values)-padding_inf_linea_PM10 ,max(PM10_values)+ padding_sup_linea_PM10]))
+    fig.update_layout(
+        
+        showlegend=True,
+
+        # posizionamento legenda fuori dal grafico in basso iniziale
+        legend=dict(
+            yanchor="top",
+            y=-0.15, # il meno la manda sotto il grafico
+            xanchor="left",
+            x=0.05 # poco prima di metà
+        ),
+    
+        yaxis=dict(
+            range=[min(PM10_values)-padding_inf_linea_PM10 ,max(PM10_values)+ padding_sup_linea_PM10]
+            )
+        )
+
     # con una sola traccia, showlegend funziona solo dopo
     
+
 
     plt_div = pyo.plot(fig, output_type='div')
 
@@ -330,9 +347,25 @@ def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph
         padding_inf_linea_PM25 = padding_sup_linea_PM25
 
 
-    fig.update_layout(showlegend=True, yaxis=dict(range=[min(PM25_values)-padding_inf_linea_PM25 ,max(PM25_values)+ padding_sup_linea_PM25]))
+    fig.update_layout(
+                    showlegend=True, 
 
+                    # posizionamento legenda fuori dal grafico in basso iniziale
+                    legend=dict(
+                        yanchor="top",
+                        y=-0.15, # il meno la manda sotto il grafico
+                        xanchor="left",
+                        x=0.05 # poco prima di metà
+                    ),
+
+                    yaxis=dict(
+                        range=[min(PM25_values)-padding_inf_linea_PM25 ,max(PM25_values)+ padding_sup_linea_PM25]
+                        )
+                    )
+    
     # con una sola traccia, showlegend funziona solo dopo
+
+
 
     plt_div = pyo.plot(fig, output_type='div')
 
