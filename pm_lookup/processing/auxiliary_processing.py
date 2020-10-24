@@ -88,7 +88,7 @@ def evaluate_PM10(PM10_value):
 
     elif PM10_value>=100 and PM10_value <=200:
         PM10_quality="Pericolosa"
-        PM10_cathegory="quita"
+        PM10_cathegory="quinta"
 
     elif PM10_value>=200:
         PM10_quality="Emergenza! Evacuazione!"
