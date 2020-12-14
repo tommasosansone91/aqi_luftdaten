@@ -8,6 +8,9 @@ from .models import target_area_history_data
 from .models import target_area_time_serie
 from .models import target_area_daily_time_serie
 
+from .processing.realtime_processing import get_realtime_pm
+
+
 
 def cities_list_api(request):
     cities = target_area_input_data.objects.all()
@@ -18,6 +21,7 @@ def cities_list_api(request):
 def realtime_data_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
+    get_realtime_pm()
 
     rt_records = target_area_realtime_data.objects.all()
     data = {"realtime_records":list(rt_records.values())}
@@ -94,6 +98,8 @@ def city_detail_api(request, pk):
 
 # api/realtime_data_detail/<int:pk>
 def realtime_data_detail_api(request, pk):
+
+    get_realtime_pm()
 
     try:
         city = target_area_input_data.objects.get(pk=pk)
