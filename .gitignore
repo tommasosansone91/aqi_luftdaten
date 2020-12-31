@@ -6,4 +6,5 @@
 .env
 .github info.txt
 .to do aqi_luftdaten.txt
+.essential_requirements.txt
 
