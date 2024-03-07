@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os 
-import django_heroku ###
-from decouple import config ###
+# import django_heroku ###
+# from decouple import config ###
 
 # per gestire user e password del database postgresql che cambiano ogni 24 ore sugli host
-import dj_database_url ###
+# import dj_database_url ###
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+# SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = '45y9gh347qog4f9q8jfe08wg98np3u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,15 +89,15 @@ DATABASES = {
     }
 }
 
-database__default_credential_url= config("DATABASE_URL")
+# database__default_credential_url= config("DATABASE_URL")
 
-DATABASES['default']=dj_database_url.config(default=database__default_credential_url)
+# DATABASES['default']=dj_database_url.config(default=database__default_credential_url)
 
-# #postgres://user:password@host:porta/database_name
+# # #postgres://user:password@host:porta/database_name
 
-# questi sono settings minori
-db_from_env=dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+# # questi sono settings minori
+# db_from_env=dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -144,7 +145,7 @@ STATICFILES_DIRS = [
 
 STATICSTORAGE = "Whitenoise.storage.CompressedManifestStaticFilesStorage" #zips up static files
 
-django_heroku.settings(locals())  ###
+# django_heroku.settings(locals())  ###
 
 #aggiunto per far funzionare il modulo di importazione csv in admin
 IMPORT_EXPORT_USE_TRANSACTIONS = True
