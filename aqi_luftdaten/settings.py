@@ -31,8 +31,8 @@ SECRET_KEY = '45y9gh347qog4f9q8jfe08wg98np3u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -82,12 +82,31 @@ WSGI_APPLICATION = 'aqi_luftdaten.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# most simple config with sqlite3
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'mydatabase',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        # 'HOST': '0.0.0.0',
+        'PORT': '5432',
     }
 }
+
+
+# old heroku-postgres config
+# ----------------------------
 
 # database__default_credential_url= config("DATABASE_URL")
 
@@ -98,6 +117,8 @@ DATABASES = {
 # # questi sono settings minori
 # db_from_env=dj_database_url.config(conn_max_age=600)
 # DATABASES['default'].update(db_from_env)
+
+# -------------------------------
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
