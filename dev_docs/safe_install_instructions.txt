@@ -1,5 +1,16 @@
+
+sudo apt install python3-virtualenv
+
 virtualenv venv
 
 source venv/bin/activate
 
 cat requirements.txt | xargs -n 1 pip install
+
+togli 
+== version 
+da ogni libreria in requirements che dà problemi, e rilancia 
+cat requirements.txt | xargs -n 1 pip install
+
+
+python manage.py runserver
