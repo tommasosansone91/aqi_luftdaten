@@ -13,4 +13,15 @@ da ogni libreria in requirements che dà problemi, e rilancia
 cat requirements.txt | xargs -n 1 pip install
 
 
+una volta installato postgres:
+
+python3 manage.py makemigrations
+
+python3 manage.py migrate
+
+python3 manage.py createsuperuser
+
+python3 manage.py runserver 0.0.0.0:8000
+
+
 python manage.py runserver

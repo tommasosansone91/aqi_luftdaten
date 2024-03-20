@@ -58,7 +58,7 @@ https://linux.how2shout.com/how-to-install-postgresql-15-amazon-linux-2023/
 
 meglio acvere linux2
 
- sudo netstat -lntp | grep postgres
+sudo netstat -lntp | grep postgres
 
 
 
