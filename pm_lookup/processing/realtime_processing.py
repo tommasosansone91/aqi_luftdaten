@@ -182,10 +182,10 @@ def get_realtime_pm():
         n_selected_sensors = len(PM10_list)
         
         PM10_array = np.array(PM10_list)
-        PM10_array = PM10_array.astype(np.float)
+        PM10_array = PM10_array.astype(float)
 
         PM25_array = np.array(PM25_list)
-        PM25_array = PM25_array.astype(np.float)
+        PM25_array = PM25_array.astype(float)
 
         timestamp_array = np.array(timestamp_list)
 
