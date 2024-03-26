@@ -95,9 +95,9 @@ WSGI_APPLICATION = 'aqi_luftdaten.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'aqiluftdaten',
+        'USER': 'luftdaten_main',
+        'PASSWORD': 'aqimain',
         'HOST': 'localhost',
         # 'HOST': '0.0.0.0',
         'PORT': '5432',

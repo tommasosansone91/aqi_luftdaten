@@ -92,10 +92,10 @@ class Command(BaseCommand):
             n_selected_sensors = len(PM10_list)
             
             PM10_array = np.array(PM10_list)
-            PM10_array = PM10_array.astype(np.float)
+            PM10_array = PM10_array.astype(float)
 
             PM25_array = np.array(PM25_list)
-            PM25_array = PM25_array.astype(np.float)
+            PM25_array = PM25_array.astype(float)
 
             PM10_mean = round(np.mean(PM10_array), 2)
             PM25_mean = round(np.mean(PM25_array), 2)

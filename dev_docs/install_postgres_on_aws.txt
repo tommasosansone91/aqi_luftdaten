@@ -1,1 +1,0 @@
-https://www.qunsul.com/posts/installing-postgresql-13-on-ubuntu-ec2-instance.html
