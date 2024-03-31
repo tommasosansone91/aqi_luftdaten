@@ -226,37 +226,3 @@ solo per test, poi blocca
 
     python manage.py runserver 0.0.0.0:8000
 
-## install uwsgi
-
-it controls the application to avoid us to do it from the command line.
-
-    sudo su
-    cd /var/www/aqi_luftdaten
-    source venv/bin/activate
-
-    pip install uwsgi
-
-
-## configure nginx
-
-    sudo su
-    cd /var/www/aqi_luftdaten
-    source venv/bin/activate
-
-    cat /etc/nginx/sites-enabled/default
-
-questo è il file di default di nginx.
-
-ne voglio creare un altro
-
-    rm /etc/nginx/sites-enabled/default
-    vim aqi_luftdaten_nginx.conf
-
-
-## configure uwsgi
-
-    sudo su
-    cd /var/www/aqi_luftdaten
-    source venv/bin/activate
-
-    vim aqi_luftdaten_uwsgi.ini
