@@ -20,18 +20,26 @@ https://askubuntu.com/a/1466769/1342430
 
 https://www.qunsul.com/posts/installing-postgresql-13-on-ubuntu-ec2-instance.html
 
+diventa user postgres
+
     sudo -i -u postgres
+
+apri la shell
+
+    psql
+
+reimposta la pw
 
     \password postgres
 
-aqiluftdaten
-aqiluftdaten
+rootpassword
+rootpassword
 
     exit
 
     psql -h localhost -U postgres -d postgres
 
-    create database aqiluftdaten
+    create database aqiluftdaten;
 
     create user luftdaten_main WITH ENCRYPTED PASSWORD 'aqimain';  # choose short one
     create user luftdaten_readonly WITH ENCRYPTED PASSWORD 'aqireadonly';  # choose short one
