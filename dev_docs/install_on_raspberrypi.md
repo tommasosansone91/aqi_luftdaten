@@ -1,0 +1,262 @@
+# install on raspberry pi
+
+## key exchange
+
+    sudo su
+
+    ssh-keygen -t ed25519 -C "tommaso.sansone91@virgilio.it"
+
+
+    ssh-keygen -t rsa -b 4096 -C "t***91@v***o.it"
+
+enter
+
+insert password
+
+insert password
+
+questa diventa la pw da usare per sbloccare github sul tuo pc corrente
+
+output:
+
+    Generating public/private ed25519 key pair.
+    Enter file in which to save the key (/root/.ssh/id_ed25519): 
+    Enter passphrase (empty for no passphrase): 
+    Enter same passphrase again: 
+    Your identification has been saved in /root/.ssh/id_ed25519.
+    Your public key has been saved in /root/.ssh/id_ed25519.pub.
+    The key fingerprint is:
+
+    ...
+
+attiva l'agente ssh
+
+    eval $(ssh-agent -s)
+
+mi ritorna
+
+>   Agent pid 716
+
+aggiungi il file di chiave "agli ssh"
+
+    ssh-add ~/.ssh/id_ed25519
+
+inserisci la password
+
+    cat ~/.ssh/id_ed25519.pub
+
+e cio che è stampato la incollo nella pagina ad ssh key di github > settings > add ssh key
+
+https://github.com/settings/ssh/new
+
+
+## clone the app on raspberry pi
+
+    sudo su
+
+    cd /var/www/
+
+usa il comando con l'url che inizia per https
+
+    git clone https://github.com/tommasosansone91/aqi_luftdaten.git
+
+
+## create virtual environment
+
+    sudo su
+
+    cd /var/www/aqi_luftdaten
+
+
+### secondo il tutorial
+
+crea un virtulaenv mettendo i suoi elementi 
+
+- lib
+- include
+- bin
+- pyvenv.cfg
+
+nella cartella stessa, sanza raggrupparli
+
+    /usr/local/opt/python-3.8.1/bin/python3.8 -m venv .
+
+attivalo per test
+
+    source ./bin/activate
+    deactivate
+
+
+### secondo me
+
+crea un virtulaenv in una cartella venv
+
+    /usr/local/opt/python-3.8.1/bin/python3.8 -m venv ./venv/
+
+attivalo per test
+
+    source venv/bin/activate
+    deactivate
+
+
+## install nginx
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    apt-get update
+    apt-get install nginx
+
+test it works by 
+
+    hostname -I
+
+    http://<IP>
+
+you should see the nginx welcome page 
+
+
+## install postgres
+
+### install
+
+
+    sudo apt-get update
+    sudo apt-get install postgresql
+
+
+https://askubuntu.com/a/1466769/1342430
+
+    sudo netstat -lntp | grep postgres
+    sudo ufw allow 5432  # or other port
+
+
+### reset postgres default password
+
+
+https://www.qunsul.com/posts/installing-postgresql-13-on-ubuntu-ec2-instance.html
+
+diventa user postgres
+
+    sudo -i -u postgres
+
+apri la shell
+
+    psql
+
+reimposta la pw
+
+    \password postgres
+
+rootpassword
+rootpassword
+
+    exit
+
+### create database for app
+
+    psql -h localhost -U postgres -d postgres
+
+    create database aqiluftdaten;
+
+    create user luftdaten_main WITH ENCRYPTED PASSWORD 'aqimain';  # choose short one
+    create user luftdaten_readonly WITH ENCRYPTED PASSWORD 'aqireadonly';  # choose short one
+
+    alter database aqiluftdaten OWNER TO luftdaten_main;
+
+    exit
+
+    psql -h localhost -U luftdaten_main -d aqiluftdaten
+
+
+--> questa configurazione risulta nelle seguenti credenziali
+
+    'NAME': 'aqiluftdaten',
+    'USER': 'luftdaten_main',
+    'PASSWORD': 'aqimain',
+
+inserisci queste credenziali su settings.py (app di default creata da django)
+
+
+## install the web framework django
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+
+prima bisogna installare postgresql, o ci saranno problemi con psycopg2
+
+    sudo apt update
+
+per evitare problemi con l'installazione di psycopg2
+
+    sudo apt-get install python-psycopg2
+
+    sudo apt-get install libpq-dev
+
+infine installazione massiva dei prerequisiti
+
+    cat requirements.txt | xargs -n 1 pip install
+
+togli 
+== version 
+da ogni libreria in requirements che dà problemi, e rilancia 
+
+    cat requirements.txt | xargs -n 1 pip install
+
+
+una volta installato postgres,
+configura il db per essere connesso (settings.py).
+
+setup the database via python 
+
+    python manage.py makemigrations
+
+    python manage.py migrate
+
+    python manage.py createsuperuser
+
+nei settings metti
+
+    ALLOWED_HOSTS = ['*']
+
+solo per test, poi blocca
+
+    python manage.py runserver 0.0.0.0:8000
+
+## install uwsgi
+
+it controls the application to avoid us to do it from the command line.
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    pip install uwsgi
+
+
+## configure nginx
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    cat /etc/nginx/sites-enabled/default
+
+questo è il file di default di nginx.
+
+ne voglio creare un altro
+
+    rm /etc/nginx/sites-enabled/default
+    vim aqi_luftdaten_nginx.conf
+
+
+## configure uwsgi
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    vim aqi_luftdaten_uwsgi.ini
