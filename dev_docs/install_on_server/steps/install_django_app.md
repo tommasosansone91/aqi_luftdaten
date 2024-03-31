@@ -1,6 +1,9 @@
 # install django app
 
+prima bisogna installare postgresql, o ci saranno problemi con psycopg2
+
     sudo apt update
+
     sudo apt install python3
 
     sudo apt-get install pip
@@ -8,8 +11,15 @@
     sudo apt install python3-virtualenv
 
     virtualenv venv
-
     source venv/bin/activate
+
+per evitare problemi con l'installazione di psycopg2
+
+    sudo apt-get install python-psycopg2
+
+    sudo apt-get install libpq-dev
+
+infine installazione massiva dei prerequisiti
 
     cat requirements.txt | xargs -n 1 pip install
 
