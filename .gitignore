@@ -8,3 +8,8 @@
 .to do aqi_luftdaten.txt
 .essential_requirements.txt
 
+
+aqi_luftdaten/__pycache__
+pm_lookup/__pycache__
+pm_lookup/migrations/__pycache__
+
