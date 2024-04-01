@@ -1,4 +1,5 @@
-# this file must be given in input to gunicorn
+# this file must be given in input to gunicorn, 
+# and it is better that remains in root directory of the application.
 
 import os
 from django.core.wsgi import get_wsgi_application
