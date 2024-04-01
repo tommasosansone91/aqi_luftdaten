@@ -1,4 +1,5 @@
-the cron cannot trigger the python
+# todo
+#--------
 
-the static files are not loaded
+Load automatically the service as the machine is started
 
