@@ -1,5 +1,6 @@
 # con questo script verifico 
 # se sono ok e funzioni che aggiornano le serie storiche e relativi grafici
+# inoltre ridisegna i grafici delle serie orarie, giornaliere
 
 from django.core.management.base import BaseCommand
 
