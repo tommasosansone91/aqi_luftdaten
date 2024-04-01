@@ -226,3 +226,76 @@ solo per test, poi blocca
 
     python manage.py runserver 0.0.0.0:8000
 
+## web server - reverse proxy : nginx
+
+### install
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    sudo apt-get install nginx
+
+test:
+
+    hostname -I
+
+connettiti con il browser di un altro dispositivo sulla stessa lan al url
+
+    http://<IP>
+
+e dovresti vedere il welcome di nginx
+
+### configuration
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+the default file is at path
+
+    /etc/nginx/sites-enabled/default
+    /etc/nginx/sites-available/default
+
+ma a noi non serve e lo cancelliamo
+
+    rm /etc/nginx/sites-enabled/default
+
+creo il file
+
+> nginx/aqi_luftdaten_nginx.conf
+
+eseguo link simbolico
+
+    ln -s /var/www/aqi_luftdaten/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
+
+dovresti vedere:
+
+    root@Raspberry100:/etc/nginx/conf.d# ll
+    total 8.0K
+    lrwxrwxrwx 1 root root   35 Aug 24  2020 lab_app_nginx.conf -> /var/www/lab_app/lab_app_nginx.conf
+
+stop the manually-started via manage.py server of the app.
+
+restart nginx:
+
+    /etc/init.d/nginx restart
+
+test:
+
+connect via browser to both
+
+    http://<IP>:PORT_1  # port of another app
+    http://<IP>:8000
+
+the other app should still be reachable, while on port "http://<IP>:8000" you should get "500 Internal Server Error" as uWSGI is not configured yet.
+
+in case of errors, to rollback:
+
+    cd /etc/nginx/conf.d/
+    rm /etc/nginx/conf.d/aqi_luftdaten_nginx.conf
+
+    systemctl stop nginx.service
+    systemctl start nginx.service
+    systemctl status nginx.service
+
