@@ -2,6 +2,12 @@ from django.core.management.base import BaseCommand
 
 # python manage.py calcolo1
 
+###########################
+# deprecated
+###########################
+
+# this is just for development/test
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
 

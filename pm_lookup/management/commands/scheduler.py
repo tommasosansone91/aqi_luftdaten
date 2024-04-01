@@ -1,5 +1,14 @@
 from django.core.management.base import BaseCommand
 
+###########################
+# deprecated
+###########################
+
+# this is replaced by cron directly on the server.
+
+
+#---------------------------
+
 # from datetime import datetime
 # from apscheduler.schedulers.blocking import BlockingScheduler
 
