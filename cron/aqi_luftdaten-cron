@@ -1,4 +1,6 @@
-# cron per l'app aqi_luftdaten
+#-------------------------
+# cron per aqi_luftdaten
+#-------------------------
 
 # sudo vim /etc/cron.d/aqi_luftdaten-cron
 
