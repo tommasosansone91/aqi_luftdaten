@@ -299,3 +299,24 @@ in case of errors, to rollback:
     systemctl start nginx.service
     systemctl status nginx.service
 
+## web server for python: gunicorn
+
+ è un server HTTP per Python WSGI (Web Server Gateway Interface). In altre parole, è un server web che è progettato per eseguire applicazioni web Python conformi allo standard WSGI.
+
+### install
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    pip install gunicorn
+
+### bind
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000
+
+https://stackoverflow.com/a/39461113/7658051
