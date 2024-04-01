@@ -286,9 +286,9 @@ test:
 connect via browser to both
 
     http://<IP>:PORT_1  # port of another app
-    http://<IP>:8000
+    http://<IP>:3000
 
-the other app should still be reachable, while on port "http://<IP>:8000" you should get "500 Internal Server Error" as uWSGI is not configured yet.
+the other app should still be reachable, while on port "http://<IP>:3000" you should get "502 bad gateway" as uWSGI is not configured yet.
 
 in case of errors, to rollback:
 
