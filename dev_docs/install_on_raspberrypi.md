@@ -331,8 +331,14 @@ from the browser of any other device connected to the network
 
 ## cron files
 
-these files in cron/ must be copied in directory
+the files in folder cron/ must be copied in directory
 
 /etc/cron.d/
 
-of the host server
+of the host server. no restart of cron is needed.
+
+## log files
+
+create directrory to host logs
+
+    sudo mkdir /var/log/aqi_luftdaten/
