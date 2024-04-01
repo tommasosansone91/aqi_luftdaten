@@ -328,3 +328,11 @@ you should see the app running at
 http://192.168.1.106:3000/
 
 from the browser of any other device connected to the network
+
+## cron files
+
+these files in cron/ must be copied in directory
+
+/etc/cron.d/
+
+of the host server
