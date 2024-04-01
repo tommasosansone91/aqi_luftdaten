@@ -94,6 +94,14 @@
 
     {% endfor %}
 
+    {% if not record_sensori %}
+
+    <p>Nessun dato presente nel modello dei dati realtime.</p>
+
+    <p>Controlla di aver inserito dei dati nel <a href="{% url 'admin:index' %}">modello delle località di input</a>.</p>
+
+    {% endif %}
+
 
 
 <!-- CSS -->
