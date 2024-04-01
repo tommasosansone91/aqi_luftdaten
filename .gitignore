@@ -12,4 +12,6 @@
 aqi_luftdaten/__pycache__
 pm_lookup/__pycache__
 pm_lookup/migrations/__pycache__
+pm_lookup/processing/__pycache__
+
 
