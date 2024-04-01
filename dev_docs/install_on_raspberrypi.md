@@ -320,3 +320,11 @@ in case of errors, to rollback:
     PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000
 
 https://stackoverflow.com/a/39461113/7658051
+
+test:
+
+you should see the ap running at
+
+http://192.168.1.106:3000/
+
+from hte browser of any other device connected to the network
