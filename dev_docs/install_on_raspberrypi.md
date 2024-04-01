@@ -323,8 +323,8 @@ https://stackoverflow.com/a/39461113/7658051
 
 test:
 
-you should see the ap running at
+you should see the app running at
 
 http://192.168.1.106:3000/
 
-from hte browser of any other device connected to the network
+from the browser of any other device connected to the network
