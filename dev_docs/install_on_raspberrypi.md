@@ -1,8 +1,19 @@
 # Install on Raspberry pi
 
-This procedure is to install the app on a raspberry pi.
+This procedure is to install the app aqi_luftdaten on a Raspberry pi.
+
+> [!IMPORTANT]
+> The Raspberry pi and the PC must be connected to the same LAN network.
 
 ## Key exchange between RPi and github
+
+from your PC log into the RPi.
+
+    ssh pi@<RPi_IP>
+
+    <password>
+
+become admin
 
     sudo su
 
@@ -15,7 +26,7 @@ press <kbd>enter</kbd>
     <password>
 
 > [!IMPORTANT]
-> This password becomes the password you have to give in from the deploy machine to interact with github (e.g. `git clone`).
+> This password becomes the password you have to give in from the RPi to interact with github (e.g. `git clone`), so note it down..
 
 output:
 
@@ -57,7 +68,7 @@ https://github.com/settings/ssh/new
 
 > [!TIP]
 > Choose a self-explanatory title, such as 
-> id_ed25519.pub_from_RPi_model4B_4GB
+> `id_ed25519.pub_from_RPi_model4B_4GB`
 > so that you will remember which device it is associated to.
 
 
@@ -69,7 +80,7 @@ from your PC log into the RPi.
 
     <password>
 
-    become admin
+become admin
 
     sudo su
 
@@ -90,7 +101,9 @@ get the git clone link from github:
     git clone https://github.com/tommasosansone91/aqi_luftdaten.git
 
 
-## install nginx
+## Install Nginx as web server and reverse proxy
+
+This is the *web server* (server the static files) and *reverse proxy* (forwards the dynamic requests to Django).
 
     sudo su
     cd /var/www/aqi_luftdaten
@@ -99,75 +112,95 @@ get the git clone link from github:
     apt-get update
     apt-get install nginx
 
-test it works by 
+test that it works by running
 
     hostname -I
 
-    http://<IP>
+then place in your browser the URL
 
-you should see the nginx welcome page 
+    http://<RPi_IP>
+
+you should see the nginx welcome page.
 
 
-## install postgres
+## Install Postgresql database
 
-### install
-
+### Install
 
     sudo apt-get update
     sudo apt-get install postgresql
 
-
-https://askubuntu.com/a/1466769/1342430
+Check the port on which postgres is listening
 
     sudo netstat -lntp | grep postgres
-    sudo ufw allow 5432  # or other port
 
+### Reset root default password
 
-### reset postgres default password
+Useful information for Ubuntu: https://askubuntu.com/a/1466769/1342430
 
+Useful information for AWS EC2: https://www.qunsul.com/posts/installing-postgresql-13-on-ubuntu-ec2-instance.html
 
-https://www.qunsul.com/posts/installing-postgresql-13-on-ubuntu-ec2-instance.html
+The default password for postgresql is `postgres`, but it is better to change it for security reasons.
 
-diventa user postgres
+Become user `postgres`
 
     sudo -i -u postgres
 
-apri la shell
+open the postgres shell
 
     psql
 
-reimposta la pw
+reset the root password
 
     \password postgres
 
-rootpassword
-rootpassword
+> [!CAUTION]
+> This will become the new root password of postgres.
+> If you forget this, you will not be able to manage postgresql anymore, so **note it down**.
+
+    rootpassword
+
+    rootpassword
+
+commit the change by exiting the shell
 
     exit
 
-### create database for app
+### Create a new database for the app
+
+enter the postgres shell as `postgres` user
 
     psql -h localhost -U postgres -d postgres
 
+create the new database
+
     create database aqiluftdaten;
 
+create a "main" and a "readonly" user for the app
+
     create user luftdaten_main WITH ENCRYPTED PASSWORD 'aqimain';  # choose short one
+
     create user luftdaten_readonly WITH ENCRYPTED PASSWORD 'aqireadonly';  # choose short one
 
+make the main user the owner of the database
+
     alter database aqiluftdaten OWNER TO luftdaten_main;
+
+exit the shell and test to reopen it as the "main user of the app"
 
     exit
 
     psql -h localhost -U luftdaten_main -d aqiluftdaten
 
 
---> questa configurazione risulta nelle seguenti credenziali
+> [!IMPORTANT]
+> The database name, the database-owner user and its password become the credentials for the Django app to access the database.
 
     'NAME': 'aqiluftdaten',
     'USER': 'luftdaten_main',
     'PASSWORD': 'aqimain',
 
-inserisci queste credenziali su settings.py (app di default creata da django)
+These credentials must be inserted in the `DATABASES` variable in `settings.py` module of the Django main app (the one created by default by django, at the same folder level of the other django apps inside that Django project).
 
 
 ## Install Python
