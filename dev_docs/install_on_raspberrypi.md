@@ -1,20 +1,21 @@
-# Install on raspberry pi
+# Install on Raspberry pi
 
 This procedure is to install the app on a raspberry pi.
 
-## key exchange between raspberry pi and github
+## Key exchange between RPi and github
 
     sudo su
 
-    ssh-keygen -t ed25519 -C "tommaso.sansone91@virgilio.it"
+    ssh-keygen -t ed25519 -C "your_mail_address@your_dominion.it"
 
-<kbd>enter</kbd>
-
-    <insert password>
+press <kbd>enter</kbd>
 
     <insert password>
 
-questa diventa la pw da usare per sbloccare github sul tuo pc corrente
+    <insert password>
+
+> [!IMPORTANT]
+> This password becomes the password you have to give in from the deploy machine to interact with github (e.g. `git clone`).
 
 output:
 
@@ -28,28 +29,41 @@ output:
 
     ...
 
-attiva l'agente ssh
+activate the ssh agent
 
     eval $(ssh-agent -s)
 
-mi ritorna
+this should return
 
 >   Agent pid 716
 
-aggiungi il file di chiave "agli ssh"
+add the new .ssh file to the files recognized by the ssh agent
 
     ssh-add ~/.ssh/id_ed25519
 
-inserisci la password
+    <insert password>
+
+get the content of the file ending with `.pub`
 
     cat ~/.ssh/id_ed25519.pub
 
-e cio che è stampato la incollo nella pagina ad ssh key di github > settings > add ssh key
+copy the output of this command (it should start with `ssh-ed25519 ` and end with the e-mail address)
+
+log in into your github account and go to
 
 https://github.com/settings/ssh/new
 
+> github profile > top-right dropdown menu > settings > left-side menu > SSH and GPG keys > add ssh key
 
-## clone the app on raspberry pi
+> [!TIP]
+> Choose a self-explanatory title, such as 
+> id_ed25519.pub_from_RPi_model4B_4GB
+> so that you will remember which device it is associated to.
+
+
+## Clone the app on raspberry pi
+
+from your PC log into the RPi
 
     sudo su
 
