@@ -1,19 +1,18 @@
-# install on raspberry pi
+# Install on raspberry pi
 
-## key exchange
+This procedure is to install the app on a raspberry pi.
+
+## key exchange between raspberry pi and github
 
     sudo su
 
     ssh-keygen -t ed25519 -C "tommaso.sansone91@virgilio.it"
 
+    <kbd>enter</kbd>
 
-    ssh-keygen -t rsa -b 4096 -C "t***91@v***o.it"
+    <insert password>
 
-enter
-
-insert password
-
-insert password
+    <insert password>
 
 questa diventa la pw da usare per sbloccare github sul tuo pc corrente
 
