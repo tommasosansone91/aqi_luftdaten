@@ -112,6 +112,8 @@ get the git clone link from github:
 
 This is the *web server* (server the static files) and *reverse proxy* (forwards the dynamic requests to Django).
 
+### Install
+
     sudo su
     cd /var/www/aqi_luftdaten
     source venv/bin/activate
@@ -129,6 +131,59 @@ then place in your browser the URL
 
 you should see the nginx welcome page.
 
+### configuration
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+the default nginx configuration files are at paths
+
+    /etc/nginx/sites-enabled/default
+    /etc/nginx/sites-available/default
+
+but we do not need the one in `sites-enabled`, so you can delete it
+
+    rm /etc/nginx/sites-enabled/default
+
+Create the symbolic link
+
+    ln -s /var/www/aqi_luftdaten/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
+
+Check that the symbolic link is right, run 
+
+    ll /etc/nginx/conf.d
+
+you should see
+
+    total 8.0K
+    lrwxrwxrwx 1 root root   35 Aug 24  2020 lab_app_nginx.conf -> /var/www/lab_app/lab_app_nginx.conf
+
+this allows Nginx to find the app-specific configuration file `nginx/aqi_luftdaten_nginx.conf` in the app directory when it searches for configuration files.
+
+stop the manually-started via manage.py server of the app.
+
+restart nginx:
+
+    /etc/init.d/nginx restart
+
+test:
+
+connect via browser to both
+
+    http://<IP>:PORT_1  # port of another app
+    http://<IP>:3000
+
+the other app should still be reachable, while on port "http://<IP>:3000" you should get "502 bad gateway" as uWSGI is not configured yet.
+
+in case of errors, to rollback:
+
+    cd /etc/nginx/conf.d/
+    rm /etc/nginx/conf.d/aqi_luftdaten_nginx.conf
+
+    systemctl stop nginx.service
+    systemctl start nginx.service
+    systemctl status nginx.service
 
 ## Install Postgresql database
 
@@ -245,125 +300,81 @@ ativate and deactivate the virtual environment only for testing
     source venv/bin/activate
     deactivate
 
-## install the web framework django
+## Install the python modules web framework django
 
     sudo su
     cd /var/www/aqi_luftdaten
     source venv/bin/activate
 
 > [!WARNING]
-> Make sure you have already installed postgresql, or problems will rise from the installation of python module `psycopg2`
+> Make sure you have already installed postgresql, or the installation of python module `psycopg2` will raise problems and confliects.
 
     sudo apt update
+
+### Safe install of psycopg2
 
 safe install `psycopg2` before massively installing all the other python modules
 
     sudo apt-get install python-psycopg2
 
+**only if it does not work**, run
+
+    pip install psycopg2-binary
+
+**only if it does not work again**, run
+
     sudo apt-get install libpq-dev
 
-infine installazione massiva dei prerequisiti
+Once `psycopg2` is installed, launch the massive safe installation of required python modules
 
     cat requirements.txt | xargs -n 1 pip install
 
-togli 
-== version 
-da ogni libreria in requirements che dà problemi, e rilancia 
+for every package which raises problems, open the file `requirements.txt`, look up for the line including that module and remove the string `==X.X.X`, then run again the same command
 
     cat requirements.txt | xargs -n 1 pip install
 
+## Create the app tables in postgresql via python
 
-una volta installato postgres,
-configura il db per essere connesso (settings.py).
+Once the app framework and postgres are both installed, create the tables required by the app to operate correctly.
 
-setup the database via python 
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
 
     python manage.py makemigrations
 
     python manage.py migrate
 
+## Create superuser
+
+Create superuser in order to access the admin section of the app.
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
     python manage.py createsuperuser
 
-nei settings metti
+## Configure the app to be hosted on the RPi
+
+In `aqi_luftdaten/settings.py`, insert the IP of the RPi in the list variable `ALLOWED_HOSTS`
+
+    ALLOWED_HOSTS = ['<RPi_IP>']
+
+or leave it to
 
     ALLOWED_HOSTS = ['*']
 
-solo per test, poi blocca
+to allow the app to be hosted on any server (not recommanded for security reasons).
+
+In the end, test that the app can be on the RPi without throwing any error.
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
 
     python manage.py runserver 0.0.0.0:8000
 
-## web server - reverse proxy : nginx
-
-### install
-
-    sudo su
-    cd /var/www/aqi_luftdaten
-    source venv/bin/activate
-
-    sudo apt-get install nginx
-
-test:
-
-    hostname -I
-
-connettiti con il browser di un altro dispositivo sulla stessa lan al url
-
-    http://<IP>
-
-e dovresti vedere il welcome di nginx
-
-### configuration
-
-    sudo su
-    cd /var/www/aqi_luftdaten
-    source venv/bin/activate
-
-the default file is at path
-
-    /etc/nginx/sites-enabled/default
-    /etc/nginx/sites-available/default
-
-ma a noi non serve e lo cancelliamo
-
-    rm /etc/nginx/sites-enabled/default
-
-creo il file
-
-> nginx/aqi_luftdaten_nginx.conf
-
-eseguo link simbolico
-
-    ln -s /var/www/aqi_luftdaten/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
-
-dovresti vedere:
-
-    root@Raspberry100:/etc/nginx/conf.d# ll
-    total 8.0K
-    lrwxrwxrwx 1 root root   35 Aug 24  2020 lab_app_nginx.conf -> /var/www/lab_app/lab_app_nginx.conf
-
-stop the manually-started via manage.py server of the app.
-
-restart nginx:
-
-    /etc/init.d/nginx restart
-
-test:
-
-connect via browser to both
-
-    http://<IP>:PORT_1  # port of another app
-    http://<IP>:3000
-
-the other app should still be reachable, while on port "http://<IP>:3000" you should get "502 bad gateway" as uWSGI is not configured yet.
-
-in case of errors, to rollback:
-
-    cd /etc/nginx/conf.d/
-    rm /etc/nginx/conf.d/aqi_luftdaten_nginx.conf
-
-    systemctl stop nginx.service
-    systemctl start nginx.service
-    systemctl status nginx.service
 
 ## web server for python: gunicorn
 
@@ -421,7 +432,7 @@ Lancia manualmente copiando lo script e incollandolo nella shell comando per com
 
 #### exit the machine gracefully
 
-    ctrl + D
+    <kbd>ctrl</kbd> + <kbd>D</kbd>
 
 > [!IMPORTANT]
 > Do not use the X button of the UI of the terminal.
