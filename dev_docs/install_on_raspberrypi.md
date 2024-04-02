@@ -10,9 +10,9 @@ This procedure is to install the app on a raspberry pi.
 
 press <kbd>enter</kbd>
 
-    <insert password>
+    <password>
 
-    <insert password>
+    <password>
 
 > [!IMPORTANT]
 > This password becomes the password you have to give in from the deploy machine to interact with github (e.g. `git clone`).
@@ -35,13 +35,13 @@ activate the ssh agent
 
 this should return
 
->   Agent pid 716
+>    Agent pid 716
 
 add the new .ssh file to the files recognized by the ssh agent
 
     ssh-add ~/.ssh/id_ed25519
 
-    <insert password>
+    <password>
 
 get the content of the file ending with `.pub`
 
@@ -63,53 +63,31 @@ https://github.com/settings/ssh/new
 
 ## Clone the app on raspberry pi
 
-from your PC log into the RPi
+from your PC log into the RPi.
+
+    ssh pi@<RPi_IP>
+
+    <password>
+
+    become admin
 
     sudo su
+
+Go to the directory where we want to install the app
 
     cd /var/www/
 
-usa il comando con l'url che inizia per https
+get the git clone link from github:
+
+- go to the github repo
+- `Code` button
+- `HTTPS` tab
+- copy the link
+
+> [!NOTE]
+> Do not use the github link starting with git@...
 
     git clone https://github.com/tommasosansone91/aqi_luftdaten.git
-
-
-## create virtual environment
-
-    sudo su
-
-    cd /var/www/aqi_luftdaten
-
-
-### secondo il tutorial
-
-crea un virtulaenv mettendo i suoi elementi 
-
-- lib
-- include
-- bin
-- pyvenv.cfg
-
-nella cartella stessa, sanza raggrupparli
-
-    /usr/local/opt/python-3.8.1/bin/python3.8 -m venv .
-
-attivalo per test
-
-    source ./bin/activate
-    deactivate
-
-
-### secondo me
-
-crea un virtulaenv in una cartella venv
-
-    /usr/local/opt/python-3.8.1/bin/python3.8 -m venv ./venv/
-
-attivalo per test
-
-    source venv/bin/activate
-    deactivate
 
 
 ## install nginx
@@ -191,6 +169,38 @@ rootpassword
 
 inserisci queste credenziali su settings.py (app di default creata da django)
 
+
+## Install Python
+
+    sudo add-apt-repository ppa:deadsnakes/ppa
+
+    sudo apt update
+
+    sudo apt install python3.8
+
+## Install pip and virtulaenv
+
+    sudo apt-get install pip
+
+    sudo apt install python3-virtualenv
+
+
+## create virtual environment
+
+    sudo su
+
+    cd /var/www/aqi_luftdaten
+
+create virtual environment in folder `venv`
+
+    /usr/local/opt/python-3.8.1/bin/python3.8 -m venv ./venv/
+
+or whatever verion of python you have
+
+attivalo e disaper test
+
+    source venv/bin/activate
+    deactivate
 
 ## install the web framework django
 
