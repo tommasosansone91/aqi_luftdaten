@@ -329,16 +329,89 @@ http://192.168.1.106:3000/
 
 from the browser of any other device connected to the network
 
+
+### Start the app manually in background via gunicorn (and gracefully exit the machine)
+
+> [!NOTE]
+> This is just a temporary command and should be launched only to check that guincorn can run the app successfully.
+> The starting, stopping and starting-at-boot of the app should be managed via systemd and the systemctl syntax, which should be implemented as last step of the app installation rpocess.
+
+    current_dir=$pwd
+
+Lancia manualmente copiando lo script e incollandolo nella shell comando per comando, o non funziona.
+
+    cd /var/www/aqi_luftdaten/
+    source venv/bin/activate
+
+    sudo nohup env PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000 > /home/pi/aqi_luftdaten.log 2>&1 &
+
+
+    cd $current_dir
+
+#### check that the app is up and running
+
+    echo "Grepping the app name from ps aux"
+    echo "$(ps aux | grep 'aqi_luftdaten')"
+
+#### exit the machine gracefully
+
+    ctrl + D
+
+> [!IMPORTANT]
+> Do not use the X button of the UI of the terminal.
+
+
 ## cron files
 
 the files in folder cron/ must be copied in directory
 
 /etc/cron.d/
 
-of the host server. no restart of cron is needed.
+of the host server. 
+
+No restart of cron is needed.
 
 ## log files
 
 create directrory to host logs
 
     sudo mkdir /var/log/aqi_luftdaten/
+
+## Turn the app into a service
+
+deployed the files in folder systemd/ to
+
+    /etc/systemd/system 
+
+This will allow them to be ran on boot.
+
+Once in the folder, make the file executable 
+
+    sudo chmod +x aqi_luftdaten.service
+
+Start the service 
+
+    sudo systemctl start aqi_luftdaten.service
+
+and check it is allright
+
+    sudo systemctl status aqi_luftdaten.service
+
+To make this service automatically run on boot
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable aqi_luftdaten.service
+
+Test that it works
+
+> [!CAUTION]
+> This will restart your machine.
+
+    sudo reboot
+
+In case you want to disable the program on boot
+
+    sudo systemctl daemon-reload
+    sudo systemctl disable aqi_luftdaten.service
+
+Documentation https://www.freedesktop.org/software/systemd/man/systemd.service.html
