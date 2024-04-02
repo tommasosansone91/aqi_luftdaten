@@ -8,7 +8,7 @@ This procedure is to install the app on a raspberry pi.
 
     ssh-keygen -t ed25519 -C "tommaso.sansone91@virgilio.it"
 
-    <kbd>enter</kbd>
+<kbd>enter</kbd>
 
     <insert password>
 
