@@ -84,6 +84,13 @@ become admin
 
     sudo su
 
+### Install git
+
+    sudo apt update
+    sudo apt install git
+
+### clone the app
+
 Go to the directory where we want to install the app
 
     cd /var/www/
@@ -209,9 +216,14 @@ These credentials must be inserted in the `DATABASES` variable in `settings.py` 
 
     sudo apt update
 
+> [!WARNING]
+> Do not install a different version of python3.
+> Compatibility between Python 3.8 and the content of the requirements.txt file, ovarall Django 3.1.4, is guaranteed by the author.
+
     sudo apt install python3.8
 
-## Install pip and virtulaenv
+
+## Install pip and virtualenv
 
     sudo apt-get install pip
 
@@ -224,13 +236,11 @@ These credentials must be inserted in the `DATABASES` variable in `settings.py` 
 
     cd /var/www/aqi_luftdaten
 
-create virtual environment in folder `venv`
+specifically use python3 to create a virtual environment for the app in folder `venv`
 
     /usr/local/opt/python-3.8.1/bin/python3.8 -m venv ./venv/
 
-or whatever verion of python you have
-
-attivalo e disaper test
+ativate and deactivate the virtual environment only for testing
 
     source venv/bin/activate
     deactivate
@@ -241,12 +251,12 @@ attivalo e disaper test
     cd /var/www/aqi_luftdaten
     source venv/bin/activate
 
-
-prima bisogna installare postgresql, o ci saranno problemi con psycopg2
+> [!WARNING]
+> Make sure you have already installed postgresql, or problems will rise from the installation of python module `psycopg2`
 
     sudo apt update
 
-per evitare problemi con l'installazione di psycopg2
+safe install `psycopg2` before massively installing all the other python modules
 
     sudo apt-get install python-psycopg2
 
