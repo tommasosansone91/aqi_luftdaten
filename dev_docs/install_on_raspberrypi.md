@@ -412,32 +412,23 @@ See here why PYTHONPATH=\`pwd\`/.. is required at the start of the line.
 
 https://stackoverflow.com/a/39461113/7658051
 
-test:
-
-you should see the app running at
+By using the browser of any other device (other than the RPi) connected to the LAN network, you should see the app running at
 
 http://192.168.1.106:3000/
-
-from the browser of any other device connected to the network
 
 
 ### Start the app manually in background via gunicorn (and gracefully exit the machine)
 
 > [!NOTE]
 > This is just a temporary command and should be launched only to check that guincorn can run the app successfully.
-> The starting, stopping and starting-at-boot of the app should be managed via systemd and the systemctl syntax, which should be implemented as last step of the app installation rpocess.
+> The starting, stopping and starting-at-boot of the app should be managed via systemd and the systemctl syntax, which should be implemented as last step of the app installation process.
 
-    current_dir=$pwd
-
-Lancia manualmente copiando lo script e incollandolo nella shell comando per comando, o non funziona.
-
+    sudo su
     cd /var/www/aqi_luftdaten/
     source venv/bin/activate
 
     sudo nohup env PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000 > /home/pi/aqi_luftdaten.log 2>&1 &
 
-
-    cd $current_dir
 
 #### check that the app is up and running
 
@@ -452,35 +443,55 @@ Lancia manualmente copiando lo script e incollandolo nella shell comando per com
 > Do not use the X button of the UI of the terminal.
 
 
+By using the browser of any other device (other than the RPi) connected to the LAN network, you should see the app still running at
+
+http://192.168.1.106:3000/
+
+
 ## cron files
 
-the files in folder cron/ must be copied in directory
+The files in the app folder `cron/` must be moved/copied in directory
 
-/etc/cron.d/
+    /etc/cron.d/
 
-of the host server. 
+of the RPi. 
 
+Run
+
+    sudo su
+    cd /etc/cron.d/
+
+    vim cron/aqi_luftdaten-cron
+
+then paste in the content code of `cron/aqi_luftdaten-cron`
+
+No `chmod` of the files is needed.<br>
 No restart of cron is needed.
 
-## log files
+## Log files
 
-create directrory to host logs
+Create directrory to host logs
 
     sudo mkdir /var/log/aqi_luftdaten/
 
 ## Turn the app into a service
 
-deployed the files in folder systemd/ to
+The files in the app folder `systemd/` must be moved/copied in directory
 
     /etc/systemd/system 
 
-This will allow them to be ran on boot.
+This will allow them to be run on boot.
 
-Once in the folder, make the file executable 
+Run
+
+    sudo su
+    cd /etc/systemd/system 
+
+make the file executable 
 
     sudo chmod +x aqi_luftdaten.service
 
-Start the service 
+start the service 
 
     sudo systemctl start aqi_luftdaten.service
 
@@ -493,12 +504,18 @@ To make this service automatically run on boot
     sudo systemctl daemon-reload
     sudo systemctl enable aqi_luftdaten.service
 
-Test that it works
+In the end, test that the service works after the RPi booting
 
 > [!CAUTION]
-> This will restart your machine.
+> This will restart your RPi.
 
     sudo reboot
+
+After a while, by using the browser of any other device (other than the RPi) connected to the LAN network, you should see the app automatically booted and running at
+
+http://192.168.1.106:3000/
+
+<hr>
 
 In case you want to disable the program on boot
 
@@ -506,3 +523,7 @@ In case you want to disable the program on boot
     sudo systemctl disable aqi_luftdaten.service
 
 Documentation https://www.freedesktop.org/software/systemd/man/systemd.service.html
+
+<hr>
+
+The app aqi_luftdaten is now successfully installed!
