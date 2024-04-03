@@ -526,4 +526,6 @@ Documentation https://www.freedesktop.org/software/systemd/man/systemd.service.h
 
 <hr>
 
-The app aqi_luftdaten is now successfully installed!
+```diff
++ The app aqi_luftdaten is now successfully installed!
+```
