@@ -365,16 +365,17 @@ restart nginx
 By using the browser of any other device (other than the RPi) connected to the LAN network,<br>
 connect via browser to both IP addresses
 
-    http://<IP>
-    http://<IP>:PORT_1  # e.g. the port of another app already running and exposed on the RPi
-    http://<IP>:3000
+    http://<RPi_IP>
+    http://<RPi_IP>:PORT_1  # e.g. the port of another app already running and exposed on the RPi
+    http://<RPi_IP>:3000
 
 **NOTE:** Make sure the prefix is **`http`** and not **`https`**.
 
-the other app should still be reachable, while on port `http://<IP>:3000` you should get "502 bad gateway" as uWSGI is not configured yet.
+The other app should still be reachable, while on port `http://<RPi_IP>:3000` you should get `502 bad gateway`, as the HTTP WSGI server for is not installed yet.
 
-in case of errors, to rollback:
+in case of errors, to rollback to the previous configuration, run
 
+    sudo su
     cd /etc/nginx/conf.d/
     rm /etc/nginx/conf.d/aqi_luftdaten_nginx.conf
 
@@ -384,7 +385,8 @@ in case of errors, to rollback:
 
 ## web server for python: gunicorn
 
- è un server HTTP per Python WSGI (Web Server Gateway Interface). In altre parole, è un server web che è progettato per eseguire applicazioni web Python conformi allo standard WSGI.
+Gunicorn is an HTTP WSGI server (Web Server Gateway Interface) for Python applications. <br>
+In other words, it is a web server designed to run Python web applications that adhere to the WSGI standard.
 
 ### install
 
@@ -396,11 +398,17 @@ in case of errors, to rollback:
 
 ### bind
 
+This command is to have Gunicorn running the python app.<br>
+It binds the app **internal** port (8000) on which the app is exposed by the command `python manage.py runserver localhost:8000`, to the address and port `localhost:8000`.<br>
+The `--bind` part tells Gunicorn that it has to listen HTTP requests coming from that port (from the app).
+
     sudo su
     cd /var/www/aqi_luftdaten
     source venv/bin/activate
 
     PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000
+
+See here why PYTHONPATH=\`pwd\`/.. is required at the start of the line.
 
 https://stackoverflow.com/a/39461113/7658051
 
