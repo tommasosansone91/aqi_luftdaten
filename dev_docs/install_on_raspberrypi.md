@@ -1,9 +1,9 @@
 # Install on Raspberry pi
 
-This procedure is to install the app aqi_luftdaten on a Raspberry pi.
+This procedure gives instructions on how to install the app aqi_luftdaten on a Raspberry pi.
 
 > [!IMPORTANT]
-> The Raspberry pi and the PC must be connected to the same LAN network.
+> The Raspberry pi and the PC used for the deploy must be connected to the same LAN network.
 
 ## Key exchange between RPi and github
 
@@ -11,7 +11,7 @@ from your PC log into the RPi.
 
     ssh pi@<RPi_IP>
 
-    <password>
+    <RPi_user_pi_password>
 
 become admin
 
@@ -21,12 +21,12 @@ become admin
 
 press <kbd>enter</kbd>
 
-    <password>
-
-    <password>
-
 > [!IMPORTANT]
 > This password becomes the password you have to give in from the RPi to interact with github (e.g. `git clone`), so note it down..
+
+    <RPi_git_password>
+
+    <RPi_git_password>
 
 output:
 
@@ -52,7 +52,7 @@ add the new .ssh file to the files recognized by the ssh agent
 
     ssh-add ~/.ssh/id_ed25519
 
-    <password>
+    <RPi_git_password>
 
 get the content of the file ending with `.pub`
 
@@ -78,7 +78,7 @@ from your PC log into the RPi.
 
     ssh pi@<RPi_IP>
 
-    <password>
+    <RPi_git_password>
 
 become admin
 
@@ -437,11 +437,10 @@ http://192.168.1.106:3000/
 
 #### exit the machine gracefully
 
-    <kbd>ctrl</kbd> + <kbd>D</kbd>
-
 > [!IMPORTANT]
 > Do not use the X button of the UI of the terminal.
 
+To exit the RPi gracefully, press <kbd>ctrl</kbd> + <kbd>D</kbd>
 
 By using the browser of any other device (other than the RPi) connected to the LAN network, you should see the app still running at
 
