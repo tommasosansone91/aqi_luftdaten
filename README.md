@@ -29,6 +29,8 @@
 
 ![Grafico dei valori storici orari del PM 10 nella città di roma](/static/img/grafico_Roma.jpg?raw=true "Optional Title")
 
+<br><br>
+
 ## Guida all'installazione
 
 https://github.com/tommasosansone91/aqi_luftdaten/blob/master/dev_docs/install_on_raspberrypi.md
