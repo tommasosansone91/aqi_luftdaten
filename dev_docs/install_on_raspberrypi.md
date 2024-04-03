@@ -112,8 +112,6 @@ get the git clone link from github:
 
 This is the *web server* (server the static files) and *reverse proxy* (forwards the dynamic requests to Django).
 
-### Install
-
     sudo su
     cd /var/www/aqi_luftdaten
     source venv/bin/activate
@@ -129,61 +127,10 @@ then place in your browser the URL
 
     http://<RPi_IP>
 
-you should see the nginx welcome page.
+you should see the Nginx welcome page.
 
-### configuration
+**NOTE:** Nginx configuration will be done later.
 
-    sudo su
-    cd /var/www/aqi_luftdaten
-    source venv/bin/activate
-
-the default nginx configuration files are at paths
-
-    /etc/nginx/sites-enabled/default
-    /etc/nginx/sites-available/default
-
-but we do not need the one in `sites-enabled`, so you can delete it
-
-    rm /etc/nginx/sites-enabled/default
-
-Create the symbolic link
-
-    ln -s /var/www/aqi_luftdaten/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
-
-Check that the symbolic link is right, run 
-
-    ll /etc/nginx/conf.d
-
-you should see
-
-    total 8.0K
-    lrwxrwxrwx 1 root root   35 Aug 24  2020 lab_app_nginx.conf -> /var/www/lab_app/lab_app_nginx.conf
-
-this allows Nginx to find the app-specific configuration file `nginx/aqi_luftdaten_nginx.conf` in the app directory when it searches for configuration files.
-
-stop the manually-started via manage.py server of the app.
-
-restart nginx:
-
-    /etc/init.d/nginx restart
-
-test:
-
-connect via browser to both
-
-    http://<IP>:PORT_1  # port of another app
-    http://<IP>:3000
-
-the other app should still be reachable, while on port "http://<IP>:3000" you should get "502 bad gateway" as uWSGI is not configured yet.
-
-in case of errors, to rollback:
-
-    cd /etc/nginx/conf.d/
-    rm /etc/nginx/conf.d/aqi_luftdaten_nginx.conf
-
-    systemctl stop nginx.service
-    systemctl start nginx.service
-    systemctl status nginx.service
 
 ## Install Postgresql database
 
@@ -375,6 +322,65 @@ In the end, test that the app can be on the RPi without throwing any error.
 
     python manage.py runserver 0.0.0.0:8000
 
+
+## Configure Nginx to serve the app
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+the default nginx configuration files are at paths
+
+    /etc/nginx/sites-enabled/default
+    /etc/nginx/sites-available/default
+
+but we do not need the one in `sites-enabled`, so you can delete it
+
+    rm /etc/nginx/sites-enabled/default
+
+Create the symbolic link
+
+    ln -s /var/www/aqi_luftdaten/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
+
+Check that the symbolic link is right, run 
+
+    ll /etc/nginx/conf.d
+
+you should see
+
+    total 8.0K
+    lrwxrwxrwx 1 root root   35 Aug 24  2020 lab_app_nginx.conf -> /var/www/lab_app/lab_app_nginx.conf
+
+This allows Nginx to find the app-specific configuration file `nginx/aqi_luftdaten_nginx.conf` in the app directory when it searches for configuration files.
+
+### Check that Nginx is working
+
+In case the app is running because it was manually started via `python manage.py runserver 0.0.0.0:8000`,
+stop it via <kbd>ctrl</kbd> + <kbd>D</kbd>.
+
+restart nginx
+
+    /etc/init.d/nginx restart
+
+By using the browser of any other device (other than the RPi) connected to the LAN network,<br>
+connect via browser to both IP addresses
+
+    http://<IP>
+    http://<IP>:PORT_1  # e.g. the port of another app already running and exposed on the RPi
+    http://<IP>:3000
+
+**NOTE:** Make sure the prefix is **`http`** and not **`https`**.
+
+the other app should still be reachable, while on port `http://<IP>:3000` you should get "502 bad gateway" as uWSGI is not configured yet.
+
+in case of errors, to rollback:
+
+    cd /etc/nginx/conf.d/
+    rm /etc/nginx/conf.d/aqi_luftdaten_nginx.conf
+
+    systemctl stop nginx.service
+    systemctl start nginx.service
+    systemctl status nginx.service
 
 ## web server for python: gunicorn
 
