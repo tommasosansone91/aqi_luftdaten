@@ -1,6 +1,11 @@
 # todo
-#--------
 
-Load automatically the service as the machine is started
 
 admin section does not get syling correctly
+
+model name has to be changed for clarity
+
+commands modules names and objects must be changed for clarity
+
+the gear that makes the series of the day and the series of the last x days are not using the filter on hour and on day, while they must.
+they rely on the fact that the last 24 data are from the day and the last 24*30 data are present and are of the month.
