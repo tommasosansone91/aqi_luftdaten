@@ -56,7 +56,7 @@ def arrange_daily_time_series_and_graphs():
         # ( per default ho messo 30 giorni),  
         # allora Bisogna porre il numero di giorni uguale 
         # alla divisione arrotondata per difetto tra 
-        # i dati presenti nel modello storico orario e 24 ore 
+        # i dati presenti nel modello storico grezzo e 24 ore 
         if n_target_area_history_data_records < Lunghezza_temporale:
             
             print("Non ci sono dati sufficienti per realizzare la serie storica di almeno %s giorni." % n_giorni)
