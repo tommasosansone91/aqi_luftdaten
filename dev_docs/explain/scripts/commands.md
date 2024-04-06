@@ -16,33 +16,31 @@ to run
 
     python manage.py save_current_pm_values_in_history
 
+
 ### save_current_pm_values_in_history
 
-chiama la API Luftdaten per ottenere e salvare i dati nel modello storico orario
+chiama la API Luftdaten per ottenere e salvare i dati nel modello storico grezzo
 
     save_history_pm()
-    
-arrangia/disegna le serie orarie attingendo al modello storico orario
-
-    arrange_time_series_and_graphs()
 
 
-### group_daily_series
+### arrange_historical_and_daily_series
 
-arrangia/disegna le serie *giornaliere* attingendo al modello storico orario
+arrangia/disegna le serie *orarie* e *giornaliere* attingendo al modello storico grezzo
 
     arrange_daily_time_series_and_graphs()
 
-**NOTA**: è necessario lanciare questo script quando un grande ammontare di dati recenti vengono rimossi dal modello storico orario.
+**NOTA**: è necessario lanciare questo script quando un grande ammontare di dati recenti vengono rimossi dal modello storico grezzo.
 
-### predispose_historical_series
 
-arrangia/disegna le serie *sia orarie sia giornaliere* attingendo al modello storico orario
+### arrange_daily_series
 
-    arrange_time_series_and_graphs()
+arrangia/disegna le serie *giornaliere* attingendo al modello storico grezzo
+
     arrange_daily_time_series_and_graphs()
 
-**NOTA**: è necessario lanciare questo script quando un grande ammontare di dati recenti vengono rimossi dal modello storico orario.
+**NOTA**: è necessario lanciare questo script quando un grande ammontare di dati recenti vengono rimossi dal modello storico grezzo.
+
 
 ### clear_models
 
