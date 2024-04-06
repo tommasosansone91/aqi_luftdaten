@@ -4,6 +4,9 @@
 admin section does not get syling correctly
 
 model name has to be changed for clarity
+- history data -> raw data/single data
+- giornaliere -> mensili
+- orarie -> giornaliere
 
 commands modules names and objects must be changed for clarity
 
