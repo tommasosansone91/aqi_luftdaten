@@ -4,7 +4,13 @@ from django.core.management.base import BaseCommand
 # deprecated
 ###########################
 
+"""this is just for development/test"""
+
 # this is replaced by cron directly on the server.
+
+# creo uno script per poterlo usare nell'heroku scheduler
+# ne faccio un base command, così ogni tot heroku lo ranna ed è come se lo runnasse da consolle
+
 
 
 #---------------------------

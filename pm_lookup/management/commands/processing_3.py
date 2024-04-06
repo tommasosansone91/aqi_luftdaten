@@ -11,6 +11,8 @@ from datetime import datetime
 import json
 import requests
 
+"""this is just for development/test"""
+
 # questo file lo richiamo solo se c'e l'ho in 
 # app/management/commands/nome_file.py
 # la linea from django.core.management.base import BaseCommand

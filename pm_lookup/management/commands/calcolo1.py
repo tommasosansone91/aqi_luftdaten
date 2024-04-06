@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 # deprecated
 ###########################
 
-# this is just for development/test
+"""this is just for development/test"""
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
