@@ -388,7 +388,8 @@ in case of errors, to rollback to the previous configuration, run
 Gunicorn is an HTTP WSGI server (Web Server Gateway Interface) for Python applications. <br>
 In other words, it is a web server designed to run Python web applications that adhere to the WSGI standard.
 
-### install
+
+### install gunicorn
 
     sudo su
     cd /var/www/aqi_luftdaten
@@ -396,7 +397,8 @@ In other words, it is a web server designed to run Python web applications that 
 
     pip install gunicorn
 
-### bind
+
+### run the app manually via gunicorn
 
 This command is to have Gunicorn running the python app.<br>
 It binds the app **internal** port (8000) on which the app is exposed by the command `python manage.py runserver localhost:8000`, to the address and port `localhost:8000`.<br>
@@ -435,6 +437,7 @@ http://192.168.1.106:3000/
     echo "Grepping the app name from ps aux"
     echo "$(ps aux | grep 'aqi_luftdaten')"
 
+
 #### exit the machine gracefully
 
 > [!IMPORTANT]
@@ -467,11 +470,17 @@ then paste in the content code of `cron/aqi_luftdaten-cron`
 No `chmod` of the files is needed.<br>
 No restart of cron is needed.
 
+Enable execution of the files target of the cron
+
+    sudo chmod +x sh/*
+
+
 ## Log files
 
 Create directrory to host logs
 
     sudo mkdir /var/log/aqi_luftdaten/
+
 
 ## Turn the app into a service
 
