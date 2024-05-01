@@ -302,6 +302,25 @@ Create superuser in order to access the admin section of the app.
 
     python manage.py createsuperuser
 
+## Collect static files
+
+Custom static files (images, javascript and css - i.e. everything useful for beautifying the frontend) are developed in the static folders defined in the list variable `STATICFILES_DIRS` in settings.<br>
+In this app, one of these flders is is `static`.
+
+In production (i.e. when `DEBUG = False`), the static files must be served by the web server (e.g. nginx).
+
+Since the layout of the admin section is managed by Django, the static files of the admin section will automatically created into the folder defined in the variable `STATIC_ROOT` in settings.<br>
+In this app it is `staticfiles`.
+
+So, every time new static files are developed in `STATICFILES_DIRS` folders, the STATIC_ROOT must be updated.<br>
+This can be done by running the django command `collectstatic`.
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate
+
+    python manage.py collectstatic   
+
 ## Configure the app to be hosted on the RPi
 
 In `aqi_luftdaten/settings.py`, insert the IP of the RPi in the list variable `ALLOWED_HOSTS`
