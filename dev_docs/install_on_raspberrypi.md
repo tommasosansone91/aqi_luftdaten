@@ -526,6 +526,12 @@ Check that the symbolic link is right, run
     ll /etc/systemd/system/multi-user.target.wants/aqi_luftdaten.service
     ll /etc/systemd/system/aqi_luftdaten.service
 
+you should see
+
+    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/multi-user.target.wants/aqi_luftdaten.service -> /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service
+    
+    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/aqi_luftdaten.service -> /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service
+
 start the service 
 
     sudo systemctl start aqi_luftdaten.service
