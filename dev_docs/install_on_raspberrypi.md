@@ -452,7 +452,7 @@ http://192.168.1.106:3000/
 
 ## cron files
 
-The files in the app folder `cron/` must be moved/copied in directory
+The files in the app folder `cron/` must be symbolically linked into directory
 
     /etc/cron.d/
 
@@ -461,11 +461,12 @@ of the RPi.
 Run
 
     sudo su
-    cd /etc/cron.d/
+    cd /var/www/aqi_luftdaten/
+    source venv/bin/activate
+    
+Create the symbolic link
 
-    vim cron/aqi_luftdaten-cron
-
-then paste in the content code of `cron/aqi_luftdaten-cron`
+    ln -s /var/www/aqi_luftdaten/cron/aqi_luftdaten-cron /etc/cron.d/
 
 No `chmod` of the cron files is needed.<br>
 No restart of cron is needed.
