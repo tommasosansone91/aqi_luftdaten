@@ -1,17 +1,16 @@
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
 
-.appunti aqi_luftdaten.txt
-.appunti heroku.txt
-.credenziali.txt
-.directory.txt
-.env
-.github info.txt
-.to do aqi_luftdaten.txt
-.essential_requirements.txt
 
 
 aqi_luftdaten/__pycache__
 pm_lookup/__pycache__
 pm_lookup/migrations/__pycache__
 pm_lookup/processing/__pycache__
+pm_lookup/management/commands/__pycache__
 
 
