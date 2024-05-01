@@ -12,6 +12,9 @@ pm_lookup/migrations/__pycache__
 pm_lookup/processing/__pycache__
 pm_lookup/management/commands/__pycache__
 
+# collected static files
+staticfiles/
+
 # forcing ignore og virtual envitronment
 venv/
 
