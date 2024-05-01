@@ -5,12 +5,15 @@
 __pycache__
 db.sqlite3
 
-
-
+# project-speific pycache
 aqi_luftdaten/__pycache__
 pm_lookup/__pycache__
 pm_lookup/migrations/__pycache__
 pm_lookup/processing/__pycache__
 pm_lookup/management/commands/__pycache__
+
+# forcing ignore og virtual envitronment
+venv/
+
 
 
