@@ -495,20 +495,36 @@ Create directrory to host logs
 
 ## Turn the app into a service
 
-The files in the app folder `systemd/` must be moved/copied in directory
+The files in the app folder `systemd/` must be symbolically linked into directory
 
     /etc/systemd/system 
+    /etc/systemd/system/multi-user.target.wants/
 
-This will allow them to be run on boot.
+of the RPi.
+
+The first one will allow them to be run as services via the command `systemctl`.
+
+The second one will allow them to be automatically started as service as the machine re/boots.
 
 Run
 
     sudo su
-    cd /etc/systemd/system 
+    cd /var/www/aqi_luftdaten/
+    source venv/bin/activate
 
 make the file executable 
 
     sudo chmod +x aqi_luftdaten.service
+
+Create the symbolic links
+
+    ln -s /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service /etc/systemd/system/
+    ln -s /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service /etc/systemd/system/multi-user.target.wants/
+
+Check that the symbolic link is right, run
+
+    ll /etc/systemd/system/multi-user.target.wants/aqi_luftdaten.service
+    ll /etc/systemd/system/aqi_luftdaten.service
 
 start the service 
 
