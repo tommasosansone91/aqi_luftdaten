@@ -348,7 +348,6 @@ Check that the symbolic link is right, run
 
 you should see
 
-    total 8.0K
     lrwxrwxrwx 1 root root   35 Aug 24  2020 lab_app_nginx.conf -> /var/www/lab_app/lab_app_nginx.conf
 
 This allows Nginx to find the app-specific configuration file `nginx/aqi_luftdaten_nginx.conf` in the app directory when it searches for configuration files.
@@ -468,10 +467,21 @@ Create the symbolic link
 
     ln -s /var/www/aqi_luftdaten/cron/aqi_luftdaten-cron /etc/cron.d/
 
+Check that the symbolic link is right, run
+
+    ll /etc/cron.d/aqi_luftdaten-cron
+
+you should see
+
+    lrwxrwxrwx 1 root root 46 May  1 10:59 /etc/cron.d/aqi_luftdaten-cron -> /var/www/aqi_luftdaten/cron/aqi_luftdaten-cron
+
+This allows cron to find the app-specific cron file cron/aqi_luftdaten-cron in the app directory.
+
+**NOTE:**
 No `chmod` of the cron files is needed.<br>
 No restart of cron is needed.
 
-Enable execution of the files target of the cron
+Just enable the execution of the files target of the cron
 
     sudo chmod +x sh/*
 
