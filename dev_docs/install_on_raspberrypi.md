@@ -467,7 +467,7 @@ Run
 
 then paste in the content code of `cron/aqi_luftdaten-cron`
 
-No `chmod` of the files is needed.<br>
+No `chmod` of the cron files is needed.<br>
 No restart of cron is needed.
 
 Enable execution of the files target of the cron
