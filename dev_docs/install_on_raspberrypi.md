@@ -309,7 +309,7 @@ In this app, one of these flders is is `static`.
 
 In production (i.e. when `DEBUG = False`), the static files must be served by the web server (e.g. nginx).
 
-Since the layout of the admin section is managed by Django, the static files of the admin section will automatically created into the folder defined in the variable `STATIC_ROOT` in settings.<br>
+Since the layout of the admin section (and eventually some third-parts django libraries) is managed by Django, the static files of the admin section will automatically created into the folder defined in the variable `STATIC_ROOT` in settings.<br>
 In this app it is `staticfiles`.
 
 So, every time new static files are developed in `STATICFILES_DIRS` folders, the STATIC_ROOT must be updated.<br>
