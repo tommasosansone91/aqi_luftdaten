@@ -359,7 +359,7 @@ but we do not need the one in `sites-enabled`, so you can delete it
 
 Create the symbolic link
 
-    ln -s /var/www/aqi_luftdaten/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
+    ln -s /var/www/aqi_luftdaten/infrastructure/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
 
 Check that the symbolic link is right, run 
 
@@ -367,9 +367,10 @@ Check that the symbolic link is right, run
 
 you should see
 
-    lrwxrwxrwx 1 root root   35 Aug 24  2020 lab_app_nginx.conf -> /var/www/lab_app/lab_app_nginx.conf
+    lrwxrwxrwx 1 root root   68 May  5 21:18 aqi_luftdaten_nginx.conf -> /var/www/aqi_luftdaten/infrastructure/nginx/aqi_luftdaten_nginx.conf
 
-This allows Nginx to find the app-specific configuration file `nginx/aqi_luftdaten_nginx.conf` in the app directory when it searches for configuration files.
+
+This allows Nginx to find the app-specific configuration file `infrastructure/nginx/aqi_luftdaten_nginx.conf` when it searches for configuration files.
 
 ### Check that Nginx is working
 
@@ -414,6 +415,35 @@ In other words, it is a web server designed to run Python web applications that 
     source venv/bin/activate
 
     pip install gunicorn
+
+
+
+### check you have wsgi file
+
+> [!NOTE]
+> Gunicorn requires that you have the .wsgi files in the root directory of your project , and **it will not be able to read it if it is elsewhere**.
+
+The files in the app folder `infrastructure/wsgi/` must be symbolically linked into the root directory of the project.
+
+    /var/www/aqi_luftdaten/
+
+Run
+
+    sudo su
+    cd /var/www/aqi_luftdaten
+    source venv/bin/activate 
+
+Create the symbolic link
+
+    ln -s /var/www/aqi_luftdaten/infrastructure/wsgi/aqi_luftdaten.wsgi /var/www/aqi_luftdaten/
+
+Check that the symbolic link is right, run 
+
+    ll /var/www/aqi_luftdaten/
+
+you should see the symbolic link and check that it is not colored in red
+
+    lrwxrwxrwx  1 root root   74 May  5 15:26 aqi_luftdaten.wsgi -> /var/www/aqi_luftdaten/infrastructure/wsgi/aqi_luftdaten.wsgi
 
 
 ### run the app manually via gunicorn
@@ -470,7 +500,7 @@ http://192.168.1.106:3000/
 
 ## cron files
 
-The files in the app folder `cron/` must be symbolically linked into directory
+The files in the app folder `infrastructure/cron/` must be symbolically linked into directory
 
     /etc/cron.d/
 
@@ -484,7 +514,7 @@ Run
     
 Create the symbolic link
 
-    ln -s /var/www/aqi_luftdaten/cron/aqi_luftdaten-cron /etc/cron.d/
+    ln -s /var/www/aqi_luftdaten/infrastructure/cron/aqi_luftdaten-cron /etc/cron.d/
 
 Check that the symbolic link is right, run
 
@@ -492,9 +522,9 @@ Check that the symbolic link is right, run
 
 you should see
 
-    lrwxrwxrwx 1 root root 46 May  1 10:59 /etc/cron.d/aqi_luftdaten-cron -> /var/www/aqi_luftdaten/cron/aqi_luftdaten-cron
+    lrwxrwxrwx 1 root root 46 May  1 10:59 /etc/cron.d/aqi_luftdaten-cron -> /var/www/aqi_luftdaten/infrastructure/cron/aqi_luftdaten-cron
 
-This allows cron to find the app-specific cron file cron/aqi_luftdaten-cron in the app directory.
+This allows cron to find the app-specific cron file `infrastructure/cron/aqi_luftdaten-cron` .
 
 **NOTE:**
 No `chmod` of the cron files is needed.<br>
@@ -514,7 +544,7 @@ Create directrory to host logs
 
 ## Turn the app into a service
 
-The files in the app folder `systemd/` must be symbolically linked into directory
+The files in the app folder `infrastructure/systemd/` must be symbolically linked into directory
 
     /etc/systemd/system 
     /etc/systemd/system/multi-user.target.wants/
@@ -537,8 +567,8 @@ make the file executable
 
 Create the symbolic links
 
-    ln -s /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service /etc/systemd/system/
-    ln -s /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service /etc/systemd/system/multi-user.target.wants/
+    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/
+    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/multi-user.target.wants/
 
 Check that the symbolic link is right, run
 
@@ -547,9 +577,9 @@ Check that the symbolic link is right, run
 
 you should see
 
-    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/multi-user.target.wants/aqi_luftdaten.service -> /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service
+    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/multi-user.target.wants/aqi_luftdaten.service -> /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service
     
-    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/aqi_luftdaten.service -> /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service
+    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/aqi_luftdaten.service -> /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service
 
 start the service 
 
