@@ -262,10 +262,6 @@ ativate and deactivate the virtual environment only for testing
 
 safe install `psycopg2` before massively installing all the other python modules
 
-    sudo apt-get install python-psycopg2
-
-**only if it does not work**, run
-
     pip install psycopg2-binary
 
 **only if it does not work again**, run
