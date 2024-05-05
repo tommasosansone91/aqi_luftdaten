@@ -532,7 +532,7 @@ No restart of cron is needed.
 
 Just enable the execution of the files target of the cron
 
-    sudo chmod +x sh/*
+    sudo chmod +x infrastructure/sh/*
 
 
 ## Log files
@@ -593,6 +593,7 @@ To make this service automatically run on boot
 
     sudo systemctl daemon-reload
     sudo systemctl enable aqi_luftdaten.service
+    sudo systemctl restart aqi_luftdaten.service  # there is no real need to run this
 
 In the end, test that the service works after the RPi booting
 
