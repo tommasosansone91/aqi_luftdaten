@@ -335,7 +335,7 @@ In the end, test that the app can be on the RPi without throwing any error.
     cd /var/www/aqi_luftdaten
     source venv/bin/activate
 
-    python manage.py runserver 0.0.0.0:8000
+    python manage.py runserver 0.0.0.0:8001
 
 
 ## Configure Nginx to serve the app
@@ -370,7 +370,7 @@ This allows Nginx to find the app-specific configuration file `infrastructure/ng
 
 ### Check that Nginx is working
 
-In case the app is running because it was manually started via `python manage.py runserver 0.0.0.0:8000`,
+In case the app is running because it was manually started via `python manage.py runserver 0.0.0.0:8001`,
 stop it via <kbd>ctrl</kbd> + <kbd>D</kbd>.
 
 restart nginx
@@ -445,14 +445,14 @@ you should see the symbolic link and check that it is not colored in red
 ### run the app manually via gunicorn
 
 This command is to have Gunicorn running the python app.<br>
-It binds the app **internal** port (8000) on which the app is exposed by the command `python manage.py runserver localhost:8000`, to the address and port `localhost:8000`.<br>
+It binds the app **internal** port (8001) on which the app is exposed by the command `python manage.py runserver localhost:8001`, to the address and port `localhost:8001`.<br>
 The `--bind` part tells Gunicorn that it has to listen HTTP requests coming from that port (from the app).
 
     sudo su
     cd /var/www/aqi_luftdaten
     source venv/bin/activate
 
-    PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000
+    PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8001
 
 See here why PYTHONPATH=\`pwd\`/.. is required at the start of the line.
 
@@ -473,7 +473,7 @@ http://192.168.1.106:3000/
     cd /var/www/aqi_luftdaten/
     source venv/bin/activate
 
-    sudo nohup env PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000 > /home/pi/aqi_luftdaten.log 2>&1 &
+    sudo nohup env PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8001 > /home/pi/aqi_luftdaten.log 2>&1 &
 
 
 #### check that the app is up and running

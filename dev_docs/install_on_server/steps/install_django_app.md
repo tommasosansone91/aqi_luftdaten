@@ -61,4 +61,4 @@ nei settings metti
 
 solo per test, poi blocca
 
-    python manage.py runserver 0.0.0.0:8000
+    python manage.py runserver 0.0.0.0:8001

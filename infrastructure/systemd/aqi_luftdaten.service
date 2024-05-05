@@ -41,7 +41,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/var/www/aqi_luftdaten/
-ExecStart=/var/www/aqi_luftdaten/venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8000
+ExecStart=/var/www/aqi_luftdaten/venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8001
 
 StandardOutput=file:/var/log/aqi_luftdaten/aqi_luftdaten-stdout.log
 StandardError=file:/var/log/aqi_luftdaten/aqi_luftdaten-stderr.log

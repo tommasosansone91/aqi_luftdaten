@@ -76,10 +76,10 @@ vedi altro file
 
 ## lancia app
 
-    python manage.py runserver 0.0.0.0:8000
+    python manage.py runserver 0.0.0.0:8001
 
 
-## apertura porta 8000 della EC2
+## apertura porta 8001 della EC2
 
 
 su aws consolle
@@ -90,7 +90,7 @@ lasica la parte del ssh
 
 aggiungi 
 type: custom tcp
-porta: 8000
+porta: 8001
 source: custom
 ip: 0.0.0.0
 
@@ -109,15 +109,15 @@ sgr-076cb5b6fc4f4c351
 IPv4	
 Custom TCP	
 TCP	
-8000	
+8001	
 0.0.0.0/0	
-http port 8000
+http port 8001
 
 
 ## accesso da browser
 
 
-vai a http://15.161.126.254:8000/
+vai a http://15.161.126.254:8001/
 
 dovrebbe funzionare
 
