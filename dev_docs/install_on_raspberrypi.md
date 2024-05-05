@@ -613,6 +613,14 @@ Documentation https://www.freedesktop.org/software/systemd/man/systemd.service.h
 
 <hr>
 
+In case you change nginx or wsgi configurations, reload the daemon and restart the services to make them effective
+
+    /etc/init.d/nginx restart
+    sudo systemctl daemon-reload
+    sudo systemctl restart aqi_luftdaten.service
+
+<hr>
+
 ```diff
 + The app aqi_luftdaten is now successfully installed!
 ```
