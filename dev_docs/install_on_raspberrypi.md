@@ -575,10 +575,6 @@ Run
     cd /var/www/aqi_luftdaten/
     source venv/bin/activate
 
-make the file executable 
-
-    sudo chmod +x aqi_luftdaten.service
-
 Create the symbolic links
 
     ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/
