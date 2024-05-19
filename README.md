@@ -33,4 +33,4 @@
 
 ## Guida all'installazione
 
-https://github.com/tommasosansone91/aqi_luftdaten/blob/master/dev_docs/install_on_raspberrypi.md
+https://github.com/tommasosansone91/aqi_luftdaten/blob/master/dev_utils/install_on_raspberrypi.md
