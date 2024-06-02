@@ -6,7 +6,7 @@
 
 # salva i valori nel modello storico grezzo
 # arrangia le serie orarie attingendo al modello storico grezzo
-0 * * * * root bash /var/www/aqi_luftdaten/sh/save_current_data_and_arrange_series_and_graphs.sh >/var/log/aqi_luftdaten/save_current_data_and_arrange_series_and_graphs.log
+0 * * * * root bash /var/www/aqi_luftdaten/infrastructure/sh/save_current_data_and_arrange_series_and_graphs.sh >/var/log/aqi_luftdaten/save_current_data_and_arrange_series_and_graphs.log
 
 
 
@@ -14,4 +14,4 @@
 # -------
 
 # * * * * * root cd /home/pi/;touch hello_time.txt;echo "hello the time is $(date)" >> hello_time.txt
-# * * * * * root bash /var/www/aqi_luftdaten/sh/save_current_data_and_arrange_series_and_graphs.sh >/var/log/aqi_luftdaten/save_current_data_and_arrange_series_and_graphs.log
+# * * * * * root bash /var/www/aqi_luftdaten/infrastructure/sh/save_current_data_and_arrange_series_and_graphs.sh >/var/log/aqi_luftdaten/save_current_data_and_arrange_series_and_graphs.log

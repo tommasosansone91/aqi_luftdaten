@@ -29,5 +29,5 @@ Ciò lo faccio mediante i comandi
 
     sudo chmod +x aqi_luftdaten.service
 
-    ln -s /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service /etc/systemd/system/
-    ln -s /var/www/aqi_luftdaten/systemd/aqi_luftdaten.service /etc/systemd/system/multi-user.target.wants/
+    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/
+    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/multi-user.target.wants/
