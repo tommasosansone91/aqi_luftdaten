@@ -14,7 +14,7 @@ It also recreates the graphs.
 # inoltre ridisegna i grafici delle serie orarie, giornaliere
 
 # quando scrivo
-# python manage.py arrange_historical_series
+# python manage.py arrange_historical_and_daily_series
 # la funzione command viene rannata automaticamente
 class Command(BaseCommand):
     def handle(self, *args, **options):
