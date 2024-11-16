@@ -1,6 +1,11 @@
-from django.core.management.base import BaseCommand
+
+# usage
+#----------
 
 # python manage.py compute_conversion_factor
+
+
+from django.core.management.base import BaseCommand
 
 ###########################
 # deprecated
