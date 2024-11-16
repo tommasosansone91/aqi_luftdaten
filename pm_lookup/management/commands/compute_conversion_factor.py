@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-# python manage.py calcolo1
+# python manage.py compute_conversion_factor
 
 ###########################
 # deprecated
@@ -35,4 +35,8 @@ class Command(BaseCommand):
 
         # in realtà la distanza tra questi due punti è 14.9 km
 
-        self.stdout.write(self.style.SUCCESS('Per milano il fattore di conversione medio è "%s"' % fattore_conversione)) 
+        success_message = 'Per milano il fattore di conversione medio è "%s"' % fattore_conversione
+
+        self.stdout.write(
+            self.style.SUCCESS(success_message)
+            ) 
