@@ -21,6 +21,7 @@ class Command(BaseCommand):
 
         # RealtimeDatapoints.objects.all().delete()
 
+        # deleting the series(+graphs), not the historical dataponts
         DatapointsSerie.objects.all().delete()
         DailyAggregatedDatapointsSerie.objects.all().delete()
         HourlyAggregatedDatapointsSerie.objects.all().delete()
