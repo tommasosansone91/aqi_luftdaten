@@ -7,8 +7,8 @@
 
 from django.core.management.base import BaseCommand
 
-from pm_lookup.processing.scheduled_processing import save_history_pm
-from pm_lookup.processing.scheduled_processing_2 import arrange_time_series_and_graphs
+from pm_lookup.processing.scheduled_processing_1 import get_current_pm_values_and_save_them_in_history
+from pm_lookup.processing.scheduled_processing_2 import arrange_datapoints_series_and_graphs
 
 
 # quando scrivo
@@ -19,6 +19,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         
         #salva i valori nel modello storico grezzo
-        save_history_pm()
+        get_current_pm_values_and_save_them_in_history()
         
 

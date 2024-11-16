@@ -15,13 +15,14 @@ from pm_lookup.models import HistoricalDatapoints
 
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
-from .auxiliary_processing import save_in_history
+# from .auxiliary_processing import save_realtime_datapoints_in_history
 
 # per conversione della timezone e check ora legale
 from .auxiliary_processing import convert_datetime_timezone
 from .auxiliary_processing import add_one_hour
 
-def get_realtime_and_save_history_pm():    
+
+def get_realtime_pm_values():    
 
     
     # url generating
@@ -47,11 +48,12 @@ def get_realtime_and_save_history_pm():
     except Exception as e:
         api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
 
-    # voglio un solo record per ogni location
+    # nel modello realtime voglio un solo record per ogni location
     RealtimeDatapoints.objects.all().delete()
 
+    # non tocco il modello history
 
-    # prende dati input e dispone in vettori le info di ognuna
+    # prende dati input
     input_data = target_area.objects.all()
 
     
@@ -62,7 +64,7 @@ def get_realtime_and_save_history_pm():
     for place in input_data:
 
         place_id = place.id
-
+        
         place_name = place.Name
 
         print("Inizio ricerca dati per %s..." % place_name)
@@ -152,7 +154,7 @@ def get_realtime_and_save_history_pm():
                         timestamp_value = add_one_hour(timestamp_value)
 
                     timestamp_list.append(timestamp_value)  
-                    print("    Timestamp: %s" % timestamp_value)                  
+                    print("    Timestamp: %s" % timestamp_value)                 
 
                 else:
                     print("    Questo sensore non possiede dati di particolato")    
@@ -213,11 +215,8 @@ def get_realtime_and_save_history_pm():
         print("Timestamp delle osservazioni per %s: %s" % (place_name, record_time))
 
 
-        # try:
-
         new_record = RealtimeDatapoints(
                                                 target_area=input_data.get(id=place_id),
-                                                # qui non vuole objects tra nome del modello e get...perchè?
                                                 # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                 # quindi qui dico: salva i dati nel campo foreign key 
                                                 # che rimanda all'oggetto avente per id quello che mi sono salvato
@@ -241,27 +240,15 @@ def get_realtime_and_save_history_pm():
         
         new_record.save()
 
-        print("Dati per %s salvati nel modello real-time!" % place_name)
-
-        # except:
-        #     print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
-        #     print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica." % (place_name, record_time, PM10_mean, PM25_mean) )
-        #     print("I dati acquisiti non sono stati salvati.")
+        print("Dati per %s salvati nel modello realtime!" % place_name)
 
         print("---------------------------------------------------")
 
+
     # quando ha processato tutti i posti
-    # print("---------------------------------------------------")
-
-    # salvo tutto ciò che c'è nel modello output anche nel modello history
-    save_in_history() 
-                
-    print("I nuovi dati per tutte le località sono stati salvati nel modello storico!")
-
     print("---------------------------------------------------")
 
-    
-
+    # estrae solo gli attuali, ma non li salva in history
 
     common_output = {
             'api_URL':api_URL, 

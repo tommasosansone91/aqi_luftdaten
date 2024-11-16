@@ -21,7 +21,7 @@ from .auxiliary_processing import convert_datetime_timezone
 from .auxiliary_processing import add_one_hour
 
 
-def save_history_pm():    
+def get_current_pm_values_and_save_them_in_history():    
 
     
     # url generating

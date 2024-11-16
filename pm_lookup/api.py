@@ -8,7 +8,7 @@ from .models import HistoricalDatapoints
 from .models import DatapointsSerie
 from .models import DailyAggregatedDatapointsSerie
 
-from .processing.realtime_processing import get_realtime_pm
+from .processing.realtime_processing_1 import get_realtime_pm_values
 
 
 
@@ -21,7 +21,7 @@ def cities_list_api(request):
 def cities_RealtimeDatapoints_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
-    get_realtime_pm()
+    get_realtime_pm_values()
 
     rt_records = RealtimeDatapoints.objects.all()
     data = {"realtime_records":list(rt_records.values())}
@@ -99,7 +99,7 @@ def city_detail_api(request, pk):
 # api/RealtimeDatapoints_detail/<int:pk>
 def RealtimeDatapoints_detail_api(request, pk):
 
-    get_realtime_pm()
+    get_realtime_pm_values()
 
     try:
         city = target_area.objects.get(pk=pk)

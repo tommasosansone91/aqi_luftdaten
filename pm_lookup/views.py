@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from pm_lookup.processing.realtime_processing import get_realtime_pm
-from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
+from pm_lookup.processing.realtime_processing_1 import get_realtime_pm_values
+from pm_lookup.processing.realtime_processing_2 import update_realtime_pm_values_and_save_them_in_history
 
 from .models import target_area
 from .models import RealtimeDatapoints
@@ -46,7 +46,7 @@ def catalogo_localita(request):
 def valori_realtime(request):
     
     #  ranna il processing senza rendere niente in una variabile
-    get_realtime_pm()
+    get_realtime_pm_values()
 
     # va a prendere i dati nei modelli
     aree_di_interesse = target_area.objects.all()    
@@ -69,7 +69,7 @@ def valori_realtime(request):
     
 
 #     #  ranna il processing senza rendere niente in una variabile
-#     get_realtime_and_save_history_pm()
+#     update_realtime_pm_values_and_save_them_in_history()
 
 #     # va a prendere i dati nei modelli
 #     aree_di_interesse = target_area.objects.all()    

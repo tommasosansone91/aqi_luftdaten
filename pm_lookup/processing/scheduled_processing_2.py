@@ -13,7 +13,7 @@ from pm_lookup.drawers.drawer1 import draw_timeserie_PM25_graph
 # errore sopraggiunto dopo il reset del db?
 from pm_lookup.processing.auxiliary_processing import fix_timezone_mismatch_1
 
-def arrange_time_series_and_graphs():
+def arrange_datapoints_series_and_graphs():
 
     DatapointsSerie.objects.all().delete()
 
@@ -22,7 +22,7 @@ def arrange_time_series_and_graphs():
     print("Inizio disposizione dati in serie storiche per ogni località...")
 
     # prendo i record delle 24 ore degli ultimi 30 giorni
-    Lunghezza_temporale = 24*30
+    time_horizon_length = 24*30
 
     for area_di_interesse in target_area.objects.all():
 
@@ -31,7 +31,7 @@ def arrange_time_series_and_graphs():
         # isola i record di una località - è cmq un gruppo di oggetti
         records_serie_storica = HistoricalDatapoints.objects.filter(target_area=area_di_interesse)
         
-        records_serie_storica = records_serie_storica[: Lunghezza_temporale - 1]
+        records_serie_storica = records_serie_storica[: time_horizon_length - 1]
 
         # nota: i dati sno già ordinati per default in ordine decrescente
 

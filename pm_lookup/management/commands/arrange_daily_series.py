@@ -5,7 +5,7 @@
 
 from django.core.management.base import BaseCommand
 
-from pm_lookup.processing.scheduled_processing_3 import arrange_daily_time_series_and_graphs
+from pm_lookup.processing.scheduled_processing_4 import arrange_dailyaggregated_datapoints_series_and_graphs
 
 # quando scrivo
 # python manage.py group_daily_series
@@ -15,4 +15,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         
         #arrangia le serie storiche giornaliere
-        arrange_daily_time_series_and_graphs()
+        arrange_dailyaggregated_datapoints_series_and_graphs()

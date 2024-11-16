@@ -21,14 +21,14 @@ to run
 
 chiama la API Luftdaten per ottenere e salvare i dati nel modello storico grezzo
 
-    save_history_pm()
+    get_current_pm_values_and_save_them_in_history()
 
 
 ### arrange_historical_and_daily_series
 
 arrangia/disegna le serie *orarie* e *giornaliere* attingendo al modello storico grezzo
 
-    arrange_daily_time_series_and_graphs()
+    arrange_dailyaggregated_datapoints_series_and_graphs()
 
 **NOTA**: è necessario lanciare questo script quando un grande ammontare di dati recenti vengono rimossi dal modello storico grezzo.
 
@@ -37,7 +37,7 @@ arrangia/disegna le serie *orarie* e *giornaliere* attingendo al modello storico
 
 arrangia/disegna le serie *giornaliere* attingendo al modello storico grezzo
 
-    arrange_daily_time_series_and_graphs()
+    arrange_dailyaggregated_datapoints_series_and_graphs()
 
 **NOTA**: è necessario lanciare questo script quando un grande ammontare di dati recenti vengono rimossi dal modello storico grezzo.
 

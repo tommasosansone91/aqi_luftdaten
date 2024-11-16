@@ -5,13 +5,13 @@ import pytz
 
 import time
 
-# servono a save_in_history()
+# servono a save_realtime_datapoints_in_history()
 from pm_lookup.models import target_area
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
 
 
-def save_in_history():
+def save_realtime_datapoints_in_history():
 
     latest_data = RealtimeDatapoints.objects.all()
     
