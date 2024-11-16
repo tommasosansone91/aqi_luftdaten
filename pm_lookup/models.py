@@ -27,7 +27,12 @@ class target_area(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [%s, %s - Radius: %s km]"  %  (self.Name, self.Latitude, self.Longitude, self.Radius)  
+        return  "%s --- [%s, %s - Radius: %s km]"  %    (
+                                                        self.Name, 
+                                                        self.Latitude, 
+                                                        self.Longitude, 
+                                                        self.Radius
+                                                        )  
 
     class Meta:
         ordering = ['-Radius', 'Name']
@@ -58,6 +63,8 @@ class realtime_datapoints(models.Model):
 
     Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
+    # these could be switched to a single json
+
     PM10_mean = models.FloatField(null=False, blank=False)
     PM25_mean = models.FloatField(null=False, blank=False)
 
@@ -77,7 +84,13 @@ class realtime_datapoints(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (self.target_area.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
+        return  "%s --- [ %s ]"  %  (
+                                    self.target_area.Name, 
+                                    datetime.strftime(
+                                        self.Last_update_time, 
+                                        "%H:%M:%S %d-%m-%Y"
+                                        ) 
+                                    )  
 
 
     class Meta:
@@ -118,7 +131,13 @@ class history_data(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (self.target_area.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
+        return  "%s --- [ %s ]"  %  (
+                                    self.target_area.Name, 
+                                    datetime.strftime(
+                                            self.Last_update_time, 
+                                            "%H:%M:%S %d-%m-%Y"
+                                            ) 
+                                    )  
         
  
     class Meta:
