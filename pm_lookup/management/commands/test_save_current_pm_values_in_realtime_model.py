@@ -1,3 +1,9 @@
+
+# usage
+#----------
+
+# python manage.py test_save_current_pm_values_in_realtime_model
+
 from django.core.management.base import BaseCommand
 
 from pm_lookup.models import target_area, RealtimeDatapoints
@@ -23,6 +29,8 @@ import requests
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+
+        # RealtimeDatapoints.objects.all().delete()
 
         # url generating
         api_URL = "https://data.sensor.community/static/v2/data.1h.json"
@@ -125,7 +133,7 @@ class Command(BaseCommand):
                 PM10_mean_quality_cathegory="quita"
 
             elif PM10_mean>=200:
-                PM10_mean_quality_cathegory_label="Emergenza evacuazione"
+                PM10_mean_quality_cathegory_label="Emergenziale"
                 PM10_mean_quality_cathegory="sesta"
 
             else:
@@ -155,7 +163,7 @@ class Command(BaseCommand):
                 PM25_mean_cathegory="quinta"
 
             elif PM25_mean>=100:
-                PM25_mean_quality_cathegory_label="Emergenza evacuazione"
+                PM25_mean_quality_cathegory_label="Emergenziale"
                 PM25_mean_cathegory="sesta"
 
             else:
