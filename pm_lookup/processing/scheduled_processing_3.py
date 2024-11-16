@@ -109,8 +109,8 @@ def arrange_daily_time_series_and_graphs():
         PM10_daily_mean = [ round( np.mean( PM10_mean[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
         PM25_daily_mean = [ round( np.mean( PM25_mean[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
 
-        PM10_daily_mean_quality = [ evaluate_PM10(i)[0] for i in PM10_daily_mean ]
-        PM25_daily_mean_quality = [ evaluate_PM25(i)[0] for i in PM25_daily_mean ]
+        PM10_daily_mean_quality_cathegory_label = [ evaluate_PM10(i)[0] for i in PM10_daily_mean ]
+        PM25_daily_mean_quality_cathegory_label = [ evaluate_PM25(i)[0] for i in PM25_daily_mean ]
 
         PM10_daily_mean_cathegory = [ evaluate_PM10(i)[1] for i in PM10_daily_mean ]
         PM25_daily_mean_cathegory = [ evaluate_PM25(i)[1] for i in PM25_daily_mean ]
@@ -134,8 +134,8 @@ def arrange_daily_time_series_and_graphs():
                         "PM10_daily_mean" : PM10_daily_mean,
                         "PM25_daily_mean" : PM25_daily_mean,
 
-                        "PM10_daily_mean_quality" : PM10_daily_mean_quality,
-                        "PM25_daily_mean_quality" : PM25_daily_mean_quality,
+                        "PM10_daily_mean_quality_cathegory_label" : PM10_daily_mean_quality_cathegory_label,
+                        "PM25_daily_mean_quality_cathegory_label" : PM25_daily_mean_quality_cathegory_label,
 
                         "PM10_daily_mean_cathegory" : PM10_daily_mean_cathegory,
                         "PM25_daily_mean_cathegory" : PM25_daily_mean_cathegory,
@@ -194,10 +194,10 @@ def arrange_daily_time_series_and_graphs():
                                                     PM10_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM10_daily_mean'] ) +']',
                                                     PM25_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM25_daily_mean'] ) +']',
 
-                                                    PM10_mean_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_daily_mean_quality'] ) +'"]',
-                                                    PM25_mean_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_daily_mean_quality'] ) +'"]',
+                                                    PM10_mean_quality_cathegory_label_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_daily_mean_quality_cathegory_label'] ) +'"]',
+                                                    PM25_mean_quality_cathegory_label_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_daily_mean_quality_cathegory_label'] ) +'"]',
 
-                                                    PM10_mean_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_daily_mean_cathegory'] ) +'"]',
+                                                    PM10_mean_quality_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_daily_mean_cathegory'] ) +'"]',
                                                     PM25_mean_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_daily_mean_cathegory'] ) +'"]',
 
                                                     number_of_contributing_sensors_values = '[' + ', '.join(str(e) for e in  serie_storica['Mean_number_of_contributing_sensors'] ) +']',

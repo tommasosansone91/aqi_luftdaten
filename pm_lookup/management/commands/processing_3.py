@@ -105,61 +105,61 @@ class Command(BaseCommand):
 
             # categorie di qualità dell'aria rispetto a PM 10
             if PM10_mean <=20:
-                PM10_mean_quality="Ottima"
-                PM10_mean_cathegory="prima"
+                PM10_mean_quality_cathegory_label="Ottima"
+                PM10_mean_quality_cathegory="prima"
 
             elif PM10_mean>=20 and PM10_mean <=35:
-                PM10_mean_quality="Buona"
-                PM10_mean_cathegory="seconda"
+                PM10_mean_quality_cathegory_label="Buona"
+                PM10_mean_quality_cathegory="seconda"
             
             elif PM10_mean>=35 and PM10_mean <=50:
-                PM10_mean_quality="Al limite dell'accettabilità"
-                PM10_mean_cathegory="terza"
+                PM10_mean_quality_cathegory_label="Al limite dell'accettabilità"
+                PM10_mean_quality_cathegory="terza"
 
             elif PM10_mean>=50 and PM10_mean <=100:
-                PM10_mean_quality="Fuori legge"
-                PM10_mean_cathegory="quarta"
+                PM10_mean_quality_cathegory_label="Fuori legge"
+                PM10_mean_quality_cathegory="quarta"
 
             elif PM10_mean>=100 and PM10_mean <=200:
-                PM10_mean_quality="Pericolosa"
-                PM10_mean_cathegory="quita"
+                PM10_mean_quality_cathegory_label="Pericolosa"
+                PM10_mean_quality_cathegory="quita"
 
             elif PM10_mean>=200:
-                PM10_mean_quality="Emergenza evacuazione"
-                PM10_mean_cathegory="sesta"
+                PM10_mean_quality_cathegory_label="Emergenza evacuazione"
+                PM10_mean_quality_cathegory="sesta"
 
             else:
-                PM10_mean_quality="No data"
-                PM10_mean_cathegory="nessuna"
+                PM10_mean_quality_cathegory_label="No data"
+                PM10_mean_quality_cathegory="nessuna"
 
 
             # categorie di qualità dell'aria rispetto a PM 2.5
             if PM25_mean <=10:
-                PM25_mean_quality="Ottima"
+                PM25_mean_quality_cathegory_label="Ottima"
                 PM25_mean_cathegory="prima"
 
             elif PM25_mean>=10 and PM25_mean <=20:
-                PM25_mean_quality="Buona"
+                PM25_mean_quality_cathegory_label="Buona"
                 PM25_mean_cathegory="seconda"
             
             elif PM25_mean>=20 and PM25_mean <=25:
-                PM25_mean_quality="Al limite dell'accettabilità"
+                PM25_mean_quality_cathegory_label="Al limite dell'accettabilità"
                 PM25_mean_cathegory="terza"
 
             elif PM25_mean>=25 and PM25_mean <=50:
-                PM25_mean_quality="Fuori legge"
+                PM25_mean_quality_cathegory_label="Fuori legge"
                 PM25_mean_cathegory="quarta"
 
             elif PM25_mean>=50 and PM25_mean <=100:
-                PM25_mean_quality="Pericolosa"
+                PM25_mean_quality_cathegory_label="Pericolosa"
                 PM25_mean_cathegory="quinta"
 
             elif PM25_mean>=100:
-                PM25_mean_quality="Emergenza evacuazione"
+                PM25_mean_quality_cathegory_label="Emergenza evacuazione"
                 PM25_mean_cathegory="sesta"
 
             else:
-                PM25_mean_quality="No data"
+                PM25_mean_quality_cathegory_label="No data"
                 PM25_mean_cathegory="nessuna"
                 
 
@@ -170,10 +170,10 @@ class Command(BaseCommand):
                                                     PM10_mean=PM10_mean,
                                                     PM25_mean=PM25_mean,
 
-                                                    PM10_mean_quality=PM10_mean_quality, 
-                                                    PM25_mean_quality=PM25_mean_quality,
+                                                    PM10_mean_quality_cathegory_label=PM10_mean_quality_cathegory_label, 
+                                                    PM25_mean_quality_cathegory_label=PM25_mean_quality_cathegory_label,
 
-                                                    PM10_mean_cathegory=PM10_mean_cathegory,
+                                                    PM10_mean_quality_cathegory=PM10_mean_quality_cathegory,
                                                     PM25_mean_cathegory=PM25_mean_cathegory,
 
                                                     number_of_contributing_sensors=number_of_contributing_sensors,
