@@ -3,11 +3,11 @@ from django.shortcuts import render
 from pm_lookup.processing.realtime_processing import get_realtime_pm
 from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
 
-from .models import target_area_input_data
-from .models import target_area_realtime_data
-from .models import target_area_history_data
-from .models import target_area_time_serie
-from .models import target_area_daily_time_serie
+from .models import target_area
+from .models import realtime_datapoints
+from .models import history_data
+from .models import datapoints_data_serie
+from .models import daily_aggregated_data_serie
 
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -35,8 +35,8 @@ def catalogo_api(request):
 
 def catalogo_localita(request):
 
-    aree_di_interesse = target_area_input_data.objects.all().order_by('id')
-    # from target_area_input_data select *, order by id
+    aree_di_interesse = target_area.objects.all().order_by('id')
+    # from target_area select *, order by id
 
     context_dict =  {'aree_di_interesse':aree_di_interesse}
 
@@ -49,10 +49,10 @@ def valori_realtime(request):
     get_realtime_pm()
 
     # va a prendere i dati nei modelli
-    aree_di_interesse = target_area_input_data.objects.all()    
-    n_aree_di_interesse = target_area_input_data.objects.all().count()    
+    aree_di_interesse = target_area.objects.all()    
+    n_aree_di_interesse = target_area.objects.all().count()    
 
-    record_sensori = target_area_realtime_data.objects.all()
+    record_sensori = realtime_datapoints.objects.all()
 
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,
@@ -72,10 +72,10 @@ def valori_realtime(request):
 #     get_realtime_and_save_history_pm()
 
 #     # va a prendere i dati nei modelli
-#     aree_di_interesse = target_area_input_data.objects.all()    
-#     n_aree_di_interesse = target_area_input_data.objects.all().count()    
+#     aree_di_interesse = target_area.objects.all()    
+#     n_aree_di_interesse = target_area.objects.all().count()    
 
-#     record_sensori = target_area_realtime_data.objects.all()
+#     record_sensori = realtime_datapoints.objects.all()
 
 #     context_dict = {
 #                     'aree_di_interesse':aree_di_interesse,
@@ -91,9 +91,9 @@ def valori_realtime(request):
 # solo raffigurazione
 def serie_storiche(request):
 
-    print("Richiamo dati in target_area_time_serie...")
-    dataset_dei_grafici = target_area_time_serie.objects.all()
-    print("Dati in target_area_time_serie acquisiti!")
+    print("Richiamo dati in datapoints_data_serie...")
+    dataset_dei_grafici = datapoints_data_serie.objects.all()
+    print("Dati in datapoints_data_serie acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici
@@ -110,9 +110,9 @@ def serie_storiche(request):
 # solo raffigurazione
 def serie_storiche_giornaliere(request):
 
-    print("Richiamo dati in target_area_daily_time_serie...")
-    dataset_dei_grafici = target_area_daily_time_serie.objects.all()
-    print("Dati in target_area_daily_time_serie acquisiti!")
+    print("Richiamo dati in daily_aggregated_data_serie...")
+    dataset_dei_grafici = daily_aggregated_data_serie.objects.all()
+    print("Dati in daily_aggregated_data_serie acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici

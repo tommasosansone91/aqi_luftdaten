@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameModel(
             old_name='target_area_output_data',
-            new_name='target_area_realtime_data',
+            new_name='realtime_datapoints',
         ),
     ]

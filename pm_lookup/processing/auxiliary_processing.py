@@ -6,26 +6,26 @@ import pytz
 import time
 
 # servono a save_in_history()
-from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_realtime_data
-from pm_lookup.models import target_area_history_data
+from pm_lookup.models import target_area
+from pm_lookup.models import realtime_datapoints
+from pm_lookup.models import history_data
 
 
 def save_in_history():
 
-    latest_data = target_area_realtime_data.objects.all()
+    latest_data = realtime_datapoints.objects.all()
     
 
     for element in latest_data: 
 
-        element_id = element.Target_area_input_data.id
-        element_name = element.Target_area_input_data.Name
+        element_id = element.target_area.id
+        element_name = element.target_area.Name
         
 
         try:       
 
-            new_record = target_area_history_data(
-                                                    Target_area_input_data=target_area_input_data.objects.get(id=element_id),
+            new_record = history_data(
+                                                    target_area=target_area.objects.get(id=element_id),
                                                     
                                                     # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                     # quindi qui dico: salva i dati nel campo foreign key 
@@ -57,7 +57,7 @@ def save_in_history():
             print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
             # questo vincolo c'è solo sui dati storici
 
-            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.Target_area_input_data.Name, element.Last_update_time, element.PM10_mean, element.PM25_mean) )
+            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.target_area.Name, element.Last_update_time, element.PM10_mean, element.PM25_mean) )
             print("I dati acquisiti non sono stati salvati.")
 
 

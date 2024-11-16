@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pm_lookup', '0006_target_area_daily_time_serie'),
+        ('pm_lookup', '0006_daily_aggregated_data_serie'),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='target_area_history_data',
-            options={'ordering': ['-Last_update_time', '-Target_area_input_data__Radius', 'Target_area_input_data__Name']},
+            name='history_data',
+            options={'ordering': ['-Last_update_time', '-target_area__Radius', 'target_area__Name']},
         ),
     ]

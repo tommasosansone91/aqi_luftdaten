@@ -10,7 +10,7 @@ from datetime import datetime
 # ogni modello django possiede per default
 # id = models.AutoField(primary_key=True)
 
-class target_area_input_data(models.Model):
+class target_area(models.Model):
 
     # id = models.AutoField(primary_key=True)
 
@@ -35,11 +35,11 @@ class target_area_input_data(models.Model):
 
 
 
-class target_area_realtime_data(models.Model):
+class realtime_datapoints(models.Model):
 
     # nota che è maiuscolo
-    Target_area_input_data = models.OneToOneField(
-        'target_area_input_data',
+    target_area = models.OneToOneField(
+        'target_area',
         on_delete=models.CASCADE,
         
     )
@@ -47,9 +47,9 @@ class target_area_realtime_data(models.Model):
     # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .Name. .Radius, ecc
     
     # Target_area_name = models.ForeignKey(
-    #     'target_area_input_data',
-    #     # Target_area_name = models.ForeignKey('target_area_input_data', on_delete....)
-    #     # vuol dire: in questo campo metti l'id del modello 'target_area_input_data'
+    #     'target_area',
+    #     # Target_area_name = models.ForeignKey('target_area', on_delete....)
+    #     # vuol dire: in questo campo metti l'id del modello 'target_area'
         
     #     # nota che l'attributo è in minuscolo
     #     on_delete=models.CASCADE,
@@ -77,21 +77,21 @@ class target_area_realtime_data(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (self.Target_area_input_data.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
+        return  "%s --- [ %s ]"  %  (self.target_area.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
 
 
     class Meta:
-        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        ordering = ['-target_area__Radius', 'target_area__Name']
         # fixato così
-        # ordering = ['-Target_area_input_data.Radius', 'Target_area_input_data.Name']
+        # ordering = ['-target_area.Radius', 'target_area.Name']
 
 
 
-class target_area_history_data(models.Model):
+class history_data(models.Model):
 
     # nota che è maiuscolo
-    Target_area_input_data = models.ForeignKey(
-        'target_area_input_data',
+    target_area = models.ForeignKey(
+        'target_area',
         on_delete=models.CASCADE,
         
     )
@@ -118,27 +118,27 @@ class target_area_history_data(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (self.Target_area_input_data.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
+        return  "%s --- [ %s ]"  %  (self.target_area.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
         
  
     class Meta:
-        ordering = ['-Last_update_time', '-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        ordering = ['-Last_update_time', '-target_area__Radius', 'target_area__Name']
 
         # fixato così
-        # ordering = ['-Target_area_input_data.Radius', 'Target_area_input_data.Name', '-Last_update_time']
+        # ordering = ['-target_area.Radius', 'target_area.Name', '-Last_update_time']
 
-        unique_together = ('Target_area_input_data', 'Last_update_time', 'PM10_mean', 'PM25_mean')
+        unique_together = ('target_area', 'Last_update_time', 'PM10_mean', 'PM25_mean')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 
 # --------------------------------
 
 
-class target_area_time_serie(models.Model):
+class datapoints_data_serie(models.Model):
 
     # nota che è maiuscolo
-    Target_area_input_data = models.ForeignKey(
-        'target_area_input_data',
+    target_area = models.ForeignKey(
+        'target_area',
         on_delete=models.CASCADE,
         
     )
@@ -164,21 +164,21 @@ class target_area_time_serie(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  (self.Target_area_input_data.Name )  
+        return  "%s"  %  (self.target_area.Name )  
         
  
     class Meta:
-        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        ordering = ['-target_area__Radius', 'target_area__Name']
 
 
 
 # serie giornaliere
 
-class target_area_daily_time_serie(models.Model):
+class daily_aggregated_data_serie(models.Model):
 
     # nota che è maiuscolo
-    Target_area_input_data = models.ForeignKey(
-        'target_area_input_data',
+    target_area = models.ForeignKey(
+        'target_area',
         on_delete=models.CASCADE,
         
     )
@@ -204,8 +204,8 @@ class target_area_daily_time_serie(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  (self.Target_area_input_data.Name )  
+        return  "%s"  %  (self.target_area.Name )  
         
  
     class Meta:
-        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        ordering = ['-target_area__Radius', 'target_area__Name']

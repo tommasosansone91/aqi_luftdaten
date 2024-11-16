@@ -1,9 +1,9 @@
 import numpy as np
 
-from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_realtime_data
-from pm_lookup.models import target_area_history_data
-from pm_lookup.models import target_area_time_serie
+from pm_lookup.models import target_area
+from pm_lookup.models import realtime_datapoints
+from pm_lookup.models import history_data
+from pm_lookup.models import datapoints_data_serie
 
 # importo i drawers
 from pm_lookup.drawers.drawer1 import draw_timeserie_PM10_graph
@@ -15,21 +15,21 @@ from pm_lookup.processing.auxiliary_processing import fix_timezone_mismatch_1
 
 def arrange_time_series_and_graphs():
 
-    target_area_time_serie.objects.all().delete()
+    datapoints_data_serie.objects.all().delete()
 
-    print("Eliminate tutte le serie storiche in target_area_time_serie!")
+    print("Eliminate tutte le serie storiche in datapoints_data_serie!")
 
     print("Inizio disposizione dati in serie storiche per ogni località...")
 
     # prendo i record delle 24 ore degli ultimi 30 giorni
     Lunghezza_temporale = 24*30
 
-    for area_di_interesse in target_area_input_data.objects.all():
+    for area_di_interesse in target_area.objects.all():
 
         print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.Name)
 
         # isola i record di una località - è cmq un gruppo di oggetti
-        records_serie_storica = target_area_history_data.objects.filter(Target_area_input_data=area_di_interesse)
+        records_serie_storica = history_data.objects.filter(target_area=area_di_interesse)
         
         records_serie_storica = records_serie_storica[: Lunghezza_temporale - 1]
 
@@ -37,7 +37,7 @@ def arrange_time_series_and_graphs():
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
-                        "Target_area_input_data" : area_di_interesse.Name,
+                        "target_area" : area_di_interesse.Name,
 
                         # questi sono vettori di valori
 
@@ -98,9 +98,9 @@ def arrange_time_series_and_graphs():
 
         
 
-        elementi_grafico = target_area_time_serie(
+        elementi_grafico = datapoints_data_serie(
                                                     # errore qui
-                                                    Target_area_input_data = target_area_input_data.objects.get(Name=area_di_interesse.Name),
+                                                    target_area = target_area.objects.get(Name=area_di_interesse.Name),
 
                                                     # questi sono vettori di valori
 

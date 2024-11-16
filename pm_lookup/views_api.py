@@ -2,28 +2,28 @@
 # esportazione api
 from django.http import JsonResponse
 
-from .models import target_area_input_data
-from .models import target_area_realtime_data
-from .models import target_area_history_data
-from .models import target_area_time_serie
-from .models import target_area_daily_time_serie
+from .models import target_area
+from .models import realtime_datapoints
+from .models import history_data
+from .models import datapoints_data_serie
+from .models import daily_aggregated_data_serie
 
 from .processing.realtime_processing import get_realtime_pm
 
 
 
 def cities_list_api(request):
-    cities = target_area_input_data.objects.all()
+    cities = target_area.objects.all()
     data = {"cities":list(cities.values("pk","Name","Longitude","Latitude","Radius"))}
     response = JsonResponse(data)
     return response
 
-def realtime_data_api(request):
+def realtime_datapoints_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
     get_realtime_pm()
 
-    rt_records = target_area_realtime_data.objects.all()
+    rt_records = realtime_datapoints.objects.all()
     data = {"realtime_records":list(rt_records.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -32,7 +32,7 @@ def realtime_data_api(request):
 
 
 def historical_data_api(request):
-    h_records = target_area_history_data.objects.all()
+    h_records = history_data.objects.all()
     data = {"historical_records":list(h_records.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -41,7 +41,7 @@ def historical_data_api(request):
 
 
 def time_series_api(request):
-    h_series = target_area_time_serie.objects.all()
+    h_series = datapoints_data_serie.objects.all()
     data = {"time_series":list(h_series.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -50,7 +50,7 @@ def time_series_api(request):
 
 
 def daily_time_series_api(request):
-    d_series = target_area_daily_time_serie.objects.all()
+    d_series = daily_aggregated_data_serie.objects.all()
     data = {"daily_time_series":list(d_series.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -62,7 +62,7 @@ def daily_time_series_api(request):
 def city_detail_api(request, pk):
 
     try:
-        city = target_area_input_data.objects.get(pk=pk)
+        city = target_area.objects.get(pk=pk)
         
         data = {
                 # "city":dict(city).items()
@@ -96,16 +96,16 @@ def city_detail_api(request, pk):
     return response
 
 
-# api/realtime_data_detail/<int:pk>
-def realtime_data_detail_api(request, pk):
+# api/realtime_datapoints_detail/<int:pk>
+def realtime_datapoints_detail_api(request, pk):
 
     get_realtime_pm()
 
     try:
-        city = target_area_input_data.objects.get(pk=pk)
+        city = target_area.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = target_area_realtime_data.objects.get(Target_area_input_data=city)
+        record = realtime_datapoints.objects.get(target_area=city)
 
       
         data = {
@@ -114,13 +114,13 @@ def realtime_data_detail_api(request, pk):
                 "record":
                     {   
                         # così la pk per richiamare
-                        "pk":record.Target_area_input_data.pk,
+                        "pk":record.target_area.pk,
 
                         # dati della città associata
-                        "Name":record.Target_area_input_data.Name,
-                        "Longitude":record.Target_area_input_data.Longitude,
-                        "Latitude":record.Target_area_input_data.Latitude,
-                        "Radius":record.Target_area_input_data.Radius,
+                        "Name":record.target_area.Name,
+                        "Longitude":record.target_area.Longitude,
+                        "Latitude":record.target_area.Latitude,
+                        "Radius":record.target_area.Radius,
 
                         # dati della rilevazione                        
                         "Last_update_time" : record.Last_update_time, 
@@ -165,10 +165,10 @@ def realtime_data_detail_api(request, pk):
 # def historical_data_detail_api(request, pk):
 
 #     try:
-#         city = target_area_input_data.objects.get(pk=pk)
+#         city = target_area.objects.get(pk=pk)
 #         # ne prende molti
 
-#         record = target_area_realtime_data.objects.get(Target_area_input_data=city)
+#         record = realtime_datapoints.objects.get(target_area=city)
 
       
 #         data = {
@@ -177,13 +177,13 @@ def realtime_data_detail_api(request, pk):
 #                 "record":
 #                     {   
 #                         # così la pk per richiamare
-#                         "pk":record.Target_area_input_data.pk,
+#                         "pk":record.target_area.pk,
 
 #                         # dati della città associata
-#                         "Name":record.Target_area_input_data.Name,
-#                         "Longitude":record.Target_area_input_data.Longitude,
-#                         "Latitude":record.Target_area_input_data.Latitude,
-#                         "Radius":record.Target_area_input_data.Radius,
+#                         "Name":record.target_area.Name,
+#                         "Longitude":record.target_area.Longitude,
+#                         "Latitude":record.target_area.Latitude,
+#                         "Radius":record.target_area.Radius,
 
 #                         # dati della rilevazione                        
 #                         "Last_update_time" : record.Last_update_time, 
@@ -227,10 +227,10 @@ def realtime_data_detail_api(request, pk):
 def time_serie_detail_api(request, pk):
 
     try:
-        city = target_area_input_data.objects.get(pk=pk)
+        city = target_area.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = target_area_time_serie.objects.get(Target_area_input_data=city)
+        record = datapoints_data_serie.objects.get(target_area=city)
 
       
         data = {
@@ -239,13 +239,13 @@ def time_serie_detail_api(request, pk):
                 "time_serie":
                     {   
                         # così la pk per richiamare
-                        "pk":record.Target_area_input_data.pk,
+                        "pk":record.target_area.pk,
 
                         # dati della città associata
-                        "Name":record.Target_area_input_data.Name,
-                        "Longitude":record.Target_area_input_data.Longitude,
-                        "Latitude":record.Target_area_input_data.Latitude,
-                        "Radius":record.Target_area_input_data.Radius,
+                        "Name":record.target_area.Name,
+                        "Longitude":record.target_area.Longitude,
+                        "Latitude":record.target_area.Latitude,
+                        "Radius":record.target_area.Radius,
 
                         # dati della rilevazione                        
                         "Record_time_values" : record.Record_time_values, 
@@ -292,10 +292,10 @@ def time_serie_detail_api(request, pk):
 def daily_time_serie_detail_api(request, pk):
 
     try:
-        city = target_area_input_data.objects.get(pk=pk)
+        city = target_area.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = target_area_daily_time_serie.objects.get(Target_area_input_data=city)
+        record = daily_aggregated_data_serie.objects.get(target_area=city)
 
       
         data = {
@@ -304,13 +304,13 @@ def daily_time_serie_detail_api(request, pk):
                 "daily_time_serie":
                     {   
                         # così la pk per richiamare
-                        "pk":record.Target_area_input_data.pk,
+                        "pk":record.target_area.pk,
 
                         # dati della città associata
-                        "Name":record.Target_area_input_data.Name,
-                        "Longitude":record.Target_area_input_data.Longitude,
-                        "Latitude":record.Target_area_input_data.Latitude,
-                        "Radius":record.Target_area_input_data.Radius,
+                        "Name":record.target_area.Name,
+                        "Longitude":record.target_area.Longitude,
+                        "Latitude":record.target_area.Latitude,
+                        "Radius":record.target_area.Radius,
 
                         # dati della rilevazione                        
                         "Record_time_values" : record.Record_time_values, 

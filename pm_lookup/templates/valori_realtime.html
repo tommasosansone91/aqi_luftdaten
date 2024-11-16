@@ -16,15 +16,15 @@
 
     {% for record in record_sensori %}
 
-        <h3>{{record.Target_area_input_data.Name}}</h3>
+        <h3>{{record.target_area.Name}}</h3>
 
         <p>
             
             I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
-            nel raggio di {{record.Target_area_input_data.Radius}} km dal punto di coordinate 
+            nel raggio di {{record.target_area.Radius}} km dal punto di coordinate 
             (
-                <a target="_blank"  href="https://www.google.com/search?q={{record.Target_area_input_data.Latitude}}, {{record.Target_area_input_data.Longitude}}">
-                    {{record.Target_area_input_data.Latitude}}, {{record.Target_area_input_data.Longitude}}
+                <a target="_blank"  href="https://www.google.com/search?q={{record.target_area.Latitude}}, {{record.target_area.Longitude}}">
+                    {{record.target_area.Latitude}}, {{record.target_area.Longitude}}
                 </a>
             ).
         

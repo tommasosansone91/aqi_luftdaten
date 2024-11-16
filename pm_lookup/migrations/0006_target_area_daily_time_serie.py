@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='target_area_daily_time_serie',
+            name='daily_aggregated_data_serie',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Record_time_values', models.TextField()),
@@ -25,10 +25,10 @@ class Migration(migrations.Migration):
                 ('n_selected_sensors_values', models.TextField(null=True)),
                 ('PM10_graph_div', models.TextField()),
                 ('PM25_graph_div', models.TextField()),
-                ('Target_area_input_data', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area_input_data')),
+                ('target_area', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),
             ],
             options={
-                'ordering': ['-Target_area_input_data__Radius', 'Target_area_input_data__Name'],
+                'ordering': ['-target_area__Radius', 'target_area__Name'],
             },
         ),
     ]

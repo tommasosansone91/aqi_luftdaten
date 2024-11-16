@@ -1,9 +1,9 @@
 import numpy as np
 
-from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_realtime_data
-from pm_lookup.models import target_area_history_data
-from pm_lookup.models import target_area_daily_time_serie
+from pm_lookup.models import target_area
+from pm_lookup.models import realtime_datapoints
+from pm_lookup.models import history_data
+from pm_lookup.models import daily_aggregated_data_serie
 
 # importo i drawers
 from pm_lookup.drawers.drawer1 import draw_timeserie_PM10_graph
@@ -26,16 +26,16 @@ from pm_lookup.processing.auxiliary_processing import fix_timezone_mismatch_1
 
 def arrange_daily_time_series_and_graphs():
 
-    target_area_daily_time_serie.objects.all().delete()
+    daily_aggregated_data_serie.objects.all().delete()
 
-    print("Eliminate tutte le serie storiche giornaliere in target_area_daily_time_serie!")
+    print("Eliminate tutte le serie storiche giornaliere in daily_aggregated_data_serie!")
 
     # print("Inizio disposizione dati in serie storiche giornaliere per ogni località...")
 
 
 
 
-    for area_di_interesse in target_area_input_data.objects.all():
+    for area_di_interesse in target_area.objects.all():
 
         print("Predisposizione dati ed elementi del grafico per la serie storica giornaliera per %s..." % area_di_interesse.Name)
 
@@ -46,9 +46,9 @@ def arrange_daily_time_series_and_graphs():
         Lunghezza_temporale = n_ore * n_giorni
 
         # isola i record di una località - è cmq un gruppo di oggetti
-        records_serie_storica = target_area_history_data.objects.filter(Target_area_input_data=area_di_interesse)
+        records_serie_storica = history_data.objects.filter(target_area=area_di_interesse)
         
-        n_target_area_history_data_records = records_serie_storica.count()
+        n_history_data_records = records_serie_storica.count()
 
 
         # se Se i dati storici non contengono abbastanza record 
@@ -57,12 +57,12 @@ def arrange_daily_time_series_and_graphs():
         # allora Bisogna porre il numero di giorni uguale 
         # alla divisione arrotondata per difetto tra 
         # i dati presenti nel modello storico grezzo e 24 ore 
-        if n_target_area_history_data_records < Lunghezza_temporale:
+        if n_history_data_records < Lunghezza_temporale:
             
             print("Non ci sono dati sufficienti per realizzare la serie storica di almeno %s giorni." % n_giorni)
             
             # aggiornamento unitùà temporali
-            n_giorni = int (math.floor( n_target_area_history_data_records / n_ore ) )
+            n_giorni = int (math.floor( n_history_data_records / n_ore ) )
             Lunghezza_temporale = n_ore * n_giorni
 
             
@@ -78,10 +78,10 @@ def arrange_daily_time_series_and_graphs():
                 
                 # aggiornamento unitùà temporali
                 n_giorni = 1
-                n_ore = n_target_area_history_data_records                
+                n_ore = n_history_data_records                
                 Lunghezza_temporale = n_ore * n_giorni
                 # in pratica sto dicendo di far finta che un giorno abbia n_ore con n_ore < 24
-                print("Viene eseguita la media dei valori solo sui %s dati contenuti in target_area_history_data." % n_ore)
+                print("Viene eseguita la media dei valori solo sui %s dati contenuti in history_data." % n_ore)
                 
                 # non ha senso fare il check di 1 ora perchè lo script è lanciato solo 1 volta ogni 24 ore, quindi ce ne sono sicuramente più di una 
                 # a meno che il db sia cancellato tra le 23 e le 24
@@ -125,7 +125,7 @@ def arrange_daily_time_series_and_graphs():
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
-                        "Target_area_input_data" : area_di_interesse.Name,
+                        "target_area" : area_di_interesse.Name,
 
                         # questi sono vettori di valori
 
@@ -183,9 +183,9 @@ def arrange_daily_time_series_and_graphs():
 
         
 
-        elementi_grafico = target_area_daily_time_serie(
+        elementi_grafico = daily_aggregated_data_serie(
                                                     # errore qui
-                                                    Target_area_input_data = target_area_input_data.objects.get(Name=area_di_interesse.Name),
+                                                    target_area = target_area.objects.get(Name=area_di_interesse.Name),
 
                                                     # questi sono vettori di valori
 

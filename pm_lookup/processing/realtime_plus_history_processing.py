@@ -9,9 +9,9 @@ from django.utils import timezone
 import json
 import requests
 
-from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_realtime_data
-from pm_lookup.models import target_area_history_data
+from pm_lookup.models import target_area
+from pm_lookup.models import realtime_datapoints
+from pm_lookup.models import history_data
 
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
@@ -48,11 +48,11 @@ def get_realtime_and_save_history_pm():
         api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
 
     # voglio un solo record per ogni location
-    target_area_realtime_data.objects.all().delete()
+    realtime_datapoints.objects.all().delete()
 
 
     # prende dati input e dispone in vettori le info di ognuna
-    input_data = target_area_input_data.objects.all()
+    input_data = target_area.objects.all()
 
     
 
@@ -215,14 +215,14 @@ def get_realtime_and_save_history_pm():
 
         # try:
 
-        new_record = target_area_realtime_data(
-                                                Target_area_input_data=input_data.get(id=place_id),
+        new_record = realtime_datapoints(
+                                                target_area=input_data.get(id=place_id),
                                                 # qui non vuole objects tra nome del modello e get...perchè?
                                                 # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                 # quindi qui dico: salva i dati nel campo foreign key 
                                                 # che rimanda all'oggetto avente per id quello che mi sono salvato
 
-                                                # Target_area_name=target_area_input_data.objects.get(Name=place_name),
+                                                # Target_area_name=target_area.objects.get(Name=place_name),
                                                                                         
                                                 
                                                 Last_update_time=record_time,

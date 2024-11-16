@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameModel(
             old_name='target_area_history_serie',
-            new_name='target_area_time_serie',
+            new_name='datapoints_data_serie',
         ),
     ]

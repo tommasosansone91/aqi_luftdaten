@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='target_area_input_data',
+            name='target_area',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Name', models.CharField(max_length=256, unique=True)),
@@ -39,10 +39,10 @@ class Migration(migrations.Migration):
                 ('PM10_cathegory', models.CharField(max_length=256)),
                 ('PM25_cathegory', models.CharField(max_length=256)),
                 ('n_selected_sensors', models.IntegerField(null=True)),
-                ('Target_area_input_data', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area_input_data')),
+                ('target_area', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),
             ],
             options={
-                'ordering': ['-Target_area_input_data__Radius', 'Target_area_input_data__Name'],
+                'ordering': ['-target_area__Radius', 'target_area__Name'],
             },
         ),
         migrations.CreateModel(
@@ -59,14 +59,14 @@ class Migration(migrations.Migration):
                 ('n_selected_sensors_values', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(null=True), size=None)),
                 ('PM10_graph_div', models.TextField()),
                 ('PM25_graph_div', models.TextField()),
-                ('Target_area_input_data', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area_input_data')),
+                ('target_area', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),
             ],
             options={
-                'ordering': ['-Target_area_input_data__Radius', 'Target_area_input_data__Name'],
+                'ordering': ['-target_area__Radius', 'target_area__Name'],
             },
         ),
         migrations.CreateModel(
-            name='target_area_history_data',
+            name='history_data',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Last_update_time', models.DateTimeField(default=django.utils.timezone.now)),
@@ -77,11 +77,11 @@ class Migration(migrations.Migration):
                 ('PM10_cathegory', models.CharField(max_length=256)),
                 ('PM25_cathegory', models.CharField(max_length=256)),
                 ('n_selected_sensors', models.IntegerField(null=True)),
-                ('Target_area_input_data', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area_input_data')),
+                ('target_area', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),
             ],
             options={
-                'ordering': ['-Target_area_input_data__Radius', 'Target_area_input_data__Name', '-Last_update_time'],
-                'unique_together': {('Target_area_input_data', 'Last_update_time', 'PM10_mean', 'PM25_mean')},
+                'ordering': ['-target_area__Radius', 'target_area__Name', '-Last_update_time'],
+                'unique_together': {('target_area', 'Last_update_time', 'PM10_mean', 'PM25_mean')},
             },
         ),
     ]
