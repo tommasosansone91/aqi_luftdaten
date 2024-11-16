@@ -4,10 +4,10 @@ from pm_lookup.processing.realtime_processing import get_realtime_pm
 from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
 
 from .models import target_area
-from .models import realtime_datapoints
-from .models import history_datapoints
-from .models import datapoints_data_serie
-from .models import daily_aggregated_data_serie
+from .models import RealtimeDatapoints
+from .models import HistoricalDatapoints
+from .models import DatapointsSerie
+from .models import DailyAggregatedDatapointsSerie
 
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -52,7 +52,7 @@ def valori_realtime(request):
     aree_di_interesse = target_area.objects.all()    
     n_aree_di_interesse = target_area.objects.all().count()    
 
-    record_sensori = realtime_datapoints.objects.all()
+    record_sensori = RealtimeDatapoints.objects.all()
 
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,
@@ -75,7 +75,7 @@ def valori_realtime(request):
 #     aree_di_interesse = target_area.objects.all()    
 #     n_aree_di_interesse = target_area.objects.all().count()    
 
-#     record_sensori = realtime_datapoints.objects.all()
+#     record_sensori = RealtimeDatapoints.objects.all()
 
 #     context_dict = {
 #                     'aree_di_interesse':aree_di_interesse,
@@ -91,9 +91,9 @@ def valori_realtime(request):
 # solo raffigurazione
 def serie_storiche(request):
 
-    print("Richiamo dati in datapoints_data_serie...")
-    dataset_dei_grafici = datapoints_data_serie.objects.all()
-    print("Dati in datapoints_data_serie acquisiti!")
+    print("Richiamo dati in DatapointsSerie...")
+    dataset_dei_grafici = DatapointsSerie.objects.all()
+    print("Dati in DatapointsSerie acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici
@@ -110,9 +110,9 @@ def serie_storiche(request):
 # solo raffigurazione
 def serie_storiche_giornaliere(request):
 
-    print("Richiamo dati in daily_aggregated_data_serie...")
-    dataset_dei_grafici = daily_aggregated_data_serie.objects.all()
-    print("Dati in daily_aggregated_data_serie acquisiti!")
+    print("Richiamo dati in DailyAggregatedDatapointsSerie...")
+    dataset_dei_grafici = DailyAggregatedDatapointsSerie.objects.all()
+    print("Dati in DailyAggregatedDatapointsSerie acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici

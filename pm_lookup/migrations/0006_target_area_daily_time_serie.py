@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='daily_aggregated_data_serie',
+            name='DailyAggregatedDatapointsSerie',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Record_time_values', models.TextField()),

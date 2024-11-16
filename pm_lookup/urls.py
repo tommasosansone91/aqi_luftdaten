@@ -28,7 +28,7 @@ urlpatterns = [
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
     path('api/cities_list', views_api.cities_list_api, name="cities_list"),
-    path('api/realtime_datapoints', views_api.cities_realtime_datapoints_api, name="realtime_datapoints"),
+    path('api/RealtimeDatapoints', views_api.cities_RealtimeDatapoints_api, name="RealtimeDatapoints"),
     path('api/historical_data', views_api.historical_data_api, name="historical_data"),    
     path('api/time_series', views_api.time_series_api, name="time_series"),
     path('api/daily_time_series', views_api.daily_time_series_api, name="daily_time_series"),    
@@ -36,7 +36,7 @@ urlpatterns = [
     # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
 
     path('api/city_detail/<int:pk>', views_api.city_detail_api, name="city_detail"),
-    path('api/realtime_datapoints_detail/<int:pk>', views_api.realtime_datapoints_detail_api, name="realtime_datapoints_detail"),
+    path('api/RealtimeDatapoints_detail/<int:pk>', views_api.RealtimeDatapoints_detail_api, name="RealtimeDatapoints_detail"),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.
     # prendere un insieme di record corrisondenti ad una città ... è prendere una serie storica, quindi tanto vale

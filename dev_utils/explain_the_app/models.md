@@ -17,25 +17,25 @@ In order for the application to get and record data, it has to be filled with at
 
 ### Single-record data models
 
-#### history_datapointss	
+#### HistoricalDatapointss	
 
 This is the so-called "history data model".
 
 It contains all the processed data got from the raw data coming from the Luftdaten API, for each location.
 
 
-#### realtime_datapointss	
+#### RealtimeDatapointss	
 
 This model contains the lastest recorded raw data, for each location.
 
 ### Series data models
 
-#### datapoints_data_series	
+#### DatapointsSeries	
 
 This model contains the raw serie of data, for each location.
 
 
-#### daily_aggregated_data_series	
+#### DailyAggregatedDatapointsSeries	
 
 This model contains the daily-aggregated month-long serie of data, for each location.
 

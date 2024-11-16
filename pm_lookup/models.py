@@ -18,6 +18,8 @@ class target_area(models.Model):
     # le coordinate del centro o il raggio
     Name = models.CharField(max_length=256, blank=False, null=False, unique=True)
 
+    Description = models.TextField(null=False, blank=False)
+
     Latitude = models.FloatField(null=False, blank=False)
 
     Longitude = models.FloatField(null=False, blank=False)
@@ -40,7 +42,26 @@ class target_area(models.Model):
 
 
 
-class realtime_datapoints(models.Model):
+class RealtimeDatapoints(models.Model):
+
+    """
+    Model to represent real-time air quality data for a specific target area.
+
+    Fields:
+        - target_area (OneToOneField): One-to-one association with the 'target_area' model.
+        - Last_update_time (DateTimeField): Timestamp of the last data update (default: current time).
+        - PM10_mean (FloatField): Average value of PM10 particles.
+        - PM25_mean (FloatField): Average value of PM2.5 particles.
+        - PM10_quality, PM25_quality (CharField): Descriptive air quality assessment (e.g., 'Good', 'Moderate').
+        - PM10_category, PM25_category (CharField): Categorization based on average particle values.
+        - n_selected_sensors (IntegerField): Number of sensors used to compute the average data.
+
+    Meta:
+        - ordering: Default ordering by descending target area radius, then alphabetically by name.
+    
+    Methods:
+        - __str__: Returns a readable string with the target area name and the timestamp of the last update.
+    """
 
     # nota che è maiuscolo
     target_area = models.OneToOneField(
@@ -98,9 +119,11 @@ class realtime_datapoints(models.Model):
         # fixato così
         # ordering = ['-target_area.Radius', 'target_area.Name']
 
+        verbose_name = "realtime_datapoint"  # Nome al singolare
+        verbose_name_plural = "realtime_datapoints"  # Nome al plurale
 
 
-class history_datapoints(models.Model):
+class HistoricalDatapoints(models.Model):
 
     # nota che è maiuscolo
     target_area = models.ForeignKey(
@@ -150,10 +173,14 @@ class history_datapoints(models.Model):
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 
+        verbose_name = "historical_datapoint"  # Nome al singolare
+        verbose_name_plural = "historical_datapoints"  # Nome al plurale
+
+
 # --------------------------------
 
 
-class datapoints_data_serie(models.Model):
+class DatapointsSerie(models.Model):
 
     # nota che è maiuscolo
     target_area = models.ForeignKey(
@@ -189,11 +216,57 @@ class datapoints_data_serie(models.Model):
     class Meta:
         ordering = ['-target_area__Radius', 'target_area__Name']
 
+        verbose_name = "datapoints_serie"  # Nome al singolare
+        verbose_name_plural = "datapoints_series"  # Nome al plurale
+
+
+
+# serie orarie
+
+
+class HourlyAggregatedDatapointsSerie(models.Model):
+
+    # nota che è maiuscolo
+    target_area = models.ForeignKey(
+        'target_area',
+        on_delete=models.CASCADE,
+        
+    )
+    # il primo attributo è il modello cui è associato
+
+    # postgres non prende array + datetime
+    Record_time_values = models.TextField( blank=False, null=False) 
+
+    PM10_mean_values = models.TextField( null=False, blank=False)
+    PM25_mean_values = models.TextField( null=False, blank=False)
+
+    PM10_quality_values = models.TextField( blank=False, null=False)
+    PM25_quality_values = models.TextField( blank=False, null=False)
+
+    PM10_cathegory_values = models.TextField( blank=False, null=False)
+    PM25_cathegory_values = models.TextField( blank=False, null=False)
+
+    n_selected_sensors_values = models.TextField(null=True)
+
+    PM10_graph_div = models.TextField()
+    PM25_graph_div = models.TextField()
+
+
+
+    def __str__(self):       
+        return  "%s"  %  (self.target_area.Name )  
+        
+ 
+    class Meta:
+        ordering = ['-target_area__Radius', 'target_area__Name']
+
+        verbose_name = "hourly_aggregated_datapoints_serie"  # Nome al singolare
+        verbose_name_plural = "hourly_aggregated_datapoints_series"  # Nome al plurale
 
 
 # serie giornaliere
 
-class daily_aggregated_data_serie(models.Model):
+class DailyAggregatedDatapointsSerie(models.Model):
 
     # nota che è maiuscolo
     target_area = models.ForeignKey(
@@ -228,3 +301,6 @@ class daily_aggregated_data_serie(models.Model):
  
     class Meta:
         ordering = ['-target_area__Radius', 'target_area__Name']
+
+        verbose_name = "daily_aggregated_datapoints_serie"  # Nome al singolare
+        verbose_name_plural = "daily_aggregated_datapoints_series"  # Nome al plurale

@@ -3,10 +3,10 @@
 from django.http import JsonResponse
 
 from .models import target_area
-from .models import realtime_datapoints
-from .models import history_datapoints
-from .models import datapoints_data_serie
-from .models import daily_aggregated_data_serie
+from .models import RealtimeDatapoints
+from .models import HistoricalDatapoints
+from .models import DatapointsSerie
+from .models import DailyAggregatedDatapointsSerie
 
 from .processing.realtime_processing import get_realtime_pm
 
@@ -18,12 +18,12 @@ def cities_list_api(request):
     response = JsonResponse(data)
     return response
 
-def cities_realtime_datapoints_api(request):
+def cities_RealtimeDatapoints_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
     get_realtime_pm()
 
-    rt_records = realtime_datapoints.objects.all()
+    rt_records = RealtimeDatapoints.objects.all()
     data = {"realtime_records":list(rt_records.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -32,7 +32,7 @@ def cities_realtime_datapoints_api(request):
 
 
 def historical_data_api(request):
-    h_records = history_datapoints.objects.all()
+    h_records = HistoricalDatapoints.objects.all()
     data = {"historical_records":list(h_records.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -41,7 +41,7 @@ def historical_data_api(request):
 
 
 def time_series_api(request):
-    h_series = datapoints_data_serie.objects.all()
+    h_series = DatapointsSerie.objects.all()
     data = {"time_series":list(h_series.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -50,7 +50,7 @@ def time_series_api(request):
 
 
 def daily_time_series_api(request):
-    d_series = daily_aggregated_data_serie.objects.all()
+    d_series = DailyAggregatedDatapointsSerie.objects.all()
     data = {"daily_time_series":list(d_series.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
@@ -96,8 +96,8 @@ def city_detail_api(request, pk):
     return response
 
 
-# api/realtime_datapoints_detail/<int:pk>
-def realtime_datapoints_detail_api(request, pk):
+# api/RealtimeDatapoints_detail/<int:pk>
+def RealtimeDatapoints_detail_api(request, pk):
 
     get_realtime_pm()
 
@@ -105,7 +105,7 @@ def realtime_datapoints_detail_api(request, pk):
         city = target_area.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = realtime_datapoints.objects.get(target_area=city)
+        record = RealtimeDatapoints.objects.get(target_area=city)
 
       
         data = {
@@ -168,7 +168,7 @@ def realtime_datapoints_detail_api(request, pk):
 #         city = target_area.objects.get(pk=pk)
 #         # ne prende molti
 
-#         record = realtime_datapoints.objects.get(target_area=city)
+#         record = RealtimeDatapoints.objects.get(target_area=city)
 
       
 #         data = {
@@ -230,7 +230,7 @@ def time_serie_detail_api(request, pk):
         city = target_area.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = datapoints_data_serie.objects.get(target_area=city)
+        record = DatapointsSerie.objects.get(target_area=city)
 
       
         data = {
@@ -295,7 +295,7 @@ def daily_time_serie_detail_api(request, pk):
         city = target_area.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = daily_aggregated_data_serie.objects.get(target_area=city)
+        record = DailyAggregatedDatapointsSerie.objects.get(target_area=city)
 
       
         data = {

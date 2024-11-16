@@ -10,8 +10,8 @@ import json
 import requests
 
 from pm_lookup.models import target_area
-from pm_lookup.models import realtime_datapoints
-from pm_lookup.models import history_datapoints
+from pm_lookup.models import RealtimeDatapoints
+from pm_lookup.models import HistoricalDatapoints
 
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
@@ -48,7 +48,7 @@ def get_realtime_and_save_history_pm():
         api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
 
     # voglio un solo record per ogni location
-    realtime_datapoints.objects.all().delete()
+    RealtimeDatapoints.objects.all().delete()
 
 
     # prende dati input e dispone in vettori le info di ognuna
@@ -215,7 +215,7 @@ def get_realtime_and_save_history_pm():
 
         # try:
 
-        new_record = realtime_datapoints(
+        new_record = RealtimeDatapoints(
                                                 target_area=input_data.get(id=place_id),
                                                 # qui non vuole objects tra nome del modello e get...perchè?
                                                 # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
