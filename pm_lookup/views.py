@@ -5,7 +5,7 @@ from pm_lookup.processing.realtime_plus_history_processing import get_realtime_a
 
 from .models import target_area
 from .models import realtime_datapoints
-from .models import history_data
+from .models import history_datapoints
 from .models import datapoints_data_serie
 from .models import daily_aggregated_data_serie
 

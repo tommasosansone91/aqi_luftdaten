@@ -8,7 +8,7 @@ import time
 # servono a save_in_history()
 from pm_lookup.models import target_area
 from pm_lookup.models import realtime_datapoints
-from pm_lookup.models import history_data
+from pm_lookup.models import history_datapoints
 
 
 def save_in_history():
@@ -24,7 +24,7 @@ def save_in_history():
 
         try:       
 
-            new_record = history_data(
+            new_record = history_datapoints(
                                                     target_area=target_area.objects.get(id=element_id),
                                                     
                                                     # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo

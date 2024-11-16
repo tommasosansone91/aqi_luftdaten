@@ -2,7 +2,7 @@ import numpy as np
 
 from pm_lookup.models import target_area
 from pm_lookup.models import realtime_datapoints
-from pm_lookup.models import history_data
+from pm_lookup.models import history_datapoints
 from pm_lookup.models import daily_aggregated_data_serie
 
 # importo i drawers
@@ -46,9 +46,9 @@ def arrange_daily_time_series_and_graphs():
         Lunghezza_temporale = n_ore * n_giorni
 
         # isola i record di una località - è cmq un gruppo di oggetti
-        records_serie_storica = history_data.objects.filter(target_area=area_di_interesse)
+        records_serie_storica = history_datapoints.objects.filter(target_area=area_di_interesse)
         
-        n_history_data_records = records_serie_storica.count()
+        n_history_datapoints_records = records_serie_storica.count()
 
 
         # se Se i dati storici non contengono abbastanza record 
@@ -57,12 +57,12 @@ def arrange_daily_time_series_and_graphs():
         # allora Bisogna porre il numero di giorni uguale 
         # alla divisione arrotondata per difetto tra 
         # i dati presenti nel modello storico grezzo e 24 ore 
-        if n_history_data_records < Lunghezza_temporale:
+        if n_history_datapoints_records < Lunghezza_temporale:
             
             print("Non ci sono dati sufficienti per realizzare la serie storica di almeno %s giorni." % n_giorni)
             
             # aggiornamento unitùà temporali
-            n_giorni = int (math.floor( n_history_data_records / n_ore ) )
+            n_giorni = int (math.floor( n_history_datapoints_records / n_ore ) )
             Lunghezza_temporale = n_ore * n_giorni
 
             
@@ -78,10 +78,10 @@ def arrange_daily_time_series_and_graphs():
                 
                 # aggiornamento unitùà temporali
                 n_giorni = 1
-                n_ore = n_history_data_records                
+                n_ore = n_history_datapoints_records                
                 Lunghezza_temporale = n_ore * n_giorni
                 # in pratica sto dicendo di far finta che un giorno abbia n_ore con n_ore < 24
-                print("Viene eseguita la media dei valori solo sui %s dati contenuti in history_data." % n_ore)
+                print("Viene eseguita la media dei valori solo sui %s dati contenuti in history_datapoints." % n_ore)
                 
                 # non ha senso fare il check di 1 ora perchè lo script è lanciato solo 1 volta ogni 24 ore, quindi ce ne sono sicuramente più di una 
                 # a meno che il db sia cancellato tra le 23 e le 24

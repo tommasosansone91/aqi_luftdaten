@@ -17,7 +17,7 @@ In order for the application to get and record data, it has to be filled with at
 
 ### Single-record data models
 
-#### history_datas	
+#### history_datapointss	
 
 This is the so-called "history data model".
 

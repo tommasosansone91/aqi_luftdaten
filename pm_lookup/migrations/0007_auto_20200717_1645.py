@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name='history_data',
+            name='history_datapoints',
             options={'ordering': ['-Last_update_time', '-target_area__Radius', 'target_area__Name']},
         ),
     ]

@@ -11,7 +11,7 @@ import requests
 
 from pm_lookup.models import target_area
 from pm_lookup.models import realtime_datapoints
-from pm_lookup.models import history_data
+from pm_lookup.models import history_datapoints
 
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25

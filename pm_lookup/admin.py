@@ -2,14 +2,14 @@ from django.contrib import admin
 
 from .models import target_area
 from .models import realtime_datapoints
-from .models import history_data
+from .models import history_datapoints
 from .models import datapoints_data_serie
 from .models import daily_aggregated_data_serie
 
 # Register your models here.
 # admin.site.register(target_area)
 # admin.site.register(realtime_datapoints)
-# admin.site.register(history_data)
+# admin.site.register(history_datapoints)
 
 # sono registrati in seguito mettendo in input anche il relativo modello Admin, 
 # per permettere a sjango import export di funzionare
@@ -59,21 +59,21 @@ admin.site.register(realtime_datapoints, realtime_datapointsAdmin)
 #  registrazione modello history data
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class history_dataResource(resources.ModelResource):
+class history_datapointsResource(resources.ModelResource):
 
     class Meta:
-        model = history_data
+        model = history_datapoints
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class history_dataAdmin(ImportExportModelAdmin):
-    resource_class = history_dataResource
+class history_datapointsAdmin(ImportExportModelAdmin):
+    resource_class = history_datapointsResource
 
     # aggiungo il filtro laterale per selezionare a seconda della località
     list_filter = ['target_area__Name']
 
-admin.site.register(history_data, history_dataAdmin)
+admin.site.register(history_datapoints, history_datapointsAdmin)
 
 
 #  registrazione modello time series

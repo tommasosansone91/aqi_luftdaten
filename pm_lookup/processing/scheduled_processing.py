@@ -11,7 +11,7 @@ import requests
 
 from pm_lookup.models import target_area
 from pm_lookup.models import realtime_datapoints
-from pm_lookup.models import history_data
+from pm_lookup.models import history_datapoints
 
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
@@ -215,7 +215,7 @@ def save_history_pm():
 
         try:
 
-            new_record = history_data(
+            new_record = history_datapoints(
                                                     target_area=input_data.get(id=place_id),
                                                     # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                     # quindi qui dico: salva i dati nel campo foreign key 

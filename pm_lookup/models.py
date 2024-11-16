@@ -100,7 +100,7 @@ class realtime_datapoints(models.Model):
 
 
 
-class history_data(models.Model):
+class history_datapoints(models.Model):
 
     # nota che è maiuscolo
     target_area = models.ForeignKey(

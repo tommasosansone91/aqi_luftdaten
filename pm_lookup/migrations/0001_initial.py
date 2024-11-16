@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='history_data',
+            name='history_datapoints',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Last_update_time', models.DateTimeField(default=django.utils.timezone.now)),

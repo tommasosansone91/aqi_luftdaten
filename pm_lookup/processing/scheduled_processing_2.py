@@ -2,7 +2,7 @@ import numpy as np
 
 from pm_lookup.models import target_area
 from pm_lookup.models import realtime_datapoints
-from pm_lookup.models import history_data
+from pm_lookup.models import history_datapoints
 from pm_lookup.models import datapoints_data_serie
 
 # importo i drawers
@@ -29,7 +29,7 @@ def arrange_time_series_and_graphs():
         print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.Name)
 
         # isola i record di una località - è cmq un gruppo di oggetti
-        records_serie_storica = history_data.objects.filter(target_area=area_di_interesse)
+        records_serie_storica = history_datapoints.objects.filter(target_area=area_di_interesse)
         
         records_serie_storica = records_serie_storica[: Lunghezza_temporale - 1]
 

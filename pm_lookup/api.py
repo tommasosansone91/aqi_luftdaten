@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from .models import target_area
 from .models import realtime_datapoints
-from .models import history_data
+from .models import history_datapoints
 from .models import datapoints_data_serie
 from .models import daily_aggregated_data_serie
 
@@ -32,7 +32,7 @@ def cities_realtime_datapoints_api(request):
 
 
 def historical_data_api(request):
-    h_records = history_data.objects.all()
+    h_records = history_datapoints.objects.all()
     data = {"historical_records":list(h_records.values())}
     # lasciare vuota la coppia di parentesi dopo values vuol dire accludere tutti i valori, 
     # ma la parentesi deve esistere
