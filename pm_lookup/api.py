@@ -18,7 +18,7 @@ def cities_list_api(request):
     response = JsonResponse(data)
     return response
 
-def realtime_datapoints_api(request):
+def cities_realtime_datapoints_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
     get_realtime_pm()

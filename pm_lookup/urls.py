@@ -28,7 +28,7 @@ urlpatterns = [
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
     path('api/cities_list', views_api.cities_list_api, name="cities_list"),
-    path('api/realtime_datapoints', views_api.realtime_datapoints_api, name="realtime_datapoints"),
+    path('api/realtime_datapoints', views_api.cities_realtime_datapoints_api, name="realtime_datapoints"),
     path('api/historical_data', views_api.historical_data_api, name="historical_data"),    
     path('api/time_series', views_api.time_series_api, name="time_series"),
     path('api/daily_time_series', views_api.daily_time_series_api, name="daily_time_series"),    
