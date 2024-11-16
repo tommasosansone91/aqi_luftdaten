@@ -42,7 +42,7 @@ def save_in_history():
                                                     PM10_cathegory=element.PM10_cathegory,
                                                     PM25_cathegory=element.PM25_cathegory,
 
-                                                    n_selected_sensors=element.n_selected_sensors,
+                                                    number_of_contributing_sensors=element.number_of_contributing_sensors,
 
                                                     # la pk è insieme di nome e timestamp
             )

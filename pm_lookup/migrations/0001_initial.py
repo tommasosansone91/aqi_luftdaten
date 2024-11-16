@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('PM25_quality', models.CharField(max_length=256)),
                 ('PM10_cathegory', models.CharField(max_length=256)),
                 ('PM25_cathegory', models.CharField(max_length=256)),
-                ('n_selected_sensors', models.IntegerField(null=True)),
+                ('number_of_contributing_sensors', models.IntegerField(null=True)),
                 ('target_area', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),
             ],
             options={
@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
                 ('PM25_quality_values', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=256), size=None)),
                 ('PM10_cathegory_values', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=256), size=None)),
                 ('PM25_cathegory_values', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=256), size=None)),
-                ('n_selected_sensors_values', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(null=True), size=None)),
+                ('number_of_contributing_sensors_values', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(null=True), size=None)),
                 ('PM10_graph_div', models.TextField()),
                 ('PM25_graph_div', models.TextField()),
                 ('target_area', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
                 ('PM25_quality', models.CharField(max_length=256)),
                 ('PM10_cathegory', models.CharField(max_length=256)),
                 ('PM25_cathegory', models.CharField(max_length=256)),
-                ('n_selected_sensors', models.IntegerField(null=True)),
+                ('number_of_contributing_sensors', models.IntegerField(null=True)),
                 ('target_area', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),
             ],
             options={

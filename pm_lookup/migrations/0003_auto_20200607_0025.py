@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='target_area_history_serie',
-            name='n_selected_sensors_values',
+            name='number_of_contributing_sensors_values',
             field=models.TextField(null=True),
         ),
     ]

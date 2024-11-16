@@ -52,7 +52,7 @@ def arrange_time_series_and_graphs():
                         "PM10_cathegory" : [i.PM10_cathegory for i in records_serie_storica],
                         "PM25_cathegory" : [i.PM25_cathegory for i in records_serie_storica],
 
-                        "n_selected_sensors" : [i.n_selected_sensors for i in records_serie_storica],
+                        "number_of_contributing_sensors" : [i.number_of_contributing_sensors for i in records_serie_storica],
 
                         }
 
@@ -115,7 +115,7 @@ def arrange_time_series_and_graphs():
                                                     PM10_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_cathegory'] ) +'"]',
                                                     PM25_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_cathegory'] ) +'"]',
 
-                                                    n_selected_sensors_values = '[' + ', '.join(str(e) for e in  serie_storica['n_selected_sensors'] ) +']',
+                                                    number_of_contributing_sensors_values = '[' + ', '.join(str(e) for e in  serie_storica['number_of_contributing_sensors'] ) +']',
 
                                                     PM10_graph_div = graph_PM10,
                                                     PM25_graph_div = graph_PM25,

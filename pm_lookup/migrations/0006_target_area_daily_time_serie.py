@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('PM25_quality_values', models.TextField()),
                 ('PM10_cathegory_values', models.TextField()),
                 ('PM25_cathegory_values', models.TextField()),
-                ('n_selected_sensors_values', models.TextField(null=True)),
+                ('number_of_contributing_sensors_values', models.TextField(null=True)),
                 ('PM10_graph_div', models.TextField()),
                 ('PM25_graph_div', models.TextField()),
                 ('target_area', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pm_lookup.target_area')),

@@ -159,14 +159,14 @@ def get_realtime_and_save_history_pm():
 
         # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
 
-        n_selected_sensors = max ( len(PM10_list), len(PM25_list) )
+        number_of_contributing_sensors = max ( len(PM10_list), len(PM25_list) )
 
-        if n_selected_sensors == 0:
+        if number_of_contributing_sensors == 0:
             print("Nell'area selezionata per %s non ci sono sensori, oppure non sono reperibili!" % place_name)
             print("---------------------------------------------------")
             continue
 
-        print("Valori del particolato raccolti da %s sensori per %s:" % (n_selected_sensors, place_name))
+        print("Valori del particolato raccolti da %s sensori per %s:" % (number_of_contributing_sensors, place_name))
 
         print("PM10:")
         print(PM10_list)  
@@ -177,7 +177,7 @@ def get_realtime_and_save_history_pm():
         print("Ora delle rilevazioni:")
         print(timestamp_list) 
 
-        n_selected_sensors = len(PM10_list)
+        number_of_contributing_sensors = len(PM10_list)
         
         PM10_array = np.array(PM10_list)
         PM10_array = PM10_array.astype(float)
@@ -236,7 +236,7 @@ def get_realtime_and_save_history_pm():
                                                 PM10_cathegory=PM10_cathegory,
                                                 PM25_cathegory=PM25_cathegory,
 
-                                                n_selected_sensors=n_selected_sensors,
+                                                number_of_contributing_sensors=number_of_contributing_sensors,
         )
         
         new_record.save()

@@ -96,7 +96,7 @@ def arrange_daily_time_series_and_graphs():
 
         PM10_mean = [i.PM10_mean for i in records_serie_storica]
         PM25_mean = [i.PM25_mean for i in records_serie_storica]
-        n_selected_sensors = [i.n_selected_sensors for i in records_serie_storica]
+        number_of_contributing_sensors = [i.number_of_contributing_sensors for i in records_serie_storica]
         Last_update_time = [ i.Last_update_time for i in records_serie_storica]
 
 
@@ -116,7 +116,7 @@ def arrange_daily_time_series_and_graphs():
         PM25_daily_cathegory = [ evaluate_PM25(i)[1] for i in PM25_daily_mean ]
 
 
-        Mean_n_selected_sensors = [ round( np.mean( n_selected_sensors[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
+        Mean_number_of_contributing_sensors = [ round( np.mean( number_of_contributing_sensors[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
 
         Update_date = [ Last_update_time[ 0 + n_ore*i ]  for i in range(n_giorni) ]
         
@@ -140,7 +140,7 @@ def arrange_daily_time_series_and_graphs():
                         "PM10_daily_cathegory" : PM10_daily_cathegory,
                         "PM25_daily_cathegory" : PM25_daily_cathegory,
 
-                        "Mean_n_selected_sensors" : Mean_n_selected_sensors,
+                        "Mean_number_of_contributing_sensors" : Mean_number_of_contributing_sensors,
 
                         }
 
@@ -200,7 +200,7 @@ def arrange_daily_time_series_and_graphs():
                                                     PM10_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_daily_cathegory'] ) +'"]',
                                                     PM25_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_daily_cathegory'] ) +'"]',
 
-                                                    n_selected_sensors_values = '[' + ', '.join(str(e) for e in  serie_storica['Mean_n_selected_sensors'] ) +']',
+                                                    number_of_contributing_sensors_values = '[' + ', '.join(str(e) for e in  serie_storica['Mean_number_of_contributing_sensors'] ) +']',
 
                                                     PM10_graph_div = graph_PM10,
                                                     PM25_graph_div = graph_PM25,

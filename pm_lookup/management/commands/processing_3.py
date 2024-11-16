@@ -91,7 +91,7 @@ class Command(BaseCommand):
             print(PM10_list)  
             print(PM25_list)   
 
-            n_selected_sensors = len(PM10_list)
+            number_of_contributing_sensors = len(PM10_list)
             
             PM10_array = np.array(PM10_list)
             PM10_array = PM10_array.astype(float)
@@ -176,7 +176,7 @@ class Command(BaseCommand):
                                                     PM10_cathegory=PM10_cathegory,
                                                     PM25_cathegory=PM25_cathegory,
 
-                                                    n_selected_sensors=n_selected_sensors,
+                                                    number_of_contributing_sensors=number_of_contributing_sensors,
             )
             
             new_record.save()

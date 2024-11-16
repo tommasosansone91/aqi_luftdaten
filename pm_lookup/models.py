@@ -54,7 +54,7 @@ class RealtimeDatapoints(models.Model):
         - PM25_mean (FloatField): Average value of PM2.5 particles.
         - PM10_quality, PM25_quality (CharField): Descriptive air quality assessment (e.g., 'Good', 'Moderate').
         - PM10_category, PM25_category (CharField): Categorization based on average particle values.
-        - n_selected_sensors (IntegerField): Number of sensors used to compute the average data.
+        - number_of_contributing_sensors (IntegerField): Number of sensors used to compute the average data.
 
     Meta:
         - ordering: Default ordering by descending target area radius, then alphabetically by name.
@@ -95,7 +95,7 @@ class RealtimeDatapoints(models.Model):
     PM10_cathegory = models.CharField(max_length=256, blank=False, null=False)
     PM25_cathegory = models.CharField(max_length=256, blank=False, null=False)
 
-    n_selected_sensors = models.IntegerField(null=True)
+    number_of_contributing_sensors = models.IntegerField(null=True)
     
     # PM10_n_missing_data = models.IntegerField(null=True)
     # PM25_n_missing_data = models.IntegerField(null=True)
@@ -144,7 +144,7 @@ class HistoricalDatapoints(models.Model):
     PM10_cathegory = models.CharField(max_length=256, blank=False, null=False)
     PM25_cathegory = models.CharField(max_length=256, blank=False, null=False)
 
-    n_selected_sensors = models.IntegerField(null=True)
+    number_of_contributing_sensors = models.IntegerField(null=True)
 
     # PM10_n_missing_data = models.IntegerField(null=True)
     # PM25_n_missing_data = models.IntegerField(null=True)
@@ -202,7 +202,7 @@ class DatapointsSerie(models.Model):
     PM10_cathegory_values = models.TextField( blank=False, null=False)
     PM25_cathegory_values = models.TextField( blank=False, null=False)
 
-    n_selected_sensors_values = models.TextField(null=True)
+    number_of_contributing_sensors_values = models.TextField(null=True)
 
     PM10_graph_div = models.TextField()
     PM25_graph_div = models.TextField()
@@ -246,7 +246,7 @@ class HourlyAggregatedDatapointsSerie(models.Model):
     PM10_cathegory_values = models.TextField( blank=False, null=False)
     PM25_cathegory_values = models.TextField( blank=False, null=False)
 
-    n_selected_sensors_values = models.TextField(null=True)
+    number_of_contributing_sensors_values = models.TextField(null=True)
 
     PM10_graph_div = models.TextField()
     PM25_graph_div = models.TextField()
@@ -288,7 +288,7 @@ class DailyAggregatedDatapointsSerie(models.Model):
     PM10_cathegory_values = models.TextField( blank=False, null=False)
     PM25_cathegory_values = models.TextField( blank=False, null=False)
 
-    n_selected_sensors_values = models.TextField(null=True)
+    number_of_contributing_sensors_values = models.TextField(null=True)
 
     PM10_graph_div = models.TextField()
     PM25_graph_div = models.TextField()

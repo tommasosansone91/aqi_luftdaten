@@ -134,7 +134,7 @@ def RealtimeDatapoints_detail_api(request, pk):
                         "PM10_cathegory" : record.PM10_cathegory,
                         "PM25_cathegory" : record.PM25_cathegory,
 
-                        "n_selected_sensors" : record.n_selected_sensors,
+                        "number_of_contributing_sensors" : record.number_of_contributing_sensors,
 
 
                     }        
@@ -197,7 +197,7 @@ def RealtimeDatapoints_detail_api(request, pk):
 #                         "PM10_cathegory" : record.PM10_cathegory,
 #                         "PM25_cathegory" : record.PM25_cathegory,
 
-#                         "n_selected_sensors" : record.n_selected_sensors,
+#                         "number_of_contributing_sensors" : record.number_of_contributing_sensors,
 
 
 #                     }        
@@ -259,7 +259,7 @@ def time_serie_detail_api(request, pk):
                         "PM10_cathegory_values" : record.PM10_cathegory_values,
                         "PM25_cathegory_values" : record.PM25_cathegory_values,
 
-                        "n_selected_sensor_values" : record.n_selected_sensors_values,
+                        "n_selected_sensor_values" : record.number_of_contributing_sensors_values,
 
                         "PM10_graph_div" : record.PM10_graph_div,
                         "PM25_graph_div" : record.PM25_graph_div,
@@ -324,7 +324,7 @@ def daily_time_serie_detail_api(request, pk):
                         "PM10_cathegory_values" : record.PM10_cathegory_values,
                         "PM25_cathegory_values" : record.PM25_cathegory_values,
 
-                        "n_selected_sensor_values" : record.n_selected_sensors_values,
+                        "n_selected_sensor_values" : record.number_of_contributing_sensors_values,
 
                         "PM10_graph_div" : record.PM10_graph_div,
                         "PM25_graph_div" : record.PM25_graph_div,
