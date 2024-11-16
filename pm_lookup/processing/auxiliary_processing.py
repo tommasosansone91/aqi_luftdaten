@@ -36,11 +36,11 @@ def save_in_history():
                                                     PM10_mean=element.PM10_mean,
                                                     PM25_mean=element.PM25_mean,
 
-                                                    PM10_quality=element.PM10_quality, 
-                                                    PM25_quality=element.PM25_quality,
+                                                    PM10_mean_quality=element.PM10_mean_quality, 
+                                                    PM25_mean_quality=element.PM25_mean_quality,
 
-                                                    PM10_cathegory=element.PM10_cathegory,
-                                                    PM25_cathegory=element.PM25_cathegory,
+                                                    PM10_mean_cathegory=element.PM10_mean_cathegory,
+                                                    PM25_mean_cathegory=element.PM25_mean_cathegory,
 
                                                     number_of_contributing_sensors=element.number_of_contributing_sensors,
 
@@ -71,34 +71,34 @@ def evaluate_PM10(PM10_value):
     # categorie di qualità dell'aria rispetto a PM 10
 
     if PM10_value <=20:
-        PM10_quality="Ottima"
-        PM10_cathegory="prima"
+        PM10_mean_quality="Ottima"
+        PM10_mean_cathegory="prima"
 
     elif PM10_value>=20 and PM10_value <=35:
-        PM10_quality="Buona"
-        PM10_cathegory="seconda"
+        PM10_mean_quality="Buona"
+        PM10_mean_cathegory="seconda"
     
     elif PM10_value>=35 and PM10_value <=50:
-        PM10_quality="Al limite dell'accettabile"
-        PM10_cathegory="terza"
+        PM10_mean_quality="Al limite dell'accettabile"
+        PM10_mean_cathegory="terza"
 
     elif PM10_value>=50 and PM10_value <=100:
-        PM10_quality="Fuori legge"
-        PM10_cathegory="quarta"
+        PM10_mean_quality="Fuori legge"
+        PM10_mean_cathegory="quarta"
 
     elif PM10_value>=100 and PM10_value <=200:
-        PM10_quality="Pericolosa"
-        PM10_cathegory="quinta"
+        PM10_mean_quality="Pericolosa"
+        PM10_mean_cathegory="quinta"
 
     elif PM10_value>=200:
-        PM10_quality="Emergenza! Evacuazione!"
-        PM10_cathegory="sesta"
+        PM10_mean_quality="Emergenza! Evacuazione!"
+        PM10_mean_cathegory="sesta"
 
     else:
-        PM10_quality="No data"
-        PM10_cathegory="nessuna"
+        PM10_mean_quality="No data"
+        PM10_mean_cathegory="nessuna"
 
-    return (PM10_quality, PM10_cathegory)
+    return (PM10_mean_quality, PM10_mean_cathegory)
 
 
 
@@ -107,34 +107,34 @@ def evaluate_PM25(PM25_value):
     # categorie di qualità dell'aria rispetto a PM 2.5
 
     if PM25_value <=10:
-        PM25_quality="Ottima"
-        PM25_cathegory="prima"
+        PM25_mean_quality="Ottima"
+        PM25_mean_cathegory="prima"
 
     elif PM25_value>=10 and PM25_value <=20:
-        PM25_quality="Buona"
-        PM25_cathegory="seconda"
+        PM25_mean_quality="Buona"
+        PM25_mean_cathegory="seconda"
     
     elif PM25_value>=20 and PM25_value <=25:
-        PM25_quality="Al limite dell'accettabile"
-        PM25_cathegory="terza"
+        PM25_mean_quality="Al limite dell'accettabile"
+        PM25_mean_cathegory="terza"
 
     elif PM25_value>=25 and PM25_value <=50:
-        PM25_quality="Fuori legge"
-        PM25_cathegory="quarta"
+        PM25_mean_quality="Fuori legge"
+        PM25_mean_cathegory="quarta"
 
     elif PM25_value>=50 and PM25_value <=100:
-        PM25_quality="Pericolosa"
-        PM25_cathegory="quinta"
+        PM25_mean_quality="Pericolosa"
+        PM25_mean_cathegory="quinta"
 
     elif PM25_value>=100:
-        PM25_quality="Emergenza! Evacuazione!"
-        PM25_cathegory="sesta"
+        PM25_mean_quality="Emergenza! Evacuazione!"
+        PM25_mean_cathegory="sesta"
 
     else:
-        PM25_quality="No_data"
-        PM25_cathegory="nessuna"
+        PM25_mean_quality="No_data"
+        PM25_mean_cathegory="nessuna"
 
-    return (PM25_quality, PM25_cathegory)
+    return (PM25_mean_quality, PM25_mean_cathegory)
 
 
 # converte da una timezone ad un'altra

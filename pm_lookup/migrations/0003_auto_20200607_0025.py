@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='target_area_history_serie',
-            name='PM10_cathegory_values',
+            name='PM10_mean_cathegory_values',
             field=models.TextField(),
         ),
         migrations.AlterField(
@@ -22,12 +22,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='target_area_history_serie',
-            name='PM10_quality_values',
+            name='PM10_mean_quality_values',
             field=models.TextField(),
         ),
         migrations.AlterField(
             model_name='target_area_history_serie',
-            name='PM25_cathegory_values',
+            name='PM25_mean_cathegory_values',
             field=models.TextField(),
         ),
         migrations.AlterField(
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='target_area_history_serie',
-            name='PM25_quality_values',
+            name='PM25_mean_quality_values',
             field=models.TextField(),
         ),
         migrations.AlterField(

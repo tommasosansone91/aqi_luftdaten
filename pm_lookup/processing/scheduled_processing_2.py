@@ -46,11 +46,11 @@ def arrange_time_series_and_graphs():
                         "PM10_mean" : [i.PM10_mean for i in records_serie_storica],
                         "PM25_mean" : [i.PM25_mean for i in records_serie_storica],
 
-                        "PM10_quality" : [i.PM10_quality for i in records_serie_storica],
-                        "PM25_quality" : [i.PM25_quality for i in records_serie_storica],
+                        "PM10_mean_quality" : [i.PM10_mean_quality for i in records_serie_storica],
+                        "PM25_mean_quality" : [i.PM25_mean_quality for i in records_serie_storica],
 
-                        "PM10_cathegory" : [i.PM10_cathegory for i in records_serie_storica],
-                        "PM25_cathegory" : [i.PM25_cathegory for i in records_serie_storica],
+                        "PM10_mean_cathegory" : [i.PM10_mean_cathegory for i in records_serie_storica],
+                        "PM25_mean_cathegory" : [i.PM25_mean_cathegory for i in records_serie_storica],
 
                         "number_of_contributing_sensors" : [i.number_of_contributing_sensors for i in records_serie_storica],
 
@@ -109,11 +109,11 @@ def arrange_time_series_and_graphs():
                                                     PM10_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM10_mean'] ) +']',
                                                     PM25_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM25_mean'] ) +']',
 
-                                                    PM10_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_quality'] ) +'"]',
-                                                    PM25_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_quality'] ) +'"]',
+                                                    PM10_mean_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_mean_quality'] ) +'"]',
+                                                    PM25_mean_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_mean_quality'] ) +'"]',
 
-                                                    PM10_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_cathegory'] ) +'"]',
-                                                    PM25_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_cathegory'] ) +'"]',
+                                                    PM10_mean_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_mean_cathegory'] ) +'"]',
+                                                    PM25_mean_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_mean_cathegory'] ) +'"]',
 
                                                     number_of_contributing_sensors_values = '[' + ', '.join(str(e) for e in  serie_storica['number_of_contributing_sensors'] ) +']',
 

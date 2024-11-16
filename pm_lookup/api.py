@@ -128,11 +128,11 @@ def RealtimeDatapoints_detail_api(request, pk):
                         "PM10_mean" : record.PM10_mean,
                         "PM25_mean" : record.PM25_mean, 
 
-                        "PM10_quality" : record.PM10_quality,
-                        "PM25_quality"  : record.PM25_quality,
+                        "PM10_mean_quality" : record.PM10_mean_quality,
+                        "PM25_mean_quality"  : record.PM25_mean_quality,
 
-                        "PM10_cathegory" : record.PM10_cathegory,
-                        "PM25_cathegory" : record.PM25_cathegory,
+                        "PM10_mean_cathegory" : record.PM10_mean_cathegory,
+                        "PM25_mean_cathegory" : record.PM25_mean_cathegory,
 
                         "number_of_contributing_sensors" : record.number_of_contributing_sensors,
 
@@ -191,11 +191,11 @@ def RealtimeDatapoints_detail_api(request, pk):
 #                         "PM10_mean" : record.PM10_mean,
 #                         "PM25_mean" : record.PM25_mean, 
 
-#                         "PM10_quality" : record.PM10_quality,
-#                         "PM25_quality"  : record.PM25_quality,
+#                         "PM10_mean_quality" : record.PM10_mean_quality,
+#                         "PM25_mean_quality"  : record.PM25_mean_quality,
 
-#                         "PM10_cathegory" : record.PM10_cathegory,
-#                         "PM25_cathegory" : record.PM25_cathegory,
+#                         "PM10_mean_cathegory" : record.PM10_mean_cathegory,
+#                         "PM25_mean_cathegory" : record.PM25_mean_cathegory,
 
 #                         "number_of_contributing_sensors" : record.number_of_contributing_sensors,
 
@@ -253,11 +253,11 @@ def time_serie_detail_api(request, pk):
                         "PM10_mean_values" : record.PM10_mean_values,
                         "PM25_mean_values" : record.PM25_mean_values, 
 
-                        "PM10_quality_values" : record.PM10_quality_values,
-                        "PM25_quality_values"  : record.PM25_quality_values,
+                        "PM10_mean_quality_values" : record.PM10_mean_quality_values,
+                        "PM25_mean_quality_values"  : record.PM25_mean_quality_values,
 
-                        "PM10_cathegory_values" : record.PM10_cathegory_values,
-                        "PM25_cathegory_values" : record.PM25_cathegory_values,
+                        "PM10_mean_cathegory_values" : record.PM10_mean_cathegory_values,
+                        "PM25_mean_cathegory_values" : record.PM25_mean_cathegory_values,
 
                         "n_selected_sensor_values" : record.number_of_contributing_sensors_values,
 
@@ -318,11 +318,11 @@ def daily_time_serie_detail_api(request, pk):
                         "PM10_mean_values" : record.PM10_mean_values,
                         "PM25_mean_values" : record.PM25_mean_values, 
 
-                        "PM10_quality_values" : record.PM10_quality_values,
-                        "PM25_quality_values"  : record.PM25_quality_values,
+                        "PM10_mean_quality_values" : record.PM10_mean_quality_values,
+                        "PM25_mean_quality_values"  : record.PM25_mean_quality_values,
 
-                        "PM10_cathegory_values" : record.PM10_cathegory_values,
-                        "PM25_cathegory_values" : record.PM25_cathegory_values,
+                        "PM10_mean_cathegory_values" : record.PM10_mean_cathegory_values,
+                        "PM25_mean_cathegory_values" : record.PM25_mean_cathegory_values,
 
                         "n_selected_sensor_values" : record.number_of_contributing_sensors_values,
 
