@@ -18,7 +18,7 @@ class target_area(models.Model):
     # le coordinate del centro o il raggio
     Name = models.CharField(max_length=256, blank=False, null=False, unique=True)
 
-    Description = models.TextField(null=False, blank=False)
+    Description = models.TextField(null=False, blank=True)
 
     Latitude = models.FloatField(null=False, blank=False)
 
@@ -38,6 +38,8 @@ class target_area(models.Model):
 
     class Meta:
         ordering = ['-Radius', 'Name']
+
+        unique_together = ('Latitude', 'Longitude', 'Radius')
 
 
 
@@ -96,12 +98,6 @@ class RealtimeDatapoints(models.Model):
     PM25_mean_cathegory = models.CharField(max_length=256, blank=False, null=False)
 
     number_of_contributing_sensors = models.IntegerField(null=True)
-    
-    # PM10_n_missing_data = models.IntegerField(null=True)
-    # PM25_n_missing_data = models.IntegerField(null=True)
-
-    # PM10_n_missing_data = models.CharField(max_length=256, null=True)
-    # PM25_n_missing_data = models.CharField(max_length=256, null=True)
 
 
     def __str__(self):       
@@ -146,12 +142,6 @@ class HistoricalDatapoints(models.Model):
 
     number_of_contributing_sensors = models.IntegerField(null=True)
 
-    # PM10_n_missing_data = models.IntegerField(null=True)
-    # PM25_n_missing_data = models.IntegerField(null=True)
-
-    # PM10_n_missing_data = models.CharField(max_length=256, null=True)
-    # PM25_n_missing_data = models.CharField(max_length=256, null=True)
-
 
     def __str__(self):       
         return  "%s --- [ %s ]"  %  (
@@ -169,7 +159,7 @@ class HistoricalDatapoints(models.Model):
         # fixato così
         # ordering = ['-target_area.Radius', 'target_area.Name', '-Last_update_time']
 
-        unique_together = ('target_area', 'Last_update_time', 'PM10_mean', 'PM25_mean')
+        unique_together = ('target_area', 'Last_update_time')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 
@@ -179,12 +169,52 @@ class HistoricalDatapoints(models.Model):
 
 # --------------------------------
 
+# --------------------------------
 
-class DatapointsSerie(models.Model):
+
+class DatapointsSerieParameters(models.Model):
 
     # nota che è maiuscolo
     target_area = models.ForeignKey(
         'target_area',
+        on_delete=models.CASCADE,
+        
+    )
+    # il primo attributo è il modello cui è associato
+
+    Name = models.CharField(max_length=256, blank=False, null=False)
+
+    Description = models.TextField(null=False, blank=True)
+    
+    time_horizon = models.IntegerField( null=False, blank=False, default=1 ) # days
+
+    aggregation_period = models.IntegerField( null=False, blank=True, default=60 )  # minutes
+
+    show_serie = models.BooleanField( null=False, blank=False, default=True ) # days
+    # show hide menu a tendina
+
+    # dafulta: create a time serie of 1h aggregation and having a 1-day time horizon
+
+    def __str__(self):       
+        return  "%s"  %  ( self.target_area.Name )  
+        
+ 
+    class Meta:
+        ordering = ['-target_area__Radius', 'target_area__Name']
+
+        unique_together = ('time_horizon', 'aggregation_period')
+
+        verbose_name = "datapoints_serie"  # Nome al singolare
+        verbose_name_plural = "datapoints_series"  # Nome al plurale
+
+
+
+
+class DatapointsSerieComputed(models.Model):
+
+    # nota che è maiuscolo
+    Datapoints_serie_parameters = models.ForeignKey(
+        'DatapointsSerieParameters',
         on_delete=models.CASCADE,
         
     )
@@ -210,7 +240,7 @@ class DatapointsSerie(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  (self.target_area.Name )  
+        return  "%s"  %  ( self.target_area.Name )  
         
  
     class Meta:
@@ -218,89 +248,3 @@ class DatapointsSerie(models.Model):
 
         verbose_name = "datapoints_serie"  # Nome al singolare
         verbose_name_plural = "datapoints_series"  # Nome al plurale
-
-
-
-# serie orarie
-
-
-class HourlyAggregatedDatapointsSerie(models.Model):
-
-    # nota che è maiuscolo
-    target_area = models.ForeignKey(
-        'target_area',
-        on_delete=models.CASCADE,
-        
-    )
-    # il primo attributo è il modello cui è associato
-
-    # postgres non prende array + datetime
-    Record_time_values = models.TextField( blank=False, null=False) 
-
-    PM10_mean_values = models.TextField( null=False, blank=False)
-    PM25_mean_values = models.TextField( null=False, blank=False)
-
-    PM10_mean_quality_cathegory_label_values = models.TextField( blank=False, null=False)
-    PM25_mean_quality_cathegory_label_values = models.TextField( blank=False, null=False)
-
-    PM10_mean_quality_cathegory_values = models.TextField( blank=False, null=False)
-    PM25_mean_cathegory_values = models.TextField( blank=False, null=False)
-
-    number_of_contributing_sensors_values = models.TextField(null=True)
-
-    PM10_graph_div = models.TextField()
-    PM25_graph_div = models.TextField()
-
-
-
-    def __str__(self):       
-        return  "%s"  %  (self.target_area.Name )  
-        
- 
-    class Meta:
-        ordering = ['-target_area__Radius', 'target_area__Name']
-
-        verbose_name = "hourly_aggregated_datapoints_serie"  # Nome al singolare
-        verbose_name_plural = "hourly_aggregated_datapoints_series"  # Nome al plurale
-
-
-# serie giornaliere
-
-class DailyAggregatedDatapointsSerie(models.Model):
-
-    # nota che è maiuscolo
-    target_area = models.ForeignKey(
-        'target_area',
-        on_delete=models.CASCADE,
-        
-    )
-    # il primo attributo è il modello cui è associato
-
-    # postgres non prende array + datetime
-    Record_time_values = models.TextField( blank=False, null=False) 
-
-    PM10_mean_values = models.TextField( null=False, blank=False)
-    PM25_mean_values = models.TextField( null=False, blank=False)
-
-    PM10_mean_quality_cathegory_label_values = models.TextField( blank=False, null=False)
-    PM25_mean_quality_cathegory_label_values = models.TextField( blank=False, null=False)
-
-    PM10_mean_quality_cathegory_values = models.TextField( blank=False, null=False)
-    PM25_mean_cathegory_values = models.TextField( blank=False, null=False)
-
-    number_of_contributing_sensors_values = models.TextField(null=True)
-
-    PM10_graph_div = models.TextField()
-    PM25_graph_div = models.TextField()
-
-
-
-    def __str__(self):       
-        return  "%s"  %  (self.target_area.Name )  
-        
- 
-    class Meta:
-        ordering = ['-target_area__Radius', 'target_area__Name']
-
-        verbose_name = "daily_aggregated_datapoints_serie"  # Nome al singolare
-        verbose_name_plural = "daily_aggregated_datapoints_series"  # Nome al plurale
