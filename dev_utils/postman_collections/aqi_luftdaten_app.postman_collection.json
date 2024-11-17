@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "bf2acf46-b1bb-402d-9da5-52ab470419b1",
+		"name": "aqi_luftdaten_app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21643682"
+	},
+	"item": [
+		{
+			"name": "dev_app",
+			"item": [
+				{
+					"name": "get cities list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/cities_list",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"cities_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get city detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/city_detail/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"city_detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get cities realtime datapoints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.106:3001/api/realtime_datapoints",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"106"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"realtime_datapoints"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "prod_app",
+			"item": [
+				{
+					"name": "get cities list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.106:3001/api/cities_list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"106"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"cities_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get city detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.106:3001/api/city_detail/1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"106"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"city_detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
