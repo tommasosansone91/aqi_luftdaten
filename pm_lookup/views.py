@@ -3,7 +3,7 @@ from django.shortcuts import render
 from pm_lookup.processing.realtime_processing_1 import get_realtime_pm_values
 from pm_lookup.processing.realtime_processing_2 import update_realtime_pm_values_and_save_them_in_history
 
-from .models import target_area
+from .models import TargetArea
 from .models import RealtimeDatapoints
 from .models import HistoricalDatapoints
 from .models import DatapointsSerie
@@ -35,8 +35,8 @@ def catalogo_api(request):
 
 def catalogo_localita(request):
 
-    aree_di_interesse = target_area.objects.all().order_by('id')
-    # from target_area select *, order by id
+    aree_di_interesse = TargetArea.objects.all().order_by('id')
+    # from TargetArea select *, order by id
 
     context_dict =  {'aree_di_interesse':aree_di_interesse}
 
@@ -49,8 +49,8 @@ def valori_realtime(request):
     get_realtime_pm_values()
 
     # va a prendere i dati nei modelli
-    aree_di_interesse = target_area.objects.all()    
-    n_aree_di_interesse = target_area.objects.all().count()    
+    aree_di_interesse = TargetArea.objects.all()    
+    n_aree_di_interesse = TargetArea.objects.all().count()    
 
     record_sensori = RealtimeDatapoints.objects.all()
 
@@ -72,8 +72,8 @@ def valori_realtime(request):
 #     update_realtime_pm_values_and_save_them_in_history()
 
 #     # va a prendere i dati nei modelli
-#     aree_di_interesse = target_area.objects.all()    
-#     n_aree_di_interesse = target_area.objects.all().count()    
+#     aree_di_interesse = TargetArea.objects.all()    
+#     n_aree_di_interesse = TargetArea.objects.all().count()    
 
 #     record_sensori = RealtimeDatapoints.objects.all()
 

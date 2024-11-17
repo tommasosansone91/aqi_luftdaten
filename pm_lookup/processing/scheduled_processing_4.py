@@ -1,6 +1,6 @@
 import numpy as np
 
-from pm_lookup.models import target_area
+from pm_lookup.models import TargetArea
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
 from pm_lookup.models import DailyAggregatedDatapointsSerie
@@ -35,7 +35,7 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
 
 
-    for area_di_interesse in target_area.objects.all():
+    for area_di_interesse in TargetArea.objects.all():
 
         print("Predisposizione dati ed elementi del grafico per la serie storica giornaliera per %s..." % area_di_interesse.Name)
 
@@ -46,7 +46,7 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
         time_horizon_length = n_ore * n_giorni
 
         # isola i record di una località - è cmq un gruppo di oggetti
-        records_serie_storica = HistoricalDatapoints.objects.filter(target_area=area_di_interesse)
+        records_serie_storica = HistoricalDatapoints.objects.filter(TargetArea=area_di_interesse)
         
         n_HistoricalDatapoints_records = records_serie_storica.count()
 
@@ -125,7 +125,7 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
-                        "target_area" : area_di_interesse.Name,
+                        "TargetArea" : area_di_interesse.Name,
 
                         # questi sono vettori di valori
 
@@ -185,7 +185,7 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
         elementi_grafico = DailyAggregatedDatapointsSerie(
                                                     # errore qui
-                                                    target_area = target_area.objects.get(Name=area_di_interesse.Name),
+                                                    TargetArea = TargetArea.objects.get(Name=area_di_interesse.Name),
 
                                                     # questi sono vettori di valori
 

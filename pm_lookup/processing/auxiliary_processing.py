@@ -6,7 +6,7 @@ import pytz
 import time
 
 # servono a save_realtime_datapoints_in_history()
-from pm_lookup.models import target_area
+from pm_lookup.models import TargetArea
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
 
@@ -18,14 +18,14 @@ def save_realtime_datapoints_in_history():
 
     for element in latest_data: 
 
-        element_id = element.target_area.id
-        element_name = element.target_area.Name
+        element_id = element.TargetArea.id
+        element_name = element.TargetArea.Name
         
 
         try:       
 
             new_record = HistoricalDatapoints(
-                                                    target_area=target_area.objects.get(id=element_id),
+                                                    TargetArea=TargetArea.objects.get(id=element_id),
                                                     
                                                     # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                     # quindi qui dico: salva i dati nel campo foreign key 
@@ -57,7 +57,7 @@ def save_realtime_datapoints_in_history():
             print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
             # questo vincolo c'è solo sui dati storici
 
-            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.target_area.Name, element.Last_update_time, element.PM10_mean, element.PM25_mean) )
+            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.TargetArea.Name, element.Last_update_time, element.PM10_mean, element.PM25_mean) )
             print("I dati acquisiti non sono stati salvati.")
 
 

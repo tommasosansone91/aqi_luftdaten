@@ -10,7 +10,7 @@ from datetime import datetime
 # ogni modello django possiede per default
 # id = models.AutoField(primary_key=True)
 
-class target_area(models.Model):
+class TargetArea(models.Model):
 
     # id = models.AutoField(primary_key=True)
 
@@ -50,7 +50,7 @@ class RealtimeDatapoints(models.Model):
     Model to represent real-time air quality data for a specific target area.
 
     Fields:
-        - target_area (OneToOneField): One-to-one association with the 'target_area' model.
+        - TargetArea (OneToOneField): One-to-one association with the 'TargetArea' model.
         - Last_update_time (DateTimeField): Timestamp of the last data update (default: current time).
         - PM10_mean (FloatField): Average value of PM10 particles.
         - PM25_mean (FloatField): Average value of PM2.5 particles.
@@ -66,18 +66,18 @@ class RealtimeDatapoints(models.Model):
     """
 
     # nota che è maiuscolo
-    target_area = models.OneToOneField(
-        'target_area',
+    TargetArea = models.OneToOneField(
+        'TargetArea',
         on_delete=models.CASCADE,
         
     )
     
     # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .Name. .Radius, ecc
     
-    # Target_area_name = models.ForeignKey(
-    #     'target_area',
-    #     # Target_area_name = models.ForeignKey('target_area', on_delete....)
-    #     # vuol dire: in questo campo metti l'id del modello 'target_area'
+    # TargetArea_name = models.ForeignKey(
+    #     'TargetArea',
+    #     # TargetArea_name = models.ForeignKey('TargetArea', on_delete....)
+    #     # vuol dire: in questo campo metti l'id del modello 'TargetArea'
         
     #     # nota che l'attributo è in minuscolo
     #     on_delete=models.CASCADE,
@@ -102,7 +102,7 @@ class RealtimeDatapoints(models.Model):
 
     def __str__(self):       
         return  "%s --- [ %s ]"  %  (
-                                    self.target_area.Name, 
+                                    self.TargetArea.Name, 
                                     datetime.strftime(
                                         self.Last_update_time, 
                                         "%H:%M:%S %d-%m-%Y"
@@ -111,9 +111,9 @@ class RealtimeDatapoints(models.Model):
 
 
     class Meta:
-        ordering = ['-target_area__Radius', 'target_area__Name']
+        ordering = ['-TargetArea__Radius', 'TargetArea__Name']
         # fixato così
-        # ordering = ['-target_area.Radius', 'target_area.Name']
+        # ordering = ['-TargetArea.Radius', 'TargetArea.Name']
 
         verbose_name = "realtime_datapoint"  # Nome al singolare
         verbose_name_plural = "realtime_datapoints"  # Nome al plurale
@@ -122,8 +122,8 @@ class RealtimeDatapoints(models.Model):
 class HistoricalDatapoints(models.Model):
 
     # nota che è maiuscolo
-    target_area = models.ForeignKey(
-        'target_area',
+    TargetArea = models.ForeignKey(
+        'TargetArea',
         on_delete=models.CASCADE,
         
     )
@@ -145,7 +145,7 @@ class HistoricalDatapoints(models.Model):
 
     def __str__(self):       
         return  "%s --- [ %s ]"  %  (
-                                    self.target_area.Name, 
+                                    self.TargetArea.Name, 
                                     datetime.strftime(
                                             self.Last_update_time, 
                                             "%H:%M:%S %d-%m-%Y"
@@ -154,12 +154,12 @@ class HistoricalDatapoints(models.Model):
         
  
     class Meta:
-        ordering = ['-Last_update_time', '-target_area__Radius', 'target_area__Name']
+        ordering = ['-Last_update_time', '-TargetArea__Radius', 'TargetArea__Name']
 
         # fixato così
-        # ordering = ['-target_area.Radius', 'target_area.Name', '-Last_update_time']
+        # ordering = ['-TargetArea.Radius', 'TargetArea.Name', '-Last_update_time']
 
-        unique_together = ('target_area', 'Last_update_time')
+        unique_together = ('TargetArea', 'Last_update_time')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 
@@ -175,8 +175,8 @@ class HistoricalDatapoints(models.Model):
 class DatapointsSerieParameters(models.Model):
 
     # nota che è maiuscolo
-    target_area = models.ForeignKey(
-        'target_area',
+    TargetArea = models.ForeignKey(
+        'TargetArea',
         on_delete=models.CASCADE,
         
     )
@@ -196,11 +196,11 @@ class DatapointsSerieParameters(models.Model):
     # dafulta: create a time serie of 1h aggregation and having a 1-day time horizon
 
     def __str__(self):       
-        return  "%s"  %  ( self.target_area.Name )  
+        return  "%s"  %  ( self.TargetArea.Name )  
         
  
     class Meta:
-        ordering = ['-target_area__Radius', 'target_area__Name']
+        ordering = ['-TargetArea__Radius', 'TargetArea__Name']
 
         unique_together = ('time_horizon', 'aggregation_period')
 
@@ -240,11 +240,11 @@ class DatapointsSerieComputed(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  ( self.target_area.Name )  
+        return  "%s"  %  ( self.TargetArea.Name )  
         
  
     class Meta:
-        ordering = ['-target_area__Radius', 'target_area__Name']
+        ordering = ['-TargetArea__Radius', 'TargetArea__Name']
 
         verbose_name = "datapoints_serie"  # Nome al singolare
         verbose_name_plural = "datapoints_series"  # Nome al plurale

@@ -2,7 +2,7 @@
 
 ## Input models
 
-#### target_areas	
+#### TargetAreas	
 
 This models contains the information about the areas in which we want to track data.
 

@@ -9,7 +9,7 @@ from django.utils import timezone
 import json
 import requests
 
-from pm_lookup.models import target_area
+from pm_lookup.models import TargetArea
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
 
@@ -54,7 +54,7 @@ def get_realtime_pm_values():
     # non tocco il modello history
 
     # prende dati input
-    input_data = target_area.objects.all()
+    input_data = TargetArea.objects.all()
 
     
 
@@ -216,12 +216,12 @@ def get_realtime_pm_values():
 
 
         new_record = RealtimeDatapoints(
-                                                target_area=input_data.get(id=place_id),
+                                                TargetArea=input_data.get(id=place_id),
                                                 # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                 # quindi qui dico: salva i dati nel campo foreign key 
                                                 # che rimanda all'oggetto avente per id quello che mi sono salvato
 
-                                                # Target_area_name=target_area.objects.get(Name=place_name),
+                                                # TargetArea_name=TargetArea.objects.get(Name=place_name),
                                                                                         
                                                 
                                                 Last_update_time=record_time,

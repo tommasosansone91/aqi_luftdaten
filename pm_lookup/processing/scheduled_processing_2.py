@@ -1,6 +1,6 @@
 import numpy as np
 
-from pm_lookup.models import target_area
+from pm_lookup.models import TargetArea
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
 from pm_lookup.models import DatapointsSerie
@@ -24,12 +24,12 @@ def arrange_datapoints_series_and_graphs():
     # prendo i record delle 24 ore degli ultimi 30 giorni
     time_horizon_length = 24*30
 
-    for area_di_interesse in target_area.objects.all():
+    for area_di_interesse in TargetArea.objects.all():
 
         print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.Name)
 
         # isola i record di una località - è cmq un gruppo di oggetti
-        records_serie_storica = HistoricalDatapoints.objects.filter(target_area=area_di_interesse)
+        records_serie_storica = HistoricalDatapoints.objects.filter(TargetArea=area_di_interesse)
         
         records_serie_storica = records_serie_storica[: time_horizon_length - 1]
 
@@ -37,7 +37,7 @@ def arrange_datapoints_series_and_graphs():
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
-                        "target_area" : area_di_interesse.Name,
+                        "TargetArea" : area_di_interesse.Name,
 
                         # questi sono vettori di valori
 
@@ -100,7 +100,7 @@ def arrange_datapoints_series_and_graphs():
 
         elementi_grafico = DatapointsSerie(
                                                     # errore qui
-                                                    target_area = target_area.objects.get(Name=area_di_interesse.Name),
+                                                    TargetArea = TargetArea.objects.get(Name=area_di_interesse.Name),
 
                                                     # questi sono vettori di valori
 

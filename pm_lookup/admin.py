@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from .models import target_area
+from .models import TargetArea
 from .models import RealtimeDatapoints
 from .models import HistoricalDatapoints
 from .models import DatapointsSerie
 from .models import DailyAggregatedDatapointsSerie
 
 # Register your models here.
-# admin.site.register(target_area)
+# admin.site.register(TargetArea)
 # admin.site.register(RealtimeDatapoints)
 # admin.site.register(HistoricalDatapoints)
 
@@ -25,18 +25,18 @@ from import_export.admin import ImportExportModelAdmin
 # registrazione modello input
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_areaResource(resources.ModelResource):
+class TargetAreaResource(resources.ModelResource):
 
     class Meta:
-        model = target_area
+        model = TargetArea
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class target_areaAdmin(ImportExportModelAdmin):
-    resource_class = target_areaResource
+class TargetAreaAdmin(ImportExportModelAdmin):
+    resource_class = TargetAreaResource
 
-admin.site.register(target_area, target_areaAdmin)
+admin.site.register(TargetArea, TargetAreaAdmin)
 
 
 # registrazione modello realtime
@@ -71,7 +71,7 @@ class HistoricalDatapointsAdmin(ImportExportModelAdmin):
     resource_class = HistoricalDatapointsResource
 
     # aggiungo il filtro laterale per selezionare a seconda della località
-    list_filter = ['target_area__Name']
+    list_filter = ['TargetArea__Name']
 
 admin.site.register(HistoricalDatapoints, HistoricalDatapointsAdmin)
 

@@ -6,7 +6,7 @@
 
 from django.core.management.base import BaseCommand
 
-from pm_lookup.models import target_area, RealtimeDatapoints
+from pm_lookup.models import TargetArea, RealtimeDatapoints
 
 import numpy as np 
 import math
@@ -51,7 +51,7 @@ class Command(BaseCommand):
 
 
         # prende dati input e dispone in vettori le info di ognuna
-        input_data = target_area.objects.all()
+        input_data = TargetArea.objects.all()
 
 
         # dai dati acquisiti, individua quelli che corrispondono al perimetro delle località selezionate, 
@@ -172,7 +172,7 @@ class Command(BaseCommand):
                 
 
             new_record = RealtimeDatapoints(
-                                                    Target_area_name=target_area.objects.get(Name=place_name),
+                                                    TargetArea_name=TargetArea.objects.get(Name=place_name),
                                                     Last_update_time=record_time,
 
                                                     PM10_mean=PM10_mean,
