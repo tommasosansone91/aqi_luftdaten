@@ -13,16 +13,18 @@ from pm_lookup.models import TargetArea
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
 
+from pm_lookup.models import HistoricalDatapoints
+
 from .auxiliary_processing import evaluate_PM10
 from .auxiliary_processing import evaluate_PM25
-# from .auxiliary_processing import save_realtime_datapoints_in_history
+# from .auxiliary_processing import copy_RealtimeDatapoints_objects_in_HistoricalDatapoints
 
 # per conversione della timezone e check ora legale
 from .auxiliary_processing import convert_datetime_timezone
 from .auxiliary_processing import add_one_hour
 
 
-def get_realtime_pm_values():    
+def get_current_pm_values_and_save_them_in_RealtimeDatapoints():    
 
     
     # url generating
@@ -55,8 +57,6 @@ def get_realtime_pm_values():
 
     # prende dati input
     input_data = TargetArea.objects.all()
-
-    
 
 
     # dai dati acquisiti, individua quelli che corrispondono al perimetro delle località selezionate, 

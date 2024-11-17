@@ -1,13 +1,13 @@
 from django.shortcuts import render
 
-from pm_lookup.processing.realtime_processing_1 import get_realtime_pm_values
-from pm_lookup.processing.realtime_processing_2 import update_realtime_pm_values_and_save_them_in_history
+from pm_lookup.processing.realtime_processing_1 import get_current_pm_values_and_save_them_in_RealtimeDatapoints
+from pm_lookup.processing.realtime_processing_2 import update_realtime_pm_values_and_save_them_in_HistoricalDatapoints
 
 from .models import TargetArea
 from .models import RealtimeDatapoints
 from .models import HistoricalDatapoints
-from .models import DatapointsSerie
-from .models import DailyAggregatedDatapointsSerie
+from .models import DatapointsSerieParameters
+from .models import DatapointsSerieComputed
 
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -46,7 +46,7 @@ def catalogo_localita(request):
 def valori_realtime(request):
     
     #  ranna il processing senza rendere niente in una variabile
-    get_realtime_pm_values()
+    get_current_pm_values_and_save_them_in_RealtimeDatapoints()
 
     # va a prendere i dati nei modelli
     aree_di_interesse = TargetArea.objects.all()    
@@ -69,7 +69,7 @@ def valori_realtime(request):
     
 
 #     #  ranna il processing senza rendere niente in una variabile
-#     update_realtime_pm_values_and_save_them_in_history()
+#     update_realtime_pm_values_and_save_them_in_HistoricalDatapoints()
 
 #     # va a prendere i dati nei modelli
 #     aree_di_interesse = TargetArea.objects.all()    
@@ -91,9 +91,9 @@ def valori_realtime(request):
 # solo raffigurazione
 def serie_storiche(request):
 
-    print("Richiamo dati in DatapointsSerie...")
-    dataset_dei_grafici = DatapointsSerie.objects.all()
-    print("Dati in DatapointsSerie acquisiti!")
+    print("Richiamo dati in DatapointsSerieParameters...")
+    dataset_dei_grafici = DatapointsSerieParameters.objects.all()
+    print("Dati in DatapointsSerieParameters acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici
@@ -110,9 +110,9 @@ def serie_storiche(request):
 # solo raffigurazione
 def serie_storiche_giornaliere(request):
 
-    print("Richiamo dati in DailyAggregatedDatapointsSerie...")
-    dataset_dei_grafici = DailyAggregatedDatapointsSerie.objects.all()
-    print("Dati in DailyAggregatedDatapointsSerie acquisiti!")
+    print("Richiamo dati in DatapointsSerieComputed...")
+    dataset_dei_grafici = DatapointsSerieComputed.objects.all()
+    print("Dati in DatapointsSerieComputed acquisiti!")
 
     context_dict={
         "dataset_dei_grafici":dataset_dei_grafici

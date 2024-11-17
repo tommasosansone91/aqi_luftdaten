@@ -204,7 +204,7 @@ def get_current_pm_values_and_save_them_in_history():
         # passo in entrata un valore del pm e mi viene restituito in uscita il messaggio e la classe css corrispondente
         [PM10_mean_quality_cathegory_label, PM10_mean_quality_cathegory] = evaluate_PM10(PM10_mean)
 
-        [PM25_mean_quality_cathegory_label, PM25_mean_cathegory] = evaluate_PM10(PM25_mean)
+        [PM25_mean_quality_cathegory_label, PM25_mean_cathegory] = evaluate_PM25(PM25_mean)
  
 
 

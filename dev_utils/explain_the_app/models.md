@@ -30,12 +30,12 @@ This model contains the lastest recorded raw data, for each location.
 
 ### Series data models
 
-#### DatapointsSeries	
+#### DatapointsSerieParameters
 
 This model contains the raw serie of data, for each location.
 
 
-#### DailyAggregatedDatapointsSeries	
+#### DatapointsSerieCompute
 
 This model contains the daily-aggregated month-long serie of data, for each location.
 

@@ -3,7 +3,7 @@ import numpy as np
 from pm_lookup.models import TargetArea
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
-from pm_lookup.models import DailyAggregatedDatapointsSerie
+from pm_lookup.models import DatapointsSerieComputed
 
 # importo i drawers
 from pm_lookup.drawers.drawer1 import draw_timeserie_PM10_graph
@@ -26,9 +26,9 @@ from pm_lookup.processing.auxiliary_processing import fix_timezone_mismatch_1
 
 def arrange_dailyaggregated_datapoints_series_and_graphs():
 
-    DailyAggregatedDatapointsSerie.objects.all().delete()
+    DatapointsSerieComputed.objects.all().delete()
 
-    print("Eliminate tutte le serie storiche giornaliere in DailyAggregatedDatapointsSerie!")
+    print("Eliminate tutte le serie storiche giornaliere in DatapointsSerieComputed!")
 
     # print("Inizio disposizione dati in serie storiche giornaliere per ogni località...")
 
@@ -183,7 +183,7 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
         
 
-        elementi_grafico = DailyAggregatedDatapointsSerie(
+        elementi_grafico = DatapointsSerieComputed(
                                                     # errore qui
                                                     TargetArea = TargetArea.objects.get(name=area_di_interesse.name),
 
