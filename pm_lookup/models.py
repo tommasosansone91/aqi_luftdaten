@@ -120,6 +120,30 @@ class RealtimeDatapoints(models.Model):
 
 
 class HistoricalDatapoints(models.Model):
+    
+    """
+    Represents historical air quality data for a specific target area.
+
+    Fields:
+        - TargetArea (ForeignKey): A many-to-one relationship with the 'TargetArea' model.
+        - Last_update_time (DateTimeField): The timestamp indicating when the data was last updated.
+        - PM10_mean (FloatField): The average concentration of PM10 particles.
+        - PM25_mean (FloatField): The average concentration of PM2.5 particles.
+        - PM10_mean_quality_cathegory_label (CharField): A descriptive label for the PM10 quality category (e.g., 'Good', 'Moderate').
+        - PM25_mean_quality_cathegory_label (CharField): A descriptive label for the PM2.5 quality category.
+        - PM10_mean_quality_cathegory (CharField): The quality category for PM10 as a code or identifier.
+        - PM25_mean_cathegory (CharField): The quality category for PM2.5 as a code or identifier.
+        - number_of_contributing_sensors (IntegerField): The number of sensors contributing to the average calculation.
+
+    Meta:
+        - ordering: Data is ordered by descending update time, then by descending target area radius, and finally by the target area name.
+        - unique_together: Ensures that a combination of 'TargetArea' and 'Last_update_time' is unique, preventing duplicate records for the same area and timestamp.
+        - verbose_name: Singular name displayed in the Django Admin ("historical_datapoint").
+        - verbose_name_plural: Plural name displayed in the Django Admin ("historical_datapoints").
+
+    Methods:
+        - __str__: Returns a readable string representation of the data point, including the target area's name and the last update timestamp.
+    """
 
     # nota che è maiuscolo
     TargetArea = models.ForeignKey(
