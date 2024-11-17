@@ -14,7 +14,7 @@ from .processing.realtime_processing_1 import get_realtime_pm_values
 
 def cities_list_api(request):
     cities = TargetArea.objects.all()
-    data = {"cities":list(cities.values("pk","Name","Longitude","Latitude","Radius"))}
+    data = {"cities":list(cities.values("pk","name","longitude","latitude","radius"))}
     response = JsonResponse(data)
     return response
 
@@ -70,10 +70,10 @@ def city_detail_api(request, pk):
                 "city":
                     {
                         "pk":city.pk,
-                        "Name":city.Name,
-                        "Longitude":city.Longitude,
-                        "Latitude":city.Latitude,
-                        "Radius":city.Radius,
+                        "name":city.name,
+                        "longitude":city.longitude,
+                        "latitude":city.latitude,
+                        "radius":city.radius,
 
                     }        
                 } 
@@ -117,13 +117,13 @@ def RealtimeDatapoints_detail_api(request, pk):
                         "pk":record.TargetArea.pk,
 
                         # dati della città associata
-                        "Name":record.TargetArea.Name,
-                        "Longitude":record.TargetArea.Longitude,
-                        "Latitude":record.TargetArea.Latitude,
-                        "Radius":record.TargetArea.Radius,
+                        "name":record.TargetArea.name,
+                        "longitude":record.TargetArea.longitude,
+                        "latitude":record.TargetArea.latitude,
+                        "radius":record.TargetArea.radius,
 
                         # dati della rilevazione                        
-                        "Last_update_time" : record.Last_update_time, 
+                        "last_update_time" : record.last_update_time, 
 
                         "PM10_mean" : record.PM10_mean,
                         "PM25_mean" : record.PM25_mean, 
@@ -180,13 +180,13 @@ def RealtimeDatapoints_detail_api(request, pk):
 #                         "pk":record.TargetArea.pk,
 
 #                         # dati della città associata
-#                         "Name":record.TargetArea.Name,
-#                         "Longitude":record.TargetArea.Longitude,
-#                         "Latitude":record.TargetArea.Latitude,
-#                         "Radius":record.TargetArea.Radius,
+#                         "name":record.TargetArea.name,
+#                         "longitude":record.TargetArea.longitude,
+#                         "latitude":record.TargetArea.latitude,
+#                         "radius":record.TargetArea.radius,
 
 #                         # dati della rilevazione                        
-#                         "Last_update_time" : record.Last_update_time, 
+#                         "last_update_time" : record.last_update_time, 
 
 #                         "PM10_mean" : record.PM10_mean,
 #                         "PM25_mean" : record.PM25_mean, 
@@ -242,13 +242,13 @@ def time_serie_detail_api(request, pk):
                         "pk":record.TargetArea.pk,
 
                         # dati della città associata
-                        "Name":record.TargetArea.Name,
-                        "Longitude":record.TargetArea.Longitude,
-                        "Latitude":record.TargetArea.Latitude,
-                        "Radius":record.TargetArea.Radius,
+                        "name":record.TargetArea.name,
+                        "longitude":record.TargetArea.longitude,
+                        "latitude":record.TargetArea.latitude,
+                        "radius":record.TargetArea.radius,
 
                         # dati della rilevazione                        
-                        "Record_time_values" : record.Record_time_values, 
+                        "record_time_values" : record.record_time_values, 
 
                         "PM10_mean_values" : record.PM10_mean_values,
                         "PM25_mean_values" : record.PM25_mean_values, 
@@ -307,13 +307,13 @@ def daily_time_serie_detail_api(request, pk):
                         "pk":record.TargetArea.pk,
 
                         # dati della città associata
-                        "Name":record.TargetArea.Name,
-                        "Longitude":record.TargetArea.Longitude,
-                        "Latitude":record.TargetArea.Latitude,
-                        "Radius":record.TargetArea.Radius,
+                        "name":record.TargetArea.name,
+                        "longitude":record.TargetArea.longitude,
+                        "latitude":record.TargetArea.latitude,
+                        "radius":record.TargetArea.radius,
 
                         # dati della rilevazione                        
-                        "Record_time_values" : record.Record_time_values, 
+                        "record_time_values" : record.record_time_values, 
 
                         "PM10_mean_values" : record.PM10_mean_values,
                         "PM25_mean_values" : record.PM25_mean_values, 

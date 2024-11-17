@@ -26,7 +26,7 @@ def arrange_datapoints_series_and_graphs():
 
     for area_di_interesse in TargetArea.objects.all():
 
-        print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.Name)
+        print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.name)
 
         # isola i record di una località - è cmq un gruppo di oggetti
         records_serie_storica = HistoricalDatapoints.objects.filter(TargetArea=area_di_interesse)
@@ -37,11 +37,11 @@ def arrange_datapoints_series_and_graphs():
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
-                        "TargetArea" : area_di_interesse.Name,
+                        "TargetArea" : area_di_interesse.name,
 
                         # questi sono vettori di valori
 
-                        "Last_update_time" : [i.Last_update_time for i in records_serie_storica],
+                        "last_update_time" : [i.last_update_time for i in records_serie_storica],
 
                         "PM10_mean" : [i.PM10_mean for i in records_serie_storica],
                         "PM25_mean" : [i.PM25_mean for i in records_serie_storica],
@@ -59,7 +59,7 @@ def arrange_datapoints_series_and_graphs():
 
         # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
         # errore sopraggiunto dopo il reset del db?
-        serie_storica["Last_update_time"] = fix_timezone_mismatch_1(serie_storica["Last_update_time"])
+        serie_storica["last_update_time"] = fix_timezone_mismatch_1(serie_storica["last_update_time"])
 
 
         # la posizione di serie storiche indica la città
@@ -67,7 +67,7 @@ def arrange_datapoints_series_and_graphs():
         # print(serie_storiche[0].keys())
 
         # time array
-        time_values = np.array(serie_storica['Last_update_time'])
+        time_values = np.array(serie_storica['last_update_time'])
 
         # values
         PM10_values = np.array(serie_storica['PM10_mean'])
@@ -90,8 +90,8 @@ def arrange_datapoints_series_and_graphs():
             
 
         # traccio i grafici e ottengo il javascript
-        graph_PM10_title = "Serie storiche orarie del PM10 per "+area_di_interesse.Name
-        graph_PM25_title = "Serie storiche orarie del PM2.5 per "+area_di_interesse.Name
+        graph_PM10_title = "Serie storiche orarie del PM10 per "+area_di_interesse.name
+        graph_PM25_title = "Serie storiche orarie del PM2.5 per "+area_di_interesse.name
 
         graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values, graph_title=graph_PM10_title)
         graph_PM25 = draw_timeserie_PM25_graph(time_values, PM25_values, graph_title=graph_PM25_title)
@@ -100,11 +100,11 @@ def arrange_datapoints_series_and_graphs():
 
         elementi_grafico = DatapointsSerie(
                                                     # errore qui
-                                                    TargetArea = TargetArea.objects.get(Name=area_di_interesse.Name),
+                                                    TargetArea = TargetArea.objects.get(name=area_di_interesse.name),
 
                                                     # questi sono vettori di valori
 
-                                                    Record_time_values = '[' + ', '.join(str(e) for e in  serie_storica['Last_update_time'] ) +']',
+                                                    record_time_values = '[' + ', '.join(str(e) for e in  serie_storica['last_update_time'] ) +']',
 
                                                     PM10_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM10_mean'] ) +']',
                                                     PM25_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM25_mean'] ) +']',
@@ -124,6 +124,6 @@ def arrange_datapoints_series_and_graphs():
 
         elementi_grafico.save()
 
-        print("Predisposti dati ed elementi del grafico per la serie storica per %s!" % area_di_interesse.Name)  
+        print("Predisposti dati ed elementi del grafico per la serie storica per %s!" % area_di_interesse.name)  
 
     print("Predisposti dati ed elementi dei grafici per le serie storiche per tutte le località!")  

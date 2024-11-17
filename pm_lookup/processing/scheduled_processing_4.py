@@ -37,7 +37,7 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
     for area_di_interesse in TargetArea.objects.all():
 
-        print("Predisposizione dati ed elementi del grafico per la serie storica giornaliera per %s..." % area_di_interesse.Name)
+        print("Predisposizione dati ed elementi del grafico per la serie storica giornaliera per %s..." % area_di_interesse.name)
 
         # prendo i record delle 24 ore degli ultimi x giorni
         # aggiornamento unitùà temporali al default
@@ -97,12 +97,12 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
         PM10_mean = [i.PM10_mean for i in records_serie_storica]
         PM25_mean = [i.PM25_mean for i in records_serie_storica]
         number_of_contributing_sensors = [i.number_of_contributing_sensors for i in records_serie_storica]
-        Last_update_time = [ i.Last_update_time for i in records_serie_storica]
+        last_update_time = [ i.last_update_time for i in records_serie_storica]
 
 
         # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
         # errore sopraggiunto dopo il reset del db?
-        Last_update_time = fix_timezone_mismatch_1(Last_update_time)
+        last_update_time = fix_timezone_mismatch_1(last_update_time)
 
 
         # nota che non ho bsogno di ritrasformare la stringa salvata nel db in numeri, me li legge già come numeri.
@@ -118,14 +118,14 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
         Mean_number_of_contributing_sensors = [ round( np.mean( number_of_contributing_sensors[ 0 + n_ore*i : n_ore + n_ore*i] ) , 2)  for i in range(n_giorni) ]
 
-        Update_date = [ Last_update_time[ 0 + n_ore*i ]  for i in range(n_giorni) ]
+        Update_date = [ last_update_time[ 0 + n_ore*i ]  for i in range(n_giorni) ]
         
         # le date+ore vengono strippate delle ore, lasciando solo il giorno
         Update_date = [ element.date() for element in Update_date ]
 
         serie_storica = {
                         #ce n'è solo una perchè l'ho filtrata
-                        "TargetArea" : area_di_interesse.Name,
+                        "TargetArea" : area_di_interesse.name,
 
                         # questi sono vettori di valori
 
@@ -175,8 +175,8 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
             
 
         # traccio i grafici e ottengo il javascript
-        graph_PM10_title = "Serie storiche giornaliere del PM10 per "+area_di_interesse.Name
-        graph_PM25_title = "Serie storiche giornaliere del PM2.5 per "+area_di_interesse.Name
+        graph_PM10_title = "Serie storiche giornaliere del PM10 per "+area_di_interesse.name
+        graph_PM25_title = "Serie storiche giornaliere del PM2.5 per "+area_di_interesse.name
 
         graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max=PM10_daily_max_35_days_max, graph_title=graph_PM10_title)
         graph_PM25 = draw_timeserie_PM25_graph(time_values, PM25_values, graph_title=graph_PM25_title)
@@ -185,11 +185,11 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
         elementi_grafico = DailyAggregatedDatapointsSerie(
                                                     # errore qui
-                                                    TargetArea = TargetArea.objects.get(Name=area_di_interesse.Name),
+                                                    TargetArea = TargetArea.objects.get(name=area_di_interesse.name),
 
                                                     # questi sono vettori di valori
 
-                                                    Record_time_values = '[' + ', '.join(str(e) for e in  serie_storica['Update_date'] ) +']',
+                                                    record_time_values = '[' + ', '.join(str(e) for e in  serie_storica['Update_date'] ) +']',
 
                                                     PM10_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM10_daily_mean'] ) +']',
                                                     PM25_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM25_daily_mean'] ) +']',
@@ -209,6 +209,6 @@ def arrange_dailyaggregated_datapoints_series_and_graphs():
 
         elementi_grafico.save()
 
-        print("Predisposti dati ed elementi del grafico per la serie storica giornaliera per %s!" % area_di_interesse.Name)  
+        print("Predisposti dati ed elementi del grafico per la serie storica giornaliera per %s!" % area_di_interesse.name)  
 
     print("Predisposti dati ed elementi dei grafici per le serie storiche giornaliere per tutte le località!")  

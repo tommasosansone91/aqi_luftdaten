@@ -19,7 +19,7 @@ def save_realtime_datapoints_in_history():
     for element in latest_data: 
 
         element_id = element.TargetArea.id
-        element_name = element.TargetArea.Name
+        element_name = element.TargetArea.name
         
 
         try:       
@@ -31,7 +31,7 @@ def save_realtime_datapoints_in_history():
                                                     # quindi qui dico: salva i dati nel campo foreign key 
                                                     # che rimanda all'oggetto avente per id quello che mi sono salvato                                                                                            
                                                     
-                                                    Last_update_time=element.Last_update_time,
+                                                    last_update_time=element.last_update_time,
 
                                                     PM10_mean=element.PM10_mean,
                                                     PM25_mean=element.PM25_mean,
@@ -57,7 +57,7 @@ def save_realtime_datapoints_in_history():
             print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
             # questo vincolo c'è solo sui dati storici
 
-            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.TargetArea.Name, element.Last_update_time, element.PM10_mean, element.PM25_mean) )
+            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.TargetArea.name, element.last_update_time, element.PM10_mean, element.PM25_mean) )
             print("I dati acquisiti non sono stati salvati.")
 
 

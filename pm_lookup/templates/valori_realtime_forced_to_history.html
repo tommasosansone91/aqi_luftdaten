@@ -14,15 +14,15 @@
 
     {% for record in record_sensori %}
 
-        <h3>{{record.TargetArea.Name}}</h3>
+        <h3>{{record.TargetArea.name}}</h3>
 
         <p>
             
             I valori si riferiscono ad una media aritmetica eseguita sui valori registrate dalle centraline 
-            nel raggio di {{record.TargetArea.Radius}} km dal punto di coordinate 
+            nel raggio di {{record.TargetArea.radius}} km dal punto di coordinate 
             (
-                <a target="_blank"  href="https://www.google.com/search?q={{record.TargetArea.Longitude}}, {{record.TargetArea.Latitude}}">
-                    {{record.TargetArea.Longitude}}, {{record.TargetArea.Latitude}}
+                <a target="_blank"  href="https://www.google.com/search?q={{record.TargetArea.longitude}}, {{record.TargetArea.latitude}}">
+                    {{record.TargetArea.longitude}}, {{record.TargetArea.latitude}}
                 </a>
             ).
         
@@ -86,7 +86,7 @@
 
         <p>Sensori contribuenti: {{ record.number_of_contributing_sensors }}</p>
 
-        <p>Ultimo aggiornamento: {{ record.Last_update_time | date:'H:i:s d/m/Y' }}</p>
+        <p>Ultimo aggiornamento: {{ record.last_update_time | date:'H:i:s d/m/Y' }}</p>
 
         <br>
 

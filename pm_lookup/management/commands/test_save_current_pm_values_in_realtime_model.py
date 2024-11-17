@@ -58,12 +58,12 @@ class Command(BaseCommand):
         # e salvane i valori
         for place in input_data:
 
-            place_name = place.Name
+            place_name = place.name
 
             # predo lat e long e raggio della località input
-            x_p = float(place.Longitude)
-            y_p = float(place.Latitude)
-            rho = float(place.Radius)
+            x_p = float(place.longitude)
+            y_p = float(place.latitude)
+            rho = float(place.radius)
 
             PM10_list = []
             PM25_list = []
@@ -172,8 +172,8 @@ class Command(BaseCommand):
                 
 
             new_record = RealtimeDatapoints(
-                                                    TargetArea_name=TargetArea.objects.get(Name=place_name),
-                                                    Last_update_time=record_time,
+                                                    TargetArea_name=TargetArea.objects.get(name=place_name),
+                                                    last_update_time=record_time,
 
                                                     PM10_mean=PM10_mean,
                                                     PM25_mean=PM25_mean,

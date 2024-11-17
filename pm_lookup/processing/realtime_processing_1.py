@@ -65,14 +65,14 @@ def get_realtime_pm_values():
 
         place_id = place.id
         
-        place_name = place.Name
+        place_name = place.name
 
         print("Inizio ricerca dati per %s..." % place_name)
 
         # predo lat e long e raggio della località input
-        x_p = float(place.Longitude)
-        y_p = float(place.Latitude)
-        rho = 0.011300045235255235 * float(place.Radius) # fattore di trasformazione (coord/km)
+        x_p = float(place.longitude)
+        y_p = float(place.latitude)
+        rho = 0.011300045235255235 * float(place.radius) # fattore di trasformazione (coord/km)
 
         PM10_list = []
         PM25_list = []
@@ -221,10 +221,10 @@ def get_realtime_pm_values():
                                                 # quindi qui dico: salva i dati nel campo foreign key 
                                                 # che rimanda all'oggetto avente per id quello che mi sono salvato
 
-                                                # TargetArea_name=TargetArea.objects.get(Name=place_name),
+                                                # TargetArea_name=TargetArea.objects.get(name=place_name),
                                                                                         
                                                 
-                                                Last_update_time=record_time,
+                                                last_update_time=record_time,
 
                                                 PM10_mean=PM10_mean,
                                                 PM25_mean=PM25_mean,

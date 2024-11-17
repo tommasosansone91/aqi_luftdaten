@@ -16,30 +16,30 @@ class TargetArea(models.Model):
 
     # Ho reso il nome univoco così sono obbligato a specificare la diversità nel nome se anche cambio 
     # le coordinate del centro o il raggio
-    Name = models.CharField(max_length=256, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=256, blank=False, null=False, unique=True)
 
-    Description = models.TextField(null=False, blank=True)
+    description = models.TextField(null=False, blank=True)
 
-    Latitude = models.FloatField(null=False, blank=False)
+    latitude = models.FloatField(null=False, blank=False)
 
-    Longitude = models.FloatField(null=False, blank=False)
+    longitude = models.FloatField(null=False, blank=False)
 
-    Radius = models.FloatField(null=False, blank=False)
+    radius = models.FloatField(null=False, blank=False)
     # deve essere integer
 
 
     def __str__(self):       
-        return  "%s --- [%s, %s - Radius: %s km]"  %    (
-                                                        self.Name, 
-                                                        self.Latitude, 
-                                                        self.Longitude, 
-                                                        self.Radius
+        return  "%s --- [%s, %s - radius: %s km]"  %    (
+                                                        self.name, 
+                                                        self.latitude, 
+                                                        self.longitude, 
+                                                        self.radius
                                                         )  
 
     class Meta:
-        ordering = ['-Radius', 'Name']
+        ordering = ['-radius', 'name']
 
-        unique_together = ('Latitude', 'Longitude', 'Radius')
+        unique_together = ('latitude', 'longitude', 'radius')
 
 
 
@@ -51,7 +51,7 @@ class RealtimeDatapoints(models.Model):
 
     Fields:
         - TargetArea (OneToOneField): One-to-one association with the 'TargetArea' model.
-        - Last_update_time (DateTimeField): Timestamp of the last data update (default: current time).
+        - last_update_time (DateTimeField): Timestamp of the last data update (default: current time).
         - PM10_mean (FloatField): Average value of PM10 particles.
         - PM25_mean (FloatField): Average value of PM2.5 particles.
         - PM10_mean_quality_cathegory_label, PM25_mean_quality_cathegory_label (CharField): Descriptive air quality assessment (e.g., 'Good', 'Moderate').
@@ -72,7 +72,7 @@ class RealtimeDatapoints(models.Model):
         
     )
     
-    # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .Name. .Radius, ecc
+    # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .name. .radius, ecc
     
     # TargetArea_name = models.ForeignKey(
     #     'TargetArea',
@@ -84,7 +84,7 @@ class RealtimeDatapoints(models.Model):
     # )
     # il primo attributo è il modello cui è associato
 
-    Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+    last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
     # these could be switched to a single json
 
@@ -102,18 +102,18 @@ class RealtimeDatapoints(models.Model):
 
     def __str__(self):       
         return  "%s --- [ %s ]"  %  (
-                                    self.TargetArea.Name, 
+                                    self.TargetArea.name, 
                                     datetime.strftime(
-                                        self.Last_update_time, 
+                                        self.last_update_time, 
                                         "%H:%M:%S %d-%m-%Y"
                                         ) 
                                     )  
 
 
     class Meta:
-        ordering = ['-TargetArea__Radius', 'TargetArea__Name']
+        ordering = ['-TargetArea__radius', 'TargetArea__name']
         # fixato così
-        # ordering = ['-TargetArea.Radius', 'TargetArea.Name']
+        # ordering = ['-TargetArea.radius', 'TargetArea.name']
 
         verbose_name = "realtime_datapoint"  # Nome al singolare
         verbose_name_plural = "realtime_datapoints"  # Nome al plurale
@@ -126,7 +126,7 @@ class HistoricalDatapoints(models.Model):
 
     Fields:
         - TargetArea (ForeignKey): A many-to-one relationship with the 'TargetArea' model.
-        - Last_update_time (DateTimeField): The timestamp indicating when the data was last updated.
+        - last_update_time (DateTimeField): The timestamp indicating when the data was last updated.
         - PM10_mean (FloatField): The average concentration of PM10 particles.
         - PM25_mean (FloatField): The average concentration of PM2.5 particles.
         - PM10_mean_quality_cathegory_label (CharField): A descriptive label for the PM10 quality category (e.g., 'Good', 'Moderate').
@@ -137,7 +137,7 @@ class HistoricalDatapoints(models.Model):
 
     Meta:
         - ordering: Data is ordered by descending update time, then by descending target area radius, and finally by the target area name.
-        - unique_together: Ensures that a combination of 'TargetArea' and 'Last_update_time' is unique, preventing duplicate records for the same area and timestamp.
+        - unique_together: Ensures that a combination of 'TargetArea' and 'last_update_time' is unique, preventing duplicate records for the same area and timestamp.
         - verbose_name: Singular name displayed in the Django Admin ("historical_datapoint").
         - verbose_name_plural: Plural name displayed in the Django Admin ("historical_datapoints").
 
@@ -153,7 +153,7 @@ class HistoricalDatapoints(models.Model):
     )
     # il primo attributo è il modello cui è associato
 
-    Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+    last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
     PM10_mean = models.FloatField(null=False, blank=False)
     PM25_mean = models.FloatField(null=False, blank=False)
@@ -169,21 +169,21 @@ class HistoricalDatapoints(models.Model):
 
     def __str__(self):       
         return  "%s --- [ %s ]"  %  (
-                                    self.TargetArea.Name, 
+                                    self.TargetArea.name, 
                                     datetime.strftime(
-                                            self.Last_update_time, 
+                                            self.last_update_time, 
                                             "%H:%M:%S %d-%m-%Y"
                                             ) 
                                     )  
         
  
     class Meta:
-        ordering = ['-Last_update_time', '-TargetArea__Radius', 'TargetArea__Name']
+        ordering = ['-last_update_time', '-TargetArea__radius', 'TargetArea__name']
 
         # fixato così
-        # ordering = ['-TargetArea.Radius', 'TargetArea.Name', '-Last_update_time']
+        # ordering = ['-TargetArea.radius', 'TargetArea.name', '-last_update_time']
 
-        unique_together = ('TargetArea', 'Last_update_time')
+        unique_together = ('TargetArea', 'last_update_time')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 
@@ -206,9 +206,9 @@ class DatapointsSerieParameters(models.Model):
     )
     # il primo attributo è il modello cui è associato
 
-    Name = models.CharField(max_length=256, blank=False, null=False)
+    name = models.CharField(max_length=256, blank=False, null=False)
 
-    Description = models.TextField(null=False, blank=True)
+    description = models.TextField(null=False, blank=True)
     
     time_horizon = models.IntegerField( null=False, blank=False, default=1 ) # days
 
@@ -220,11 +220,11 @@ class DatapointsSerieParameters(models.Model):
     # dafulta: create a time serie of 1h aggregation and having a 1-day time horizon
 
     def __str__(self):       
-        return  "%s"  %  ( self.TargetArea.Name )  
+        return  "%s"  %  ( self.TargetArea.name )  
         
  
     class Meta:
-        ordering = ['-TargetArea__Radius', 'TargetArea__Name']
+        ordering = ['-TargetArea__radius', 'TargetArea__name']
 
         unique_together = ('time_horizon', 'aggregation_period')
 
@@ -245,7 +245,7 @@ class DatapointsSerieComputed(models.Model):
     # il primo attributo è il modello cui è associato
 
     # postgres non prende array + datetime
-    Record_time_values = models.TextField( blank=False, null=False) 
+    record_time_values = models.TextField( blank=False, null=False) 
 
     PM10_mean_values = models.TextField( null=False, blank=False)
     PM25_mean_values = models.TextField( null=False, blank=False)
@@ -264,11 +264,11 @@ class DatapointsSerieComputed(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  ( self.TargetArea.Name )  
+        return  "%s"  %  ( self.TargetArea.name )  
         
  
     class Meta:
-        ordering = ['-TargetArea__Radius', 'TargetArea__Name']
+        ordering = ['-TargetArea__radius', 'TargetArea__name']
 
         verbose_name = "datapoints_serie"  # Nome al singolare
         verbose_name_plural = "datapoints_series"  # Nome al plurale
