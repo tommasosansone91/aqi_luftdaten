@@ -304,7 +304,10 @@ class DatapointsSerieComputed(models.Model):
         
  
     class Meta:
-        ordering = ['-TargetArea__radius', 'TargetArea__name']
+        ordering = [
+            '-Datapoints_serie_parameters__TargetArea__radius',
+            'Datapoints_serie_parameters__TargetArea__name'
+            ]
 
         verbose_name = "datapoints_serie"  # Nome al singolare
         verbose_name_plural = "datapoints_series"  # Nome al plurale
