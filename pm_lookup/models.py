@@ -57,7 +57,7 @@ class TargetArea(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [%s, %s - radius: %s km]"  %    (
+        return  "%s --- [ lat: %s , long: %s - radius: %s km]"  %    (
                                                         self.name, 
                                                         self.latitude, 
                                                         self.longitude, 
@@ -257,7 +257,7 @@ class DatapointsSerieParameters(models.Model):
     # dafult: create a time serie of 1h aggregation and having a 1-day time horizon
 
     def __str__(self):       
-        return  "%s %s"  %  ( self.TargetArea.name )  
+        return  "%s %s"  %  ( self.TargetArea.name , self.name )  
         
  
     class Meta:
@@ -265,8 +265,8 @@ class DatapointsSerieParameters(models.Model):
 
         unique_together = ('time_horizon', 'aggregation_period')
 
-        verbose_name = "datapoints_serie"  # Nome al singolare
-        verbose_name_plural = "datapoints_series"  # Nome al plurale
+        verbose_name = "datapoints_serie_parameters"  # Nome al singolare
+        # verbose_name_plural = "datapoints_serie_parameterss"  # Nome al plurale
 
 
 
@@ -300,7 +300,7 @@ class DatapointsSerieComputed(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  ( self.TargetArea.name )  
+        return  "(DatapointsSerieComputed) %s %s"  %  ( self.TargetArea.name , self.DatapointsSerieParameters.name )  
         
  
     class Meta:
@@ -309,5 +309,5 @@ class DatapointsSerieComputed(models.Model):
             'Datapoints_serie_parameters__TargetArea__name'
             ]
 
-        verbose_name = "datapoints_serie"  # Nome al singolare
-        verbose_name_plural = "datapoints_series"  # Nome al plurale
+        verbose_name = "datapoints_serie_computed"  # Nome al singolare
+        # verbose_name_plural = "datapoints_series_computeds"  # Nome al plurale
