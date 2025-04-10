@@ -24,7 +24,7 @@ chiama la API Luftdaten per ottenere e salvare i dati nel modello storico grezzo
     save_history_pm()
 
 
-### arrange_historical_and_daily_series
+### arrange_time_series_and_graphs
 
 arrangia/disegna le serie *orarie* e *giornaliere* attingendo al modello storico grezzo
 

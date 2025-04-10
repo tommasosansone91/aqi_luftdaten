@@ -11,4 +11,4 @@ cd /var/www/aqi_luftdaten
 venv/bin/python manage.py save_current_pm_values_in_history
 
 
-venv/bin/python manage.py arrange_historical_and_daily_series
+venv/bin/python manage.py arrange_time_series_and_graphs
