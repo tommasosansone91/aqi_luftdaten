@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views # nota che con questo importo tutte le liste
-from . import views_api # devo aggiungerlo perchè ho delle altre views
+from . import api # devo aggiungerlo perchè ho delle altre views
 
 urlpatterns = [
 
@@ -27,23 +27,23 @@ urlpatterns = [
     # api liste
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
-    path('api/cities_list', views_api.cities_list_api, name="cities_list"),
-    path('api/RealtimeDatapoints', views_api.cities_RealtimeDatapoints_api, name="RealtimeDatapoints"),
-    path('api/historical_data', views_api.historical_data_api, name="historical_data"),    
-    path('api/time_series', views_api.time_series_api, name="time_series"),
-    path('api/daily_time_series', views_api.daily_time_series_api, name="daily_time_series"),    
+    path('api/cities_list', api.cities_list_api, name="cities_list"),
+    path('api/RealtimeDatapoints', api.cities_RealtimeDatapoints_api, name="RealtimeDatapoints"),
+    path('api/historical_data', api.historical_data_api, name="historical_data"),    
+    path('api/time_series', api.time_series_api, name="time_series"),
+    path('api/daily_time_series', api.daily_time_series_api, name="daily_time_series"),    
 
     # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
 
-    path('api/city_detail/<int:pk>', views_api.city_detail_api, name="city_detail"),
-    path('api/RealtimeDatapoints_detail/<int:pk>', views_api.RealtimeDatapoints_detail_api, name="RealtimeDatapoints_detail"),
+    path('api/city_detail/<int:pk>', api.city_detail_api, name="city_detail"),
+    path('api/RealtimeDatapoints_detail/<int:pk>', api.RealtimeDatapoints_detail_api, name="RealtimeDatapoints_detail"),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.
     # prendere un insieme di record corrisondenti ad una città ... è prendere una serie storica, quindi tanto vale
-    # path('api/historical_data_detail/<int:pk>', views_api.historical_data_detail_api, name="historical_data_detail"),
+    # path('api/historical_data_detail/<int:pk>', api.historical_data_detail_api, name="historical_data_detail"),
 
-    path('api/time_serie_detail/<int:pk>', views_api.time_serie_detail_api, name="time_serie_detail"),
-    path('api/daily_time_serie_detail/<int:pk>', views_api.daily_time_serie_detail_api, name="daily_time_serie_detail"),
+    path('api/time_serie_detail/<int:pk>', api.time_serie_detail_api, name="time_serie_detail"),
+    path('api/daily_time_serie_detail/<int:pk>', api.daily_time_serie_detail_api, name="daily_time_serie_detail"),
 
     
     # mantieni lo standard di nomenclatura tra i tre termini
