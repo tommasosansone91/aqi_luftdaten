@@ -9,6 +9,7 @@ from django.utils import timezone
 import json
 import requests
 
+from pm_lookup.config import KILOMETERS_TO_COORDINATES_POINTS_DISTANCE
 from pm_lookup.models import TargetArea
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
@@ -72,7 +73,7 @@ def get_current_pm_values_and_save_them_in_RealtimeDatapoints():
         # predo lat e long e raggio della località input
         x_p = float(place.longitude)
         y_p = float(place.latitude)
-        rho = 0.011300045235255235 * float(place.radius) # fattore di trasformazione (coord/km)
+        rho = KILOMETERS_TO_COORDINATES_POINTS_DISTANCE * float(place.radius) # fattore di trasformazione (coord/km)
 
         PM10_list = []
         PM25_list = []
@@ -203,15 +204,15 @@ def get_current_pm_values_and_save_them_in_RealtimeDatapoints():
         #  se lo metto dice che deve essere formattato in formato che mantega anche la timezone
 
         # passo in entrata un valore del pm e mi viene restituito in uscita il messaggio e la classe css corrispondente
-        [PM10_mean_quality_cathegory_label, PM10_mean_quality_cathegory] = evaluate_PM10(PM10_mean)
+        [PM10_mean_cathegory_label, PM10_mean_cathegory] = evaluate_PM10(PM10_mean)
 
-        [PM25_mean_quality_cathegory_label, PM25_mean_cathegory] = evaluate_PM10(PM25_mean)
+        [PM25_mean_cathegory_label, PM25_mean_cathegory] = evaluate_PM25(PM25_mean)
  
 
 
             
-        print("Valore medio del PM10 per %s: %s µg/m³. %s" % (place_name, PM10_mean, PM10_mean_quality_cathegory_label))
-        print("Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_mean_quality_cathegory_label))
+        print("Valore medio del PM10 per %s: %s µg/m³. %s" % (place_name, PM10_mean, PM10_mean_cathegory_label))
+        print("Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_mean_cathegory_label))
         print("Timestamp delle osservazioni per %s: %s" % (place_name, record_time))
 
 
@@ -229,10 +230,9 @@ def get_current_pm_values_and_save_them_in_RealtimeDatapoints():
                                                 PM10_mean=PM10_mean,
                                                 PM25_mean=PM25_mean,
 
-                                                PM10_mean_quality_cathegory_label=PM10_mean_quality_cathegory_label, 
-                                                PM25_mean_quality_cathegory_label=PM25_mean_quality_cathegory_label,
-
-                                                PM10_mean_quality_cathegory=PM10_mean_quality_cathegory,
+                                                PM10_mean_cathegory_label=PM10_mean_cathegory_label,
+                                                PM25_mean_cathegory_label=PM25_mean_cathegory_label,
+                                                PM10_mean_cathegory=PM10_mean_cathegory,
                                                 PM25_mean_cathegory=PM25_mean_cathegory,
 
                                                 number_of_contributing_sensors=number_of_contributing_sensors,

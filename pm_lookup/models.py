@@ -82,7 +82,7 @@ class RealtimeDatapoints(models.Model):
         - last_update_time (DateTimeField): Timestamp of the last data update (default: current time).
         - PM10_mean (FloatField): Average value of PM10 particles.
         - PM25_mean (FloatField): Average value of PM2.5 particles.
-        - PM10_mean_quality_cathegory_label, PM25_mean_quality_cathegory_label (CharField): Descriptive air quality assessment (e.g., 'Good', 'Moderate').
+        - PM10_mean_cathegory_label, PM25_mean_cathegory_label (CharField): Descriptive air quality assessment (e.g., 'Good', 'Moderate').
         - PM10_category, PM25_category (CharField): Categorization based on average particle values.
         - number_of_contributing_sensors (PositiveIntegerField): Number of sensors used to compute the average data.
 
@@ -123,6 +123,15 @@ class RealtimeDatapoints(models.Model):
     PM10_mean = models.FloatField(null=False, blank=False)
     PM25_mean = models.FloatField(null=False, blank=False)
 
+    # only the realtime data carries field for air quality cathegory and label, 
+    # as it is useful to display its color in the homepage
+    PM10_mean_cathegory_label = models.TextField( blank=False, null=False)
+    PM25_mean_cathegory_label = models.TextField( blank=False, null=False)
+
+    PM10_mean_cathegory  = models.TextField( blank=False, null=False)
+    PM25_mean_cathegory = models.TextField( blank=False, null=False)
+
+
     def __str__(self):       
         return  "%s --- [ %s ]"  %  (
                                     self.TargetArea.name, 
@@ -138,8 +147,8 @@ class RealtimeDatapoints(models.Model):
         # fixato così
         # ordering = ['-TargetArea.radius', 'TargetArea.name']
 
-        verbose_name = "realtime_datapoint"  # Nome al singolare
-        verbose_name_plural = "realtime_datapoints"  # Nome al plurale
+        verbose_name = "realtime datapoint"  # Nome al singolare
+        verbose_name_plural = "realtime datapoints"  # Nome al plurale
 
 
 class HistoricalDatapoints(models.Model):
@@ -152,10 +161,6 @@ class HistoricalDatapoints(models.Model):
         - last_update_time (DateTimeField): The timestamp indicating when the data was last updated.
         - PM10_mean (FloatField): The average concentration of PM10 particles.
         - PM25_mean (FloatField): The average concentration of PM2.5 particles.
-        - PM10_mean_quality_cathegory_label (CharField): A descriptive label for the PM10 quality category (e.g., 'Good', 'Moderate').
-        - PM25_mean_quality_cathegory_label (CharField): A descriptive label for the PM2.5 quality category.
-        - PM10_mean_quality_cathegory (CharField): The quality category for PM10 as a code or identifier.
-        - PM25_mean_cathegory (CharField): The quality category for PM2.5 as a code or identifier.
         - number_of_contributing_sensors (PositiveIntegerField): The number of sensors contributing to the average calculation.
 
     Meta:
@@ -208,8 +213,8 @@ class HistoricalDatapoints(models.Model):
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 
-        verbose_name = "historical_datapoint"  # Nome al singolare
-        verbose_name_plural = "historical_datapoints"  # Nome al plurale
+        verbose_name = "historical datapoint"  # Nome al singolare
+        verbose_name_plural = "historical datapoints"  # Nome al plurale
 
 
 # --------------------------------
@@ -265,8 +270,8 @@ class DatapointsSerieParameters(models.Model):
 
         unique_together = ('time_horizon', 'aggregation_period')
 
-        verbose_name = "datapoints_serie_parameters"  # Nome al singolare
-        # verbose_name_plural = "datapoints_serie_parameterss"  # Nome al plurale
+        verbose_name = "datapoints serie parameters"  # Nome al singolare
+        # verbose_name_plural = "datapoints_serie_parameters"  # Nome al plurale
 
 
 
@@ -286,10 +291,10 @@ class DatapointsSerieComputed(models.Model):
     PM10_mean_values = models.TextField( null=False, blank=False)
     PM25_mean_values = models.TextField( null=False, blank=False)
 
-    PM10_mean_quality_cathegory_label_values = models.TextField( blank=False, null=False)
-    PM25_mean_quality_cathegory_label_values = models.TextField( blank=False, null=False)
+    PM10_mean_cathegory_label_values = models.TextField( blank=False, null=False)
+    PM25_mean_cathegory_label_values = models.TextField( blank=False, null=False)
 
-    PM10_mean_quality_cathegory_values = models.TextField( blank=False, null=False)
+    PM10_mean_cathegory_values  = models.TextField( blank=False, null=False)
     PM25_mean_cathegory_values = models.TextField( blank=False, null=False)
 
     number_of_contributing_sensors_values = models.TextField(null=True)
@@ -309,5 +314,5 @@ class DatapointsSerieComputed(models.Model):
             'Datapoints_serie_parameters__TargetArea__name'
             ]
 
-        verbose_name = "datapoints_serie_computed"  # Nome al singolare
-        # verbose_name_plural = "datapoints_series_computeds"  # Nome al plurale
+        verbose_name = "datapoints serie computed"  # Nome al singolare
+        # verbose_name_plural = "datapoints_series_computed"  # Nome al plurale

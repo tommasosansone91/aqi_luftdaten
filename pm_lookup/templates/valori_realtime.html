@@ -37,8 +37,8 @@
 
             {% if record.PM10_mean %}
             
-            <span title="{{record.PM10_mean_quality_cathegory_label}}">
-            <a class="{{record.PM10_mean_quality_cathegory}}">
+            <span title="{{record.PM10_mean_cathegory_label}}">
+            <a class="{{record.PM10_mean_cathegory}}">
             {{record.PM10_mean}} µg/m³  
             </a>
             </span>
@@ -66,7 +66,7 @@
 
             {% if record.PM25_mean %}
 
-                <span title="{{record.PM25_mean_quality_cathegory_label}}"">
+                <span title="{{record.PM25_mean_cathegory_label}}"">
                 <a class="{{record.PM25_mean_cathegory}}">
                     {{record.PM25_mean}} µg/m³
                 </a>
