@@ -31,7 +31,7 @@ urlpatterns = [
     path('api/RealtimeDatapoints', api.cities_RealtimeDatapoints_api, name="RealtimeDatapoints"),
     path('api/historical_data', api.historical_data_api, name="historical_data"),    
     path('api/time_series', api.time_series_api, name="time_series"),
-    path('api/daily_time_series', api.daily_time_series_api, name="daily_time_series"),    
+  
 
     # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
 
@@ -43,8 +43,7 @@ urlpatterns = [
     # path('api/historical_data_detail/<int:pk>', api.historical_data_detail_api, name="historical_data_detail"),
 
     path('api/time_serie_detail/<int:pk>', api.time_serie_detail_api, name="time_serie_detail"),
-    path('api/daily_time_serie_detail/<int:pk>', api.daily_time_serie_detail_api, name="daily_time_serie_detail"),
-
+   
     
     # mantieni lo standard di nomenclatura tra i tre termini
 ]
