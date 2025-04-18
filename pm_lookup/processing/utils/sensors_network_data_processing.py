@@ -40,9 +40,10 @@ def extract_data_from_sensors_network():
     try:
         # json parsa il contenuto di api_request in 
         api_data = json.loads(api_request.content)
-    except Exception as e:
-        api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
-
+    except json.JSONDecodeError as e:
+            api_data = { "error_message": "Errore: il contenuto della risposta non è un JSON valido. ",
+              "details": e
+            }
 
     # prende dati input
     input_data = TargetArea.objects.all()

@@ -17,6 +17,8 @@ from datetime import datetime
 import json
 import requests
 
+from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
+
 """this is just for development/test"""
 
 # questo file lo richiamo solo se c'e l'ho in 
@@ -46,9 +48,10 @@ class Command(BaseCommand):
         try:
             # json parsa il contenuto di api_request in 
             api_data = json.loads(api_request.content)
-        except Exception as e:
-            api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
-
+        except json.JSONDecodeError as e:
+            api_data = { "error_message": "Errore: il contenuto della risposta non è un JSON valido. ",
+              "details": e
+            }
 
         # prende dati input e dispone in vettori le info di ognuna
         input_data = TargetArea.objects.all()
@@ -110,17 +113,27 @@ class Command(BaseCommand):
             PM10_mean = round(np.mean(PM10_array), 2)
             PM25_mean = round(np.mean(PM25_array), 2)
 
+            # passo in entrata un valore del pm e mi viene restituito in uscita il messaggio e la classe css corrispondente
+            [PM10_mean_cathegory_label, PM10_mean_cathegory] = evaluate_PM10(PM10_mean)
+
+            [PM25_mean_cathegory_label, PM25_mean_cathegory] = evaluate_PM25(PM25_mean)
+
 
 
             new_record = RealtimeDatapoints(
-                                                    TargetArea_name=TargetArea.objects.get(name=place_name),
-                                                    last_update_time=record_time,
+                            target_area=TargetArea.objects.get(name=place_name),
+                            last_update_time=record_time,
 
-                                                    PM10_mean=PM10_mean,
-                                                    PM25_mean=PM25_mean,
+                            PM10_mean=PM10_mean,
+                            PM25_mean=PM25_mean,
 
-                                                    number_of_contributing_sensors=number_of_contributing_sensors,
-            )
+                            PM10_mean_cathegory_label=PM10_mean_cathegory_label,
+                            PM25_mean_cathegory_label=PM25_mean_cathegory_label,
+                            PM10_mean_cathegory=PM10_mean_cathegory,
+                            PM25_mean_cathegory=PM25_mean_cathegory,
+
+                            number_of_contributing_sensors=number_of_contributing_sensors,
+                        )
             
             new_record.save()
 

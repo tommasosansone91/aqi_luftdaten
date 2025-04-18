@@ -9,3 +9,16 @@ milano
 
 
 milano timehorizon=1day timedelta=1h
+
+
+
+------------
+
+
+
+
+  PGPASSWORD=aqimain pg_dump -U luftdaten_main -d aqiluftdaten -t pm_lookup_targetarea \
+  --data-only \
+  --inserts \
+  --column-inserts \
+  | awk '/Milano/'

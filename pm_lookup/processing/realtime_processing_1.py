@@ -16,13 +16,11 @@ from pm_lookup.models import HistoricalDatapoints
 
 from pm_lookup.models import HistoricalDatapoints
 
-from .auxiliary_processing import evaluate_PM10
-from .auxiliary_processing import evaluate_PM25
+from .utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
 # from .auxiliary_processing import copy_RealtimeDatapoints_objects_in_HistoricalDatapoints
 
 # per conversione della timezone e check ora legale
-from .auxiliary_processing import convert_datetime_timezone
-from .auxiliary_processing import add_one_hour
+from .utils.time_converters import convert_datetime_timezone, add_one_hour
 
 
 def get_current_pm_values_and_save_them_in_RealtimeDatapoints():    
@@ -48,8 +46,10 @@ def get_current_pm_values_and_save_them_in_RealtimeDatapoints():
     try:
         # json parsa il contenuto di api_request in 
         api_data = json.loads(api_request.content)
-    except Exception as e:
-        api_data = "Errore: C'è stato un qualche tipo di errore nel parsing del contenuto dell'URL. Forse è un problema del server."
+    except json.JSONDecodeError as e:
+            api_data = { "error_message": "Errore: il contenuto della risposta non è un JSON valido. ",
+              "details": e
+            }
 
     # nel modello realtime voglio un solo record per ogni location
     RealtimeDatapoints.objects.all().delete()
@@ -217,7 +217,7 @@ def get_current_pm_values_and_save_them_in_RealtimeDatapoints():
 
 
         new_record = RealtimeDatapoints(
-                                                TargetArea=input_data.get(id=place_id),
+                                                target_area=input_data.get(id=place_id),
                                                 # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                 # quindi qui dico: salva i dati nel campo foreign key 
                                                 # che rimanda all'oggetto avente per id quello che mi sono salvato

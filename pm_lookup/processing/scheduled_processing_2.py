@@ -16,8 +16,8 @@ from pm_lookup.drawers.drawer1 import draw_timeserie_PM25_graph
 
 # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
 # errore sopraggiunto dopo il reset del db?
-from pm_lookup.processing.auxiliary_processing import evaluate_PM_in_HistoricalDatapoints_elements, fix_timezone_mismatch_1
-from pm_lookup.processing.auxiliary_processing import evaluate_PM10, evaluate_PM25
+from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_1
+from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM_in_HistoricalDatapoints_elements
 
 
 # this function must parse all the datapointsserieparameters and realize the correspondant serie for each of them.
@@ -33,6 +33,8 @@ def arrange_datapoints_series_and_graphs():
 
 
     for area_di_interesse in TargetArea.objects.all():
+
+        n_giorni = 30
 
         print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.name)
 

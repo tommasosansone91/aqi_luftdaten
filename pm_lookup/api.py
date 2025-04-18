@@ -106,13 +106,13 @@ def RealtimeDatapoints_detail_api(request, pk):
                 "record":
                     {   
                         # così la pk per richiamare
-                        "pk":record.TargetArea.pk,
+                        "pk":record.target_area.pk,
 
                         # dati della città associata
-                        "name":record.TargetArea.name,
-                        "longitude":record.TargetArea.longitude,
-                        "latitude":record.TargetArea.latitude,
-                        "radius":record.TargetArea.radius,
+                        "name":record.target_area.name,
+                        "longitude":record.target_area.longitude,
+                        "latitude":record.target_area.latitude,
+                        "radius":record.target_area.radius,
 
                         # dati della rilevazione                        
                         "last_update_time" : record.last_update_time, 
@@ -169,13 +169,13 @@ def time_serie_detail_api(request, pk):
                 "time_serie":
                     {   
                         # così la pk per richiamare
-                        "pk":record.TargetArea.pk,
+                        "pk":record.target_area.pk,
 
                         # dati della città associata
-                        "name":record.TargetArea.name,
-                        "longitude":record.TargetArea.longitude,
-                        "latitude":record.TargetArea.latitude,
-                        "radius":record.TargetArea.radius,
+                        "name":record.target_area.name,
+                        "longitude":record.target_area.longitude,
+                        "latitude":record.target_area.latitude,
+                        "radius":record.target_area.radius,
 
                         # dati della rilevazione                        
                         "record_time_values" : record.record_time_values, 
