@@ -1,11 +1,9 @@
 from django.shortcuts import render
 
 from pm_lookup.processing.realtime_processing_1 import get_current_pm_values_and_save_them_in_RealtimeDatapoints
-from pm_lookup.processing.realtime_processing_2 import update_realtime_pm_values_and_save_them_in_HistoricalDatapoints
 
 from .models import TargetArea
 from .models import RealtimeDatapoints
-from .models import HistoricalDatapoints
 from .models import DatapointsSerieParameters
 from .models import DatapointsSerieComputed
 
