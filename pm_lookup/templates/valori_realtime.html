@@ -1,8 +1,11 @@
-{% extends 'base_autorefresh_1.html' %} 
+{% extends 'base.html' %} 
 
 {% block content %}
 
 {% load static %}
+
+    <!-- meta tag per refresh automatico -->   
+    <meta http-equiv="refresh" content="30">
 
     <h1>Valori real-time del particolato</h1>
     
