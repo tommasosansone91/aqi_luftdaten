@@ -4,7 +4,6 @@ import math
 
 import time
 from datetime import datetime
-# from django.utils import timezone
 
 import json
 import requests
@@ -12,15 +11,13 @@ import requests
 from pm_lookup.config import ALL_SENSORS_DATA_URL, KILOMETERS_TO_COORDINATES_POINTS_DISTANCE
 from pm_lookup.models import TargetArea
 
-from .auxiliary_processing import evaluate_PM10
-from .auxiliary_processing import evaluate_PM25
+from .air_quality_evaluators import evaluate_PM10, evaluate_PM25
 
 # per conversione della timezone e check ora legale
-from .auxiliary_processing import convert_datetime_timezone
-from .auxiliary_processing import add_one_hour
+from .time_converters import convert_datetime_timezone, add_one_hour
 
 
-def extract_data_from_sensors_network():
+def extract_data_from_sensors_network_for_all_places():
 
     # url generating
     api_URL = ALL_SENSORS_DATA_URL
@@ -39,18 +36,21 @@ def extract_data_from_sensors_network():
     # record parse
     try:
         # json parsa il contenuto di api_request in 
-        api_data = json.loads(api_request.content)
+        api_response_data = json.loads(api_request.content)
+
     except json.JSONDecodeError as e:
-            api_data = { "error_message": "Errore: il contenuto della risposta non è un JSON valido. ",
-              "details": e
-            }
+        api_response_data = []
+        print("Errore: il contenuto della response non è un JSON valido. \n{}".format(e))
 
     # prende dati input
     input_data = TargetArea.objects.all()
 
-
     # dai dati acquisiti, individua quelli che corrispondono al perimetro delle località selezionate, 
     # e salvane i valori
+
+    processed_data_for_all_places = list()
+
+
     for place in input_data:
 
         place_id = place.id
@@ -68,7 +68,7 @@ def extract_data_from_sensors_network():
         PM25_list = []
         timestamp_list = []
     
-        for sensor in api_data:
+        for sensor in api_response_data:
 
             got_PM_value = 0
             invalid_coordinates = 0
@@ -149,7 +149,13 @@ def extract_data_from_sensors_network():
                 else:
                     print("    Questo sensore non possiede dati di particolato")    
 
-        # da qui in poi il  processi è lo stesso per diversi metodi di raccota dati
+            # end processing for one sensonr
+
+        # end processing for all sensors
+
+        # aggregating arrays of data
+
+        # da qui in poi il  processing è lo stesso per diversi metodi di raccota dati
 
         number_of_contributing_sensors = max ( len(PM10_list), len(PM25_list) )
 
@@ -158,16 +164,6 @@ def extract_data_from_sensors_network():
             print("---------------------------------------------------")
             continue
 
-        print("Valori del particolato raccolti da %s sensori per %s:" % (number_of_contributing_sensors, place_name))
-
-        print("PM10:")
-        print(PM10_list)  
-
-        print("PM2.5:")
-        print(PM25_list)  
-
-        print("Ora delle rilevazioni:")
-        print(timestamp_list) 
 
         number_of_contributing_sensors = len(PM10_list)
         
@@ -183,13 +179,13 @@ def extract_data_from_sensors_network():
         PM25_mean = round(np.mean(PM25_array), 2)
 
         # col min prendo il tempo del sensore aggiornato meno di recente, per garanzia di aggiornamento minimo
-        record_time = min(timestamp_array)
-        # record_time = max(timestamp_array)
+        oldest_record_time_among_sensors_for_one_place = min(timestamp_array)
+        # max_record_time_among_sensors_for_one_place = max(timestamp_array)
         
         # da solo non è necessario
-        record_time = datetime.strptime(record_time, "%Y-%m-%d %H:%M:%S")
+        oldest_record_time_among_sensors_for_one_place = datetime.strptime(oldest_record_time_among_sensors_for_one_place, "%Y-%m-%d %H:%M:%S")
 
-        # record_time = record_time.strftime("%d-%m-%Y %H:%M:%S")
+        # oldest_record_time_among_sensors_for_one_place = oldest_record_time_among_sensors_for_one_place.strftime("%d-%m-%Y %H:%M:%S")
         #  se lo metto dice che deve essere formattato in formato che mantega anche la timezone
 
         # passo in entrata un valore del pm e mi viene restituito in uscita il messaggio e la classe css corrispondente
@@ -197,14 +193,67 @@ def extract_data_from_sensors_network():
 
         [PM25_mean_cathegory_label, PM25_mean_cathegory] = evaluate_PM25(PM25_mean)
             
+
+
+# return a list of objects containing the info that can be saved or not in the fileds of the model that we want to ave the retrieved data into
+# # also pass this
+# common_output = {
+#         'api_URL':api_URL, 
+#         'api_response_data':api_response_data,             
+#         }
+
+        processed_data_from_detected_sensors_for_one_place = {
+
+            "target_area_id": place_id,
+            # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
+            # quindi qui dico: salva i dati nel campo foreign key 
+            # che rimanda all'oggetto avente per id quello che mi sono salvato
+                                                    
+            "last_update_time": oldest_record_time_among_sensors_for_one_place,
+
+            "PM10_mean":PM10_mean,
+            "PM25_mean":PM25_mean,
+
+            "PM10_mean_cathegory_label":PM10_mean_cathegory_label,
+            "PM25_mean_cathegory_label":PM25_mean_cathegory_label,
+            "PM10_mean_cathegory": PM10_mean_cathegory,
+            "PM25_mean_cathegory": PM25_mean_cathegory,
+
+            "number_of_contributing_sensors": number_of_contributing_sensors
+        }
+
+
+        processed_data_for_all_places.append( processed_data_from_detected_sensors_for_one_place )
+
+        print("Valori del particolato raccolti da %s sensori per %s:" % (number_of_contributing_sensors, place_name))
+
+        print("PM10:")
+        print(PM10_list)  
+
+        print("PM2.5:")
+        print(PM25_list)  
+
+        print("Orari delle rilevazioni:")
+        print(timestamp_list) 
+
         print("Valore medio del PM10 per %s: %s µg/m³. %s" % (place_name, PM10_mean, PM10_mean_cathegory_label))
         print("Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_mean_cathegory_label))
-        print("Timestamp delle osservazioni per %s: %s" % (place_name, record_time))
+        print("Timestamp delle osservazioni per %s: %s" % (place_name, oldest_record_time_among_sensors_for_one_place))
+
+        # end the processing for one place
 
 
-    # return a list of objects containing the info that can be saved or not in the fileds of the model that we want to ave the retrieved data into
-    # # also pass this
-    # common_output = {
-    #         'api_URL':api_URL, 
-    #         'api_data':api_data,             
-    #         }
+    api_data = {
+            'api_URL': api_URL, 
+            'api_response_data': api_response_data,
+            }
+    
+
+    results_dict = {
+        "api_data": api_data,
+        "processed_data_for_all_places": processed_data_for_all_places
+    }
+
+    # end the processing for all places
+    
+    return results_dict
