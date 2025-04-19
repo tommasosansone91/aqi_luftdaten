@@ -10,12 +10,12 @@
 			"name": "dev_app",
 			"item": [
 				{
-					"name": "get cities list",
+					"name": "get places list",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/cities_list",
+							"raw": "http://127.0.0.1:8000/api/places_list",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -26,19 +26,19 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"cities_list"
+								"places_list"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "get city detail",
+					"name": "get place detail",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/city_detail/1",
+							"raw": "http://127.0.0.1:8000/api/place_detail/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -49,7 +49,7 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"city_detail",
+								"place_detail",
 								"1"
 							]
 						}
@@ -57,7 +57,7 @@
 					"response": []
 				},
 				{
-					"name": "get cities realtime datapoints",
+					"name": "get places realtime datapoints",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -85,12 +85,12 @@
 			"name": "prod_app",
 			"item": [
 				{
-					"name": "get cities list",
+					"name": "get places list",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.1.106:3001/api/cities_list",
+							"raw": "http://192.168.1.106:3001/api/places_list",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -101,19 +101,19 @@
 							"port": "3001",
 							"path": [
 								"api",
-								"cities_list"
+								"places_list"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "get city detail",
+					"name": "get place detail",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.1.106:3001/api/city_detail/1",
+							"raw": "http://192.168.1.106:3001/api/place_detail/1",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -124,7 +124,7 @@
 							"port": "3001",
 							"path": [
 								"api",
-								"city_detail",
+								"place_detail",
 								"1"
 							]
 						}
