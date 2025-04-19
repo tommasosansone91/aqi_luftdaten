@@ -3,6 +3,7 @@ import datetime
 import pytz
 import time
 
+
 # converte da una timezone ad un'altra
 def convert_datetime_timezone(date_and_time_input, tz1, tz2):
     tz1 = pytz.timezone(tz1)
@@ -24,17 +25,17 @@ def add_one_hour(date_and_time_input):
 
 # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
 # errore sopraggiunto dopo il reset del db?
-def add_hours_to_array(date_and_time_input, hours):
+def add_hours_to_array(date_and_time_input_array, hours):
 
     hours_added = datetime.timedelta(hours = hours)
 
-    future_date_and_time = [ i + hours_added for i in date_and_time_input ]
+    future_date_and_time = [ i + hours_added for i in date_and_time_input_array ]
 
     return future_date_and_time
 
 
 
-def fix_timezone_mismatch_1(date_and_time_input):
+def fix_timezone_mismatch_in_array_of_datetimes(date_and_time_input_array):
 
     # se è attiva l'ora legale nel tempo locale
     if time.localtime().tm_isdst != 0:        
@@ -43,6 +44,6 @@ def fix_timezone_mismatch_1(date_and_time_input):
     elif time.localtime().tm_isdst == 0:
         hours = -time.timezone/3600
 
-    future_date_and_time = add_hours_to_array(date_and_time_input, hours)
+    future_date_and_time = add_hours_to_array(date_and_time_input_array, hours)
 
     return future_date_and_time
