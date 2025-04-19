@@ -49,7 +49,6 @@ class TargetArea(models.Model):
 
 class RealtimeDatapoints(models.Model):
 
-    # nota che è maiuscolo
     target_area = models.OneToOneField(
         'TargetArea',
         on_delete=models.CASCADE,
@@ -109,7 +108,6 @@ class RealtimeDatapoints(models.Model):
 
 class HistoricalDatapoints(models.Model):
 
-    # nota che è maiuscolo
     target_area = models.ForeignKey(
         'TargetArea',
         on_delete=models.CASCADE,
@@ -157,7 +155,6 @@ class HistoricalDatapoints(models.Model):
 
 class DatapointsSerieParameters(models.Model):
 
-    # nota che è maiuscolo
     target_area = models.ForeignKey(
         'TargetArea',
         on_delete=models.CASCADE,
@@ -165,7 +162,7 @@ class DatapointsSerieParameters(models.Model):
     )
     # il primo attributo è il modello cui è associato
 
-    name = models.CharField(
+    title = models.CharField(
         max_length=256, 
         blank=False, 
         null=False,
@@ -201,7 +198,7 @@ class DatapointsSerieParameters(models.Model):
     # dafult: create a time serie of 1h aggregation and having a 1-day time horizon
 
     def __str__(self):       
-        return  "%s %s"  %  ( self.target_area.name , self.name )  
+        return  "%s %s"  %  ( self.target_area.name , self.title )  
         
  
     class Meta:
@@ -216,11 +213,10 @@ class DatapointsSerieParameters(models.Model):
 
 class DatapointsSerieComputed(models.Model):
 
-    # nota che è maiuscolo
-    datapoints_serie_parameters = models.ForeignKey(
+    # one DatapointsSerieParameters can have only one corresponding DatapointsSerieComputed
+    datapoints_serie_parameters = models.OneToOneField(
         'DatapointsSerieParameters',
         on_delete=models.CASCADE,
-        
     )
     # il primo attributo è il modello cui è associato
 
