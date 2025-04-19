@@ -27,15 +27,15 @@ urlpatterns = [
     # api liste
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
-    path('api/cities_list', api.cities_list_api, name="cities_list"),
-    path('api/RealtimeDatapoints', api.cities_RealtimeDatapoints_api, name="RealtimeDatapoints"),
+    path('api/places_list', api.places_list_api, name="places_list"),
+    path('api/RealtimeDatapoints', api.places_RealtimeDatapoints_api, name="RealtimeDatapoints"),
     path('api/historical_data', api.historical_data_api, name="historical_data"),    
     path('api/time_series', api.time_series_api, name="time_series"),
   
 
     # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
 
-    path('api/city_detail/<int:pk>', api.city_detail_api, name="city_detail"),
+    path('api/place_detail/<int:pk>', api.place_detail_api, name="place_detail"),
     path('api/RealtimeDatapoints_detail/<int:pk>', api.RealtimeDatapoints_detail_api, name="RealtimeDatapoints_detail"),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.

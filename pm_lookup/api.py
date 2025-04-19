@@ -12,13 +12,14 @@ from .processing.realtime_processing_1 import get_current_pm_values_and_save_the
 
 
 
-def cities_list_api(request):
-    cities = TargetArea.objects.all()
-    data = {"cities":list(cities.values("pk","name","longitude","latitude","radius"))}
+def places_list_api(request):
+    places = TargetArea.objects.all()
+    data = {"places":list(places.values("pk","name","longitude","latitude","radius"))}
     response = JsonResponse(data)
     return response
 
-def cities_RealtimeDatapoints_api(request):
+
+def places_RealtimeDatapoints_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
     get_current_pm_values_and_save_them_in_RealtimeDatapoints()
@@ -49,23 +50,23 @@ def time_series_api(request):
     return response
 
 
-# le viste api qui sotto hanno le i dati filterati per città, e poi limitati a 24*30, per ogni città
+# le viste api qui sotto hanno le i dati filterati per area, e poi limitati a 24*30, per ogni area
 
-def city_detail_api(request, pk):
+def place_detail_api(request, pk):
 
     try:
-        city = TargetArea.objects.get(pk=pk)
+        place = TargetArea.objects.get(pk=pk)
         
         data = {
-                # "city":dict(city).items()
+                # "place":dict(place).items()
 
-                "city":
+                "place":
                     {
-                        "pk":city.pk,
-                        "name":city.name,
-                        "longitude":city.longitude,
-                        "latitude":city.latitude,
-                        "radius":city.radius,
+                        "pk":place.pk,
+                        "name":place.name,
+                        "longitude":place.longitude,
+                        "latitude":place.latitude,
+                        "radius":place.radius,
 
                     }        
                 } 
@@ -73,13 +74,13 @@ def city_detail_api(request, pk):
         response = JsonResponse(data)
         return response
 
-    except city.DoesNotExist:
+    except place.DoesNotExist:
         # allora devo inserire nella risposta json un messaggio di errore
         response = JsonResponse(
             {
             "error":{
                     "code":404,
-                    "message": "Città non trovata. Verifica la correttezza dei parametri in input."
+                    "message": "area non trovata. Verifica la correttezza dei parametri in input."
                     }
             },
             status=404 # questo messaggio d'errore serve al frontend framework
@@ -94,21 +95,21 @@ def RealtimeDatapoints_detail_api(request, pk):
     get_current_pm_values_and_save_them_in_RealtimeDatapoints()
 
     try:
-        city = TargetArea.objects.get(pk=pk)
+        place = TargetArea.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = RealtimeDatapoints.objects.get(TargetArea=city)
+        record = RealtimeDatapoints.objects.get(TargetArea=place)
 
       
         data = {
-                # "city":dict(city).items()
+                # "place":dict(place).items()
 
                 "record":
                     {   
                         # così la pk per richiamare
                         "pk":record.target_area.pk,
 
-                        # dati della città associata
+                        # dati della area associata
                         "name":record.target_area.name,
                         "longitude":record.target_area.longitude,
                         "latitude":record.target_area.latitude,
@@ -135,13 +136,13 @@ def RealtimeDatapoints_detail_api(request, pk):
         response = JsonResponse(data)
         return response
 
-    except city.DoesNotExist:
+    except place.DoesNotExist:
         # allora devo inserire nella risposta json un messaggio di errore
         response = JsonResponse(
             {
             "error":{
                     "code":404,
-                    "message": "Città oppure record non trovati. Verifica la correttezza dei parametri in input."
+                    "message": "area oppure record non trovati. Verifica la correttezza dei parametri in input."
                     }
             },
             status=404 # questo messaggio d'errore serve al frontend framework
@@ -157,21 +158,21 @@ def RealtimeDatapoints_detail_api(request, pk):
 def time_serie_detail_api(request, pk):
 
     try:
-        city = TargetArea.objects.get(pk=pk)
+        place = TargetArea.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        record = DatapointsSerieParameters.objects.get(TargetArea=city)
+        record = DatapointsSerieParameters.objects.get(TargetArea=place)
 
       
         data = {
-                # "city":dict(city).items()
+                # "place":dict(place).items()
 
                 "time_serie":
                     {   
                         # così la pk per richiamare
                         "pk":record.target_area.pk,
 
-                        # dati della città associata
+                        # dati della area associata
                         "name":record.target_area.name,
                         "longitude":record.target_area.longitude,
                         "latitude":record.target_area.latitude,
@@ -200,13 +201,13 @@ def time_serie_detail_api(request, pk):
         response = JsonResponse(data)
         return response
 
-    except city.DoesNotExist:
+    except place.DoesNotExist:
         # allora devo inserire nella risposta json un messaggio di errore
         response = JsonResponse(
             {
             "error":{
                     "code":404,
-                    "message": "Città oppure record non trovati. Verifica la correttezza dei parametri in input."
+                    "message": "area oppure record non trovati. Verifica la correttezza dei parametri in input."
                     }
             },
             status=404 # questo messaggio d'errore serve al frontend framework
