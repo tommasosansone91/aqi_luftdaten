@@ -56,7 +56,7 @@ def extract_data_from_sensors_network_for_all_places():
 
     for place in input_data:
 
-        place_id = place.id
+        place_id = place.id # type: ignore
         
         place_name = place.name
 
