@@ -84,8 +84,8 @@ class RealtimeDatapoints(models.Model):
     PM10_mean_cathegory_label = models.TextField( blank=False, null=False)
     PM25_mean_cathegory_label = models.TextField( blank=False, null=False)
 
-    PM10_mean_cathegory  = models.TextField( blank=False, null=False)
-    PM25_mean_cathegory = models.TextField( blank=False, null=False)
+    PM10_mean_cathegory  = models.CharField(max_length=50, blank=False, null=False)
+    PM25_mean_cathegory = models.CharField(max_length=50, blank=False, null=False)
 
 
     def __str__(self):       
