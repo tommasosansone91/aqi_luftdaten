@@ -185,7 +185,7 @@ class DatapointsSerieParameters(models.Model):
         null=False, 
         blank=False, 
         default=timedelta(hours=1),
-        verbose_name="aggregation_period",
+        verbose_name="aggregation period",
         help_text="""Set the aggregation period (e.g., 1 hour = 0 01:00:00)"""
         )
 
@@ -210,7 +210,7 @@ class DatapointsSerieParameters(models.Model):
         unique_together = ('time_horizon', 'aggregation_period')
 
         verbose_name = "datapoints serie parameters"  # Nome al singolare
-        # verbose_name_plural = "datapoints_serie_parameters"  # Nome al plurale
+        verbose_name_plural = "datapoints serie parameters sets"  # Nome al plurale
 
 
 
@@ -254,4 +254,4 @@ class DatapointsSerieComputed(models.Model):
             ]
 
         verbose_name = "datapoints serie computed"  # Nome al singolare
-        # verbose_name_plural = "datapoints_series_computed"  # Nome al plurale
+        verbose_name_plural = "datapoints series computed sets"  # Nome al plurale
