@@ -8,6 +8,8 @@ from datetime import datetime
 import json
 import requests
 
+from django.db.models.query import QuerySet
+
 from pm_lookup.config import ALL_SENSORS_DATA_URL, KILOMETERS_TO_COORDINATES_POINTS_DISTANCE
 from pm_lookup.models import TargetArea
 
@@ -43,7 +45,8 @@ def extract_data_from_sensors_network_for_all_places():
         print("Errore: il contenuto della response non è un JSON valido. \n{}".format(e))
 
     # prende dati input
-    input_data = TargetArea.objects.all()
+    input_data: QuerySet[TargetArea] = TargetArea.objects.all()
+    # explicit declaration of input_data being type QuerySet[TargetArea]
 
     # dai dati acquisiti, individua quelli che corrispondono al perimetro delle località selezionate, 
     # e salvane i valori
