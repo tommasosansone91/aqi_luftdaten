@@ -1,8 +1,6 @@
 from django.core.management.base import BaseCommand
 
 from pm_lookup.processing.scheduled_processing_2 import arrange_datapoints_series_and_graphs
-from pm_lookup.processing.scheduled_processing_3 import arrange_hourlyaggregated_datapoints_series_and_graphs
-from pm_lookup.processing.scheduled_processing_4 import arrange_dailyaggregated_datapoints_series_and_graphs
 
 """
 This command is to recreate the hourly and daily time series 
@@ -22,8 +20,3 @@ class Command(BaseCommand):
 
         #arrangia le serie storiche orarie attingendo al modello storico grezzo e ridisegna i grafici
         arrange_datapoints_series_and_graphs()
-
-        arrange_hourlyaggregated_datapoints_series_and_graphs()
-
-        #arrangia le serie storiche giornaliere attingendo al modello storico grezzo e ridisegna i grafici
-        arrange_dailyaggregated_datapoints_series_and_graphs()
