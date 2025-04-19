@@ -14,8 +14,7 @@ urlpatterns = [
     path('valori_realtime', views.valori_realtime, name="valori_realtime"),
     
     path('serie_storiche', views.serie_storiche, name="serie_storiche"),
-    path('serie_storiche_giornaliere', views.serie_storiche_giornaliere, name="serie_storiche_giornaliere"),
-
+    
     # viste delle api
 
     # generalmente si fa una app per le api 
