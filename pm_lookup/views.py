@@ -61,30 +61,6 @@ def valori_realtime(request):
 
     return render(request, 'valori_realtime.html', context_dict)
 
-# disabilitato
-# @staff_member_required
-# def valori_realtime_forced_to_history(request):
-    
-
-#     #  ranna il processing senza rendere niente in una variabile
-#     update_realtime_pm_values_and_save_them_in_HistoricalDatapoints()
-
-#     # va a prendere i dati nei modelli
-#     aree_di_interesse = TargetArea.objects.all()    
-#     n_aree_di_interesse = TargetArea.objects.all().count()    
-
-#     record_sensori = RealtimeDatapoints.objects.all()
-
-#     context_dict = {
-#                     'aree_di_interesse':aree_di_interesse,
-#                     'n_aree_di_interesse':n_aree_di_interesse,
-#                     # 'common_output':common_output,
-#                     'record_sensori':record_sensori
-#                     }
-
-#     return render(request, 'valori_realtime_forced_to_history.html', context_dict)
-
-
 
 # solo raffigurazione
 def serie_storiche(request):
