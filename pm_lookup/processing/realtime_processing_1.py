@@ -43,9 +43,7 @@ def get_current_pm_values_and_save_them_in_RealtimeDatapoints():
                     id=place["target_area_id"]
                     )
 
-            object_place_name = object_place.name
-
-            print("Dati per %s salvati nel modello realtime!" % object_place)
+            print("Dati per %s salvati nel modello realtime!" % object_place.name)
             # using the object string representation of TargetAarea
 
             print("---------------------------------------------------")
