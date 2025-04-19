@@ -101,19 +101,13 @@ def extract_data_from_sensors_network_for_all_places():
 
             if t1 <= rho and invalid_coordinates==0:
 
-                
-
                 # no perchè latitudine longitudine e rho non hanno la stessa unità di misura
                 # ho convertito il raggio in lat e logn-- 8km ~~ 0.043702 .... per milano
-
-
 
                 print("Trovato un sensore entro l'area definita per %s:" % place_name)
                 print("    Latitudine e longitudine: %s, %s" % (y_s, x_s) )
 
                 # allora estrai  le info del pm 
-
-
 
                 for physical_quantity_recorded in sensor['sensordatavalues']:
 
