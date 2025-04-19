@@ -7,6 +7,11 @@ milano
 9.190407
 6
 
+roma
+41.8901712
+12.4922954
+9
+
 
 milano timehorizon=1day timedelta=1h
 
