@@ -12,7 +12,7 @@ from pm_lookup.processing.scheduled_processing_2 import arrange_datapoints_serie
 
 
 # quando scrivo
-# python manage.py save_current_pm_values_in_history
+# python manage.py test_save_current_pm_values_in_history
 # la funzione command viene rannata automaticamente
 
 class Command(BaseCommand):
@@ -20,5 +20,7 @@ class Command(BaseCommand):
         
         #salva i valori nel modello storico grezzo
         get_current_pm_values_and_save_them_in_history()
+
+        # arrange_datapoints_series_and_graphs()
         
 
