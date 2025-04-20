@@ -1,16 +1,15 @@
-from datetime import timedelta
+
 # from datetime import datetime
 from django.utils import timezone
 
 import numpy as np
 
-from pm_lookup.models import TargetArea
 from pm_lookup.models import HistoricalDatapoints
 from pm_lookup.models import DatapointsSerieParameters
 from pm_lookup.models import DatapointsSerieComputed
 
 # importo i drawers
-from pm_lookup.drawers.drawer1 import draw_timeserie_PM10_graph, draw_timeserie_PM25_graph
+from pm_lookup.drawers.drawer1 import draw_timeserie_pollutant_graph
 
 # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
 # errore sopraggiunto dopo il reset del db?
@@ -19,17 +18,19 @@ from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_
 from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25, evaluate_PM_in_HistoricalDatapoints_elements
 
 
+from pm_lookup.processing.utils.constants import AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP
+
 # this function must parse all the datapointsserieparameters 
 # and build the correspondant serie for each of them.
 
 
-def arrange_datapoints_series_and_graphs():
+def generate_series_and_draw_graphs():
 
     DatapointsSerieComputed.objects.all().delete()
 
     print("Eliminate tutte le serie storiche in DatapointsSerieComputed!")
 
-    print("Inizio disposizione dati ed elementi del grafico per ogni set di parametri definito...")
+    print("Inizio generazione serie di dati ed elementi del grafico per ogni set di parametri definito...")
 
     sets_of_serie_parameters = DatapointsSerieParameters.objects.all()
 
@@ -39,24 +40,23 @@ def arrange_datapoints_series_and_graphs():
         # filter the historical datapoints based on the place and time horizon
         #---------------------------------------------------------------------
 
-        print("Predisposizione dati ed elementi del grafico per la serie storica definita dal set di parametri %s..." % area_di_interesse.name)
-
         area_di_interesse = set_osp.target_area
         start_time = set_osp.start_time
         end_time = set_osp.end_time
         time_horizon = end_time - start_time
         aggregation_window_duration = set_osp.aggregation_period
 
+        print("Predisposizione dati ed elementi del grafico per la serie storica definita dal set di parametri %s..." % area_di_interesse.name)
+
 
         # isola i record di una località - è cmq un gruppo di oggetti
         # e di un certo periodo di tempo
         records_serie_storica = HistoricalDatapoints.objects.filter(
-            Target_area_input_data = area_di_interesse,
-            # Last_update_time__gte = timezone.now() - timedelta(days=n_giorni),
-            Last_update_time__gte = start_time,
-            Last_update_time__lte = end_time
+            target_area = area_di_interesse,
+            # last_update_time__gte = timezone.now() - timedelta(days=n_giorni),
+            last_update_time__gte = start_time,
+            last_update_time__lte = end_time
         )
-
 
         # cycle over the time horizon,
         # start by aggregation_window_start_time = start_time
@@ -72,13 +72,10 @@ def arrange_datapoints_series_and_graphs():
         # in this way, the cycle will always run at least one time
 
             aggregation_window_datapoints = records_serie_storica.filter(
-                Last_update_time__gte = aggregation_window_start_time,
-                Last_update_time__lte = aggregation_window_end_time
+                last_update_time__gte = aggregation_window_start_time,
+                last_update_time__lte = aggregation_window_end_time
             )
 
-
-            # evaluate pm mean values into cathegories to add them to the series
-            results_dict = evaluate_PM_in_HistoricalDatapoints_elements(aggregation_window_datapoints)
 
             # apply statistics to aggregation_window_datapoints
 
@@ -184,7 +181,7 @@ def arrange_datapoints_series_and_graphs():
         # questo script è orario, non servono i limiti normativi
         
         # pm10 maxs
-        # PM10_daily_max_35_days_max = np.array([50 for i in time_values])
+        # PM10_threshold = np.array([50 for i in time_values])
         # PM10_annual_mean_max = np.array([40 for i in time_values])
 
         #PM2.5 maxs
@@ -192,15 +189,67 @@ def arrange_datapoints_series_and_graphs():
 
         # trovare un modo per far comparire nelle etichette del grafico
         
-            
-
         # traccio i grafici e ottengo il javascript
         # bring contstants to a graph contats page
         graph_PM10_title = "Serie storiche orarie del PM10 per {}".format(set_osp.title)
         graph_PM25_title = "Serie storiche orarie del PM2.5 per {}".format(set_osp.title)
 
-        graph_PM10 = draw_timeserie_PM10_graph(last_update_time_values_array, PM10_values_array, graph_title=graph_PM10_title)
-        graph_PM25 = draw_timeserie_PM25_graph(last_update_time_values_array, PM25_values_array, graph_title=graph_PM25_title)
+
+        # eventually draw thresholds of concentrations of pollutants
+
+        list_of_aggregation_periods_threshold_values_for_PM10 = [couple[0] for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM10"]]
+        
+        if set_osp.aggregation_period in list_of_aggregation_periods_threshold_values_for_PM10:
+
+            for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM10"]:
+                if couple[0] == set_osp.aggregation_period:
+                    pollutant_maximum_allowed_concentration_for_aggregation_period = couple[1]
+
+                    PM10_threshold_for_aggregation_period = np.array([pollutant_maximum_allowed_concentration_for_aggregation_period for i in last_update_time_values_array])
+
+                    graph_PM10 = draw_timeserie_pollutant_graph(
+                                    last_update_time_values_array, 
+                                    PM10_values_array, 
+                                    pollutant_threshold=PM10_threshold_for_aggregation_period, 
+                                    graph_title=graph_PM10_title,
+                                    pollutant_name=None,
+                                    pollutant_uom=None,
+                                )
+
+        else:
+            graph_PM10 = draw_timeserie_pollutant_graph(
+                            last_update_time_values_array, 
+                            PM10_values_array, 
+                            graph_title=graph_PM10_title,
+                            pollutant_name=None,
+                            pollutant_uom=None,
+                        )
+        
+
+        list_of_aggregation_periods_threshold_values_for_PM25 = [couple[0] for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM25"]]
+        
+        if set_osp.aggregation_period in list_of_aggregation_periods_threshold_values_for_PM25:
+
+            for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM25"]:
+                if couple[0] == set_osp.aggregation_period:
+                    pollutant_maximum_allowed_concentration_for_aggregation_period = couple[1]
+
+                    PM25_threshold_for_aggregation_period = np.array([pollutant_maximum_allowed_concentration_for_aggregation_period for i in last_update_time_values_array])
+
+                    graph_PM25 = draw_timeserie_pollutant_graph(
+                                    last_update_time_values_array, 
+                                    PM25_values_array, 
+                                    pollutant_threshold=PM25_threshold_for_aggregation_period, 
+                                    graph_title=graph_PM25_title
+                                )
+
+        else:
+            graph_PM25 = draw_timeserie_pollutant_graph(
+                            last_update_time_values_array, 
+                            PM25_values_array, 
+                            graph_title=graph_PM25_title
+                        )
+
 
         # save data into DatapointsSerieComputed object
 
@@ -239,4 +288,4 @@ def arrange_datapoints_series_and_graphs():
 
         print("Predisposti dati ed elementi del grafico per la serie storica per il set dei parametri {}!".format("") )  
 
-    print("Predisposti dati ed elementi dei grafici per le serie storiche per tutti i set di paraametri!")  
+    print("Predisposti dati ed elementi dei grafici per le serie storiche per tutti i set di parametri!")  
