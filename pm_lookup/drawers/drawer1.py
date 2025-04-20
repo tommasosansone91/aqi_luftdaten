@@ -1,198 +1,196 @@
    
-import numpy as np
+
 import plotly.offline as pyo
 import plotly.graph_objs as go
 
 
-def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_threshold=None, AQ_intervals=None, graph_title=None):
+# def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_threshold=None, AQ_intervals=None, graph_title=None):
 
-    PM10_line = go.Scatter(
-                    x=time_values, 
-                    y=PM10_values,
-                    mode='lines+markers',
-                    name="PM 10 [µg/m³]", 
+#     PM10_line = go.Scatter(
+#                     x=time_values, 
+#                     y=PM10_values,
+#                     mode='lines+markers',
+#                     name="PM 10 [µg/m³]", 
 
-                    marker=dict(
-                                color='rgb(128,128,128)',
-                                )                    
-                    )
+#                     marker=dict(
+#                                 color='rgb(128,128,128)',
+#                                 )                    
+#                     )
 
-    #scelta di aggiunta al grafico della linea di massima della normativa
-    #se la linea è in input col giusto nome, aggiungila alla lista data, altrimenti no
+#     #scelta di aggiunta al grafico della linea di massima della normativa
+#     #se la linea è in input col giusto nome, aggiungila alla lista data, altrimenti no
 
-    if PM10_threshold is None: 
-        data = [ PM10_line, ]
+#     if PM10_threshold is None: 
+#         data = [ PM10_line, ]
 
-    else:         
+#     else:         
 
-        PM10_threshold_line = go.Scatter(
-                                                x=time_values, 
-                                                y=PM10_threshold,
-                                                mode='lines',
-                                                name="Soglia massima per la concentrazione giornaliera del PM10", 
+#         PM10_threshold_line = go.Scatter(
+#                                                 x=time_values, 
+#                                                 y=PM10_threshold,
+#                                                 mode='lines',
+#                                                 name="Soglia massima per la concentrazione giornaliera del PM10", 
                                                 
-                                                marker=dict(
-                                                            # size=12,
-                                                            color='rgb(220,20,60)',
-                                                            # symbol='pentagon',
-                                                            # line = {'width':2}    
-                                                            )
+#                                                 marker=dict(
+#                                                             # size=12,
+#                                                             color='rgb(220,20,60)',
+#                                                             # symbol='pentagon',
+#                                                             # line = {'width':2}    
+#                                                             )
 
-                                                ) 
+#                                                 ) 
 
-        data = [ PM10_line, PM10_threshold_line ]   
+#         data = [ PM10_line, PM10_threshold_line ]   
 
-    #scelta di aggiunta al grafico il titolo del grafico
-    #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
+#     #scelta di aggiunta al grafico il titolo del grafico
+#     #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
 
-    if graph_title is None:
-        layout = go.Layout(showlegend=True, )
-    else:
-        layout = go.Layout(showlegend=True, title=graph_title)
+#     if graph_title is None:
+#         layout = go.Layout(showlegend=True, )
+#     else:
+#         layout = go.Layout(showlegend=True, title=graph_title)
 
-    fig = go.Figure(data=data, layout=layout)
+#     fig = go.Figure(data=data, layout=layout)
 
 
-    # Aggiungo delle fasce colorate indicative della qualità dell’aria
-    fig.update_layout(
-        shapes=[
-            # Fascia colorata di qualità dell’aria 1
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=0, #[µg/m³]
-                x1=1, #fine x
-                y1=20, #[µg/m³]
-                fillcolor="#50f085", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
+#     # Aggiungo delle fasce colorate indicative della qualità dell’aria
+#     fig.update_layout(
+#         shapes=[
+#             # Fascia colorata di qualità dell’aria 1
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=0, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=20, #[µg/m³]
+#                 fillcolor="#50f085", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
 
-            ),
+#             ),
             
-            # Fascia colorata di qualità dell’aria 2
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=20, #[µg/m³]
-                x1=1, #fine x
-                y1=35, #[µg/m³]
-                fillcolor="#80ca3a", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
+#             # Fascia colorata di qualità dell’aria 2
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=20, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=35, #[µg/m³]
+#                 fillcolor="#80ca3a", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
             
-            # Fascia colorata di qualità dell’aria 3
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=35, #[µg/m³]
-                x1=1, #fine x
-                y1=50, #[µg/m³]
-                fillcolor="#f0e641", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
-            
-            
-            # Fascia colorata di qualità dell’aria 4
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=50, #[µg/m³]
-                x1=1, #fine x
-                y1=100, #[µg/m³]
-                fillcolor="#fa5050", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
-            
-            # Fascia colorata di qualità dell’aria 5
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=100, #[µg/m³]
-                x1=1, #fine x
-                y1=200, #[µg/m³]
-                fillcolor="#960032", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
+#             # Fascia colorata di qualità dell’aria 3
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=35, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=50, #[µg/m³]
+#                 fillcolor="#f0e641", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
             
             
-            # Fascia colorata di qualità dell’aria 6
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=200, #[µg/m³]
-                x1=1, #fine x
-                y1=1000, #[µg/m³]
-                fillcolor="#50003c", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
+#             # Fascia colorata di qualità dell’aria 4
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=50, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=100, #[µg/m³]
+#                 fillcolor="#fa5050", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
+            
+#             # Fascia colorata di qualità dell’aria 5
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=100, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=200, #[µg/m³]
+#                 fillcolor="#960032", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
             
             
-        ]
-    )
+#             # Fascia colorata di qualità dell’aria 6
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=200, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=1000, #[µg/m³]
+#                 fillcolor="#50003c", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
+            
+            
+#         ]
+#     )
 
 
 
 
-    # padding dell'asse y rispetto alla linea del grafico    
+#     # padding dell'asse y rispetto alla linea del grafico    
 
-    padding_sup_linea_PM10 = 0.1 * ( max(PM10_values) - min(PM10_values) ) #[µg/m³]
+#     padding_sup_linea_PM10 = 0.1 * ( max(PM10_values) - min(PM10_values) ) #[µg/m³]
 
-    if min(PM10_values)-padding_sup_linea_PM10<=0:
-        padding_inf_linea_PM10 = 0
+#     if min(PM10_values)-padding_sup_linea_PM10<=0:
+#         padding_inf_linea_PM10 = 0
 
-    else:
-        padding_inf_linea_PM10 = padding_sup_linea_PM10
+#     else:
+#         padding_inf_linea_PM10 = padding_sup_linea_PM10
 
 
-    fig.update_layout(
+#     fig.update_layout(
         
-        showlegend=True,
+#         showlegend=True,
 
-        # posizionamento legenda fuori dal grafico in basso iniziale
-        legend=dict(
-            yanchor="top",
-            y=-0.25, # il meno la manda sotto il grafico
-            xanchor="left",
-            x=0.05 # poco prima di metà
-        ),
+#         # posizionamento legenda fuori dal grafico in basso iniziale
+#         legend=dict(
+#             yanchor="top",
+#             y=-0.25, # il meno la manda sotto il grafico
+#             xanchor="left",
+#             x=0.05 # poco prima di metà
+#         ),
     
-        yaxis=dict(
-            range=[min(PM10_values)-padding_inf_linea_PM10 ,max(PM10_values)+ padding_sup_linea_PM10]
-            )
-        )
+#         yaxis=dict(
+#             range=[min(PM10_values)-padding_inf_linea_PM10 ,max(PM10_values)+ padding_sup_linea_PM10]
+#             )
+#         )
 
-    # con una sola traccia, showlegend funziona solo dopo
+#     # con una sola traccia, showlegend funziona solo dopo
     
 
 
-    plt_div = pyo.plot(fig, output_type='div')
+#     plt_div = pyo.plot(fig, output_type='div')
 
-    return plt_div
-
-
+#     return plt_div
 
 
 
@@ -202,186 +200,196 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_threshold=None, AQ_
 
 
 
-    # -------------------------------------
 
-def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph_title=None):
+
+#     # -------------------------------------
+
+# def draw_timeserie_PM25_graph(time_values, PM25_values, AQ_intervals=None, graph_title=None):
    
-    PM25_line = go.Scatter(
-                    x=time_values, 
-                    y=PM25_values,
-                    mode='lines+markers',
-                    name="PM 2.5 [µg/m³]", 
+#     PM25_line = go.Scatter(
+#                     x=time_values, 
+#                     y=PM25_values,
+#                     mode='lines+markers',
+#                     name="PM 2.5 [µg/m³]", 
 
-                    marker=dict(
-                                color='rgb(105,105,105)',
-                                )                    
-                    )
-
-
-    data = [ PM25_line ]
-
-    #scelta di aggiunta al grafico il titolo del grafico
-    #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
-
-    if graph_title is None:
-        layout = go.Layout(showlegend=True)
-    else:
-        layout = go.Layout(showlegend=True, title=graph_title)
+#                     marker=dict(
+#                                 color='rgb(105,105,105)',
+#                                 )                    
+#                     )
 
 
-    fig = go.Figure(data=data, layout=layout)
+#     data = [ PM25_line ]
+
+#     #scelta di aggiunta al grafico il titolo del grafico
+#     #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
+
+#     if graph_title is None:
+#         layout = go.Layout(showlegend=True)
+#     else:
+#         layout = go.Layout(showlegend=True, title=graph_title)
 
 
-    # Aggiungo delle fasce colorate indicative della qualità dell’aria
+#     fig = go.Figure(data=data, layout=layout)
 
-    fig.update_layout(
-        shapes=[
-            # Fascia colorata di qualità dell’aria 1
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=0, #[µg/m³]
-                x1=1, #fine x
-                y1=10, #[µg/m³]
-                fillcolor="#50f085", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
 
-            ),
+#     # Aggiungo delle fasce colorate indicative della qualità dell’aria
+
+#     fig.update_layout(
+#         shapes=[
+#             # Fascia colorata di qualità dell’aria 1
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=0, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=10, #[µg/m³]
+#                 fillcolor="#50f085", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+
+#             ),
             
-            # Fascia colorata di qualità dell’aria 2
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=10, #[µg/m³]
-                x1=1, #fine x
-                y1=20, #[µg/m³]
-                fillcolor="#80ca3a", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
+#             # Fascia colorata di qualità dell’aria 2
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=10, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=20, #[µg/m³]
+#                 fillcolor="#80ca3a", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
             
-            # Fascia colorata di qualità dell’aria 3
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=20, #[µg/m³]
-                x1=1, #fine x
-                y1=25, #[µg/m³]
-                fillcolor="#f0e641", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
-            
-            
-            # Fascia colorata di qualità dell’aria 4
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=25, #[µg/m³]
-                x1=1, #fine x
-                y1=50, #[µg/m³]
-                fillcolor="#fa5050", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
-            
-            # Fascia colorata di qualità dell’aria 5
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=50, #[µg/m³]
-                x1=1, #fine x
-                y1=100, #[µg/m³]
-                fillcolor="#960032", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
+#             # Fascia colorata di qualità dell’aria 3
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=20, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=25, #[µg/m³]
+#                 fillcolor="#f0e641", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
             
             
-            # Fascia colorata di qualità dell’aria 6
-            dict(
-                type="rect",
-                xref="paper", # i valori che fornirò per x si riferitranno agli assi
-                yref="y", # i valori he fornirò per y non hanno limiti
-                x0=0, #fine x
-                y0=100, #[µg/m³]
-                x1=1, #fine x
-                y1=1000, #[µg/m³]
-                fillcolor="#50003c", #colore
-                opacity=0.5,
-                layer="below",
-                line_width=0,
-            ),
+#             # Fascia colorata di qualità dell’aria 4
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=25, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=50, #[µg/m³]
+#                 fillcolor="#fa5050", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
+            
+#             # Fascia colorata di qualità dell’aria 5
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=50, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=100, #[µg/m³]
+#                 fillcolor="#960032", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
             
             
-        ]
-    )
+#             # Fascia colorata di qualità dell’aria 6
+#             dict(
+#                 type="rect",
+#                 xref="paper", # i valori che fornirò per x si riferitranno agli assi
+#                 yref="y", # i valori he fornirò per y non hanno limiti
+#                 x0=0, #fine x
+#                 y0=100, #[µg/m³]
+#                 x1=1, #fine x
+#                 y1=1000, #[µg/m³]
+#                 fillcolor="#50003c", #colore
+#                 opacity=0.5,
+#                 layer="below",
+#                 line_width=0,
+#             ),
+            
+            
+#         ]
+#     )
 
 
 
 
-    # padding dell'asse y rispetto alla linea del grafico    
+#     # padding dell'asse y rispetto alla linea del grafico    
 
-    padding_sup_linea_PM25 = 0.1 * ( max(PM25_values) - min(PM25_values) ) #[µg/m³]
+#     padding_sup_linea_PM25 = 0.1 * ( max(PM25_values) - min(PM25_values) ) #[µg/m³]
 
-    if min(PM25_values)-padding_sup_linea_PM25<=0:
-        padding_inf_linea_PM25 = 0
+#     if min(PM25_values)-padding_sup_linea_PM25<=0:
+#         padding_inf_linea_PM25 = 0
 
-    else:
-        padding_inf_linea_PM25 = padding_sup_linea_PM25
+#     else:
+#         padding_inf_linea_PM25 = padding_sup_linea_PM25
 
 
-    fig.update_layout(
-                    showlegend=True, 
+#     fig.update_layout(
+#                     showlegend=True, 
 
-                    # posizionamento legenda fuori dal grafico in basso iniziale
-                    legend=dict(
-                        yanchor="top",
-                        y=-0.25, # il meno la manda sotto il grafico
-                        xanchor="left",
-                        x=0.05 # poco prima di metà
-                    ),
+#                     # posizionamento legenda fuori dal grafico in basso iniziale
+#                     legend=dict(
+#                         yanchor="top",
+#                         y=-0.25, # il meno la manda sotto il grafico
+#                         xanchor="left",
+#                         x=0.05 # poco prima di metà
+#                     ),
 
-                    yaxis=dict(
-                        range=[min(PM25_values)-padding_inf_linea_PM25 ,max(PM25_values)+ padding_sup_linea_PM25]
-                        )
-                    )
+#                     yaxis=dict(
+#                         range=[min(PM25_values)-padding_inf_linea_PM25 ,max(PM25_values)+ padding_sup_linea_PM25]
+#                         )
+#                     )
     
-    # con una sola traccia, showlegend funziona solo dopo
+#     # con una sola traccia, showlegend funziona solo dopo
 
 
 
-    plt_div = pyo.plot(fig, output_type='div')
+#     plt_div = pyo.plot(fig, output_type='div')
 
-    return plt_div
-
-
-    # -------------------------------------
+#     return plt_div
 
 
-def draw_timeserie_genericPollutant_graph(time_values, genericPollutant_values, genericPollutant_threshold=None, AQ_intervals=None, graph_title=None):
+#     # -------------------------------------
 
-    genericPollutant_line = go.Scatter(
+
+def draw_timeserie_pollutant_graph(
+        time_values, 
+        pollutant_values, 
+        pollutant_threshold=None, 
+        AQ_intervals=None, 
+        graph_title=None,
+        pollutant_name=None,
+        pollutant_uom=None
+        ):
+
+    pollutant_line = go.Scatter(
                     x=time_values, 
-                    y=genericPollutant_values,
+                    y=pollutant_values,
                     mode='lines+markers',
-                    name="PM 10 [µg/m³]", 
+                    name="{} {}".format(pollutant_name, pollutant_uom), 
 
                     marker=dict(
                                 color='rgb(128,128,128)',
@@ -391,16 +399,16 @@ def draw_timeserie_genericPollutant_graph(time_values, genericPollutant_values, 
     #scelta di aggiunta al grafico della linea di massima della normativa
     #se la linea è in input col giusto nome, aggiungila alla lista data, altrimenti no
 
-    if genericPollutant_threshold is None: 
-        data = [ genericPollutant_line, ]
+    if pollutant_threshold is None: 
+        data = [ pollutant_line, ]
 
     else:         
 
-        genericPollutant_threshold_line = go.Scatter(
+        pollutant_threshold_line = go.Scatter(
                                                 x=time_values, 
-                                                y=genericPollutant_threshold,
+                                                y=pollutant_threshold,
                                                 mode='lines',
-                                                name="Soglia massima per la concentrazione giornaliera del genericPollutant", 
+                                                name="Soglia massima per la concentrazione giornaliera del {}".format(pollutant_name), 
                                                 
                                                 marker=dict(
                                                             # size=12,
@@ -411,7 +419,7 @@ def draw_timeserie_genericPollutant_graph(time_values, genericPollutant_values, 
 
                                                 ) 
 
-        data = [ genericPollutant_line, genericPollutant_threshold_line ]   
+        data = [ pollutant_line, pollutant_threshold_line ]   
 
     #scelta di aggiunta al grafico il titolo del grafico
     #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
@@ -529,13 +537,13 @@ def draw_timeserie_genericPollutant_graph(time_values, genericPollutant_values, 
 
     # padding dell'asse y rispetto alla linea del grafico    
 
-    padding_sup_linea_genericPollutant = 0.1 * ( max(genericPollutant_values) - min(genericPollutant_values) ) #[µg/m³]
+    padding_sup_linea_pollutant = 0.1 * ( max(pollutant_values) - min(pollutant_values) ) #[µg/m³]
 
-    if min(genericPollutant_values)-padding_sup_linea_genericPollutant<=0:
-        padding_inf_linea_genericPollutant = 0
+    if min(pollutant_values)-padding_sup_linea_pollutant<=0:
+        padding_inf_linea_pollutant = 0
 
     else:
-        padding_inf_linea_genericPollutant = padding_sup_linea_genericPollutant
+        padding_inf_linea_pollutant = padding_sup_linea_pollutant
 
 
     fig.update_layout(
@@ -551,7 +559,7 @@ def draw_timeserie_genericPollutant_graph(time_values, genericPollutant_values, 
         ),
     
         yaxis=dict(
-            range=[min(genericPollutant_values)-padding_inf_linea_genericPollutant ,max(genericPollutant_values)+ padding_sup_linea_genericPollutant]
+            range=[min(pollutant_values)-padding_inf_linea_pollutant ,max(pollutant_values)+ padding_sup_linea_pollutant]
             )
         )
 
