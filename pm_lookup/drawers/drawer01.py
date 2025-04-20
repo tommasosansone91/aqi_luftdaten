@@ -6,7 +6,7 @@ import plotly.offline as pyo
 import plotly.graph_objs as go
 
 
-def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_max=None, AQ_intervals=None, graph_title=None):
+def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_threshold=None, AQ_intervals=None, graph_title=None):
 
     PM10_line = go.Scatter(
                     x=time_values, 
@@ -22,14 +22,14 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
     #scelta di aggiunta al grafico della linea di massima della normativa
     #se la linea è in input col giusto nome, aggiungila alla lista data, altrimenti no
 
-    if PM10_daily_max_35_days_max is None: 
+    if PM10_threshold is None: 
         data = [ PM10_line, ]
 
     else:         
 
-        PM10_daily_max_35_days_max_line = go.Scatter(
+        PM10_threshold_line = go.Scatter(
                                                 x=time_values, 
-                                                y=PM10_daily_max_35_days_max,
+                                                y=PM10_threshold,
                                                 mode='lines',
                                                 name="Soglia massima per la concentrazione giornaliera del PM10", 
                                                 
@@ -42,7 +42,7 @@ def draw_timeserie_PM10_graph(time_values, PM10_values, PM10_daily_max_35_days_m
 
                                                 ) 
 
-        data = [ PM10_line, PM10_daily_max_35_days_max_line ]   
+        data = [ PM10_line, PM10_threshold_line ]   
 
     #scelta di aggiunta al grafico il titolo del grafico
     #se il titolo è in input col giusto nome, aggiungilo al grafico, altrimenti no
