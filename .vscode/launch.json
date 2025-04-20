@@ -15,11 +15,11 @@
         },
 
         {
-            "name": "python manage.py get_data_from_luftdaten_api_and_save_them_in_history",
+            "name": "python manage.py save_current_pm_values_in_history_model",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",
-            "args": ["get_data_from_luftdaten_api_and_save_them_in_history"],
+            "args": ["save_current_pm_values_in_history_model"],
             "django": true,
             "python": "${workspaceFolder}/venv/bin/python"
         }
@@ -32,6 +32,18 @@
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",
             "args": ["generate_series_and_draw_graphs"],
+            "django": true,
+            "python": "${workspaceFolder}/venv/bin/python"
+        }
+
+        ,
+
+        {
+            "name": "python manage.py test_save_current_pm_values_in_realtime_model",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": ["test_save_current_pm_values_in_realtime_model"],
             "django": true,
             "python": "${workspaceFolder}/venv/bin/python"
         }
