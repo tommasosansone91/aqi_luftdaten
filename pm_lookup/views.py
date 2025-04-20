@@ -65,12 +65,12 @@ def valori_realtime(request):
 # solo raffigurazione
 def grafici_serie_storiche(request):
 
-    print("Richiamo dati in DatapointsSerieParameters...")
-    dataset_dei_grafici = DatapointsSerieParameters.objects.all()
-    print("Dati in DatapointsSerieParameters acquisiti!")
+    print("Richiamo dati in DatapointsSerieComputed...")
+    datapoints_serie_computed = DatapointsSerieComputed.objects.all()
+    print("Dati in DatapointsSerieComputed acquisiti!")
 
     context_dict={
-        "dataset_dei_grafici":dataset_dei_grafici
+        "datapoints_serie_computed": datapoints_serie_computed
                 }
 
     print("Dati in trasmissione al template!")

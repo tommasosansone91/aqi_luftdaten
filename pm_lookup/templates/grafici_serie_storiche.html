@@ -12,33 +12,33 @@
 
     <br>
 
-    {% for graph_data in dataset_dei_grafici %}
+    {% for serie_data in datapoints_serie_computed %}
 
-        <h3>{{ graph_data.TargetArea.name }}</h3>
+        <h3>{{ serie_data.datapoints_serie_parameters.target_area.name }}</h3>
 
         <br>
 
         <p>
             
             I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
-            nel raggio di {{graph_data.TargetArea.radius}} km dal punto di coordinate 
+            nel raggio di {{serie_data.datapoints_serie_parameters.target_area.radius}} km dal punto di coordinate 
             (
-                <a target="_blank"  href="https://www.google.com/search?q={{graph_data.TargetArea.latitude}}, {{graph_data.TargetArea.longitude}}">
-                    {{graph_data.TargetArea.latitude}}, {{graph_data.TargetArea.longitude}}
+                <a target="_blank"  href="https://www.google.com/search?q={{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}">
+                    {{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}
                 </a>
             ).
         
         </p>
         
         <!-- titolo nel grafico -->
-        <!-- <h5>Serie storiche del PM10 per {{ graph_data.TargetArea.name }}</h5> -->
+        <!-- <h5>Serie storiche del PM10 per {{ serie_data.datapoints_serie_parameters.target_area.name }}</h5> -->
 
-        {{ graph_data.PM10_graph_div|safe }}
+        {{ serie_data.PM10_graph_div|safe }}
         
         <!-- titolo nel grafico -->
-        <!-- <h5>Serie storiche del PM2.5 per {{ graph_data.TargetArea.name }}</h5> -->
+        <!-- <h5>Serie storiche del PM2.5 per {{ serie_data.datapoints_serie_parameters.target_area.name }}</h5> -->
 
-        {{ graph_data.PM25_graph_div|safe }}
+        {{ serie_data.PM25_graph_div|safe }}
 
         <hr>
 
