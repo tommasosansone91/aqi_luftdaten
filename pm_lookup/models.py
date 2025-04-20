@@ -21,12 +21,6 @@ import uuid
 # the default start time and end time are generated differently every time the "create or edit" function are called, 
 # and not only when the models module is imported
 
-def default_start_time():
-    return now() - timedelta(days=1)
-
-def default_end_time():
-    return now()
-
 
 class TargetArea(models.Model):
 
@@ -103,8 +97,9 @@ class RealtimeDatapoints(models.Model):
 
 
     def __str__(self):       
-        return  "%s [ %s ]"  %  (
-                                    self.target_area.name, 
+        return  "%s (%s) [ %s ]"  %  (
+                                    self.target_area.name,
+                                    self.target_area.id, 
                                     datetime.strftime(
                                         self.last_update_time, 
                                         "%H:%M:%S %d-%m-%Y"
@@ -143,8 +138,9 @@ class HistoricalDatapoints(models.Model):
 
 
     def __str__(self):       
-        return  "%s [ %s ]"  %  (
+        return  "%s (%s) [ %s ]"  %  (
                                     self.target_area.name, 
+                                    self.target_area.id, 
                                     datetime.strftime(
                                             self.last_update_time, 
                                             "%H:%M:%S %d-%m-%Y"
@@ -186,26 +182,21 @@ class DatapointsSerieParameters(models.Model):
 
     description = models.TextField(null=False, blank=True)
 
-    start_time = models.DateTimeField(
+    time_horizon = models.DurationField(
         null=False,
         blank=False,
-        default=default_start_time,
-        help_text="Set the start time (default is now - 1 day)"
+        default=timedelta(days=1),
+        verbose_name="time horizon",
+        help_text="""Set the time horizon of the serie (e.g., 1 hour = 0 01:00:00)\nThe start time of the serie will be equal to now - time_horizon\nand the end time will be the current time"""
     )
 
-    end_time = models.DateTimeField(
-        null=False,
-        blank=False,
-        default=default_end_time,
-        help_text="Set the end time (default is now)"
-    )
     
     aggregation_period = models.DurationField(
         null=False, 
         blank=False, 
         default=timedelta(hours=1),
         verbose_name="aggregation period",
-        help_text="""Set the aggregation period (e.g., 1 hour = 0 01:00:00)"""
+        help_text="""Set the aggregation period of historical datapoints (e.g., 1 hour = 0 01:00:00)"""
         )
 
     show_serie = models.BooleanField( 
@@ -226,7 +217,7 @@ class DatapointsSerieParameters(models.Model):
     class Meta:
         ordering = ['-target_area__radius', 'target_area__name']
 
-        unique_together = ('start_time', 'end_time', 'aggregation_period')
+        unique_together = ('target_area', 'time_horizon', 'aggregation_period')
 
         verbose_name = "datapoints serie parameters"  # Nome al singolare
         verbose_name_plural = "datapoints serie parameters sets"  # Nome al plurale

@@ -40,10 +40,12 @@ def generate_series_and_draw_graphs():
         #---------------------------------------------------------------------
 
         area_di_interesse = set_osp.target_area
-        start_time = set_osp.start_time
-        end_time = set_osp.end_time
-        time_horizon = end_time - start_time
         aggregation_window_duration = set_osp.aggregation_period
+        time_horizon = set_osp.time_horizon
+
+        end_time = timezone.now()
+        start_time = end_time - time_horizon
+
 
         print("Predisposizione dati ed elementi del grafico per la serie storica definita dal set di parametri %s..." % area_di_interesse.name)
 
