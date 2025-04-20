@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand
 
-from pm_lookup.processing.scheduled_processing_2 import arrange_datapoints_series_and_graphs
+from pm_lookup.processing.scheduled_processing_2 import generate_series_and_draw_graphs
 
 """
-This command is to recreate the hourly and daily time series 
+This command is to recreate the time series 
 getting data from the  history data model.
 It also recreates the graphs.
 """
@@ -13,10 +13,11 @@ It also recreates the graphs.
 # inoltre ridisegna i grafici delle serie orarie, giornaliere
 
 # quando scrivo
-# python manage.py arrange_historical_and_daily_series
+# python manage.py generate_series_and_draw_graphs
 # la funzione command viene rannata automaticamente
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
         #arrangia le serie storiche orarie attingendo al modello storico grezzo e ridisegna i grafici
-        arrange_datapoints_series_and_graphs()
+        generate_series_and_draw_graphs()
