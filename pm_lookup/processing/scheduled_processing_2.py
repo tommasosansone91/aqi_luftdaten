@@ -17,7 +17,7 @@ from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_
 
 from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
 
-from pm_lookup.processing.utils.constants import AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP, return_graph_title
+from pm_lookup.processing.utils.constants import POLLUTANTS_DATA, return_graph_title
 
 # this function must parse all the datapointsserieparameters 
 # and build the correspondant serie for each of them.
@@ -205,11 +205,11 @@ def generate_series_and_draw_graphs():
 
         # eventually draw thresholds of concentrations of pollutants
 
-        list_of_aggregation_periods_threshold_values_for_PM10 = [couple[0] for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM10"]]
+        list_of_aggregation_periods_threshold_values_for_PM10 = [couple[0] for couple in POLLUTANTS_DATA["PM10"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]]
         
         if set_osp.aggregation_period in list_of_aggregation_periods_threshold_values_for_PM10:
 
-            for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM10"]:
+            for couple in POLLUTANTS_DATA["PM10"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]:
                 if couple[0] == set_osp.aggregation_period:
                     pollutant_maximum_allowed_concentration_for_aggregation_period = couple[1]
 
@@ -220,8 +220,8 @@ def generate_series_and_draw_graphs():
                                     PM10_values_array, 
                                     pollutant_threshold=PM10_threshold_for_aggregation_period, 
                                     graph_title=graph_PM10_title,
-                                    pollutant_name=None,
-                                    pollutant_uom=None,
+                                    pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
+                                    pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
                                 )
 
         else:
@@ -229,16 +229,16 @@ def generate_series_and_draw_graphs():
                             last_update_time_values_array, 
                             PM10_values_array, 
                             graph_title=graph_PM10_title,
-                            pollutant_name=None,
-                            pollutant_uom=None,
+                            pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
+                            pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
                         )
         
 
-        list_of_aggregation_periods_threshold_values_for_PM25 = [couple[0] for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM25"]]
+        list_of_aggregation_periods_threshold_values_for_PM25 = [couple[0] for couple in POLLUTANTS_DATA["PM25"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]]
         
         if set_osp.aggregation_period in list_of_aggregation_periods_threshold_values_for_PM25:
 
-            for couple in AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP["PM25"]:
+            for couple in POLLUTANTS_DATA["PM25"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]:
                 if couple[0] == set_osp.aggregation_period:
                     pollutant_maximum_allowed_concentration_for_aggregation_period = couple[1]
 
@@ -248,14 +248,18 @@ def generate_series_and_draw_graphs():
                                     last_update_time_values_array, 
                                     PM25_values_array, 
                                     pollutant_threshold=PM25_threshold_for_aggregation_period, 
-                                    graph_title=graph_PM25_title
+                                    graph_title=graph_PM25_title,
+                                    pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
+                                    pollutant_uom=POLLUTANTS_DATA["PM25"]["unit_of_measure"],
                                 )
 
         else:
             graph_PM25 = draw_timeserie_pollutant_graph(
                             last_update_time_values_array, 
                             PM25_values_array, 
-                            graph_title=graph_PM25_title
+                            graph_title=graph_PM25_title,
+                            pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
+                            pollutant_uom=POLLUTANTS_DATA["PM25"]["unit_of_measure"],
                         )
 
 
