@@ -15,8 +15,7 @@ from pm_lookup.drawers.drawer1 import draw_timeserie_pollutant_graph
 # errore sopraggiunto dopo il reset del db?
 from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_array_of_datetimes
 
-from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25, evaluate_PM_in_HistoricalDatapoints_elements
-
+from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
 
 from pm_lookup.processing.utils.constants import AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP
 
