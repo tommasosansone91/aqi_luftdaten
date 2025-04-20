@@ -48,7 +48,7 @@ def extract_data_from_sensors_network_for_all_places():
     input_data: QuerySet[TargetArea] = TargetArea.objects.all()
     # explicit declaration of input_data being type QuerySet[TargetArea]
 
-    # dai dati acquisiti, individua quelli che corrispondono al perimetro delle località selezionate, 
+    # dai dati acquisiti, individua quelli che corrispondono al perimetro delle aree di interesse selezionate, 
     # e salvane i valori
 
     processed_data_for_all_places = list()
@@ -62,7 +62,7 @@ def extract_data_from_sensors_network_for_all_places():
 
         print("Inizio ricerca dati per %s..." % place_name)
 
-        # predo lat e long e raggio della località input
+        # predo lat e long e raggio della area di interesse input
         x_p = float(place.longitude)
         y_p = float(place.latitude)
         rho = KILOMETERS_TO_COORDINATES_POINTS_DISTANCE * float(place.radius) # fattore di trasformazione (coord/km)

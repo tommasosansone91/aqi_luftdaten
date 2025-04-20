@@ -50,7 +50,7 @@ def generate_series_and_draw_graphs():
         print("Predisposizione dati ed elementi del grafico per la serie storica definita dal set di parametri %s..." % area_di_interesse.name)
 
 
-        # isola i record di una località - è cmq un gruppo di oggetti
+        # isola i record di una area di interesse - è cmq un gruppo di oggetti
         # e di un certo periodo di tempo
         records_serie_storica = HistoricalDatapoints.objects.filter(
             target_area = area_di_interesse,

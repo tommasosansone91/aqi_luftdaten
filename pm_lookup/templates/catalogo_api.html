@@ -9,7 +9,7 @@
     <br>
 
     <p>L'applicazione dispone di servizi API in stile REST che permettono ad altre applicazioni o script di accedere ai valori di particolato registrati dalle centraline Luftdaten. 
-        Il servizio permette l'accesso ai valori di particolato, sia realtime sia storici, per una località desiderata, grazie ad un paradigma di URL statico illustrato di seguito. 
+        Il servizio permette l'accesso ai valori di particolato, sia realtime sia storici, per una area di interesse desiderata, grazie ad un paradigma di URL statico illustrato di seguito. 
         Eventuali errori nell'utilizzo delle API vengono segnalati attraverso codici di risposta HTTP. 
         Per tutte le richieste e le risposte dall'API viene utilizzato il formato JSON.</p>
     
@@ -21,13 +21,13 @@
 
     <br>
 
-    <p>Queste API mostrano la lista dei dati associati a tutte le località contenute nel database.</p>
+    <p>Queste API mostrano la lista dei dati associati a tutte le aree di interesse contenute nel database.</p>
 
     <br>
 
 
 
-    <h5>Lista di tutte le località e dei relativi parametri di definizione</h5>
+    <h5>Lista di tutte le aree di interesse e dei relativi parametri di definizione</h5>
 
     
     <div class="container">
@@ -36,7 +36,7 @@
 
     <br><br>
 
-    <h5>Lista dei valori real-time del particolato per tutte le località</h5>
+    <h5>Lista dei valori real-time del particolato per tutte le aree di interesse</h5>
 
     
     <div class="container">
@@ -45,7 +45,7 @@
 
     <br><br>
 
-    <h5>Lista dei valori storici del particolato per tutte le località</h5>
+    <h5>Lista dei valori storici del particolato per tutte le aree di interesse</h5>
 
     
     <div class="container">
@@ -55,7 +55,7 @@
     <br><br>
 
 
-    <h5>Lista delle serie storiche orarie del particolato per tutte le località</h5>
+    <h5>Lista delle serie storiche del particolato per tutte le aree di interesse</h5>
 
     
     <div class="container">
@@ -65,7 +65,7 @@
     <br><br>
 
 
-    <h5>Lista delle serie storiche giornaliere del particolato per tutte le località</h5>
+    <h5>Lista delle serie storiche giornaliere del particolato per tutte le aree di interesse</h5>
 
     
     <div class="container">
@@ -81,15 +81,15 @@
 
     <br>
 
-    <p>Queste API mostrano la lista dei dati associati a una specifica località contenuta nel database. 
-        Ogni località è identificata da un corrispondente ID.</p>
-    <p>È possibile reperire dati associati ad una specifica località contenuta nel database inserendo il suo ID nell'endpoint dell'API, avendo cura di inserirlo nella posizione corretta. 
-        Il <b>catalogo delle località con relativo ID</b> è consultabile a <a target="_blank" href="{% url 'catalogo_localita' %}">questo link</a>.</p>
+    <p>Queste API mostrano la lista dei dati associati a una specifica area di interesse contenuta nel database. 
+        Ogni area di interesse è identificata da un corrispondente ID.</p>
+    <p>È possibile reperire dati associati ad una specifica area di interesse contenuta nel database inserendo il suo ID nell'endpoint dell'API, avendo cura di inserirlo nella posizione corretta. 
+        Il <b>catalogo delle aree di interesse con relativo ID</b> è consultabile a <a target="_blank" href="{% url 'catalogo_localita' %}">questo link</a>.</p>
 
     <br>
 
     
-    <h5>Parametri di definizione di una specifica località</h5>
+    <h5>Parametri di definizione di una specifica area di interesse</h5>
 
     
     <div class="container">
@@ -99,7 +99,7 @@
     <br><br>
 
 
-    <h5>Valori real-time del particolato di una specifica località</h5>
+    <h5>Valori real-time del particolato di una specifica area di interesse</h5>
 
     
     <div class="container">
@@ -109,11 +109,11 @@
     <br><br>
 
     
-    <!-- qua non è previsto l'elemento al dettaglio del db di tutti i dati storici di tutte le località 
+    <!-- qua non è previsto l'elemento al dettaglio del db di tutti i dati storici di tutte le aree di interesse 
         perchè non avrebbe senso -->
 
 
-    <h5>Serie storica oraria del particolato di una specifica località</h5>
+    <h5>Serie storica oraria del particolato di una specifica area di interesse</h5>
 
     
     <div class="container">
@@ -123,7 +123,7 @@
     <br><br>
 
 
-    <h5>Serie storica giornaliera del particolato di una specifica località</h5>
+    <h5>Serie storica giornaliera del particolato di una specifica area di interesse</h5>
 
     
     <div class="container">

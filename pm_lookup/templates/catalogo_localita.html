@@ -4,12 +4,12 @@
 
 {% load static %}
 
-    <h1>Catalogo delle località</h1>
+    <h1>Catalogo delle aree di interesse</h1>
     
     <br>
 
-    <p>Di seguito è mostrato l'elenco delle località per cui sono disponibili i dati di qualità dell'aria.<br>
-        Il relativo ID può essere inserito negli URL delle <a href="{% url 'catalogo_api' %}#elementi_al_dettaglio">API riferite ad una singola località</a> per ottenere i dati corrispondenti.</p>
+    <p>Di seguito è mostrato l'elenco delle aree di interesse per cui sono disponibili i dati di qualità dell'aria.<br>
+        Il relativo ID può essere inserito negli URL delle <a href="{% url 'catalogo_api' %}#elementi_al_dettaglio">API riferite ad una singola area di interesse</a> per ottenere i dati corrispondenti.</p>
 
     <br>
 
@@ -17,7 +17,7 @@
         
         <tr>
             <th>ID &nbsp</th>
-            <th>Località</th>              
+            <th>area di interesse</th>              
         </tr>
 
         {% for area in aree_di_interesse %}

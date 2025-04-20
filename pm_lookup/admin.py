@@ -73,7 +73,7 @@ class HistoricalDatapointsResource(resources.ModelResource):
 class HistoricalDatapointsAdmin(ImportExportModelAdmin):
     resource_class = HistoricalDatapointsResource
 
-    # aggiungo il filtro laterale per selezionare a seconda della località
+    # aggiungo il filtro laterale per selezionare a seconda della area di interesse
     list_filter = ['target_area__name']
 
 admin.site.register(HistoricalDatapoints, HistoricalDatapointsAdmin)

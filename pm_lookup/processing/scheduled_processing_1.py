@@ -41,7 +41,7 @@ def get_data_from_luftdaten_api_and_save_them_in_HistoricalDatapoints():
         except Exception as e:
             print(e)
             # print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
-            print("Viene impedita l'aggiunta del record [Località: %s Timestamp: %s PM10: %s PM2.5: %s] al modello storico .".format(
+            print("Viene impedita l'aggiunta del record [area di interesse: %s Timestamp: %s PM10: %s PM2.5: %s] al modello storico .".format(
                 object_place,  # using the object string representation of TargetAarea
                 place["last_update_time"], 
                 place["PM10_mean"], 
@@ -55,7 +55,7 @@ def get_data_from_luftdaten_api_and_save_them_in_HistoricalDatapoints():
 
 
     # quando ha processato tutti i posti
-    print("I nuovi dati per tutte le località sono stati salvati nel modello storico!")
+    print("I nuovi dati per tutte le aree di interesse sono stati salvati nel modello storico!")
 
     print("---------------------------------------------------")
 
