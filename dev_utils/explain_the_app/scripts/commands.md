@@ -12,12 +12,12 @@ e.g.
 
 to run 
 
-> pm_lookup/management/commands/save_current_pm_values_in_history.py
+> pm_lookup/management/commands/get_data_from_luftdaten_api_and_save_them_in_history.py
 
-    python manage.py save_current_pm_values_in_history
+    python manage.py get_data_from_luftdaten_api_and_save_them_in_history
 
 
-### save_current_pm_values_in_history
+### get_data_from_luftdaten_api_and_save_them_in_history
 
 chiama la API Luftdaten per ottenere e salvare i dati nel modello storico grezzo
 
