@@ -17,5 +17,5 @@ It also recreates the graphs.
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        #arrangia le serie storiche orarie attingendo al modello storico grezzo e ridisegna i grafici
+        #arrangia le serie storiche attingendo al modello storico grezzo e ridisegna i grafici
         generate_series_and_draw_graphs()

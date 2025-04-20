@@ -220,7 +220,7 @@ class DatapointsSerieParameters(models.Model):
         unique_together = ('target_area', 'time_horizon', 'aggregation_period')
 
         verbose_name = "datapoints serie parameters"  # Nome al singolare
-        verbose_name_plural = "datapoints serie parameters sets"  # Nome al plurale
+        verbose_name_plural = "datapoints series parameters sets"  # Nome al plurale
 
 
 
