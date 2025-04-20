@@ -31,7 +31,7 @@ def catalogo_api(request):
 
 #     return render(request, 'particolato_milano.html', context_dict)
 
-def catalogo_localita(request):
+def catalogo_aree_interesse(request):
 
     aree_di_interesse = TargetArea.objects.all().order_by('id')
     # from TargetArea select *, order by id
@@ -63,7 +63,7 @@ def valori_realtime(request):
 
 
 # solo raffigurazione
-def serie_storiche(request):
+def grafici_serie_storiche(request):
 
     print("Richiamo dati in DatapointsSerieParameters...")
     dataset_dei_grafici = DatapointsSerieParameters.objects.all()
@@ -75,6 +75,6 @@ def serie_storiche(request):
 
     print("Dati in trasmissione al template!")
 
-    return render(request, 'serie_storiche.html', context_dict)
+    return render(request, 'grafici_serie_storiche.html', context_dict)
 
 

@@ -6,14 +6,17 @@ urlpatterns = [
 
     # path, vista, nome di richiamo
 
+    # pagine web
+    #------------
+
     path('', views.home, name="home"),
 
     path('catalogo_api', views.catalogo_api, name="catalogo_api"),
-    path('catalogo_localita', views.catalogo_localita, name="catalogo_localita"),
+    path('catalogo_localita', views.catalogo_aree_interesse, name="catalogo_localita"),
     
     path('valori_realtime', views.valori_realtime, name="valori_realtime"),
     
-    path('serie_storiche', views.serie_storiche, name="serie_storiche"),
+    path('grafici_serie_storiche', views.grafici_serie_storiche, name="grafici_serie_storiche"),
     
     # viste delle api
 
@@ -21,6 +24,7 @@ urlpatterns = [
     # e poi si mette include negli urls globali di progetto gli urls dell'app api preceduti dal pattern api/
 
     # api liste
+    #-------------
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
     path('api/places_list', api.places_list_api, name="places_list"),
