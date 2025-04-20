@@ -1,21 +1,26 @@
 # reset_db_and_migrations
 
+delete all files inside folder migrations, except `__init__.py`
 
-source venv/bin/activate
+    source venv/bin/activate
 
-psql -h localhost -U postgres -d postgres
+    psql -h localhost -U postgres -d postgres
 
-drop database aqiluftdaten;
+    drop database aqiluftdaten;
 
-create database aqiluftdaten;
+    create database aqiluftdaten;
 
-alter database aqiluftdaten OWNER TO luftdaten_main;
+    alter database aqiluftdaten OWNER TO luftdaten_main;
 
-psql -h localhost -U luftdaten_main -d aqiluftdaten
+    exit
 
-python manage.py migrate
+    psql -h localhost -U luftdaten_main -d aqiluftdaten
 
-python manage.py createsuperuser
+    python manage.py migrate
+
+    python manage.py makemigrations
+
+    python manage.py createsuperuser
 
 
 
