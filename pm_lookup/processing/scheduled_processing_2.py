@@ -77,58 +77,63 @@ def generate_series_and_draw_graphs():
                 last_update_time__lte = aggregation_window_end_time
             )
 
+            if aggregation_window_datapoints:
 
-            # apply statistics to aggregation_window_datapoints
+                # apply statistics to aggregation_window_datapoints
 
-            list_of_last_update_time_of_aggregation_window_datapoints = [i.last_update_time for i in aggregation_window_datapoints]
-            
-            list_of_PM10_values_of_aggregation_window_datapoints = [i.PM10_mean for i in aggregation_window_datapoints]
-            list_of_PM25_values_of_aggregation_window_datapoints = [i.PM25_mean for i in aggregation_window_datapoints]
-            
-            list_of_number_of_contributing_sensors_of_aggregation_window_datapoints = [i.number_of_contributing_sensors for i in aggregation_window_datapoints]
+                list_of_last_update_time_of_aggregation_window_datapoints = [i.last_update_time for i in aggregation_window_datapoints]
+                
+                list_of_PM10_values_of_aggregation_window_datapoints = [i.PM10_mean for i in aggregation_window_datapoints]
+                list_of_PM25_values_of_aggregation_window_datapoints = [i.PM25_mean for i in aggregation_window_datapoints]
+                
+                list_of_number_of_contributing_sensors_of_aggregation_window_datapoints = [i.number_of_contributing_sensors for i in aggregation_window_datapoints]
 
-            # the update time for the single datapoint fo the serie will be the oldest of the group of aggregated datapoints
-            oldest_record_time_of_aggregation_window_datapoints = min(list_of_last_update_time_of_aggregation_window_datapoints)
+                # the update time for the single datapoint fo the serie will be the oldest of the group of aggregated datapoints
+                oldest_record_time_of_aggregation_window_datapoints = min(list_of_last_update_time_of_aggregation_window_datapoints)
 
-            # this time i also have to build a stathistic for the number of contributing sensor: int mean
-            array_of_number_of_contributing_sensors = np.array(list_of_number_of_contributing_sensors_of_aggregation_window_datapoints)
-            array_of_number_of_contributing_sensors = array_of_number_of_contributing_sensors.astype(int)
-            mean_number_of_contributing_sensors = int(round(np.mean(array_of_number_of_contributing_sensors)))
+                # this time i also have to build a stathistic for the number of contributing sensor: int mean
+                array_of_number_of_contributing_sensors = np.array(list_of_number_of_contributing_sensors_of_aggregation_window_datapoints)
+                array_of_number_of_contributing_sensors = array_of_number_of_contributing_sensors.astype(int)
+                mean_number_of_contributing_sensors = int(round(np.mean(array_of_number_of_contributing_sensors)))
 
-            PM10_array = np.array(list_of_PM10_values_of_aggregation_window_datapoints)
-            PM10_array = PM10_array.astype(float)
-            PM10_mean = round(np.mean(PM10_array), 2)
+                PM10_array = np.array(list_of_PM10_values_of_aggregation_window_datapoints)
+                PM10_array = PM10_array.astype(float)
+                PM10_mean = round(np.mean(PM10_array), 2)
 
-            PM25_array = np.array(list_of_PM25_values_of_aggregation_window_datapoints)
-            PM25_array = PM25_array.astype(float)
-            PM25_mean = round(np.mean(PM25_array), 2)
+                PM25_array = np.array(list_of_PM25_values_of_aggregation_window_datapoints)
+                PM25_array = PM25_array.astype(float)
+                PM25_mean = round(np.mean(PM25_array), 2)
 
-            # evaluating the air quality for the means of pollutants
-            PM10_mean_cathegory_label, PM10_mean_cathegory = evaluate_PM10(PM10_mean)
-            PM25_mean_cathegory_label, PM25_mean_cathegory = evaluate_PM25(PM25_mean)
+                # evaluating the air quality for the means of pollutants
+                PM10_mean_cathegory_label, PM10_mean_cathegory = evaluate_PM10(PM10_mean)
+                PM25_mean_cathegory_label, PM25_mean_cathegory = evaluate_PM25(PM25_mean)
 
-            
-            aggregation_window_dict = {
+                
+                aggregation_window_dict = {
 
-                "last_update_time" : oldest_record_time_of_aggregation_window_datapoints,
+                    "last_update_time" : oldest_record_time_of_aggregation_window_datapoints,
 
-                "PM10_mean" : PM10_mean,
-                "PM25_mean" : PM25_mean,
+                    "PM10_mean" : PM10_mean,
+                    "PM25_mean" : PM25_mean,
 
-                "PM10_mean_cathegory_label" : PM10_mean_cathegory_label,
-                "PM25_mean_cathegory_label" : PM25_mean_cathegory_label,
+                    "PM10_mean_cathegory_label" : PM10_mean_cathegory_label,
+                    "PM25_mean_cathegory_label" : PM25_mean_cathegory_label,
 
-                "PM10_mean_cathegory" : PM10_mean_cathegory,
-                "PM25_mean_cathegory" : PM25_mean_cathegory,
+                    "PM10_mean_cathegory" : PM10_mean_cathegory,
+                    "PM25_mean_cathegory" : PM25_mean_cathegory,
 
-                "mean_number_of_contributing_sensors" : mean_number_of_contributing_sensors,
+                    "mean_number_of_contributing_sensors" : mean_number_of_contributing_sensors,
 
-            }
+                }
 
-            # add the dictionary to the list
-            list_of_aggregation_window_dicts.append(aggregation_window_dict)
+                # add the dictionary to the list
+                list_of_aggregation_window_dicts.append(aggregation_window_dict)
 
-            print("Costruite le statistiche per i campi dei datapoints raccolti nella finestra temporale di estremi ({}, {}) per il set di parametri {}!".format("","", set_osp) )
+                print("Costruite le statistiche per i campi dei datapoints raccolti nella finestra temporale di estremi ({}, {}) per il set di parametri {}!".format(aggregation_window_start_time, aggregation_window_end_time, set_osp) )
+
+            else:
+                print("Nessun datapoint nella finestra temporale di estremi ({}, {}) per il set di parametri {} .".format(aggregation_window_start_time, aggregation_window_end_time, set_osp) )
+                print("Passo alla finestra temporale successiva")
 
             # termination condition for do-while
             if aggregation_window_end_time >= end_time:
@@ -147,7 +152,7 @@ def generate_series_and_draw_graphs():
 
         # build the t elements
 
-        last_update_time_values = [ i.last_update_time for i in list_of_aggregation_window_dicts ]
+        last_update_time_values = [ dictionary["last_update_time"] for dictionary in list_of_aggregation_window_dicts ]
 
         # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
         # errore sopraggiunto dopo il reset del db?
@@ -156,13 +161,13 @@ def generate_series_and_draw_graphs():
 
         # build the y elements
         
-        PM10_mean_values = [ i.PM10_mean for i in list_of_aggregation_window_dicts ]
-        PM25_mean_values = [ i.PM25_mean for i in list_of_aggregation_window_dicts ]
-        PM10_mean_cathegory_label_values = [ i.PM10_mean_cathegory_label for i in list_of_aggregation_window_dicts ]
-        PM25_mean_cathegory_label_values = [ i.PM25_mean_cathegory_label for i in list_of_aggregation_window_dicts ]
-        PM10_mean_cathegory_values = [ i.PM10_mean_cathegory for i in list_of_aggregation_window_dicts ]
-        PM25_mean_cathegory_values = [ i.PM25_mean_cathegory for i in list_of_aggregation_window_dicts ]
-        mean_number_of_contributing_sensors_values = [ i.mean_number_of_contributing_sensors for i in list_of_aggregation_window_dicts ]
+        PM10_mean_values = [ dictionary["PM10_mean"] for dictionary in list_of_aggregation_window_dicts ]
+        PM25_mean_values = [ dictionary["PM25_mean"] for dictionary in list_of_aggregation_window_dicts ]
+        PM10_mean_cathegory_label_values = [ dictionary["PM10_mean_cathegory_label"] for dictionary in list_of_aggregation_window_dicts ]
+        PM25_mean_cathegory_label_values = [ dictionary["PM25_mean_cathegory_label"] for dictionary in list_of_aggregation_window_dicts ]
+        PM10_mean_cathegory_values = [ dictionary["PM10_mean_cathegory"] for dictionary in list_of_aggregation_window_dicts ]
+        PM25_mean_cathegory_values = [ dictionary["PM25_mean_cathegory"] for dictionary in list_of_aggregation_window_dicts ]
+        mean_number_of_contributing_sensors_values = [ dictionary["mean_number_of_contributing_sensors"] for dictionary in list_of_aggregation_window_dicts ]
 
 
         # turn the lists into arrays, as they are required for the graph
@@ -269,16 +274,10 @@ def generate_series_and_draw_graphs():
             PM10_mean_values = '[' + ', '.join(str(e) for e in  PM10_mean_values ) +']',
             PM25_mean_values = '[' + ', '.join(str(e) for e in  PM25_mean_values ) +']',
 
-            PM10_mean_cathegory_label_values = '["' + '", "'.join(str(e) for e in  PM10_mean_cathegory_label_values ) +'"]',
-            PM25_mean_cathegory_label_values = '["' + '", "'.join(str(e) for e in  PM25_mean_cathegory_label_values ) +'"]',
-
-            PM10_mean_cathegory_values = '["' + '", "'.join(str(e) for e in  PM10_mean_cathegory_values ) +'"]',
-            PM25_mean_cathegory_values = '["' + '", "'.join(str(e) for e in  PM25_mean_cathegory_values ) +'"]',
-
             number_of_contributing_sensors_values = '[' + ', '.join(str(e) for e in  mean_number_of_contributing_sensors_values ) +']',
 
             PM10_graph_div = graph_PM10,
-            PM25_graph_div = graph_PM25,
+            PM25_graph_div = graph_PM25
 
         )
 
@@ -287,6 +286,6 @@ def generate_series_and_draw_graphs():
         # a set of parameters was used as input to create the computed serie+graph
 
 
-        print("Predisposti dati ed elementi del grafico per la serie storica per il set dei parametri {}!".format("") )  
+        print("Predisposti dati ed elementi del grafico per la serie storica per il set dei parametri {}!".format(set_osp) )  
 
     print("Predisposti dati ed elementi dei grafici per le serie storiche per tutti i set di parametri!")  
