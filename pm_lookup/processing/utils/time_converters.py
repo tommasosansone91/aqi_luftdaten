@@ -23,6 +23,8 @@ def add_one_hour(date_and_time_input):
     return dt
 
 
+# np arrays allows to add a number to all element of the iterable without cycling
+
 # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
 # errore sopraggiunto dopo il reset del db?
 def add_hours_to_array(date_and_time_input_array, hours):
