@@ -164,13 +164,16 @@ def draw_timeserie_pollutant_graph(
 
 
 
-    # padding dell'asse y rispetto alla linea del grafico    
+    # padding dell'asse y rispetto alla linea del grafico  
 
+    # Si calcola il 10% del range (cioè della differenza tra massimo e minimo dei valori dell’inquinante).
+    # Questo serve per aggiungere un po’ di spazio sopra la linea nel grafico, in modo che non finisca attaccata al bordo.  
     padding_sup_linea_pollutant = 0.1 * ( max(pollutant_values) - min(pollutant_values) ) #[µg/m³]
 
-    if min(pollutant_values)-padding_sup_linea_pollutant<=0:
+    # Se togliere il padding rischia di portare l’asse Y sotto zero (valori negativi), allora non viene aggiunto nessun padding sotto (0).
+    # Altrimenti, si aggiunge lo stesso padding anche sotto.
+    if min(pollutant_values) - padding_sup_linea_pollutant <=0 :
         padding_inf_linea_pollutant = 0
-
     else:
         padding_inf_linea_pollutant = padding_sup_linea_pollutant
 
