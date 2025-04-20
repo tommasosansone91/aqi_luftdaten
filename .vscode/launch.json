@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Django",
+            "name": "Python Debugger: Django - python manage.py runserver",
             "type": "debugpy",
             "request": "launch",
             "args": [
@@ -12,6 +12,29 @@
             "autoStartBrowser": false,
             "program": "${workspaceFolder}/manage.py",
             "python": "${workspaceFolder}/venv/bin/python"
+        },
+
+        {
+            "name": "python manage.py get_data_from_luftdaten_api_and_save_them_in_history",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": ["get_data_from_luftdaten_api_and_save_them_in_history"],
+            "django": true,
+            "python": "${workspaceFolder}/venv/bin/python"
         }
+
+        ,
+
+        {
+            "name": "python manage.py generate_series_and_draw_graphs",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": ["generate_series_and_draw_graphs"],
+            "django": true,
+            "python": "${workspaceFolder}/venv/bin/python"
+        }
+
     ]
 }
