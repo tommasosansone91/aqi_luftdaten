@@ -163,6 +163,7 @@ def extract_data_from_sensors_network_for_all_places():
 
 
         number_of_contributing_sensors = len(PM10_list)
+        # this hypothesize that a single sensor giver or not indication for both pm10 and pm2.5 and never one yes and not the other not
         
         PM10_array = np.array(PM10_list)
         PM10_array = PM10_array.astype(float)
