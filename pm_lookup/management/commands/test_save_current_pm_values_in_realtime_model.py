@@ -6,7 +6,7 @@
 
 from django.core.management.base import BaseCommand
 
-from pm_lookup.processing.realtime_processing_1 import get_current_pm_values_and_save_them_in_RealtimeDatapoints
+from pm_lookup.processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints
 
 from django.db import IntegrityError
 
@@ -16,4 +16,4 @@ from django.db import IntegrityError
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        get_current_pm_values_and_save_them_in_RealtimeDatapoints()
+        get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()

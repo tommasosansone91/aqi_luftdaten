@@ -8,7 +8,7 @@ from .models import HistoricalDatapoints
 from .models import DatapointsSerieParameters
 from .models import DatapointsSerieComputed
 
-from .processing.realtime_processing_1 import get_current_pm_values_and_save_them_in_RealtimeDatapoints
+from .processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints
 
 
 
@@ -22,7 +22,7 @@ def places_list_api(request):
 def places_RealtimeDatapoints_api(request):
 
     # richiama il processign realtime che aggiorna i dati output
-    get_current_pm_values_and_save_them_in_RealtimeDatapoints()
+    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()
 
     rt_records = RealtimeDatapoints.objects.all()
     data = {"realtime_records":list(rt_records.values())}
@@ -92,7 +92,7 @@ def place_detail_api(request, pk):
 # api/RealtimeDatapoints_detail/<int:pk>
 def RealtimeDatapoints_detail_api(request, pk):
 
-    get_current_pm_values_and_save_them_in_RealtimeDatapoints()
+    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()
 
     try:
         place = TargetArea.objects.get(pk=pk)

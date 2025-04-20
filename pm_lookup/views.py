@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from pm_lookup.processing.realtime_processing_1 import get_current_pm_values_and_save_them_in_RealtimeDatapoints
+from pm_lookup.processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints
 
 from .models import TargetArea
 from .models import RealtimeDatapoints
@@ -44,7 +44,7 @@ def catalogo_localita(request):
 def valori_realtime(request):
     
     #  ranna il processing senza rendere niente in una variabile
-    get_current_pm_values_and_save_them_in_RealtimeDatapoints()
+    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()
 
     # va a prendere i dati nei modelli
     aree_di_interesse = TargetArea.objects.all()    

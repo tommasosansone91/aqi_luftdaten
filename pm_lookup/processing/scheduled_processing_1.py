@@ -6,7 +6,7 @@ from pm_lookup.models import HistoricalDatapoints
 from pm_lookup.processing.utils.sensors_network_data_processing import extract_data_from_sensors_network_for_all_places
 
 
-def get_data_from_luftdaten_api_and_save_them_in_history():    
+def get_data_from_luftdaten_api_and_save_them_in_HistoricalDatapoints():    
 
     sensors_network_data = extract_data_from_sensors_network_for_all_places()
 

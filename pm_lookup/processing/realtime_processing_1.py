@@ -5,7 +5,7 @@ from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.processing.utils.sensors_network_data_processing import extract_data_from_sensors_network_for_all_places
 
 
-def get_current_pm_values_and_save_them_in_RealtimeDatapoints():    
+def get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints():    
 
     # nel modello realtime voglio un solo oggetto per area
     RealtimeDatapoints.objects.all().delete()
