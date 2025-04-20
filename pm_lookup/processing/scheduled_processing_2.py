@@ -17,7 +17,7 @@ from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_
 
 from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
 
-from pm_lookup.processing.utils.constants import AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP
+from pm_lookup.processing.utils.constants import AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP, return_graph_title
 
 # this function must parse all the datapointsserieparameters 
 # and build the correspondant serie for each of them.
@@ -197,8 +197,10 @@ def generate_series_and_draw_graphs():
         
         # traccio i grafici e ottengo il javascript
         # bring contstants to a graph contats page
-        graph_PM10_title = "Serie storiche orarie del PM10 per {}".format(set_osp.title)
-        graph_PM25_title = "Serie storiche orarie del PM2.5 per {}".format(set_osp.title)
+        improved_set_of_parameters_title = '"{}" ( {} )'.format(set_osp.title, set_osp.target_area.name)
+
+        graph_PM10_title = return_graph_title(pollutant_name="PM10", set_of_parameters_title=improved_set_of_parameters_title)
+        graph_PM25_title = return_graph_title(pollutant_name="PM2.5", set_of_parameters_title=improved_set_of_parameters_title)
 
 
         # eventually draw thresholds of concentrations of pollutants
