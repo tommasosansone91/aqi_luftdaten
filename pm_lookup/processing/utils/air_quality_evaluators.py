@@ -74,26 +74,26 @@ def evaluate_PM25(PM25_value):
 def evaluate_PM_in_HistoricalDatapoints_elements(records_serie_storica):
 
     # evaluate pm mean values into cathegories to add them to the series
-    PM10_mean_cathegory_label_records_serie_storica = list()
-    PM10_mean_cathegory_records_serie_storica = list()
-    PM25_mean_cathegory_label_records_serie_storica = list()
-    PM25_mean_cathegory_records_serie_storica = list()
+    list_of_PM10_mean_cathegory_label = list()
+    list_of_PM10_mean_cathegory = list()
+    list_of_PM25_mean_cathegory_label = list()
+    list_of_PM25_mean_cathegory = list()
 
     for i in records_serie_storica:
 
         PM10_mean_cathegory_label, PM10_mean_cathegory = evaluate_PM10(i.PM10_mean)
         PM25_mean_cathegory_label, PM25_mean_cathegory = evaluate_PM25(i.PM25_mean)
 
-        PM10_mean_cathegory_label_records_serie_storica.append(PM10_mean_cathegory_label)
-        PM10_mean_cathegory_records_serie_storica.append(PM10_mean_cathegory)
-        PM25_mean_cathegory_label_records_serie_storica.append(PM25_mean_cathegory_label)
-        PM25_mean_cathegory_records_serie_storica.append(PM25_mean_cathegory)
+        list_of_PM10_mean_cathegory_label.append(PM10_mean_cathegory_label)
+        list_of_PM10_mean_cathegory.append(PM10_mean_cathegory)
+        list_of_PM25_mean_cathegory_label.append(PM25_mean_cathegory_label)
+        list_of_PM25_mean_cathegory.append(PM25_mean_cathegory)
 
     results_dict = {
-        "PM10_mean_cathegory_label_records_serie_storica": PM10_mean_cathegory_label_records_serie_storica,
-        "PM10_mean_cathegory_records_serie_storica": PM10_mean_cathegory_records_serie_storica,
-        "PM25_mean_cathegory_label_records_serie_storica": PM25_mean_cathegory_label_records_serie_storica,
-        "PM25_mean_cathegory_records_serie_storica": PM25_mean_cathegory_records_serie_storica
+        "list_of_PM10_mean_cathegory_label": list_of_PM10_mean_cathegory_label,
+        "list_of_PM10_mean_cathegory": list_of_PM10_mean_cathegory,
+        "list_of_PM25_mean_cathegory_label": list_of_PM25_mean_cathegory_label,
+        "list_of_PM25_mean_cathegory": list_of_PM25_mean_cathegory
     }
 
     return results_dict

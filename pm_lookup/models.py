@@ -1,8 +1,11 @@
 from django.db import models
 
-from django.utils import timezone
+
 from datetime import datetime
 from datetime import timedelta
+from django.utils import timezone
+from django.utils.timezone import now
+
 
 import uuid
 
@@ -12,6 +15,18 @@ import uuid
 
 # ogni modello django possiede per default
 # id = models.AutoField(primary_key=True)
+
+
+# these are to guaranteee that 
+# the default start time and end time are generated differently every time the "create or edit" function are called, 
+# and not only when the models module is imported
+
+def default_start_time():
+    return now() - timedelta(days=1)
+
+def default_end_time():
+    return now()
+
 
 class TargetArea(models.Model):
 
@@ -32,7 +47,7 @@ class TargetArea(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [ lat: %s , long: %s - radius: %s km]"  %    (
+        return  "%s [ lat: %s , long: %s - radius: %s km]"  %    (
                                                         self.name, 
                                                         self.latitude, 
                                                         self.longitude, 
@@ -88,7 +103,7 @@ class RealtimeDatapoints(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (
+        return  "%s [ %s ]"  %  (
                                     self.target_area.name, 
                                     datetime.strftime(
                                         self.last_update_time, 
@@ -128,7 +143,7 @@ class HistoricalDatapoints(models.Model):
 
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (
+        return  "%s [ %s ]"  %  (
                                     self.target_area.name, 
                                     datetime.strftime(
                                             self.last_update_time, 
@@ -171,12 +186,19 @@ class DatapointsSerieParameters(models.Model):
 
     description = models.TextField(null=False, blank=True)
 
-    time_horizon = models.DurationField(
-        null=False, 
-        blank=False, 
-        default=timedelta(days=1),
-        help_text="""Set the time horizon (e.g., 1 day = 1 00:00:00)"""
-        )
+    start_time = models.DateTimeField(
+        null=False,
+        blank=False,
+        default=default_start_time,
+        help_text="Set the start time (default is now - 1 day)"
+    )
+
+    end_time = models.DateTimeField(
+        null=False,
+        blank=False,
+        default=default_end_time,
+        help_text="Set the end time (default is now)"
+    )
     
     aggregation_period = models.DurationField(
         null=False, 
@@ -198,13 +220,13 @@ class DatapointsSerieParameters(models.Model):
     # dafult: create a time serie of 1h aggregation and having a 1-day time horizon
 
     def __str__(self):       
-        return  "%s %s"  %  ( self.target_area.name , self.title )  
+        return  "%s ( %s ) (DatapointsSerieParameters)"  %  ( self.title , self.target_area.name )  
         
  
     class Meta:
         ordering = ['-target_area__radius', 'target_area__name']
 
-        unique_together = ('time_horizon', 'aggregation_period')
+        unique_together = ('start_time', 'end_time', 'aggregation_period')
 
         verbose_name = "datapoints serie parameters"  # Nome al singolare
         verbose_name_plural = "datapoints serie parameters sets"  # Nome al plurale
@@ -226,12 +248,6 @@ class DatapointsSerieComputed(models.Model):
     PM10_mean_values = models.TextField( null=False, blank=False)
     PM25_mean_values = models.TextField( null=False, blank=False)
 
-    PM10_mean_cathegory_label_values = models.TextField( blank=False, null=False)
-    PM25_mean_cathegory_label_values = models.TextField( blank=False, null=False)
-
-    PM10_mean_cathegory_values  = models.TextField( blank=False, null=False)
-    PM25_mean_cathegory_values = models.TextField( blank=False, null=False)
-
     number_of_contributing_sensors_values = models.TextField(null=True)
 
     PM10_graph_div = models.TextField()
@@ -240,7 +256,7 @@ class DatapointsSerieComputed(models.Model):
 
 
     def __str__(self):       
-        return  "(DatapointsSerieComputed) %s %s"  %  ( self.datapoints_serie_parameters.name , self.datapoints_serie_parameters.name )  
+        return  "%s ( %s ) (DatapointsSerieComputed)"  %  ( self.datapoints_serie_parameters.title , self.datapoints_serie_parameters.target_area.name )  
         
  
     class Meta:
