@@ -95,14 +95,14 @@ source: custom
 ip: 0.0.0.0
 
 
-Name
+name
 Security group rule ID
 IP version
 Type
 Protocol
 Port range
 Source
-Description
+description
 
 –
 sgr-076cb5b6fc4f4c351	

@@ -1,8 +1,11 @@
-{% extends 'base_autorefresh_1.html' %} 
+{% extends 'base.html' %} 
 
 {% block content %}
 
 {% load static %}
+
+    <!-- meta tag per refresh automatico -->   
+    <meta http-equiv="refresh" content="30">
 
     <h1>Valori real-time del particolato</h1>
     
@@ -16,15 +19,15 @@
 
     {% for record in record_sensori %}
 
-        <h3>{{record.Target_area_input_data.Name}}</h3>
+        <h3>{{record.target_area.name}}</h3>
 
         <p>
             
             I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
-            nel raggio di {{record.Target_area_input_data.Radius}} km dal punto di coordinate 
+            nel raggio di {{record.target_area.radius}} km dal punto di coordinate 
             (
-                <a target="_blank"  href="https://www.google.com/search?q={{record.Target_area_input_data.Latitude}}, {{record.Target_area_input_data.Longitude}}">
-                    {{record.Target_area_input_data.Latitude}}, {{record.Target_area_input_data.Longitude}}
+                <a target="_blank"  href="https://www.google.com/search?q={{record.target_area.latitude}}, {{record.target_area.longitude}}">
+                    {{record.target_area.latitude}}, {{record.target_area.longitude}}
                 </a>
             ).
         
@@ -37,8 +40,8 @@
 
             {% if record.PM10_mean %}
             
-            <span title="{{record.PM10_quality}}">
-            <a class="{{record.PM10_cathegory}}">
+            <span title="{{record.PM10_mean_cathegory_label}}">
+            <a class="{{record.PM10_mean_cathegory}}">
             {{record.PM10_mean}} µg/m³  
             </a>
             </span>
@@ -66,8 +69,8 @@
 
             {% if record.PM25_mean %}
 
-                <span title="{{record.PM25_quality}}"">
-                <a class="{{record.PM25_cathegory}}">
+                <span title="{{record.PM25_mean_cathegory_label}}"">
+                <a class="{{record.PM25_mean_cathegory}}">
                     {{record.PM25_mean}} µg/m³
                 </a>
                 </span>
@@ -86,9 +89,9 @@
 
         </p>
 
-        <p>Sensori contribuenti: {{ record.n_selected_sensors }}</p>
+        <p>Sensori contribuenti: {{ record.number_of_contributing_sensors }}</p>
 
-        <p>Ultimo aggiornamento: {{ record.Last_update_time | date:'H:i:s d/m/Y' }}</p>
+        <p>Ultimo aggiornamento: {{ record.last_update_time | date:'H:i:s d/m/Y' }}</p>
 
         <br>
 
@@ -98,7 +101,7 @@
 
     <p>Nessun dato presente nel modello dei dati realtime.</p>
 
-    <p>Controlla di aver inserito dei dati nel <a href="{% url 'admin:index' %}">modello delle località di input</a>.</p>
+    <p>Controlla di aver inserito dei dati nel <a href="{% url 'admin:index' %}">modello delle aree di interesse di input</a>.</p>
 
     {% endif %}
 

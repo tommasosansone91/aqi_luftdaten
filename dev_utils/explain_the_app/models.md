@@ -2,7 +2,7 @@
 
 ## Input models
 
-#### Target_area_input_datas	
+#### TargetAreas	
 
 This models contains the information about the areas in which we want to track data.
 
@@ -17,25 +17,25 @@ In order for the application to get and record data, it has to be filled with at
 
 ### Single-record data models
 
-#### Target_area_history_datas	
+#### HistoricalDatapointss	
 
 This is the so-called "history data model".
 
 It contains all the processed data got from the raw data coming from the Luftdaten API, for each location.
 
 
-#### Target_area_realtime_datas	
+#### RealtimeDatapointss	
 
 This model contains the lastest recorded raw data, for each location.
 
 ### Series data models
 
-#### Target_area_time_series	
+#### DatapointsSerieParameters
 
 This model contains the raw serie of data, for each location.
 
 
-#### Target_area_daily_time_series	
+#### DatapointsSerieCompute
 
 This model contains the daily-aggregated month-long serie of data, for each location.
 

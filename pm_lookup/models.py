@@ -1,7 +1,13 @@
 from django.db import models
-from django.utils import timezone
-from datetime import datetime
 
+
+from datetime import datetime
+from datetime import timedelta
+from django.utils import timezone
+from django.utils.timezone import now
+
+
+import uuid
 
 
 # Create your models here.
@@ -10,153 +16,242 @@ from datetime import datetime
 # ogni modello django possiede per default
 # id = models.AutoField(primary_key=True)
 
-class target_area_input_data(models.Model):
+
+# these are to guaranteee that 
+# the default start time and end time are generated differently every time the "create or edit" function are called, 
+# and not only when the models module is imported
+
+
+class TargetArea(models.Model):
 
     # id = models.AutoField(primary_key=True)
 
     # Ho reso il nome univoco così sono obbligato a specificare la diversità nel nome se anche cambio 
     # le coordinate del centro o il raggio
-    Name = models.CharField(max_length=256, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=256, blank=False, null=False, unique=True)
 
-    Latitude = models.FloatField(null=False, blank=False)
+    description = models.TextField(null=False, blank=True)
 
-    Longitude = models.FloatField(null=False, blank=False)
+    latitude = models.FloatField(null=False, blank=False)
 
-    Radius = models.FloatField(null=False, blank=False)
+    longitude = models.FloatField(null=False, blank=False)
+
+    radius = models.FloatField(null=False, blank=False)
     # deve essere integer
 
 
     def __str__(self):       
-        return  "%s --- [%s, %s - Radius: %s km]"  %  (self.Name, self.Latitude, self.Longitude, self.Radius)  
+        return  "%s [ lat: %s , long: %s - radius: %s km]"  %    (
+                                                        self.name, 
+                                                        self.latitude, 
+                                                        self.longitude, 
+                                                        self.radius
+                                                        )  
 
     class Meta:
-        ordering = ['-Radius', 'Name']
+        ordering = ['-radius', 'name']
+
+        unique_together = ('latitude', 'longitude', 'radius')
 
 
 
 
-class target_area_realtime_data(models.Model):
+class RealtimeDatapoints(models.Model):
 
-    # nota che è maiuscolo
-    Target_area_input_data = models.OneToOneField(
-        'target_area_input_data',
+    target_area = models.OneToOneField(
+        'TargetArea',
         on_delete=models.CASCADE,
         
     )
     
-    # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .Name. .Radius, ecc
+    # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .name. .radius, ecc
     
-    # Target_area_name = models.ForeignKey(
-    #     'target_area_input_data',
-    #     # Target_area_name = models.ForeignKey('target_area_input_data', on_delete....)
-    #     # vuol dire: in questo campo metti l'id del modello 'target_area_input_data'
+    # TargetArea_name = models.ForeignKey(
+    #     'TargetArea',
+    #     # TargetArea_name = models.ForeignKey('TargetArea', on_delete....)
+    #     # vuol dire: in questo campo metti l'id del modello 'TargetArea'
         
     #     # nota che l'attributo è in minuscolo
     #     on_delete=models.CASCADE,
     # )
     # il primo attributo è il modello cui è associato
 
-    Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+
+    number_of_contributing_sensors = models.PositiveIntegerField(null=True)
+
+    # these could be switched to a single json
 
     PM10_mean = models.FloatField(null=False, blank=False)
     PM25_mean = models.FloatField(null=False, blank=False)
 
-    PM10_quality = models.CharField(max_length=256, blank=False, null=False)
-    PM25_quality = models.CharField(max_length=256, blank=False, null=False)
+    # only the realtime data carries field for air quality cathegory and label, 
+    # as it is useful to display its color in the homepage
+    PM10_mean_cathegory_label = models.TextField( blank=False, null=False)
+    PM25_mean_cathegory_label = models.TextField( blank=False, null=False)
 
-    PM10_cathegory = models.CharField(max_length=256, blank=False, null=False)
-    PM25_cathegory = models.CharField(max_length=256, blank=False, null=False)
-
-    n_selected_sensors = models.IntegerField(null=True)
-    
-    # PM10_n_missing_data = models.IntegerField(null=True)
-    # PM25_n_missing_data = models.IntegerField(null=True)
-
-    # PM10_n_missing_data = models.CharField(max_length=256, null=True)
-    # PM25_n_missing_data = models.CharField(max_length=256, null=True)
+    PM10_mean_cathegory  = models.CharField(max_length=50, blank=False, null=False)
+    PM25_mean_cathegory = models.CharField(max_length=50, blank=False, null=False)
 
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (self.Target_area_input_data.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
+        return  "%s (%s) [ %s ]"  %  (
+                                    self.target_area.name,
+                                    self.target_area.id, 
+                                    datetime.strftime(
+                                        self.last_update_time, 
+                                        "%H:%M:%S %d-%m-%Y"
+                                        ) 
+                                    )  
 
 
     class Meta:
-        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        ordering = ['-target_area__radius', 'target_area__name']
         # fixato così
-        # ordering = ['-Target_area_input_data.Radius', 'Target_area_input_data.Name']
+        # ordering = ['-target_area.radius', 'target_area.name']
+
+        verbose_name = "realtime datapoint"  # Nome al singolare
+        verbose_name_plural = "realtime datapoints"  # Nome al plurale
 
 
+class HistoricalDatapoints(models.Model):
 
-class target_area_history_data(models.Model):
-
-    # nota che è maiuscolo
-    Target_area_input_data = models.ForeignKey(
-        'target_area_input_data',
+    target_area = models.ForeignKey(
+        'TargetArea',
         on_delete=models.CASCADE,
         
     )
     # il primo attributo è il modello cui è associato
 
-    Last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+
+    number_of_contributing_sensors = models.PositiveIntegerField(null=True)
+
+    # these could be switched to a single json
 
     PM10_mean = models.FloatField(null=False, blank=False)
     PM25_mean = models.FloatField(null=False, blank=False)
 
-    PM10_quality = models.CharField(max_length=256, blank=False, null=False)
-    PM25_quality = models.CharField(max_length=256, blank=False, null=False)
-
-    PM10_cathegory = models.CharField(max_length=256, blank=False, null=False)
-    PM25_cathegory = models.CharField(max_length=256, blank=False, null=False)
-
-    n_selected_sensors = models.IntegerField(null=True)
-
-    # PM10_n_missing_data = models.IntegerField(null=True)
-    # PM25_n_missing_data = models.IntegerField(null=True)
-
-    # PM10_n_missing_data = models.CharField(max_length=256, null=True)
-    # PM25_n_missing_data = models.CharField(max_length=256, null=True)
-
 
     def __str__(self):       
-        return  "%s --- [ %s ]"  %  (self.Target_area_input_data.Name, datetime.strftime(self.Last_update_time, "%H:%M:%S %d-%m-%Y") )  
+        return  "%s (%s) [ %s ]"  %  (
+                                    self.target_area.name, 
+                                    self.target_area.id, 
+                                    datetime.strftime(
+                                            self.last_update_time, 
+                                            "%H:%M:%S %d-%m-%Y"
+                                            ) 
+                                    )  
         
  
     class Meta:
-        ordering = ['-Last_update_time', '-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        ordering = ['-last_update_time', '-target_area__radius', 'target_area__name']
 
-        # fixato così
-        # ordering = ['-Target_area_input_data.Radius', 'Target_area_input_data.Name', '-Last_update_time']
-
-        unique_together = ('Target_area_input_data', 'Last_update_time', 'PM10_mean', 'PM25_mean')
+        unique_together = ('target_area', 'last_update_time')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
+
+        verbose_name = "historical datapoint"  # Nome al singolare
+        verbose_name_plural = "historical datapoints"  # Nome al plurale
+
+
+# --------------------------------
 
 # --------------------------------
 
 
-class target_area_time_serie(models.Model):
+class DatapointsSerieParameters(models.Model):
 
-    # nota che è maiuscolo
-    Target_area_input_data = models.ForeignKey(
-        'target_area_input_data',
+    target_area = models.ForeignKey(
+        'TargetArea',
         on_delete=models.CASCADE,
         
     )
     # il primo attributo è il modello cui è associato
 
+    title = models.CharField(
+        max_length=256, 
+        blank=False, 
+        null=False,
+        help_text="""Declare a name for this set of parameters"""
+        )
+
+    description = models.TextField(null=False, blank=True)
+
+    time_horizon = models.DurationField(
+        null=False,
+        blank=False,
+        default=timedelta(days=1),
+        verbose_name="time horizon",
+        help_text="""
+        Set the time horizon of the serie.<br>
+        The start time of the serie will be equal to: now - time_horizon<br>
+        The end time will be equal to the current time.<br>
+        <br>
+        e.g.<br>
+        1 hour = 0 01:00:00<br>
+        1 day = 1 00:00:00
+        """
+    )
+
+    
+    aggregation_period = models.DurationField(
+        null=False, 
+        blank=False, 
+        default=timedelta(hours=1),
+        verbose_name="aggregation period",
+        help_text="""Set the aggregation period of historical datapoints.<br>
+        <br>
+        e.g.<br>
+        1 hour = 0 01:00:00<br>
+        1 day = 1 00:00:00"""
+        )
+
+    show_serie = models.BooleanField( 
+        null=False, 
+        blank=False, 
+        default=True ,
+        verbose_name="show serie",
+        help_text="Check this to show the series in the dashboard."
+        ) 
+    
+
+    # dafult: create a time serie of 1h aggregation and having a 1-day time horizon
+
+    def __str__(self):       
+        return  "%s ( %s ) (DatapointsSerieParameters)"  %  ( self.title , self.target_area.name )  
+        
+ 
+    class Meta:
+        ordering = ['-target_area__radius', 'target_area__name']
+
+        unique_together = ('target_area', 'time_horizon', 'aggregation_period')
+
+        verbose_name = "datapoints serie parameters"  # Nome al singolare
+        verbose_name_plural = "datapoints series parameters sets"  # Nome al plurale
+
+
+
+class DatapointsSerieComputed(models.Model):
+
+    # one DatapointsSerieParameters can have only one corresponding DatapointsSerieComputed
+    datapoints_serie_parameters = models.OneToOneField(
+        'DatapointsSerieParameters',
+        on_delete=models.CASCADE,
+    )
+    # il primo attributo è il modello cui è associato
+
     # postgres non prende array + datetime
-    Record_time_values = models.TextField( blank=False, null=False) 
+    record_time_values = models.TextField( blank=False, null=False) 
 
     PM10_mean_values = models.TextField( null=False, blank=False)
     PM25_mean_values = models.TextField( null=False, blank=False)
 
-    PM10_quality_values = models.TextField( blank=False, null=False)
-    PM25_quality_values = models.TextField( blank=False, null=False)
-
-    PM10_cathegory_values = models.TextField( blank=False, null=False)
-    PM25_cathegory_values = models.TextField( blank=False, null=False)
-
-    n_selected_sensors_values = models.TextField(null=True)
+    number_of_contributing_sensors_values = models.TextField(null=True)
 
     PM10_graph_div = models.TextField()
     PM25_graph_div = models.TextField()
@@ -164,48 +259,14 @@ class target_area_time_serie(models.Model):
 
 
     def __str__(self):       
-        return  "%s"  %  (self.Target_area_input_data.Name )  
+        return  "%s ( %s ) (DatapointsSerieComputed)"  %  ( self.datapoints_serie_parameters.title , self.datapoints_serie_parameters.target_area.name )  
         
  
     class Meta:
-        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        ordering = [
+            '-datapoints_serie_parameters__target_area__radius',
+            'datapoints_serie_parameters__target_area__name'
+            ]
 
-
-
-# serie giornaliere
-
-class target_area_daily_time_serie(models.Model):
-
-    # nota che è maiuscolo
-    Target_area_input_data = models.ForeignKey(
-        'target_area_input_data',
-        on_delete=models.CASCADE,
-        
-    )
-    # il primo attributo è il modello cui è associato
-
-    # postgres non prende array + datetime
-    Record_time_values = models.TextField( blank=False, null=False) 
-
-    PM10_mean_values = models.TextField( null=False, blank=False)
-    PM25_mean_values = models.TextField( null=False, blank=False)
-
-    PM10_quality_values = models.TextField( blank=False, null=False)
-    PM25_quality_values = models.TextField( blank=False, null=False)
-
-    PM10_cathegory_values = models.TextField( blank=False, null=False)
-    PM25_cathegory_values = models.TextField( blank=False, null=False)
-
-    n_selected_sensors_values = models.TextField(null=True)
-
-    PM10_graph_div = models.TextField()
-    PM25_graph_div = models.TextField()
-
-
-
-    def __str__(self):       
-        return  "%s"  %  (self.Target_area_input_data.Name )  
-        
- 
-    class Meta:
-        ordering = ['-Target_area_input_data__Radius', 'Target_area_input_data__Name']
+        verbose_name = "datapoints serie computed"  # Nome al singolare
+        verbose_name_plural = "datapoints series computed sets"  # Nome al plurale

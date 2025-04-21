@@ -30,7 +30,7 @@
 
 #------------------------------------------------------------------------
 
-Description=service for starting the app aqi_luftdaten on RPi
+description=service for starting the app aqi_luftdaten on RPi
 
 After=network.target
 # This will not start execution of this file until the network connection is made

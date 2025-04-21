@@ -1,140 +1,296 @@
-from datetime import timedelta
 # from datetime import datetime
 from django.utils import timezone
 
 import numpy as np
 
-from pm_lookup.models import target_area_input_data
-from pm_lookup.models import target_area_realtime_data
-from pm_lookup.models import target_area_history_data
-from pm_lookup.models import target_area_time_serie
+from pm_lookup.models import HistoricalDatapoints
+from pm_lookup.models import DatapointsSerieParameters
+from pm_lookup.models import DatapointsSerieComputed
 
 # importo i drawers
-from pm_lookup.drawers.drawer1 import draw_timeserie_PM10_graph
-from pm_lookup.drawers.drawer1 import draw_timeserie_PM25_graph
+from pm_lookup.drawers.drawer1 import draw_timeserie_pollutant_graph
 
 # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
 # errore sopraggiunto dopo il reset del db?
-from pm_lookup.processing.auxiliary_processing import fix_timezone_mismatch_1
+from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_array_of_datetimes
 
-def arrange_time_series_and_graphs():
+from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
 
-    """generate the daily-step series of data for the last 30 days for an area of interest"""
+from pm_lookup.processing.utils.constants import POLLUTANTS_DATA, return_graph_title
 
-    target_area_time_serie.objects.all().delete()
-
-    print("Eliminate tutte le serie storiche in target_area_time_serie!")
-
-    print("Inizio disposizione dati in serie storiche per ogni località...")
+# this function must parse all the datapointsserieparameters 
+# and build the correspondant serie for each of them.
 
 
-    for area_di_interesse in target_area_input_data.objects.all():
+def generate_series_and_draw_graphs():
 
-        print("Predisposizione dati ed elementi del grafico per la serie storica per %s..." % area_di_interesse.Name)
+    DatapointsSerieComputed.objects.all().delete()
 
-        n_giorni = 30
+    print("Eliminate tutte le serie storiche in DatapointsSerieComputed!")
 
-        # isola i record di una località - è cmq un gruppo di oggetti
-        # +
-        # prendo i record delle 24 ore degli ultimi 30 giorni
-        records_serie_storica = target_area_history_data.objects.filter(
-            Target_area_input_data = area_di_interesse,
-            Last_update_time__gte = timezone.now() - timedelta(days=n_giorni),
-            Last_update_time__lte = timezone.now()
+    print("Inizio generazione serie di dati ed elementi del grafico per ogni set di parametri definito...")
+
+    sets_of_serie_parameters = DatapointsSerieParameters.objects.all()
+
+
+    for set_osp in sets_of_serie_parameters:
+
+        # filter the historical datapoints based on the place and time horizon
+        #---------------------------------------------------------------------
+
+        area_di_interesse = set_osp.target_area
+        aggregation_window_duration = set_osp.aggregation_period
+        time_horizon = set_osp.time_horizon
+
+        end_time = timezone.now()
+        start_time = end_time - time_horizon
+
+
+        print("Predisposizione dati ed elementi del grafico per la serie storica definita dal set di parametri %s..." % area_di_interesse.name)
+
+
+        # isola i record di una area di interesse - è cmq un gruppo di oggetti
+        # e di un certo periodo di tempo
+        records_serie_storica = HistoricalDatapoints.objects.filter(
+            target_area = area_di_interesse,
+            # last_update_time__gte = timezone.now() - timedelta(days=n_giorni),
+            last_update_time__gte = start_time,
+            last_update_time__lte = end_time
         )
+
+        # cycle over the time horizon,
+        # start by aggregation_window_start_time = start_time
+        # stop when aggregation_window_end_time >= end_time
+
+        list_of_aggregation_window_dicts = list()
+
+        aggregation_window_start_time = start_time
+        aggregation_window_end_time = start_time + aggregation_window_duration 
+
+        while True:  
+        # do-while
+        # in this way, the cycle will always run at least one time
+
+            aggregation_window_datapoints = records_serie_storica.filter(
+                last_update_time__gte = aggregation_window_start_time,
+                last_update_time__lte = aggregation_window_end_time
+            )
+
+            if aggregation_window_datapoints:
+
+                # apply statistics to aggregation_window_datapoints
+
+                list_of_last_update_time_of_aggregation_window_datapoints = [i.last_update_time for i in aggregation_window_datapoints]
+                
+                list_of_PM10_values_of_aggregation_window_datapoints = [i.PM10_mean for i in aggregation_window_datapoints]
+                list_of_PM25_values_of_aggregation_window_datapoints = [i.PM25_mean for i in aggregation_window_datapoints]
+                
+                list_of_number_of_contributing_sensors_of_aggregation_window_datapoints = [i.number_of_contributing_sensors for i in aggregation_window_datapoints]
+
+                # the update time for the single datapoint fo the serie will be the oldest of the group of aggregated datapoints
+                oldest_record_time_of_aggregation_window_datapoints = min(list_of_last_update_time_of_aggregation_window_datapoints)
+
+                # this time i also have to build a stathistic for the number of contributing sensor: int mean
+                array_of_number_of_contributing_sensors = np.array(list_of_number_of_contributing_sensors_of_aggregation_window_datapoints)
+                array_of_number_of_contributing_sensors = array_of_number_of_contributing_sensors.astype(int)
+                mean_number_of_contributing_sensors = int(round(np.mean(array_of_number_of_contributing_sensors)))
+
+                PM10_array = np.array(list_of_PM10_values_of_aggregation_window_datapoints)
+                PM10_array = PM10_array.astype(float)
+                PM10_mean = round(np.mean(PM10_array), 2)
+
+                PM25_array = np.array(list_of_PM25_values_of_aggregation_window_datapoints)
+                PM25_array = PM25_array.astype(float)
+                PM25_mean = round(np.mean(PM25_array), 2)
+
+                # evaluating the air quality for the means of pollutants
+                PM10_mean_cathegory_label, PM10_mean_cathegory = evaluate_PM10(PM10_mean)
+                PM25_mean_cathegory_label, PM25_mean_cathegory = evaluate_PM25(PM25_mean)
+
+                
+                aggregation_window_dict = {
+
+                    "last_update_time" : oldest_record_time_of_aggregation_window_datapoints,
+
+                    "PM10_mean" : PM10_mean,
+                    "PM25_mean" : PM25_mean,
+
+                    "PM10_mean_cathegory_label" : PM10_mean_cathegory_label,
+                    "PM25_mean_cathegory_label" : PM25_mean_cathegory_label,
+
+                    "PM10_mean_cathegory" : PM10_mean_cathegory,
+                    "PM25_mean_cathegory" : PM25_mean_cathegory,
+
+                    "mean_number_of_contributing_sensors" : mean_number_of_contributing_sensors,
+
+                }
+
+                # add the dictionary to the list
+                list_of_aggregation_window_dicts.append(aggregation_window_dict)
+
+                print("Costruite le statistiche per i campi dei datapoints raccolti nella finestra temporale di estremi ({}, {}) per il set di parametri {}!".format(aggregation_window_start_time, aggregation_window_end_time, set_osp) )
+
+            else:
+                print("Nessun datapoint nella finestra temporale di estremi ({}, {}) per il set di parametri {} .".format(aggregation_window_start_time, aggregation_window_end_time, set_osp) )
+                print("Passo alla finestra temporale successiva")
+
+            # termination condition for do-while
+            if aggregation_window_end_time >= end_time:
+                break
+            else:
+                # shift the window forward
+                aggregation_window_start_time = aggregation_window_start_time + aggregation_window_duration
+                aggregation_window_end_time = aggregation_window_end_time + aggregation_window_duration
+
+
+        print("Costruite le statistiche per i campi dei datapoints in tutte le finestre temporali per il set di parametri {}!".format(set_osp) )
+
         
-        
-        # nota: i dati sno già ordinati per default in ordine decrescente
+        # use the data inside the list of dicts to build the graphs
+        #-----------------------------------------------------------
 
-        serie_storica = {
-                        #ce n'è solo una perchè l'ho filtrata
-                        "Target_area_input_data" : area_di_interesse.Name,
+        # build the t elements
 
-                        # questi sono vettori di valori
-
-                        "Last_update_time" : [i.Last_update_time for i in records_serie_storica],
-
-                        "PM10_mean" : [i.PM10_mean for i in records_serie_storica],
-                        "PM25_mean" : [i.PM25_mean for i in records_serie_storica],
-
-                        "PM10_quality" : [i.PM10_quality for i in records_serie_storica],
-                        "PM25_quality" : [i.PM25_quality for i in records_serie_storica],
-
-                        "PM10_cathegory" : [i.PM10_cathegory for i in records_serie_storica],
-                        "PM25_cathegory" : [i.PM25_cathegory for i in records_serie_storica],
-
-                        "n_selected_sensors" : [i.n_selected_sensors for i in records_serie_storica],
-
-                        }
-
+        last_update_time_values = [ dictionary["last_update_time"] for dictionary in list_of_aggregation_window_dicts ]
 
         # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
         # errore sopraggiunto dopo il reset del db?
-        serie_storica["Last_update_time"] = fix_timezone_mismatch_1(serie_storica["Last_update_time"])
+        last_update_time_values = fix_timezone_mismatch_in_array_of_datetimes(last_update_time_values)
 
 
-        # la posizione di serie storiche indica la città
+        # build the y elements
+        
+        PM10_mean_values = [ dictionary["PM10_mean"] for dictionary in list_of_aggregation_window_dicts ]
+        PM25_mean_values = [ dictionary["PM25_mean"] for dictionary in list_of_aggregation_window_dicts ]
+        PM10_mean_cathegory_label_values = [ dictionary["PM10_mean_cathegory_label"] for dictionary in list_of_aggregation_window_dicts ]
+        PM25_mean_cathegory_label_values = [ dictionary["PM25_mean_cathegory_label"] for dictionary in list_of_aggregation_window_dicts ]
+        PM10_mean_cathegory_values = [ dictionary["PM10_mean_cathegory"] for dictionary in list_of_aggregation_window_dicts ]
+        PM25_mean_cathegory_values = [ dictionary["PM25_mean_cathegory"] for dictionary in list_of_aggregation_window_dicts ]
+        mean_number_of_contributing_sensors_values = [ dictionary["mean_number_of_contributing_sensors"] for dictionary in list_of_aggregation_window_dicts ]
 
-        # print(serie_storiche[0].keys())
+
+        # turn the lists into arrays, as they are required for the graph
 
         # time array
-        time_values = np.array(serie_storica['Last_update_time'])
+        last_update_time_values_array = np.array(last_update_time_values)
 
         # values
-        PM10_values = np.array(serie_storica['PM10_mean'])
-        PM25_values = np.array(serie_storica['PM25_mean'])  
+        PM10_values_array = np.array(PM10_mean_values)
+        PM25_values_array = np.array(PM25_mean_values)  
 
-            # colora il retro del grafico per fasce anzchè fare le linee di soglia
+        # introdurre i limiti solo se aggregation period = 1 day
+        # recupera logica da commmit delle serie giornaliere
 
+        # colora il retro del grafico per fasce anzichè fare le linee di soglia
 
         # questo script è orario, non servono i limiti normativi
         
         # pm10 maxs
-        # PM10_daily_max_35_days_max = np.array([50 for i in time_values])
+        # PM10_threshold = np.array([50 for i in time_values])
         # PM10_annual_mean_max = np.array([40 for i in time_values])
 
         #PM2.5 maxs
         # PM25_annual_mean_max = np.array([20 for i in time_values])
 
         # trovare un modo per far comparire nelle etichette del grafico
-         
-            
-
+        
         # traccio i grafici e ottengo il javascript
-        graph_PM10_title = "Serie storiche orarie del PM10 per "+area_di_interesse.Name
-        graph_PM25_title = "Serie storiche orarie del PM2.5 per "+area_di_interesse.Name
+        # bring contstants to a graph contats page
+        improved_set_of_parameters_title = '"{}" ( {} )'.format(set_osp.title, set_osp.target_area.name)
 
-        graph_PM10 = draw_timeserie_PM10_graph(time_values, PM10_values, graph_title=graph_PM10_title)
-        graph_PM25 = draw_timeserie_PM25_graph(time_values, PM25_values, graph_title=graph_PM25_title)
+        graph_PM10_title = return_graph_title(pollutant_name="PM10", set_of_parameters_title=improved_set_of_parameters_title)
+        graph_PM25_title = return_graph_title(pollutant_name="PM2.5", set_of_parameters_title=improved_set_of_parameters_title)
 
+
+        # eventually draw thresholds of concentrations of pollutants
+
+        list_of_aggregation_periods_threshold_values_for_PM10 = [couple[0] for couple in POLLUTANTS_DATA["PM10"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]]
+        
+        if aggregation_window_duration in list_of_aggregation_periods_threshold_values_for_PM10:
+
+            for couple in POLLUTANTS_DATA["PM10"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]:
+                if couple[0] == set_osp.aggregation_period:
+                    pollutant_maximum_allowed_concentration_for_aggregation_period = couple[1]
+
+                    PM10_threshold_for_aggregation_period = np.array([pollutant_maximum_allowed_concentration_for_aggregation_period for i in last_update_time_values_array])
+
+                    graph_PM10 = draw_timeserie_pollutant_graph(
+                                    last_update_time_values_array, 
+                                    PM10_values_array, 
+                                    pollutant_threshold=PM10_threshold_for_aggregation_period, 
+                                    graph_title=graph_PM10_title,
+                                    pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
+                                    pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
+                                )
+
+        else:
+            graph_PM10 = draw_timeserie_pollutant_graph(
+                            last_update_time_values_array, 
+                            PM10_values_array, 
+                            graph_title=graph_PM10_title,
+                            pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
+                            pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
+                        )
         
 
-        elementi_grafico = target_area_time_serie(
-                                                    # errore qui
-                                                    Target_area_input_data = target_area_input_data.objects.get(Name=area_di_interesse.Name),
+        list_of_aggregation_periods_threshold_values_for_PM25 = [couple[0] for couple in POLLUTANTS_DATA["PM25"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]]
+        
+        if aggregation_window_duration in list_of_aggregation_periods_threshold_values_for_PM25:
 
-                                                    # questi sono vettori di valori
+            for couple in POLLUTANTS_DATA["PM25"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]:
+                if couple[0] == set_osp.aggregation_period:
+                    pollutant_maximum_allowed_concentration_for_aggregation_period = couple[1]
 
-                                                    Record_time_values = '[' + ', '.join(str(e) for e in  serie_storica['Last_update_time'] ) +']',
+                    PM25_threshold_for_aggregation_period = np.array([pollutant_maximum_allowed_concentration_for_aggregation_period for i in last_update_time_values_array])
 
-                                                    PM10_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM10_mean'] ) +']',
-                                                    PM25_mean_values = '[' + ', '.join(str(e) for e in  serie_storica['PM25_mean'] ) +']',
+                    graph_PM25 = draw_timeserie_pollutant_graph(
+                                    last_update_time_values_array, 
+                                    PM25_values_array, 
+                                    pollutant_threshold=PM25_threshold_for_aggregation_period, 
+                                    graph_title=graph_PM25_title,
+                                    pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
+                                    pollutant_uom=POLLUTANTS_DATA["PM25"]["unit_of_measure"],
+                                )
 
-                                                    PM10_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_quality'] ) +'"]',
-                                                    PM25_quality_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_quality'] ) +'"]',
+        else:
+            graph_PM25 = draw_timeserie_pollutant_graph(
+                            last_update_time_values_array, 
+                            PM25_values_array, 
+                            graph_title=graph_PM25_title,
+                            pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
+                            pollutant_uom=POLLUTANTS_DATA["PM25"]["unit_of_measure"],
+                        )
 
-                                                    PM10_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM10_cathegory'] ) +'"]',
-                                                    PM25_cathegory_values = '["' + '", "'.join(str(e) for e in  serie_storica['PM25_cathegory'] ) +'"]',
 
-                                                    n_selected_sensors_values = '[' + ', '.join(str(e) for e in  serie_storica['n_selected_sensors'] ) +']',
+        # save data into DatapointsSerieComputed object
 
-                                                    PM10_graph_div = graph_PM10,
-                                                    PM25_graph_div = graph_PM25,
+        # lists must be stringified
+        
+        new_datapoints_serie_computed_element = DatapointsSerieComputed(
 
-                                                    )
+            datapoints_serie_parameters = set_osp,
 
-        elementi_grafico.save()
+            # questi sono vettori di valori
 
-        print("Predisposti dati ed elementi del grafico per la serie storica per %s!" % area_di_interesse.Name)  
+            # il join deve essere usato sulle liste, non sugli array
 
-    print("Predisposti dati ed elementi dei grafici per le serie storiche per tutte le località!")  
+            record_time_values = '[' + ', '.join(str(e) for e in  last_update_time_values ) +']',
+
+            PM10_mean_values = '[' + ', '.join(str(e) for e in  PM10_mean_values ) +']',
+            PM25_mean_values = '[' + ', '.join(str(e) for e in  PM25_mean_values ) +']',
+
+            number_of_contributing_sensors_values = '[' + ', '.join(str(e) for e in  mean_number_of_contributing_sensors_values ) +']',
+
+            PM10_graph_div = graph_PM10,
+            PM25_graph_div = graph_PM25
+
+        )
+
+        new_datapoints_serie_computed_element.save()
+
+        # a set of parameters was used as input to create the computed serie+graph
+
+
+        print("Predisposti dati ed elementi del grafico per la serie storica per il set dei parametri {}!".format(set_osp) )  
+
+    print("Predisposti dati ed elementi dei grafici per le serie storiche per tutti i set di parametri!")  

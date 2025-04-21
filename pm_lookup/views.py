@@ -1,13 +1,11 @@
 from django.shortcuts import render
 
-from pm_lookup.processing.realtime_processing import get_realtime_pm
-from pm_lookup.processing.realtime_plus_history_processing import get_realtime_and_save_history_pm
+from pm_lookup.processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints
 
-from .models import target_area_input_data
-from .models import target_area_realtime_data
-from .models import target_area_history_data
-from .models import target_area_time_serie
-from .models import target_area_daily_time_serie
+from .models import TargetArea
+from .models import RealtimeDatapoints
+from .models import DatapointsSerieParameters
+from .models import DatapointsSerieComputed
 
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -33,10 +31,10 @@ def catalogo_api(request):
 
 #     return render(request, 'particolato_milano.html', context_dict)
 
-def catalogo_localita(request):
+def catalogo_aree_interesse(request):
 
-    aree_di_interesse = target_area_input_data.objects.all().order_by('id')
-    # from target_area_input_data select *, order by id
+    aree_di_interesse = TargetArea.objects.all().order_by('id')
+    # from TargetArea select *, order by id
 
     context_dict =  {'aree_di_interesse':aree_di_interesse}
 
@@ -46,13 +44,13 @@ def catalogo_localita(request):
 def valori_realtime(request):
     
     #  ranna il processing senza rendere niente in una variabile
-    get_realtime_pm()
+    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()
 
     # va a prendere i dati nei modelli
-    aree_di_interesse = target_area_input_data.objects.all()    
-    n_aree_di_interesse = target_area_input_data.objects.all().count()    
+    aree_di_interesse = TargetArea.objects.all()    
+    n_aree_di_interesse = TargetArea.objects.all().count()    
 
-    record_sensori = target_area_realtime_data.objects.all()
+    record_sensori = RealtimeDatapoints.objects.all()
 
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,
@@ -63,61 +61,24 @@ def valori_realtime(request):
 
     return render(request, 'valori_realtime.html', context_dict)
 
-# disabilitato
-# @staff_member_required
-# def valori_realtime_forced_to_history(request):
-    
-
-#     #  ranna il processing senza rendere niente in una variabile
-#     get_realtime_and_save_history_pm()
-
-#     # va a prendere i dati nei modelli
-#     aree_di_interesse = target_area_input_data.objects.all()    
-#     n_aree_di_interesse = target_area_input_data.objects.all().count()    
-
-#     record_sensori = target_area_realtime_data.objects.all()
-
-#     context_dict = {
-#                     'aree_di_interesse':aree_di_interesse,
-#                     'n_aree_di_interesse':n_aree_di_interesse,
-#                     # 'common_output':common_output,
-#                     'record_sensori':record_sensori
-#                     }
-
-#     return render(request, 'valori_realtime_forced_to_history.html', context_dict)
-
-
 
 # solo raffigurazione
-def serie_storiche(request):
+def grafici_serie_storiche(request):
 
-    print("Richiamo dati in target_area_time_serie...")
-    dataset_dei_grafici = target_area_time_serie.objects.all()
-    print("Dati in target_area_time_serie acquisiti!")
+    print("Richiamo dati in DatapointsSerieComputed...")
+
+    datapoints_serie_computed = DatapointsSerieComputed.objects.filter(
+        datapoints_serie_parameters__show_serie=True
+    )
+
+    print("Dati in DatapointsSerieComputed acquisiti!")
 
     context_dict={
-        "dataset_dei_grafici":dataset_dei_grafici
+        "datapoints_serie_computed": datapoints_serie_computed
                 }
 
     print("Dati in trasmissione al template!")
 
-    return render(request, 'serie_storiche.html', context_dict)
+    return render(request, 'grafici_serie_storiche.html', context_dict)
 
 
-
-
-
-# solo raffigurazione
-def serie_storiche_giornaliere(request):
-
-    print("Richiamo dati in target_area_daily_time_serie...")
-    dataset_dei_grafici = target_area_daily_time_serie.objects.all()
-    print("Dati in target_area_daily_time_serie acquisiti!")
-
-    context_dict={
-        "dataset_dei_grafici":dataset_dei_grafici
-                }
-
-    print("Dati in trasmissione al template!")
-
-    return render(request, 'serie_storiche_giornaliere.html', context_dict)

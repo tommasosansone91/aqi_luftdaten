@@ -1,15 +1,15 @@
 from django.contrib import admin
 
-from .models import target_area_input_data
-from .models import target_area_realtime_data
-from .models import target_area_history_data
-from .models import target_area_time_serie
-from .models import target_area_daily_time_serie
+from .models import TargetArea
+from .models import RealtimeDatapoints
+from .models import HistoricalDatapoints
+from .models import DatapointsSerieParameters
+from .models import DatapointsSerieComputed
 
 # Register your models here.
-# admin.site.register(target_area_input_data)
-# admin.site.register(target_area_realtime_data)
-# admin.site.register(target_area_history_data)
+# admin.site.register(TargetArea)
+# admin.site.register(RealtimeDatapoints)
+# admin.site.register(HistoricalDatapoints)
 
 # sono registrati in seguito mettendo in input anche il relativo modello Admin, 
 # per permettere a sjango import export di funzionare
@@ -22,90 +22,95 @@ from import_export.admin import ImportExportModelAdmin
 
 
 
-# registrazione modello input
+# registrazione modello TargetArea
+#--------------------------------------------------
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_area_input_dataResource(resources.ModelResource):
+class TargetAreaResource(resources.ModelResource):
 
     class Meta:
-        model = target_area_input_data
+        model = TargetArea
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class target_area_input_dataAdmin(ImportExportModelAdmin):
-    resource_class = target_area_input_dataResource
+class TargetAreaAdmin(ImportExportModelAdmin):
+    resource_class = TargetAreaResource
 
-admin.site.register(target_area_input_data, target_area_input_dataAdmin)
+admin.site.register(TargetArea, TargetAreaAdmin)
 
 
-# registrazione modello realtime
+# registrazione modello RealtimeDatapoints
+#--------------------------------------------------
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_area_realtime_dataResource(resources.ModelResource):
+class RealtimeDatapointsResource(resources.ModelResource):
 
     class Meta:
-        model = target_area_realtime_data
+        model = RealtimeDatapoints
         
         # fields = ('id', 'name', 'price') # per includere i campi
         exclude = ('id') # per escludere i campi
 
-class target_area_realtime_dataAdmin(ImportExportModelAdmin):
-    resource_class = target_area_realtime_dataResource
+class RealtimeDatapointsAdmin(ImportExportModelAdmin):
+    resource_class = RealtimeDatapointsResource
 
-admin.site.register(target_area_realtime_data, target_area_realtime_dataAdmin)
+admin.site.register(RealtimeDatapoints, RealtimeDatapointsAdmin)
 
 
-#  registrazione modello history data
+#  registrazione modello HistoricalDatapoints
+#--------------------------------------------------
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_area_history_dataResource(resources.ModelResource):
+class HistoricalDatapointsResource(resources.ModelResource):
 
     class Meta:
-        model = target_area_history_data
+        model = HistoricalDatapoints
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class target_area_history_dataAdmin(ImportExportModelAdmin):
-    resource_class = target_area_history_dataResource
+class HistoricalDatapointsAdmin(ImportExportModelAdmin):
+    resource_class = HistoricalDatapointsResource
 
-    # aggiungo il filtro laterale per selezionare a seconda della località
-    list_filter = ['Target_area_input_data__Name']
+    # aggiungo il filtro laterale per selezionare a seconda della area di interesse
+    list_filter = ['target_area__name']
 
-admin.site.register(target_area_history_data, target_area_history_dataAdmin)
+admin.site.register(HistoricalDatapoints, HistoricalDatapointsAdmin)
 
 
-#  registrazione modello time series
+#  registrazione modello DatapointsSerieParameters
+#--------------------------------------------------
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_area_time_serieResource(resources.ModelResource):
+class DatapointsSerieParametersResource(resources.ModelResource):
 
     class Meta:
-        model = target_area_time_serie
+        model = DatapointsSerieParameters
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class target_area_time_serieAdmin(ImportExportModelAdmin):
-    resource_class = target_area_time_serieResource
+class DatapointsSerieParametersAdmin(ImportExportModelAdmin):
+    resource_class = DatapointsSerieParametersResource
 
-admin.site.register(target_area_time_serie, target_area_time_serieAdmin)
+admin.site.register(DatapointsSerieParameters, DatapointsSerieParametersAdmin)
 
 
-
-#  registrazione modello daily time series
+#  registrazione modello DatapointsSerieComputed
+#--------------------------------------------------
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class target_area_daily_time_serieResource(resources.ModelResource):
+class DatapointsSerieComputedResource(resources.ModelResource):
 
     class Meta:
-        model = target_area_daily_time_serie
+        model = DatapointsSerieComputed
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class target_area_daily_time_serieAdmin(ImportExportModelAdmin):
-    resource_class = target_area_daily_time_serieResource
+class DatapointsSerieComputedAdmin(ImportExportModelAdmin):
+    resource_class = DatapointsSerieComputedResource
 
-admin.site.register(target_area_daily_time_serie, target_area_daily_time_serieAdmin)
+admin.site.register(DatapointsSerieComputed, DatapointsSerieComputedAdmin)
+

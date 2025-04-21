@@ -8,7 +8,7 @@ cd /var/www/aqi_luftdaten
 # it is not needed since I specify the python interpreter from the venv in the next line
 
 
-venv/bin/python manage.py save_current_pm_values_in_history
+venv/bin/python manage.py save_current_pm_values_in_history_model
 
 
-venv/bin/python manage.py arrange_time_series_and_graphs
+venv/bin/python manage.py generate_series_and_draw_graphs

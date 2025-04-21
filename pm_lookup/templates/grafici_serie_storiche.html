@@ -1,0 +1,54 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% load static %}
+
+    <h1>Serie storiche orarie dei valori del particolato</h1>
+    
+    <br>
+
+    <p>Di seguito sono mostrate le serie storiche dei valori medi del PM10 e PM2.5 in diverse città.</p>
+
+    <br>
+
+    {% for serie_data in datapoints_serie_computed %}
+
+        <h3>{{ serie_data.datapoints_serie_parameters.target_area.name }}</h3>
+
+        <br>
+
+        <p>
+            
+            I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
+            nel raggio di {{serie_data.datapoints_serie_parameters.target_area.radius}} km dal punto di coordinate 
+            (
+                <a target="_blank"  href="https://www.google.com/search?q={{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}">
+                    {{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}
+                </a>
+            ).
+        
+        </p>
+        
+        <!-- titolo nel grafico -->
+        <!-- <h5>Serie storiche del PM10 per {{ serie_data.datapoints_serie_parameters.target_area.name }}</h5> -->
+
+        {{ serie_data.PM10_graph_div|safe }}
+        
+        <!-- titolo nel grafico -->
+        <!-- <h5>Serie storiche del PM2.5 per {{ serie_data.datapoints_serie_parameters.target_area.name }}</h5> -->
+
+        {{ serie_data.PM25_graph_div|safe }}
+
+        <hr>
+
+    {% endfor %}
+
+
+<!-- CSS -->
+{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
+{% endblock %}
