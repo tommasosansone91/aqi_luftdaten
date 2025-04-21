@@ -66,7 +66,11 @@ def valori_realtime(request):
 def grafici_serie_storiche(request):
 
     print("Richiamo dati in DatapointsSerieComputed...")
-    datapoints_serie_computed = DatapointsSerieComputed.objects.all()
+
+    datapoints_serie_computed = DatapointsSerieComputed.objects.filter(
+        datapoints_serie_parameters__show_serie=True
+    )
+
     print("Dati in DatapointsSerieComputed acquisiti!")
 
     context_dict={
