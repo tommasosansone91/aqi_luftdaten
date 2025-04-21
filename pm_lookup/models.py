@@ -187,7 +187,15 @@ class DatapointsSerieParameters(models.Model):
         blank=False,
         default=timedelta(days=1),
         verbose_name="time horizon",
-        help_text="""Set the time horizon of the serie (e.g., 1 hour = 0 01:00:00)\nThe start time of the serie will be equal to now - time_horizon\nand the end time will be the current time"""
+        help_text="""
+        Set the time horizon of the serie.<br>
+        The start time of the serie will be equal to: now - time_horizon<br>
+        The end time will be equal to the current time.<br>
+        <br>
+        e.g.<br>
+        1 hour = 0 01:00:00<br>
+        1 day = 1 00:00:00
+        """
     )
 
     
@@ -196,7 +204,11 @@ class DatapointsSerieParameters(models.Model):
         blank=False, 
         default=timedelta(hours=1),
         verbose_name="aggregation period",
-        help_text="""Set the aggregation period of historical datapoints (e.g., 1 hour = 0 01:00:00)"""
+        help_text="""Set the aggregation period of historical datapoints.<br>
+        <br>
+        e.g.<br>
+        1 hour = 0 01:00:00<br>
+        1 day = 1 00:00:00"""
         )
 
     show_serie = models.BooleanField( 
