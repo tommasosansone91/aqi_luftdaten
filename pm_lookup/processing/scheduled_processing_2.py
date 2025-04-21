@@ -207,7 +207,7 @@ def generate_series_and_draw_graphs():
 
         list_of_aggregation_periods_threshold_values_for_PM10 = [couple[0] for couple in POLLUTANTS_DATA["PM10"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]]
         
-        if set_osp.aggregation_period in list_of_aggregation_periods_threshold_values_for_PM10:
+        if aggregation_window_duration in list_of_aggregation_periods_threshold_values_for_PM10:
 
             for couple in POLLUTANTS_DATA["PM10"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]:
                 if couple[0] == set_osp.aggregation_period:
@@ -236,7 +236,7 @@ def generate_series_and_draw_graphs():
 
         list_of_aggregation_periods_threshold_values_for_PM25 = [couple[0] for couple in POLLUTANTS_DATA["PM25"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]]
         
-        if set_osp.aggregation_period in list_of_aggregation_periods_threshold_values_for_PM25:
+        if aggregation_window_duration in list_of_aggregation_periods_threshold_values_for_PM25:
 
             for couple in POLLUTANTS_DATA["PM25"]["AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP"]:
                 if couple[0] == set_osp.aggregation_period:

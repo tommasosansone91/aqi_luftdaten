@@ -9,8 +9,8 @@ POLLUTANTS_DATA = {
             "unit_of_measure": "[µg/m³]",
             "AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP": 
                 ( 
-                    ( timedelta(days=1) , 50) ,
-                    ( timedelta(days=365) , 40) 
+                    ( timedelta(days=1)   , 50 ) ,
+                    ( timedelta(days=365) , 40 ) 
                 )
         }
         ,
@@ -20,8 +20,8 @@ POLLUTANTS_DATA = {
             "unit_of_measure": "[µg/m³]",
             "AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP": 
                 ( 
-                    ( timedelta(days=1) , 25) ,
-                ( timedelta(days=365) , 10) 
+                    ( timedelta(days=1)   , 25 ) ,
+                    ( timedelta(days=365) , 10 ) 
                 )
         }
 }
