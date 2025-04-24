@@ -16,7 +16,7 @@ from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_
 
 from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
 
-from pm_lookup.processing.utils.constants import POLLUTANTS_DATA, return_graph_title
+from pm_lookup.configs.constants import POLLUTANTS_DATA, return_graph_title
 
 # this function must parse all the datapointsserieparameters 
 # and build the correspondant serie for each of them.
@@ -201,6 +201,8 @@ def generate_series_and_draw_graphs():
         graph_PM10_title = return_graph_title(pollutant_name="PM10", set_of_parameters_title=improved_set_of_parameters_title)
         graph_PM25_title = return_graph_title(pollutant_name="PM2.5", set_of_parameters_title=improved_set_of_parameters_title)
 
+        PM10_air_quality_cathegories_geometries = POLLUTANTS_DATA["PM10"]["AIR_QUALITY_CATEGORIES_GEOMETRIES"]
+        PM25_air_quality_cathegories_geometries = POLLUTANTS_DATA["PM25"]["AIR_QUALITY_CATEGORIES_GEOMETRIES"]
 
         # eventually draw thresholds of concentrations of pollutants
 
@@ -218,6 +220,7 @@ def generate_series_and_draw_graphs():
                                     last_update_time_values_array, 
                                     PM10_values_array, 
                                     pollutant_threshold=PM10_threshold_for_aggregation_period, 
+                                    AQ_cathegories_geometries=PM10_air_quality_cathegories_geometries,
                                     graph_title=graph_PM10_title,
                                     pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
                                     pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
@@ -227,6 +230,7 @@ def generate_series_and_draw_graphs():
             graph_PM10 = draw_timeserie_pollutant_graph(
                             last_update_time_values_array, 
                             PM10_values_array, 
+                            AQ_cathegories_geometries=PM10_air_quality_cathegories_geometries,
                             graph_title=graph_PM10_title,
                             pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
                             pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
@@ -246,6 +250,7 @@ def generate_series_and_draw_graphs():
                     graph_PM25 = draw_timeserie_pollutant_graph(
                                     last_update_time_values_array, 
                                     PM25_values_array, 
+                                    AQ_cathegories_geometries=PM25_air_quality_cathegories_geometries,
                                     pollutant_threshold=PM25_threshold_for_aggregation_period, 
                                     graph_title=graph_PM25_title,
                                     pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
@@ -256,6 +261,7 @@ def generate_series_and_draw_graphs():
             graph_PM25 = draw_timeserie_pollutant_graph(
                             last_update_time_values_array, 
                             PM25_values_array, 
+                            AQ_cathegories_geometries=PM25_air_quality_cathegories_geometries,
                             graph_title=graph_PM25_title,
                             pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
                             pollutant_uom=POLLUTANTS_DATA["PM25"]["unit_of_measure"],
