@@ -1,0 +1,46 @@
+{% extends 'partials/base.html' %} 
+
+{% block content %}
+
+{% load static %}
+
+<!-- CSS -->
+{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
+
+    <h1>Catalogo dei set di parametri che definiscono le serie storiche</h1>
+    
+    <br>
+
+    <p>
+        Di seguito è mostrato l'elenco dei set di parametri che definiscono le serie storiche per cui sono disponibili i dati di qualità dell'aria.<br>
+        Il relativo ID può essere inserito negli URL delle <a href="{% url 'catalogo_api' %}#elementi_al_dettaglio">API riferite ad un singolo set di parametri</a> per ottenere i dati corrispondenti.
+    </p>
+
+    <br>
+
+    <table>
+        
+        <tr>
+            <th>ID &nbsp</th>
+            <th>Titolo set di parametri</th>  
+            <th>Area di interesse</th>             
+        </tr>
+
+        {% for set_parametri in sets_parametri_serie_storiche %}
+
+            <tr>               
+                <td>{{set_parametri.id}}</td>
+                <td>{{set_parametri.title}}</td>
+                <td>{{set_parametri.target_area.name}}</td>
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+
+{% endblock %}

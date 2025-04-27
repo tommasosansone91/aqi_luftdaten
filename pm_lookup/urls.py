@@ -12,13 +12,16 @@ urlpatterns = [
     path('', views.home, name="home"),
 
     path('catalogo_api', views.catalogo_api, name="catalogo_api"),
-    path('catalogo_localita', views.catalogo_aree_interesse, name="catalogo_localita"),
+    path('catalogo_aree_interesse', views.catalogo_aree_interesse, name="catalogo_aree_interesse"),
+    path('catalogo_set_parametri_definizione_serie_storiche', views.catalogo_set_parametri_definizione_serie_storiche, name="catalogo_set_parametri_definizione_serie_storiche"),
     
     path('valori_realtime', views.valori_realtime, name="valori_realtime"),
     
     path('grafici_serie_storiche', views.grafici_serie_storiche, name="grafici_serie_storiche"),
     
-    # viste delle api
+
+    # api urls
+    #############
 
     # generalmente si fa una app per le api 
     # e poi si mette include negli urls globali di progetto gli urls dell'app api preceduti dal pattern api/
@@ -27,23 +30,34 @@ urlpatterns = [
     #-------------
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
-    path('api/places_list', api.places_list_api, name="places_list"),
-    path('api/RealtimeDatapoints', api.places_RealtimeDatapoints_api, name="RealtimeDatapoints"),
-    path('api/historical_data', api.historical_data_api, name="historical_data"),    
-    path('api/time_series', api.time_series_api, name="time_series"),
+    path('api/areas_list', api.areas_list_api, name="areas_list"),
+    path('api/realtime_datapoints_list', api.realtime_datapoints_list_api, name="realtime_datapoints"),
+
   
 
-    # api di dettaglio, quindi devo passare in ingresso (URL) il parametro
+    # api di dettaglio
+    #---------------------
 
-    path('api/place_detail/<int:pk>', api.place_detail_api, name="place_detail"),
-    path('api/RealtimeDatapoints_detail/<int:pk>', api.RealtimeDatapoints_detail_api, name="RealtimeDatapoints_detail"),
+    # quindi devo passare in ingresso (URL) il parametro
+
+    path('api/area_detail/<int:pk>', api.area_detail_api, name="area_detail_api"),
+    path('api/parameters_for_series_detail/<int:pk>', api.parameters_for_serie_detail_api, name="parameters_for_series_detail"),
+    path('api/realtime_datapoints_detail/<int:pk>', api.realtime_datapoints_detail_api, name="realtime_datapoints_detail"),
+    path('api/computed_serie/<int:pk>', api.computed_serie_detail_api, name="computed_serie_detail"),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.
     # prendere un insieme di record corrisondenti ad una città ... è prendere una serie storica, quindi tanto vale
-    # path('api/historical_data_detail/<int:pk>', api.historical_data_detail_api, name="historical_data_detail"),
+    # path('api/historical_datapoints_detail/<int:pk>', api.historical_datapoints_detail_api, name="historical_datapoints_detail"),
 
-    path('api/time_serie_detail/<int:pk>', api.time_serie_detail_api, name="time_serie_detail"),
+    # path('api/computed_serie_detail/<int:pk>', api.computed_serie_detail_api, name="computed_serie_detail"),
    
+
+    # api con molti filtri
+    #-----------------------
+
+    path('api/historical_datapoints', api.historical_datapoints_list_api, name="historical_datapoints"),    
+
+
     
     # mantieni lo standard di nomenclatura tra i tre termini
 ]

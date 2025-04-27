@@ -31,6 +31,12 @@ def catalogo_api(request):
 
 #     return render(request, 'particolato_milano.html', context_dict)
 
+#------------------
+
+# these two functions are invoked in the api page, but they are views, 
+# since they display userfriendly data to the user
+
+
 def catalogo_aree_interesse(request):
 
     aree_di_interesse = TargetArea.objects.all().order_by('id')
@@ -38,8 +44,19 @@ def catalogo_aree_interesse(request):
 
     context_dict =  {'aree_di_interesse':aree_di_interesse}
 
-    return render(request, 'catalogo_localita.html', context_dict)
+    return render(request, 'catalogo_aree_interesse.html', context_dict)
 
+
+def catalogo_set_parametri_definizione_serie_storiche(request):
+
+    sets_parametri_serie_storiche = DatapointsSerieParameters.objects.all().order_by('id')
+    # from DatapointsSerieParameters select *, order by id
+
+    context_dict =  {'sets_parametri_serie_storiche':sets_parametri_serie_storiche}
+
+    return render(request, 'catalogo_set_parametri_definizione_serie_storiche.html', context_dict)
+
+#-------------------
 
 def valori_realtime(request):
     
