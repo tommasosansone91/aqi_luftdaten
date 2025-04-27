@@ -8,12 +8,10 @@
 
 <!-- CSS -->
 {% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
-<link rel="stylesheet" type="text/css" href={% static "css/graphs_page_spinner.css" %}>
 
 
 <!-- Javascript -->
 {% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
-<script type="text/javascript" src={% static "js/graph_loading_helpers.js" %}></script>
 
 
 
@@ -22,20 +20,7 @@
     <br>
 
     <!-- Loader -->
-    <div id="loader-graphs-page">
-
-        <div class="loading-message-graphs-page">
-            <br><br><br><br><br><br>
-            <p>Caricamento in corso...</p>
-            <br>
-        </div>
-
-        <div class="spinner-graphs-page">
-            <div class="spinner-s-ball pm10"><span>PM₁₀</span></div>
-            <div class="spinner-s-ball pm25"><span>PM₂.₅</span></div>
-        </div>
-
-    </div>
+    {% include 'partials/loader_graphs_page.html' %}
 
 
     <div id="main-content-graphs-page" style="visibility: hidden; position: absolute; width: 80%;">
