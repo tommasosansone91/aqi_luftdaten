@@ -4,8 +4,8 @@
 
 # sudo vim /etc/cron.d/aqi_luftdaten-cron
 
-# salva i valori nel modello storico grezzo
-# arrangia le serie orarie attingendo al modello storico grezzo
+# chiama la api e salva i valori nel modello storico
+# ricostruisci le serie e ridisegna i grafici attingendo al modello storico
 0 * * * * root bash /var/www/aqi_luftdaten/infrastructure/sh/save_current_data_and_arrange_series_and_graphs.sh >/var/log/aqi_luftdaten/save_current_data_and_arrange_series_and_graphs.log
 
 
