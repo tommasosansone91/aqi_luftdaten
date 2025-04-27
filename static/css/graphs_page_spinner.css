@@ -1,16 +1,61 @@
 
 .spinner-graphs-page {
-  margin: 0 auto;
-  width: 50px;
-  height: 50px;
-  border: 5px solid lightgray;
-  border-top: 5px solid #3498db; /* Colore blu del loader */
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  position: relative;
+  width: 250px;
+  height: 250px;
+  animation: rotate 5s linear infinite;
 }
 
-/* Animazione rotazione */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.spinner-s-ball {
+  position: absolute;
+  background: #000;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5em;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pm10 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);  
+  width: 140px;
+  height: 140px;
+}
+
+.pm25 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 70px;
+}
+
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Questo serve a mantenere il testo dritto */
+.spinner-s-ball span {
+  display: block;
+  transform: rotate(0deg);
+  animation: counter-rotate 5s linear infinite;
+}
+
+@keyframes counter-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
 }
