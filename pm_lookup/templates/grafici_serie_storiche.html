@@ -4,51 +4,64 @@
 
 {% load static %}
 
-    <h1>Serie storiche orarie dei valori del particolato</h1>
+    <h1>Serie storiche dei valori del particolato</h1>
     
     <br>
 
-    <p>Di seguito sono mostrate le serie storiche dei valori medi del PM10 e PM2.5 in diverse città.</p>
+    <!-- Loader -->
+    <div id="loader-graphs-page">
+        <div class="spinner-graphs-page"></div>
+        <p>Caricamento in corso...</p>
+    </div>
 
-    <br>
 
-    {% for serie_data in datapoints_serie_computed %}
+    <div id="main-content-graphs-page" style="visibility: hidden; position: absolute; width: 80%;">
 
-        <h3>{{ serie_data.datapoints_serie_parameters.target_area.name }}</h3>
+        <p>Di seguito sono mostrate le serie storiche dei valori medi del PM10 e PM2.5 in diverse città.</p>
 
         <br>
 
-        <p>
+        {% for serie_data in datapoints_serie_computed %}
+
+            <h3>{{serie_data.datapoints_serie_parameters.title}} ({{ serie_data.datapoints_serie_parameters.target_area.name }})</h3>
+
+            <br>
+
+            <p>
+                
+                I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
+                nel raggio di {{serie_data.datapoints_serie_parameters.target_area.radius}} km dal punto di coordinate 
+                (
+                    <a target="_blank"  href="https://www.google.com/search?q={{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}">
+                        {{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}
+                    </a>
+                ).
             
-            I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
-            nel raggio di {{serie_data.datapoints_serie_parameters.target_area.radius}} km dal punto di coordinate 
-            (
-                <a target="_blank"  href="https://www.google.com/search?q={{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}">
-                    {{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}
-                </a>
-            ).
-        
-        </p>
-        
-        <!-- titolo nel grafico -->
-        <!-- <h5>Serie storiche del PM10 per {{ serie_data.datapoints_serie_parameters.target_area.name }}</h5> -->
+            </p>
+            
+            <!-- titolo nel grafico -->
 
-        {{ serie_data.PM10_graph_div|safe }}
-        
-        <!-- titolo nel grafico -->
-        <!-- <h5>Serie storiche del PM2.5 per {{ serie_data.datapoints_serie_parameters.target_area.name }}</h5> -->
+            {{ serie_data.PM10_graph_div|safe }}
+            
+            <!-- titolo nel grafico -->
 
-        {{ serie_data.PM25_graph_div|safe }}
+            {{ serie_data.PM25_graph_div|safe }}
 
-        <hr>
+            <hr>
 
-    {% endfor %}
+        {% endfor %}  <!-- display none -->
+
+    </div>
 
 
 <!-- CSS -->
 {% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+<link rel="stylesheet" type="text/css" href={% static "css/graphs_page_spinner.css" %}>
+
 
 <!-- Javascript -->
 {% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+<script type="text/javascript" src={% static "js/graph_loading_helpers.js" %}></script>
+
 
 {% endblock %}
