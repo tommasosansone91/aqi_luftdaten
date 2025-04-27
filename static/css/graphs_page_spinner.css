@@ -1,4 +1,18 @@
 
+#loader-graphs-page {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.loading-message-graphs-page p {
+  font-size: 1.75rem; /* Puoi aumentare se vuoi, tipo 2rem */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 .spinner-graphs-page {
   position: relative;
   width: 250px;
