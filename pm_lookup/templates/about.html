@@ -4,6 +4,13 @@
 
 {% load static %}
 
+<!-- CSS -->
+{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
+
     <h1>About</h1>
     
     <br>
@@ -22,12 +29,5 @@
         e li mostra all'utente, specificando la categoria della qualità dell'aria in cui ricadono i valori monitorati.
     </p>
 
-
-
-<!-- CSS -->
-{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
-
-<!-- Javascript -->
-{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
 
 {% endblock %}

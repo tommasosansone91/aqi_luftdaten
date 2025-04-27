@@ -4,8 +4,16 @@
 
 {% load static %}
 
-    <!-- meta tag per refresh automatico -->   
-    <meta http-equiv="refresh" content="30">
+<!-- meta tag per refresh automatico -->   
+<meta http-equiv="refresh" content="30">
+
+
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href={% static "css/AQ_cathegories.css" %}>
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
 
     <h1>Valori real-time del particolato</h1>
     
@@ -105,12 +113,5 @@
 
     {% endif %}
 
-
-
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" href={% static "css/AQ_cathegories.css" %}>
-
-<!-- Javascript -->
-{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
 
 {% endblock %}

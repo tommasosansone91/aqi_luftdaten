@@ -4,6 +4,15 @@
 
 {% load static %}
 
+<!-- CSS -->
+{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
+<link rel="stylesheet" type="text/css" href={% static "css/API_catalog_style.css" %}>
+
+
+<!-- Javascript -->
+{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
+
+
     <h1>Catalogo API</h1>
     
     <br>
@@ -113,7 +122,7 @@
         perchè non avrebbe senso -->
 
 
-    <h5>Serie storica oraria del particolato di una specifica area di interesse</h5>
+    <h5>Serie storica del particolato di una specifica area di interesse</h5>
 
     
     <div class="container">
@@ -132,14 +141,5 @@
 
     <br><br>
 
-
-
-<!-- CSS -->
-{% comment %} <link rel="stylesheet" type="text/css" href={% static "css/file.css" %}> {% endcomment %}
-<link rel="stylesheet" type="text/css" href={% static "css/API_catalog_style.css" %}>
-
-
-<!-- Javascript -->
-{% comment %} <script type="text/javascript" src={% static "js/file.js" %}></script> {% endcomment %}
 
 {% endblock %}
