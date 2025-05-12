@@ -23,7 +23,12 @@ def draw_timeserie_pollutant_graph(
 
                     marker=dict(
                                 color='rgb(128,128,128)',
-                                )                    
+                                ),
+
+                    hovertemplate=
+                        'Data: %{x|%d-%m-%Y}<br>' +
+                        'Ora: %{x|%H:%M}<br>' +
+                        '{}: %{{y:.2f}} {}<br>'.format(pollutant_name, pollutant_uom)          
                     )
 
     #scelta di aggiunta al grafico della linea di massima della normativa
@@ -97,7 +102,10 @@ def draw_timeserie_pollutant_graph(
         ),
     
         yaxis=dict(
-            range=[min(pollutant_values)-padding_inf_linea_pollutant ,max(pollutant_values)+ padding_sup_linea_pollutant]
+            range=[
+                min(pollutant_values) - padding_inf_linea_pollutant ,
+                max(pollutant_values) + padding_sup_linea_pollutant
+                ]
             )
         )
 
