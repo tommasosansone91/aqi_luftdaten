@@ -8,15 +8,16 @@ from pm_lookup.models import DatapointsSerieParameters
 from pm_lookup.models import DatapointsSerieComputed
 
 # importo i drawers
-from pm_lookup.drawers.drawer1 import draw_timeserie_pollutant_graph
+from pm_lookup.drawers.drawers_1 import draw_timeserie_pollutant_graph
 
 # aggiunto per fixare il fatto che nei grafici è mostrato orario come se fosse in UTC
 # errore sopraggiunto dopo il reset del db?
 from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_array_of_datetimes
 
 from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
+from pm_lookup.processing.utils.graphs_drawing_helpers import return_graph_title
 
-from pm_lookup.configs.constants import POLLUTANTS_DATA, return_graph_title
+from pm_lookup.configs.pollutants_data import POLLUTANTS_DATA
 
 # this function must parse all the datapointsserieparameters 
 # and build the correspondant serie for each of them.

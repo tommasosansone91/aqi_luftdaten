@@ -6,6 +6,8 @@ from datetime import timedelta
 from django.utils import timezone
 from django.utils.timezone import now
 
+from pm_lookup.configs.constants import COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
+
 
 import uuid
 
@@ -142,9 +144,9 @@ class HistoricalDatapoints(models.Model):
                                     self.target_area.name, 
                                     self.target_area.id, 
                                     datetime.strftime(
-                                            self.last_update_time, 
-                                            "%H:%M:%S %d-%m-%Y"
-                                            ) 
+                                        self.last_update_time, 
+                                        "%H:%M:%S %d-%m-%Y"
+                                        ) 
                                     )  
         
  
@@ -219,11 +221,13 @@ class DatapointsSerieParameters(models.Model):
         help_text="Check this to show the series in the dashboard."
         ) 
     
+    
+    
 
     # dafult: create a time serie of 1h aggregation and having a 1-day time horizon
 
     def __str__(self):       
-        return  "%s ( %s ) (DatapointsSerieParameters)"  %  ( self.title , self.target_area.name )  
+        return  "%s ( %s ) (%s)"  %  ( self.title , self.target_area.name, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME )  
         
  
     class Meta:
@@ -231,8 +235,8 @@ class DatapointsSerieParameters(models.Model):
 
         unique_together = ('target_area', 'time_horizon', 'aggregation_period')
 
-        verbose_name = "datapoints serie parameters"  # Nome al singolare
-        verbose_name_plural = "datapoints series parameters sets"  # Nome al plurale
+        verbose_name = SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME  # Nome al singolare
+        verbose_name_plural = "sets of parameters of series"  # Nome al plurale
 
 
 
@@ -259,7 +263,7 @@ class DatapointsSerieComputed(models.Model):
 
 
     def __str__(self):       
-        return  "%s ( %s ) (DatapointsSerieComputed)"  %  ( self.datapoints_serie_parameters.title , self.datapoints_serie_parameters.target_area.name )  
+        return  "%s ( %s ) (%s)"  %  ( self.datapoints_serie_parameters.title , self.datapoints_serie_parameters.target_area.name, COMPUTED_SERIE_META_VERBOSE_NAME )  
         
  
     class Meta:
@@ -268,5 +272,5 @@ class DatapointsSerieComputed(models.Model):
             'datapoints_serie_parameters__target_area__name'
             ]
 
-        verbose_name = "datapoints serie computed"  # Nome al singolare
-        verbose_name_plural = "datapoints series computed sets"  # Nome al plurale
+        verbose_name = COMPUTED_SERIE_META_VERBOSE_NAME  # Nome al singolare
+        verbose_name_plural = "computed series"  # Nome al plurale

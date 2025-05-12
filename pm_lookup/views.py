@@ -90,9 +90,14 @@ def grafici_serie_storiche(request):
 
     print("Dati in DatapointsSerieComputed acquisiti!")
 
-    context_dict={
-        "datapoints_serie_computed": datapoints_serie_computed
-                }
+    n_aree_di_interesse = TargetArea.objects.all().count()    
+    n_serie = DatapointsSerieParameters.objects.all().count()
+
+    context_dict = {
+        "datapoints_serie_computed": datapoints_serie_computed,
+        'n_aree_di_interesse':n_aree_di_interesse,
+        'n_serie': n_serie
+    }
 
     print("Dati in trasmissione al template!")
 

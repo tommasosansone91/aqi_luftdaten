@@ -51,28 +51,19 @@
     <h5>Lista di tutti i set di parametri che definiscono le serie storiche</h5>
 
     <div class="container">
-    <code><a target="_blank" href="{% url 'areas_list' %}">{{ request.get_host }}{% url 'areas_list' %}</a></code>
+    <code><a target="_blank" href="{% url 'sets_of_parameters_of_series_list' %}">{{ request.get_host }}{% url 'sets_of_parameters_of_series_list' %}</a></code>
     </div>
 
     <br><br>
 
 
-    <h5>Lista dei valori real-time degli inquinanti per tutte le aree di interesse</h5>
+    {% comment %} <h5>Lista dei valori real-time degli inquinanti per tutte le aree di interesse</h5>
 
     <div class="container">
     <code><a target="_blank" href="{% url 'realtime_datapoints' %}">{{ request.get_host }}{% url 'realtime_datapoints' %}</a></code>
     </div>
 
-    <br><br>
-
-
-    <h5>Lista delle serie storiche degli inquinanti definite dai set di parametri</h5>
-
-    <div class="container">
-    <code><a target="_blank" href="{% url 'computed_series' %}">{{ request.get_host }}{% url 'computed_series' %}</a></code>
-    </div>
-
-    <br><br>
+    <br><br> {% endcomment %}
 
 
     <hr>
@@ -84,12 +75,13 @@
     <p>
         Queste API mostrano l'insieme dei dati associati a una specifica area di interesse o a una specifica serie storica definita da un set di parametri. 
         <br>Ogni area di interesse è identificata da un corrispondente ID.
-        <br>Ogni set i parametri che definisce una serie storica è identificata da un corrispondente ID.
+        <br>Ogni set di parametri che definisce una serie storica è identificata da un corrispondente ID.
     </p>
     <p>
         È possibile reperire i dati associati ad una specifica area di interesse o ad uno specifico set di parametri inserendo il suo ID nell'endpoint dell'API, avendo cura di inserirlo nella posizione corretta. 
-        <br>Il <b>catalogo delle aree di interesse con relativo ID</b> è consultabile a <a target="_blank" href="{% url 'catalogo_aree_interesse' %}">questo link</a>.</p>
-        <br>Il <b>catalogo dei set di parametri che definiscono le serie storiche con relativo ID</b> è consultabile a <a target="_blank" href="{% url 'catalogo_set_parametri_definizione_serie_storiche' %}">questo link</a>.</p>
+        <p>Il <b>catalogo delle aree di interesse con relativo ID</b> è consultabile a <a target="_blank" href="{% url 'catalogo_aree_interesse' %}">questo link</a>.</p>
+        <p>Il <b>catalogo dei set di parametri che definiscono le serie storiche con relativo ID</b> è consultabile a <a target="_blank" href="{% url 'catalogo_set_parametri_definizione_serie_storiche' %}">questo link</a>.</p>
+    </p>
     <br>
 
     
@@ -133,6 +125,28 @@
     <div class="container">
     <code><a target="_blank" href="{% url 'computed_serie_detail' pk=1 %}">{{ request.get_host }}{% url 'computed_serie_detail' pk=1 %}</a></code>
     </div>
+
+    <br><br>
+
+    <hr>
+    
+    <h2 id="subset_di_elementi">Subset di elementi</h2>
+
+    <br>
+
+    {% comment %} <p>
+        Queste API mostrano l'insieme dei dati associati a dei subset degli elementi del database selezionati dall'utente medianti dei criteri di selezione. 
+        <br>
+        <br>
+    </p> {% endcomment %}
+
+    <h5>Subset di dati degli inquinanti di una specifica area di interesse</h5>
+
+    
+    <div class="container">
+    <code><a target="_blank" href="{% url 'historical_datapoints_subset' %}?target_area=1&amp;start_date=2025-01-01T00:00:00Z&amp;end_date=2025-05-01T00:00:00Z">{{ request.get_host }}{% url 'historical_datapoints_subset' %}?target_area=1&amp;start_date=2025-01-01T00:00:00Z&amp;end_date=2025-05-01T00:00:00Z</a></code>
+    </div>
+
 
     <br><br>
 

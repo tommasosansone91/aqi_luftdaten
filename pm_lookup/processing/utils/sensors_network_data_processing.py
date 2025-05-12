@@ -10,7 +10,7 @@ import requests
 
 from django.db.models.query import QuerySet
 
-from pm_lookup.config import ALL_SENSORS_DATA_URL, KILOMETERS_TO_COORDINATES_POINTS_DISTANCE
+from pm_lookup.configs.constants import ALL_SENSORS_DATA_URL, KILOMETERS_TO_COORDINATES_POINTS_DISTANCE
 from pm_lookup.models import TargetArea
 
 from .air_quality_evaluators import evaluate_PM10, evaluate_PM25

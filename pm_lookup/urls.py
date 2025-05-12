@@ -31,7 +31,8 @@ urlpatterns = [
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
     path('api/areas_list', api.areas_list_api, name="areas_list"),
-    path('api/realtime_datapoints_list', api.realtime_datapoints_list_api, name="realtime_datapoints"),
+    path('api/sets_of_parameters_of_series_list', api.sets_of_parameters_of_series_list_api, name="sets_of_parameters_of_series_list"),
+    # path('api/realtime_datapoints_list', api.realtime_datapoints_list_api, name="realtime_datapoints"),
 
   
 
@@ -40,10 +41,10 @@ urlpatterns = [
 
     # quindi devo passare in ingresso (URL) il parametro
 
-    path('api/area_detail/<int:pk>', api.area_detail_api, name="area_detail_api"),
-    path('api/parameters_for_series_detail/<int:pk>', api.parameters_for_serie_detail_api, name="parameters_for_series_detail"),
-    path('api/realtime_datapoints_detail/<int:pk>', api.realtime_datapoints_detail_api, name="realtime_datapoints_detail"),
-    path('api/computed_serie/<int:pk>', api.computed_serie_detail_api, name="computed_serie_detail"),
+    path('api/area_detail/<int:pk>', api.area_detail_api, name="area_detail"),
+    path('api/parameters_for_series_detail/<int:pk>', api.parameters_for_serie_detail_api, name="parameters_for_serie_detail"),
+    path('api/realtime_datapoints_detail/<int:pk>', api.realtime_datapoint_detail_api, name="realtime_datapoints_detail"),
+    path('api/computed_serie_detail/<int:pk>', api.computed_serie_detail_api, name="computed_serie_detail"),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.
     # prendere un insieme di record corrisondenti ad una città ... è prendere una serie storica, quindi tanto vale
@@ -55,7 +56,7 @@ urlpatterns = [
     # api con molti filtri
     #-----------------------
 
-    path('api/historical_datapoints', api.historical_datapoints_list_api, name="historical_datapoints"),    
+    path('api/historical_datapoints_subset', api.historical_datapoints_subset_api, name="historical_datapoints_subset"),    
 
 
     
