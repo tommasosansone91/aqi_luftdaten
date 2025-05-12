@@ -26,16 +26,16 @@
         
         <tr>
             <th>ID &nbsp</th>
-            <th>Titolo set di parametri</th>  
-            <th>Area di interesse</th>             
+            <th>Titolo set di parametri &nbsp</th>  
+            <th>Area di interesse &nbsp</th>             
         </tr>
 
         {% for set_parametri in sets_parametri_serie_storiche %}
 
             <tr>               
-                <td>{{set_parametri.id}}</td>
-                <td>{{set_parametri.title}}</td>
-                <td>{{set_parametri.target_area.name}}</td>
+                <td>{{set_parametri.id}} &nbsp</td>
+                <td>{{set_parametri.title}} &nbsp</td>
+                <td>{{set_parametri.target_area.name}} &nbsp</td>
             </tr>
 
         {% endfor %}
