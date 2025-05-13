@@ -1,72 +1,87 @@
+from pm_lookup.configs.pollutants_data import POLLUTANTS_LABELS
+from pm_lookup.exceptions import UnknownPollutantException
 
 
-def evaluate_PM10(PM10_value):
+def evaluate_pollutant_concentration(pollutant_label, pollutant_concentration):  # [µg/m³]
+    """
+    Valuta la concentrazione di un inquinante.
 
-    # categorie di qualità dell'aria rispetto a PM 10
+    Parametri:
+    - pollutant_concentration (float): espresso in [µg/m³]
+    - pollutant_label (str): es. "PM10", "PM25"
+    """
 
-    if PM10_value <= 20:
-        PM10_mean_cathegory_label = "Ottima"
-        PM10_mean_cathegory = "prima"
+    if pollutant_label == "PM10":
 
-    elif PM10_value >= 20 and PM10_value  <= 35:
-        PM10_mean_cathegory_label = "Buona"
-        PM10_mean_cathegory = "seconda"
-    
-    elif PM10_value >= 35 and PM10_value  <= 50:
-        PM10_mean_cathegory_label = "Accettabile"
-        PM10_mean_cathegory = "terza"
+        # categorie di qualità dell'aria rispetto a PM 10
 
-    elif PM10_value >= 50 and PM10_value  <= 100:
-        PM10_mean_cathegory_label = "Fuori legge"
-        PM10_mean_cathegory = "quarta"
+        if pollutant_concentration <= 20:
+            pollutant_concentration_cathegory_label = "Ottima"
+            pollutant_concentration_cathegory_number = "prima"
 
-    elif PM10_value >= 100 and PM10_value  <= 200:
-        PM10_mean_cathegory_label = "Pericolosa"
-        PM10_mean_cathegory = "quinta"
+        elif pollutant_concentration >= 20 and pollutant_concentration  <= 35:
+            pollutant_concentration_cathegory_label = "Buona"
+            pollutant_concentration_cathegory_number = "seconda"
+        
+        elif pollutant_concentration >= 35 and pollutant_concentration  <= 50:
+            pollutant_concentration_cathegory_label = "Accettabile"
+            pollutant_concentration_cathegory_number = "terza"
 
-    elif PM10_value >= 200:
-        PM10_mean_cathegory_label = "Emergenziale"
-        PM10_mean_cathegory = "sesta"
+        elif pollutant_concentration >= 50 and pollutant_concentration  <= 100:
+            pollutant_concentration_cathegory_label = "Fuori legge"
+            pollutant_concentration_cathegory_number = "quarta"
 
-    else:
-        PM10_mean_cathegory_label = "No data"
-        PM10_mean_cathegory = None
+        elif pollutant_concentration >= 100 and pollutant_concentration  <= 200:
+            pollutant_concentration_cathegory_label = "Pericolosa"
+            pollutant_concentration_cathegory_number = "quinta"
 
-    return (PM10_mean_cathegory_label, PM10_mean_cathegory)
+        elif pollutant_concentration >= 200:
+            pollutant_concentration_cathegory_label = "Emergenziale"
+            pollutant_concentration_cathegory_number = "sesta"
+
+        else:
+            pollutant_concentration_cathegory_label = "No data"
+            pollutant_concentration_cathegory_number = None
 
 
-
-def evaluate_PM25(PM25_value):
+    elif pollutant_label == "PM25":
 
     # categorie di qualità dell'aria rispetto a PM 2.5
 
-    if PM25_value <= 10:
-        PM25_mean_cathegory_label = "Ottima"
-        PM25_mean_cathegory = "prima"
+        if pollutant_concentration <= 10:
+            pollutant_concentration_cathegory_label = "Ottima"
+            pollutant_concentration_cathegory_number = "prima"
 
-    elif PM25_value >= 10 and PM25_value  <= 20:
-        PM25_mean_cathegory_label = "Buona"
-        PM25_mean_cathegory = "seconda"
-    
-    elif PM25_value >= 20 and PM25_value  <= 25:
-        PM25_mean_cathegory_label = "Accettabile"
-        PM25_mean_cathegory = "terza"
+        elif pollutant_concentration >= 10 and pollutant_concentration  <= 20:
+            pollutant_concentration_cathegory_label = "Buona"
+            pollutant_concentration_cathegory_number = "seconda"
+        
+        elif pollutant_concentration >= 20 and pollutant_concentration  <= 25:
+            pollutant_concentration_cathegory_label = "Accettabile"
+            pollutant_concentration_cathegory_number = "terza"
 
-    elif PM25_value >= 25 and PM25_value  <= 50:
-        PM25_mean_cathegory_label = "Fuori legge"
-        PM25_mean_cathegory = "quarta"
+        elif pollutant_concentration >= 25 and pollutant_concentration  <= 50:
+            pollutant_concentration_cathegory_label = "Fuori legge"
+            pollutant_concentration_cathegory_number = "quarta"
 
-    elif PM25_value >= 50 and PM25_value  <= 100:
-        PM25_mean_cathegory_label = "Pericolosa"
-        PM25_mean_cathegory = "quinta"
+        elif pollutant_concentration >= 50 and pollutant_concentration  <= 100:
+            pollutant_concentration_cathegory_label = "Pericolosa"
+            pollutant_concentration_cathegory_number = "quinta"
 
-    elif PM25_value >= 100:
-        PM25_mean_cathegory_label = "Emergenziale"
-        PM25_mean_cathegory = "sesta"
+        elif pollutant_concentration >= 100:
+            pollutant_concentration_cathegory_label = "Emergenziale"
+            pollutant_concentration_cathegory_number = "sesta"
+
+        else:
+            pollutant_concentration_cathegory_label = "No_data"
+            pollutant_concentration_cathegory_number = None
 
     else:
-        PM25_mean_cathegory_label = "No_data"
-        PM25_mean_cathegory = None
+        raise UnknownPollutantException(pollutant_label, POLLUTANTS_LABELS)
+    
+    tuple_of_results = (
+        pollutant_concentration_cathegory_label, 
+        pollutant_concentration_cathegory_number
+    )
 
-    return (PM25_mean_cathegory_label, PM25_mean_cathegory)
-
+    return  tuple_of_results

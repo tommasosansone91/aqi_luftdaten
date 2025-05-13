@@ -13,7 +13,7 @@ from django.db.models.query import QuerySet
 from pm_lookup.configs.constants import ALL_SENSORS_DATA_URL, KILOMETERS_TO_COORDINATES_POINTS_DISTANCE
 from pm_lookup.models import TargetArea
 
-from .air_quality_evaluators import evaluate_PM10, evaluate_PM25
+from .air_quality_evaluators import evaluate_pollutant_concentration
 
 # per conversione della timezone e check ora legale
 from .time_converters import convert_datetime_timezone, add_one_hour
@@ -187,9 +187,9 @@ def extract_data_from_sensors_network_for_all_places():
         #  se lo metto dice che deve essere formattato in formato che mantega anche la timezone
 
         # passo in entrata un valore del pm e mi viene restituito in uscita il messaggio e la classe css corrispondente
-        [PM10_mean_cathegory_label, PM10_mean_cathegory] = evaluate_PM10(PM10_mean)
+        [PM10_mean_cathegory_label, PM10_mean_cathegory] = evaluate_pollutant_concentration("PM10", PM10_mean)
 
-        [PM25_mean_cathegory_label, PM25_mean_cathegory] = evaluate_PM25(PM25_mean)
+        [PM25_mean_cathegory_label, PM25_mean_cathegory] = evaluate_pollutant_concentration("PM25", PM25_mean)
             
 
 

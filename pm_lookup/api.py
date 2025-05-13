@@ -9,7 +9,7 @@ from .models import HistoricalDatapoints
 from .models import DatapointsSerieParameters
 from .models import DatapointsSerieComputed
 
-from .processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
+from .processing.utils.air_quality_evaluators import evaluate_pollutant_concentration
 
 from .processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints
 
@@ -118,11 +118,11 @@ def historical_datapoints_subset_api(request):
             "PM10_mean": dp.PM10_mean,
             "PM25_mean": dp.PM25_mean,
 
-            "PM10_mean_cathegory_label" : evaluate_PM10(dp.PM10_mean)[0],
-            "PM25_mean_cathegory_label"  : evaluate_PM25(dp.PM10_mean)[0],
+            "PM10_mean_cathegory_label" : evaluate_pollutant_concentration("PM10", dp.PM10_mean)[0],
+            "PM25_mean_cathegory_label"  : evaluate_pollutant_concentration("PM25", dp.PM10_mean)[0],
 
-            "PM10_mean_cathegory_value" : evaluate_PM10(dp.PM10_mean)[1],
-            "PM25_mean_cathegory_value" : evaluate_PM25(dp.PM10_mean)[1],
+            "PM10_mean_cathegory_value" : evaluate_pollutant_concentration("PM10", dp.PM10_mean)[1],
+            "PM25_mean_cathegory_value" : evaluate_pollutant_concentration("PM25", dp.PM10_mean)[1],
 
             "number_of_contributing_sensors": dp.number_of_contributing_sensors,
             "uuid": str(dp.uuid),
@@ -241,11 +241,11 @@ def realtime_datapoint_detail_api(request, pk):
                         "PM10_mean" : realtime_datapoint.PM10_mean,
                         "PM25_mean" : realtime_datapoint.PM25_mean, 
 
-                        "PM10_mean_cathegory_label" : evaluate_PM10(realtime_datapoint.PM10_mean)[0],
-                        "PM25_mean_cathegory_label"  : evaluate_PM25(realtime_datapoint.PM10_mean)[0],
+                        "PM10_mean_cathegory_label" : evaluate_pollutant_concentration("PM10", realtime_datapoint.PM10_mean)[0],
+                        "PM25_mean_cathegory_label"  : evaluate_pollutant_concentration("PM25", realtime_datapoint.PM10_mean)[0],
 
-                        "PM10_mean_cathegory_value" : evaluate_PM10(realtime_datapoint.PM10_mean)[1],
-                        "PM25_mean_cathegory_value" : evaluate_PM25(realtime_datapoint.PM10_mean)[1],
+                        "PM10_mean_cathegory_value" : evaluate_pollutant_concentration("PM10", realtime_datapoint.PM10_mean)[1],
+                        "PM25_mean_cathegory_value" : evaluate_pollutant_concentration("PM25", realtime_datapoint.PM10_mean)[1],
 
                         "number_of_contributing_sensors" : realtime_datapoint.number_of_contributing_sensors,
 
@@ -283,10 +283,10 @@ def computed_serie_detail_api(request, pk):
         PM10_mean_values = ast.literal_eval(computed_serie.PM10_mean_values)
         PM25_mean_values = ast.literal_eval(computed_serie.PM25_mean_values)
 
-        PM10_mean_cathegory_label_values = [ evaluate_PM10(i)[0] for i in PM10_mean_values ]
-        PM25_mean_cathegory_label_values = [ evaluate_PM25(i)[0] for i in PM25_mean_values ]
-        PM10_mean_cathegory_values = [ evaluate_PM10(i)[1] for i in PM10_mean_values ]
-        PM25_mean_cathegory_values = [ evaluate_PM25(i)[1] for i in PM25_mean_values ]
+        PM10_mean_cathegory_label_values = [ evaluate_pollutant_concentration("PM10", i)[0] for i in PM10_mean_values ]
+        PM25_mean_cathegory_label_values = [ evaluate_pollutant_concentration("PM25", i)[0] for i in PM25_mean_values ]
+        PM10_mean_cathegory_values = [ evaluate_pollutant_concentration("PM10", i)[1] for i in PM10_mean_values ]
+        PM25_mean_cathegory_values = [ evaluate_pollutant_concentration("PM25", i)[1] for i in PM25_mean_values ]
         
         data = {
                 # "area":dict(area).items()

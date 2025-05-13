@@ -225,6 +225,12 @@ POLLUTANTS_DATA = {
 # keys should be unique
 # the constant should be immutable
 
+# data summaries
+#----------------
+
+POLLUTANTS_LABELS = list(POLLUTANTS_DATA.keys())
+
+
 
 # data checks
 #-------------

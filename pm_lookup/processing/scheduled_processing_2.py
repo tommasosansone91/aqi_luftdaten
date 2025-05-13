@@ -14,7 +14,7 @@ from pm_lookup.drawers.drawers_1 import draw_timeserie_pollutant_graph
 # errore sopraggiunto dopo il reset del db?
 from pm_lookup.processing.utils.time_converters import fix_timezone_mismatch_in_array_of_datetimes
 
-from pm_lookup.processing.utils.air_quality_evaluators import evaluate_PM10, evaluate_PM25
+from pm_lookup.processing.utils.air_quality_evaluators import evaluate_pollutant_concentration
 from pm_lookup.processing.utils.graphs_drawing_helpers import return_graph_title
 
 from pm_lookup.configs.pollutants_data import POLLUTANTS_DATA
@@ -105,8 +105,8 @@ def generate_series_and_draw_graphs():
                 PM25_mean = round(np.mean(PM25_array), 2)
 
                 # evaluating the air quality for the means of pollutants
-                PM10_mean_cathegory_label, PM10_mean_cathegory = evaluate_PM10(PM10_mean)
-                PM25_mean_cathegory_label, PM25_mean_cathegory = evaluate_PM25(PM25_mean)
+                PM10_mean_cathegory_label, PM10_mean_cathegory = evaluate_pollutant_concentration("PM10", PM10_mean)
+                PM25_mean_cathegory_label, PM25_mean_cathegory = evaluate_pollutant_concentration("PM25", PM25_mean)
 
                 
                 aggregation_window_dict = {
