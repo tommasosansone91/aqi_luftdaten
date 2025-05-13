@@ -7,13 +7,13 @@ POLLUTANTS_DATA = {
         {
             "name": "PM10",
             "unit_of_measure": "[µg/m³]",
-            "AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP": 
+            "aggregation_period_vs_pollutant_concentration_thresholds_map": 
                 ( 
                     ( timedelta(days=1)   , 50 ) ,
                     ( timedelta(days=365) , 40 ) 
                 )
             ,
-            "AIR_QUALITY_CATEGORIES_GEOMETRIES":
+            "air_quality_categories_geometries":
                 [
                     # Fascia colorata di qualità dell’aria 1
                     dict(
@@ -115,13 +115,13 @@ POLLUTANTS_DATA = {
         {
             "name": "PM2.5",
             "unit_of_measure": "[µg/m³]",
-            "AGGREGATION_PERIOD_VS_POLLUTANT_CONCENTRATION_THRESHOLDS_MAP": 
+            "aggregation_period_vs_pollutant_concentration_thresholds_map": 
                 ( 
                     ( timedelta(days=1)   , 25 ) ,
                     ( timedelta(days=365) , 10 ) 
                 )
             ,
-            "AIR_QUALITY_CATEGORIES_GEOMETRIES":
+            "air_quality_categories_geometries":
                 [
                     # Fascia colorata di qualità dell’aria 1
                     dict(
@@ -236,6 +236,6 @@ POLLUTANTS_LABELS = list(POLLUTANTS_DATA.keys())
 #-------------
 
 for pollutant, data in POLLUTANTS_DATA.items():
-    if "AIR_QUALITY_CATEGORIES_GEOMETRIES" in data:
-        assert isinstance(data["AIR_QUALITY_CATEGORIES_GEOMETRIES"], list), \
-            f"{pollutant} -> 'AIR_QUALITY_CATEGORIES_GEOMETRIES' deve essere una lista"
+    if "air_quality_categories_geometries" in data:
+        assert isinstance(data["air_quality_categories_geometries"], list), \
+            f"{pollutant} -> 'air_quality_categories_geometries' deve essere una lista"
