@@ -179,31 +179,35 @@ def generate_series_and_draw_graphs():
         PM10_values_array = np.array(PM10_mean_values)
         PM25_values_array = np.array(PM25_mean_values)  
         
-        customdata = np.array(list(zip(mean_number_of_contributing_sensors_values)))
-
+        # additional data to display in hover template - mandatory use of customdata go.Scatter argument
         # e.g.
         # customdata = np.array(list(zip(extra_info_values_1, extra_info_values_2)))
+        
+        PM10_customdata = np.array(
+                        list(
+                            zip(
+                                mean_number_of_contributing_sensors_values,
+                                PM10_mean_cathegory_label_values
+                                )
+                            )
+        )
+
+        PM25_customdata = np.array(
+                        list(
+                            zip(
+                                mean_number_of_contributing_sensors_values,
+                                PM25_mean_cathegory_label_values
+                                )
+                            )
+        )
+
+        
+
 
         if PM10_values_array.size == 0:
             graph_PM10="NO DATA"
 
-        else:  
-
-            # introdurre i limiti solo se aggregation period = 1 day
-            # recupera logica da commmit delle serie giornaliere
-
-            # colora il retro del grafico per fasce anzichè fare le linee di soglia
-
-            # questo script è orario, non servono i limiti normativi
-            
-            # pm10 maxs
-            # PM10_threshold = np.array([50 for i in time_values])
-            # PM10_annual_mean_max = np.array([40 for i in time_values])
-
-            #PM2.5 maxs
-            # PM25_annual_mean_max = np.array([20 for i in time_values])
-
-            # trovare un modo per far comparire nelle etichette del grafico
+        else:
             
             # traccio i grafici e ottengo il javascript
             # bring contstants to a graph contats page
@@ -236,7 +240,7 @@ def generate_series_and_draw_graphs():
                                         graph_title=graph_PM10_title,
                                         pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
                                         pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
-                                        customdata=customdata
+                                        customdata=PM10_customdata
                                     )
 
             else:
@@ -247,7 +251,7 @@ def generate_series_and_draw_graphs():
                                 graph_title=graph_PM10_title,
                                 pollutant_name=POLLUTANTS_DATA["PM10"]["name"],
                                 pollutant_uom=POLLUTANTS_DATA["PM10"]["unit_of_measure"],
-                                customdata=customdata,
+                                customdata=PM10_customdata,
                             )
         
         if PM25_values_array.size == 0:
@@ -273,7 +277,7 @@ def generate_series_and_draw_graphs():
                                         graph_title=graph_PM25_title,
                                         pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
                                         pollutant_uom=POLLUTANTS_DATA["PM25"]["unit_of_measure"],
-                                        customdata=customdata,
+                                        customdata=PM25_customdata,
                                     )
 
             else:
@@ -284,7 +288,7 @@ def generate_series_and_draw_graphs():
                                 graph_title=graph_PM25_title,
                                 pollutant_name=POLLUTANTS_DATA["PM25"]["name"],
                                 pollutant_uom=POLLUTANTS_DATA["PM25"]["unit_of_measure"],
-                                customdata=customdata,
+                                customdata=PM25_customdata,
                             )
 
 

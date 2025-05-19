@@ -20,23 +20,24 @@ def draw_timeserie_pollutant_graph(
     # starting by the asterisk, all aruments must be passed with their names, as keyword arguments
 
     pollutant_line = go.Scatter(
-                    x=time_values, 
-                    y=pollutant_values,
-                    mode='lines+markers',
-                    name="{} {}".format(pollutant_name, pollutant_uom), 
+                        x=time_values, 
+                        y=pollutant_values,
+                        mode='lines+markers',
+                        name="{} {}".format(pollutant_name, pollutant_uom), 
 
-                    marker=dict(
-                                color='rgb(128,128,128)',
-                                ),
-                    
-                    # include the variable in input here as plotly graph element
-                    customdata=customdata,
+                        marker=dict(
+                                    color='rgb(128,128,128)',
+                                    ),
+                        
+                        # include the variable in input here as plotly graph element
+                        customdata=customdata,
 
-                    hovertemplate=
-                        'Data: %{x|%d-%m-%Y}<br>' +
-                        'Ora: %{x|%H:%M}<br>' +
-                        'Sensori contribuenti: %{customdata[0]}<br>' +
-                        'Concentrazione {}: %{{y:.2f}} {}<br>'.format(pollutant_name, pollutant_uom)          
+                        hovertemplate=
+                            'Data: %{x|%d-%m-%Y}<br>' +
+                            'Ora: %{x|%H:%M}<br>' +
+                            'Sensori contribuenti: %{customdata[0]}<br>' +
+                            'Concentrazione {}: %{{y:.2f}} {}<br>'.format(pollutant_name, pollutant_uom) +
+                            'Categoria AQI: %{customdata[1]}<br>'        
                     )
 
     #scelta di aggiunta al grafico della linea di massima della normativa
