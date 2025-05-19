@@ -1,6 +1,6 @@
 
 
-targetarea
+AreaParametersSet
 
 milano
 45.464145 
@@ -22,7 +22,7 @@ milano timehorizon=1day timedelta=1h
 
 
 
-  PGPASSWORD=aqimain pg_dump -U luftdaten_main -d aqiluftdaten -t pm_lookup_targetarea \
+  PGPASSWORD=aqimain pg_dump -U luftdaten_main -d aqiluftdaten -t pm_lookup_AreaParametersSet \
   --data-only \
   --inserts \
   --column-inserts \

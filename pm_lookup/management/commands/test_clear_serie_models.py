@@ -7,8 +7,8 @@
 
 from django.core.management.base import BaseCommand
 from pm_lookup.models import \
-    DatapointsSerieParameters, \
-    DatapointsSerieComputed
+    SerieParametersSet, \
+    ComputedSerie
 
 """
 This command is to delete all data in the series models.
@@ -20,5 +20,5 @@ class Command(BaseCommand):
         # RealtimeDatapoints.objects.all().delete()
 
         # deleting the series(+graphs), not the historical dataponts
-        DatapointsSerieParameters.objects.all().delete()
-        DatapointsSerieComputed.objects.all().delete()
+        SerieParametersSet.objects.all().delete()
+        ComputedSerie.objects.all().delete()

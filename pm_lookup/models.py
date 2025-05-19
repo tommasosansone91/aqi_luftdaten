@@ -24,7 +24,7 @@ import uuid
 # and not only when the models module is imported
 
 
-class TargetArea(models.Model):
+class AreaParametersSet(models.Model):
 
     # id = models.AutoField(primary_key=True)
 
@@ -77,27 +77,31 @@ class TargetArea(models.Model):
                                                         )  
 
     class Meta:
-        ordering = ['-radius', 'name']
+        ordering = [
+            '-radius', 
+            'name'
+        ]
 
         unique_together = ('latitude', 'longitude', 'radius')
 
-
+        verbose_name = "set of parameters of area"  # Nome al singolare
+        verbose_name_plural = "sets of parameters of areas"  # Nome al plurale
 
 
 class RealtimeDatapoints(models.Model):
 
-    target_area = models.OneToOneField(
-        'TargetArea',
+    area_parameters_set = models.OneToOneField(
+        'AreaParametersSet',
         on_delete=models.CASCADE,
         
     )
     
     # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .name. .radius, ecc
     
-    # TargetArea_name = models.ForeignKey(
-    #     'TargetArea',
-    #     # TargetArea_name = models.ForeignKey('TargetArea', on_delete....)
-    #     # vuol dire: in questo campo metti l'id del modello 'TargetArea'
+    # AreaParametersSet_name = models.ForeignKey(
+    #     'AreaParametersSet',
+    #     # AreaParametersSet_name = models.ForeignKey('AreaParametersSet', on_delete....)
+    #     # vuol dire: in questo campo metti l'id del modello 'AreaParametersSet'
         
     #     # nota che l'attributo è in minuscolo
     #     on_delete=models.CASCADE,
@@ -126,8 +130,8 @@ class RealtimeDatapoints(models.Model):
 
     def __str__(self):       
         return  "%s (%s) [ %s ]"  %  (
-                                    self.target_area.name,
-                                    self.target_area.id, 
+                                    self.area_parameters_set.name,
+                                    self.area_parameters_set.id, 
                                     datetime.strftime(
                                         self.last_update_time, 
                                         "%H:%M:%S %d-%m-%Y"
@@ -136,9 +140,12 @@ class RealtimeDatapoints(models.Model):
 
 
     class Meta:
-        ordering = ['-target_area__radius', 'target_area__name']
+        ordering = [
+            '-area_parameters_set__radius', 
+            'area_parameters_set__name'
+        ]
         # fixato così
-        # ordering = ['-target_area.radius', 'target_area.name']
+        # ordering = ['-area_parameters_set.radius', 'area_parameters_set.name']
 
         verbose_name = "realtime datapoint"  # Nome al singolare
         verbose_name_plural = "realtime datapoints"  # Nome al plurale
@@ -146,8 +153,8 @@ class RealtimeDatapoints(models.Model):
 
 class HistoricalDatapoints(models.Model):
 
-    target_area = models.ForeignKey(
-        'TargetArea',
+    area_parameters_set = models.ForeignKey(
+        'AreaParametersSet',
         on_delete=models.CASCADE,
         
     )
@@ -167,8 +174,8 @@ class HistoricalDatapoints(models.Model):
 
     def __str__(self):       
         return  "%s (%s) [ %s ]"  %  (
-                                    self.target_area.name, 
-                                    self.target_area.id, 
+                                    self.area_parameters_set.name, 
+                                    self.area_parameters_set.id, 
                                     datetime.strftime(
                                         self.last_update_time, 
                                         "%H:%M:%S %d-%m-%Y"
@@ -177,9 +184,13 @@ class HistoricalDatapoints(models.Model):
         
  
     class Meta:
-        ordering = ['-last_update_time', '-target_area__radius', 'target_area__name']
+        ordering = [
+            '-last_update_time', 
+            '-area_parameters_set__radius', 
+            'area_parameters_set__name'
+        ]
 
-        unique_together = ('target_area', 'last_update_time')
+        unique_together = ('area_parameters_set', 'last_update_time')
         # altrimenti non ha senso salvare un altro record... se è lo stesso
         # metto il try nel momento del salvataggio
 
@@ -192,10 +203,10 @@ class HistoricalDatapoints(models.Model):
 # --------------------------------
 
 
-class DatapointsSerieParameters(models.Model):
+class SerieParametersSet(models.Model):
 
-    target_area = models.ForeignKey(
-        'TargetArea',
+    area_parameters_set = models.ForeignKey(
+        'AreaParametersSet',
         on_delete=models.CASCADE,
         
     )
@@ -253,24 +264,27 @@ class DatapointsSerieParameters(models.Model):
     # dafult: create a time serie of 1h aggregation and having a 1-day time horizon
 
     def __str__(self):       
-        return  "%s ( %s ) (%s)"  %  ( self.title , self.target_area.name, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME )  
+        return  "%s ( %s ) (%s)"  %  ( self.title , self.area_parameters_set.name, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME )  
         
  
     class Meta:
-        ordering = ['-target_area__radius', 'target_area__name']
+        ordering = [
+            '-area_parameters_set__radius', 
+            'area_parameters_set__name'
+        ]
 
-        unique_together = ('target_area', 'time_horizon', 'aggregation_period')
+        unique_together = ('area_parameters_set', 'time_horizon', 'aggregation_period')
 
         verbose_name = SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME  # Nome al singolare
         verbose_name_plural = "sets of parameters of series"  # Nome al plurale
 
 
 
-class DatapointsSerieComputed(models.Model):
+class ComputedSerie(models.Model):
 
-    # one DatapointsSerieParameters can have only one corresponding DatapointsSerieComputed
-    datapoints_serie_parameters = models.OneToOneField(
-        'DatapointsSerieParameters',
+    # one SerieParametersSet can have only one corresponding ComputedSerie
+    serie_parameters_set = models.OneToOneField(
+        'SerieParametersSet',
         on_delete=models.CASCADE,
     )
     # il primo attributo è il modello cui è associato
@@ -289,14 +303,14 @@ class DatapointsSerieComputed(models.Model):
 
 
     def __str__(self):       
-        return  "%s ( %s ) (%s)"  %  ( self.datapoints_serie_parameters.title , self.datapoints_serie_parameters.target_area.name, COMPUTED_SERIE_META_VERBOSE_NAME )  
+        return  "%s ( %s ) (%s)"  %  ( self.serie_parameters_set.title , self.serie_parameters_set.area_parameters_set.name, COMPUTED_SERIE_META_VERBOSE_NAME )  
         
  
     class Meta:
         ordering = [
-            '-datapoints_serie_parameters__target_area__radius',
-            'datapoints_serie_parameters__target_area__name'
-            ]
+            '-serie_parameters_set__area_parameters_set__radius',
+            'serie_parameters_set__area_parameters_set__name'
+        ]
 
         verbose_name = COMPUTED_SERIE_META_VERBOSE_NAME  # Nome al singolare
         verbose_name_plural = "computed series"  # Nome al plurale

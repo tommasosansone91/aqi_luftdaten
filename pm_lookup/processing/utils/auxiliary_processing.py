@@ -1,6 +1,6 @@
 
 # servono a copy_RealtimeDatapoints_objects_in_HistoricalDatapoints()
-from pm_lookup.models import TargetArea
+from pm_lookup.models import AreaParametersSet
 from pm_lookup.models import RealtimeDatapoints
 from pm_lookup.models import HistoricalDatapoints
 
@@ -12,14 +12,14 @@ def copy_RealtimeDatapoints_objects_in_HistoricalDatapoints():
 
     for element in latest_data: 
 
-        element_id = element.target_area.id
-        element_name = element.target_area.name
+        element_id = element.area_parameters_set.id
+        element_name = element.area_parameters_set.name
         
 
         try:       
 
             new_record = HistoricalDatapoints(
-                                                    TargetArea=TargetArea.objects.get(id=element_id),
+                                                    AreaParametersSet=AreaParametersSet.objects.get(id=element_id),
                                                     
                                                     # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
                                                     # quindi qui dico: salva i dati nel campo foreign key 
@@ -50,7 +50,7 @@ def copy_RealtimeDatapoints_objects_in_HistoricalDatapoints():
             print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
             # questo vincolo c'è solo sui dati storici
 
-            print("Viene impedita l'aggiunta del record [area di interesse: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.target_area.name, element.last_update_time, element.PM10_mean, element.PM25_mean) )
+            print("Viene impedita l'aggiunta del record [area di interesse: %s Timestamp: %s PM10: %s PM2.5: %s] alla serie storica ." % (element.area_parameters_set.name, element.last_update_time, element.PM10_mean, element.PM25_mean) )
             print("I dati acquisiti non sono stati salvati.")
 
 

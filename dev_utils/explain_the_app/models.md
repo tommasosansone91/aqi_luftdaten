@@ -2,7 +2,7 @@
 
 ## Input models
 
-#### TargetAreas	
+#### AreaParametersSets	
 
 This models contains the information about the areas in which we want to track data.
 
@@ -30,7 +30,7 @@ This model contains the lastest recorded raw data, for each location.
 
 ### Series data models
 
-#### DatapointsSerieParameters
+#### SerieParametersSet
 
 This model contains the raw serie of data, for each location.
 

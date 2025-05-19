@@ -11,7 +11,7 @@ import requests
 from django.db.models.query import QuerySet
 
 from pm_lookup.configs.constants import ALL_SENSORS_DATA_URL, KILOMETERS_TO_COORDINATES_POINTS_DISTANCE
-from pm_lookup.models import TargetArea
+from pm_lookup.models import AreaParametersSet
 
 from .air_quality_evaluators import evaluate_pollutant_concentration
 
@@ -45,8 +45,8 @@ def extract_data_from_sensors_network_for_all_places():
         print("Errore: il contenuto della response non è un JSON valido. \n{}".format(e))
 
     # prende dati input
-    input_data: QuerySet[TargetArea] = TargetArea.objects.all()
-    # explicit declaration of input_data being type QuerySet[TargetArea]
+    input_data: QuerySet[AreaParametersSet] = AreaParametersSet.objects.all()
+    # explicit declaration of input_data being type QuerySet[AreaParametersSet]
 
     # dai dati acquisiti, individua quelli che corrispondono al perimetro delle aree di interesse selezionate, 
     # e salvane i valori
@@ -202,7 +202,7 @@ def extract_data_from_sensors_network_for_all_places():
 
         processed_data_from_detected_sensors_for_one_place = {
 
-            "target_area_id": place_id,
+            "area_parameters_set_id": place_id,
             # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
             # quindi qui dico: salva i dati nel campo foreign key 
             # che rimanda all'oggetto avente per id quello che mi sono salvato

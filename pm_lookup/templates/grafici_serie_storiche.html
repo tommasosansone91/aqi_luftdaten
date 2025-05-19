@@ -31,17 +31,17 @@
 
         {% for serie_data in datapoints_serie_computed %}
 
-            <h3>{{serie_data.datapoints_serie_parameters.title}} ({{ serie_data.datapoints_serie_parameters.target_area.name }})</h3>
+            <h3>{{serie_data.serie_parameters_set.title}} ({{ serie_data.serie_parameters_set.area_parameters_set.name }})</h3>
 
             <br>
 
             <p>
                 
                 I valori si riferiscono ad una media aritmetica eseguita sui valori registrati dalle centraline 
-                nel raggio di {{serie_data.datapoints_serie_parameters.target_area.radius}} km dal punto di coordinate 
+                nel raggio di {{serie_data.serie_parameters_set.area_parameters_set.radius}} km dal punto di coordinate 
                 (
-                    <a target="_blank"  href="https://www.google.com/search?q={{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}">
-                        {{serie_data.datapoints_serie_parameters.target_area.latitude}}, {{serie_data.datapoints_serie_parameters.target_area.longitude}}
+                    <a target="_blank"  href="https://www.google.com/search?q={{serie_data.serie_parameters_set.area_parameters_set.latitude}}, {{serie_data.serie_parameters_set.area_parameters_set.longitude}}">
+                        {{serie_data.serie_parameters_set.area_parameters_set.latitude}}, {{serie_data.serie_parameters_set.area_parameters_set.longitude}}
                     </a>
                 ).
             

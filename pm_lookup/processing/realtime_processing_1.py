@@ -1,5 +1,5 @@
 
-from pm_lookup.models import TargetArea
+from pm_lookup.models import AreaParametersSet
 from pm_lookup.models import RealtimeDatapoints
 
 from pm_lookup.processing.utils.sensors_network_data_processing import extract_data_from_sensors_network_for_all_places
@@ -20,8 +20,8 @@ def get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints():
 
             new_realtime_record = RealtimeDatapoints(
                 
-                target_area = TargetArea.objects.get(
-                    id=place["target_area_id"]
+                area_parameters_set = AreaParametersSet.objects.get(
+                    id=place["area_parameters_set_id"]
                     ),
 
                 last_update_time = place["last_update_time"],
@@ -39,8 +39,8 @@ def get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints():
             
             new_realtime_record.save()
 
-            object_place = TargetArea.objects.get(
-                    id=place["target_area_id"]
+            object_place = AreaParametersSet.objects.get(
+                    id=place["area_parameters_set_id"]
                     )
 
             print("Dati per %s salvati nel modello realtime!" % object_place.name)

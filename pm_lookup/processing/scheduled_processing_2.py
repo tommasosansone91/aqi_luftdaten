@@ -4,8 +4,8 @@ from django.utils import timezone
 import numpy as np
 
 from pm_lookup.models import HistoricalDatapoints
-from pm_lookup.models import DatapointsSerieParameters
-from pm_lookup.models import DatapointsSerieComputed
+from pm_lookup.models import SerieParametersSet
+from pm_lookup.models import ComputedSerie
 
 # importo i drawers
 from pm_lookup.drawers.drawers_1 import draw_timeserie_pollutant_graph
@@ -19,19 +19,19 @@ from pm_lookup.processing.utils.graphs_drawing_helpers import return_graph_title
 
 from pm_lookup.configs.pollutants_data import POLLUTANTS_DATA
 
-# this function must parse all the datapointsserieparameters 
+# this function must parse all the SerieParametersSet 
 # and build the correspondant serie for each of them.
 
 
 def generate_series_and_draw_graphs():
 
-    DatapointsSerieComputed.objects.all().delete()
+    ComputedSerie.objects.all().delete()
 
-    print("Eliminate tutte le serie storiche in DatapointsSerieComputed!")
+    print("Eliminate tutte le serie storiche in ComputedSerie!")
 
     print("Inizio generazione serie di dati ed elementi del grafico per ogni set di parametri definito...")
 
-    sets_of_serie_parameters = DatapointsSerieParameters.objects.all()
+    sets_of_serie_parameters = SerieParametersSet.objects.all()
 
 
     for set_osp in sets_of_serie_parameters:
@@ -39,7 +39,7 @@ def generate_series_and_draw_graphs():
         # filter the historical datapoints based on the place and time horizon
         #---------------------------------------------------------------------
 
-        area_di_interesse = set_osp.target_area
+        area_di_interesse = set_osp.area_parameters_set
         aggregation_window_duration = set_osp.aggregation_period
         time_horizon = set_osp.time_horizon
 
@@ -53,7 +53,7 @@ def generate_series_and_draw_graphs():
         # isola i record di una area di interesse - è cmq un gruppo di oggetti
         # e di un certo periodo di tempo
         records_serie_storica = HistoricalDatapoints.objects.filter(
-            target_area = area_di_interesse,
+            area_parameters_set = area_di_interesse,
             # last_update_time__gte = timezone.now() - timedelta(days=n_giorni),
             last_update_time__gte = start_time,
             last_update_time__lte = end_time
@@ -207,7 +207,7 @@ def generate_series_and_draw_graphs():
             
             # traccio i grafici e ottengo il javascript
             # bring contstants to a graph contats page
-            improved_set_of_parameters_title = '"{}" ( {} )'.format(set_osp.title, set_osp.target_area.name)
+            improved_set_of_parameters_title = '"{}" ( {} )'.format(set_osp.title, set_osp.area_parameters_set.name)
 
             graph_PM10_title = return_graph_title(pollutant_name="PM10", set_of_parameters_title=improved_set_of_parameters_title)
             graph_PM25_title = return_graph_title(pollutant_name="PM2.5", set_of_parameters_title=improved_set_of_parameters_title)
@@ -288,13 +288,13 @@ def generate_series_and_draw_graphs():
                             )
 
 
-        # save data into DatapointsSerieComputed object
+        # save data into ComputedSerie object
 
         # lists must be stringified
         
-        new_datapoints_serie_computed_element = DatapointsSerieComputed(
+        new_datapoints_serie_computed_element = ComputedSerie(
 
-            datapoints_serie_parameters = set_osp,
+            serie_parameters_set = set_osp,
 
             # questi sono vettori di valori
 
