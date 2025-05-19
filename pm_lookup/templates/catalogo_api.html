@@ -42,7 +42,7 @@
     <h5>Lista di tutte le aree di interesse e dei relativi parametri di definizione</h5>
 
     <div class="container">
-    <code><a target="_blank" href="{% url 'areas_list' %}">{{ request.get_host }}{% url 'areas_list' %}</a></code>
+    <code><a target="_blank" href="{% url 'area_parameters_set_list' %}">{{ request.get_host }}{% url 'area_parameters_set_list' %}</a></code>
     </div>
 
     <br><br>
@@ -51,7 +51,7 @@
     <h5>Lista di tutti i set di parametri che definiscono le serie storiche</h5>
 
     <div class="container">
-    <code><a target="_blank" href="{% url 'sets_of_parameters_of_series_list' %}">{{ request.get_host }}{% url 'sets_of_parameters_of_series_list' %}</a></code>
+    <code><a target="_blank" href="{% url 'serie_parameters_set_list' %}">{{ request.get_host }}{% url 'serie_parameters_set_list' %}</a></code>
     </div>
 
     <br><br>
@@ -89,7 +89,7 @@
 
     
     <div class="container">
-    <code><a target="_blank" href="{% url 'area_detail' pk=1 %}">{{ request.get_host }}{% url 'area_detail' pk=1 %}</a></code>
+    <code><a target="_blank" href="{% url 'area_parameters_set_detail' pk=1 %}">{{ request.get_host }}{% url 'area_parameters_set_detail' pk=1 %}</a></code>
     </div>
 
     <br><br>
@@ -99,7 +99,7 @@
 
     
     <div class="container">
-    <code><a target="_blank" href="{% url 'parameters_for_serie_detail' pk=1 %}">{{ request.get_host }}{% url 'parameters_for_serie_detail' pk=1 %}</a></code>
+    <code><a target="_blank" href="{% url 'serie_parameters_set_detail' pk=1 %}">{{ request.get_host }}{% url 'serie_parameters_set_detail' pk=1 %}</a></code>
     </div>
 
     <br><br>
@@ -109,7 +109,7 @@
 
     
     <div class="container">
-    <code><a target="_blank" href="{% url 'realtime_datapoints_detail' pk=1 %}">{{ request.get_host }}{% url 'realtime_datapoints_detail' pk=1 %}</a></code>
+    <code><a target="_blank" href="{% url 'realtime_datapoint_detail' pk=1 %}">{{ request.get_host }}{% url 'realtime_datapoint_detail' pk=1 %}</a></code>
     </div>
 
     <br><br>

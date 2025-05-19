@@ -18,16 +18,16 @@ import ast
 from django.utils.dateparse import parse_datetime
 
 
-
+#############
 # list apis
-#-----------
+#############
 
 # ok
-def areas_list_api(request):
-    areas = AreaParametersSet.objects.all()
+def area_parameters_set_list_api(request):
+    basemanager_of_area_parameters_set = AreaParametersSet.objects.all()
     data = {
-            "areas": list(
-                areas.values(
+            "list_of_area_parameters_set": list(
+                basemanager_of_area_parameters_set.values(
                     "pk",
                     "name",
                     "longitude",
@@ -40,11 +40,11 @@ def areas_list_api(request):
     return response
 
 # ok
-def sets_of_parameters_of_series_list_api(request):
-    parameters_for_series = SerieParametersSet.objects.all()
+def serie_parameters_set_list_api(request):
+    basemanager_of_serie_parameters_set = SerieParametersSet.objects.all()
     data = {
-            "sets_of_parameters_of_series": list(
-                parameters_for_series.values(
+            "list_of_serie_parameters_set": list(
+                basemanager_of_serie_parameters_set.values(
                     "pk",
                     "area_parameters_set",
                     "title",
@@ -72,11 +72,11 @@ def sets_of_parameters_of_series_list_api(request):
 
 #     return response
 
-
+####################
 # multifilter apis
-#-------------------
+####################
 
-def historical_datapoints_subset_api(request):
+def historical_datapoint_subset_api(request):
 
     area_parameters_set = request.GET.get('area_parameters_set')
     start_date = request.GET.get('start_date')
@@ -100,16 +100,16 @@ def historical_datapoints_subset_api(request):
             status=400
         )
 
-    datapoints_subset = HistoricalDatapoints.objects.filter(
+    basemanager_of_historical_datapoint = HistoricalDatapoints.objects.filter(
         area_parameters_set=area_parameters_set,
         last_update_time__gte=start_date,
         last_update_time__lte=end_date
     )
 
-    list_of_datapoints = []
+    list_of_historical_datapoint = []
 
-    for dp in datapoints_subset:
-        list_of_datapoints.append(
+    for dp in basemanager_of_historical_datapoint:
+        list_of_historical_datapoint.append(
             {
             
             "area_parameters_set": dp.area_parameters_set.id,
@@ -131,7 +131,7 @@ def historical_datapoints_subset_api(request):
         )
 
     data = {
-            "historical_datapoints_subset": list_of_datapoints
+            "list_of_historical_datapoints": list_of_historical_datapoint
             }
 
     response = JsonResponse(data, safe=False)
@@ -143,19 +143,19 @@ def historical_datapoints_subset_api(request):
 #--------------
 
 
-def area_detail_api(request, pk):
+def area_parameters_set_detail_api(request, pk):
 
     try:
-        area = AreaParametersSet.objects.get(pk=pk)
+        area_parameters_set = AreaParametersSet.objects.get(pk=pk)
         data = {
                 # "area":dict(area).items()
-                "area":
+                "area_parameters_set":
                     {
-                        "pk":area.pk,
-                        "name":area.name,
-                        "longitude":area.longitude,
-                        "latitude":area.latitude,
-                        "radius":area.radius,
+                        "pk":area_parameters_set.pk,
+                        "name":area_parameters_set.name,
+                        "longitude":area_parameters_set.longitude,
+                        "latitude":area_parameters_set.latitude,
+                        "radius":area_parameters_set.radius,
                     }        
                 } 
         response = JsonResponse(data)
@@ -175,7 +175,7 @@ def area_detail_api(request, pk):
     return response
 
 
-def parameters_for_serie_detail_api(request, pk):
+def serie_parameters_set_detail_api(request, pk):
 
     try:
         parameters_set = SerieParametersSet.objects.get(pk=pk)
@@ -208,7 +208,7 @@ def parameters_for_serie_detail_api(request, pk):
     return response
 
 
-# api/realtime_datapoints_detail/<int:pk>
+# api/realtime_datapoint_detail/<int:pk>
 def realtime_datapoint_detail_api(request, pk):
 
     get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()
@@ -217,13 +217,13 @@ def realtime_datapoint_detail_api(request, pk):
     # and do the vaulation with the helper
 
     try:
-        area = AreaParametersSet.objects.get(pk=pk)
+        area_parameters_set = AreaParametersSet.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        realtime_datapoint = RealtimeDatapoints.objects.get(area_parameters_set=area)
+        realtime_datapoint = RealtimeDatapoints.objects.get(area_parameters_set=area_parameters_set)
 
         data = {
-                # "area":dict(area).items()
+                # "area_parameters_set":dict(area_parameters_set).items()
                 "realtime_datapoint":
                     {   
                         # così la pk per richiamare

@@ -30,8 +30,8 @@ urlpatterns = [
     #-------------
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
-    path('api/areas_list', api.areas_list_api, name="areas_list"),
-    path('api/sets_of_parameters_of_series_list', api.sets_of_parameters_of_series_list_api, name="sets_of_parameters_of_series_list"),
+    path('api/area_parameters_set_list', api.area_parameters_set_list_api, name="area_parameters_set_list"),
+    path('api/serie_parameters_set_list', api.serie_parameters_set_list_api, name="serie_parameters_set_list"),
     # path('api/realtime_datapoints_list', api.realtime_datapoints_list_api, name="realtime_datapoints"),
 
   
@@ -41,9 +41,9 @@ urlpatterns = [
 
     # quindi devo passare in ingresso (URL) il parametro
 
-    path('api/area_detail/<int:pk>', api.area_detail_api, name="area_detail"),
-    path('api/parameters_for_series_detail/<int:pk>', api.parameters_for_serie_detail_api, name="parameters_for_serie_detail"),
-    path('api/realtime_datapoints_detail/<int:pk>', api.realtime_datapoint_detail_api, name="realtime_datapoints_detail"),
+    path('api/area_parameters_set_detail/<int:pk>', api.area_parameters_set_detail_api, name="area_parameters_set_detail"),
+    path('api/serie_parameters_set_detail/<int:pk>', api.serie_parameters_set_detail_api, name="serie_parameters_set_detail"),
+    path('api/realtime_datapoint_detail/<int:pk>', api.realtime_datapoint_detail_api, name="realtime_datapoint_detail"),
     path('api/computed_serie_detail/<int:pk>', api.computed_serie_detail_api, name="computed_serie_detail"),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.
@@ -56,7 +56,7 @@ urlpatterns = [
     # api con molti filtri
     #-----------------------
 
-    path('api/historical_datapoints_subset', api.historical_datapoints_subset_api, name="historical_datapoints_subset"),    
+    path('api/historical_datapoints_subset', api.historical_datapoint_subset_api, name="historical_datapoints_subset"),    
 
 
     
