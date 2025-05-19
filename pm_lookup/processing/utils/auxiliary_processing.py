@@ -1,13 +1,13 @@
 
-# servono a copy_RealtimeDatapoints_objects_in_HistoricalDatapoints()
+# servono a copy_RealtimeDatapoint_objects_in_HistoricalDatapoint()
 from pm_lookup.models import AreaParametersSet
-from pm_lookup.models import RealtimeDatapoints
-from pm_lookup.models import HistoricalDatapoints
+from pm_lookup.models import RealtimeDatapoint
+from pm_lookup.models import HistoricalDatapoint
 
 
-def copy_RealtimeDatapoints_objects_in_HistoricalDatapoints():
+def copy_RealtimeDatapoint_objects_in_HistoricalDatapoint():
 
-    latest_data = RealtimeDatapoints.objects.all()
+    latest_data = RealtimeDatapoint.objects.all()
     
 
     for element in latest_data: 
@@ -18,7 +18,7 @@ def copy_RealtimeDatapoints_objects_in_HistoricalDatapoints():
 
         try:       
 
-            new_record = HistoricalDatapoints(
+            new_record = HistoricalDatapoint(
                                                     AreaParametersSet=AreaParametersSet.objects.get(id=element_id),
                                                     
                                                     # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo

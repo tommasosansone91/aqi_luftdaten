@@ -6,7 +6,7 @@
 
 
 from django.core.management.base import BaseCommand
-from pm_lookup.models import HistoricalDatapoints
+from pm_lookup.models import HistoricalDatapoint
 
 """
 This command is to delete all data in the historical model.
@@ -26,5 +26,5 @@ class Command(BaseCommand):
         print("You typed 'yes'. Continuing...")
 
         # deleting the historical datapoints
-        HistoricalDatapoints.objects.all().delete()
+        HistoricalDatapoint.objects.all().delete()
 

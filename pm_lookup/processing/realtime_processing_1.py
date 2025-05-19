@@ -1,14 +1,14 @@
 
 from pm_lookup.models import AreaParametersSet
-from pm_lookup.models import RealtimeDatapoints
+from pm_lookup.models import RealtimeDatapoint
 
 from pm_lookup.processing.utils.sensors_network_data_processing import extract_data_from_sensors_network_for_all_places
 
 
-def get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints():    
+def get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint():    
 
     # nel modello realtime voglio un solo oggetto per area
-    RealtimeDatapoints.objects.all().delete()
+    RealtimeDatapoint.objects.all().delete()
 
     sensors_network_data = extract_data_from_sensors_network_for_all_places()
 
@@ -18,7 +18,7 @@ def get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints():
 
         try:
 
-            new_realtime_record = RealtimeDatapoints(
+            new_realtime_record = RealtimeDatapoint(
                 
                 area_parameters_set = AreaParametersSet.objects.get(
                     id=place["area_parameters_set_id"]

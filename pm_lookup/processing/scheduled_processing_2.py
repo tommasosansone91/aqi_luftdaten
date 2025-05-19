@@ -3,7 +3,7 @@ from django.utils import timezone
 
 import numpy as np
 
-from pm_lookup.models import HistoricalDatapoints
+from pm_lookup.models import HistoricalDatapoint
 from pm_lookup.models import SerieParametersSet
 from pm_lookup.models import ComputedSerie
 
@@ -52,7 +52,7 @@ def generate_series_and_draw_graphs():
 
         # isola i record di una area di interesse - è cmq un gruppo di oggetti
         # e di un certo periodo di tempo
-        records_serie_storica = HistoricalDatapoints.objects.filter(
+        records_serie_storica = HistoricalDatapoint.objects.filter(
             area_parameters_set = area_di_interesse,
             # last_update_time__gte = timezone.now() - timedelta(days=n_giorni),
             last_update_time__gte = start_time,

@@ -1,15 +1,15 @@
 from django.contrib import admin
 
 from .models import AreaParametersSet
-from .models import RealtimeDatapoints
-from .models import HistoricalDatapoints
+from .models import RealtimeDatapoint
+from .models import HistoricalDatapoint
 from .models import SerieParametersSet
 from .models import ComputedSerie
 
 # Register your models here.
 # admin.site.register(AreaParametersSet)
-# admin.site.register(RealtimeDatapoints)
-# admin.site.register(HistoricalDatapoints)
+# admin.site.register(RealtimeDatapoint)
+# admin.site.register(HistoricalDatapoint)
 
 # sono registrati in seguito mettendo in input anche il relativo modello Admin, 
 # per permettere a sjango import export di funzionare
@@ -40,43 +40,43 @@ class AreaParametersSetAdmin(ImportExportModelAdmin):
 admin.site.register(AreaParametersSet, AreaParametersSetAdmin)
 
 
-# registrazione modello RealtimeDatapoints
+# registrazione modello RealtimeDatapoint
 #--------------------------------------------------
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class RealtimeDatapointsResource(resources.ModelResource):
+class RealtimeDatapointResource(resources.ModelResource):
 
     class Meta:
-        model = RealtimeDatapoints
+        model = RealtimeDatapoint
         
         # fields = ('id', 'name', 'price') # per includere i campi
         exclude = ('id') # per escludere i campi
 
-class RealtimeDatapointsAdmin(ImportExportModelAdmin):
-    resource_class = RealtimeDatapointsResource
+class RealtimeDatapointAdmin(ImportExportModelAdmin):
+    resource_class = RealtimeDatapointResource
 
-admin.site.register(RealtimeDatapoints, RealtimeDatapointsAdmin)
+admin.site.register(RealtimeDatapoint, RealtimeDatapointAdmin)
 
 
-#  registrazione modello HistoricalDatapoints
+#  registrazione modello HistoricalDatapoint
 #--------------------------------------------------
 
 # questo modello controlla i field associati al tool import export, non all'admin
-class HistoricalDatapointsResource(resources.ModelResource):
+class HistoricalDatapointResource(resources.ModelResource):
 
     class Meta:
-        model = HistoricalDatapoints
+        model = HistoricalDatapoint
         
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
-class HistoricalDatapointsAdmin(ImportExportModelAdmin):
-    resource_class = HistoricalDatapointsResource
+class HistoricalDatapointAdmin(ImportExportModelAdmin):
+    resource_class = HistoricalDatapointResource
 
     # aggiungo il filtro laterale per selezionare a seconda della area di interesse
     list_filter = ['area_parameters_set__name']
 
-admin.site.register(HistoricalDatapoints, HistoricalDatapointsAdmin)
+admin.site.register(HistoricalDatapoint, HistoricalDatapointAdmin)
 
 
 #  registrazione modello SerieParametersSet

@@ -17,14 +17,14 @@ In order for the application to get and record data, it has to be filled with at
 
 ### Single-record data models
 
-#### HistoricalDatapointss	
+#### HistoricalDatapoints	
 
 This is the so-called "history data model".
 
 It contains all the processed data got from the raw data coming from the Luftdaten API, for each location.
 
 
-#### RealtimeDatapointss	
+#### RealtimeDatapoints	
 
 This model contains the lastest recorded raw data, for each location.
 

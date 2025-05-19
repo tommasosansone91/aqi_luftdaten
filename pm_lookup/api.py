@@ -4,14 +4,14 @@ from django.http import JsonResponse
 from datetime import datetime, timezone
 
 from .models import AreaParametersSet
-from .models import RealtimeDatapoints
-from .models import HistoricalDatapoints
+from .models import RealtimeDatapoint
+from .models import HistoricalDatapoint
 from .models import SerieParametersSet
 from .models import ComputedSerie
 
 from .processing.utils.air_quality_evaluators import evaluate_pollutant_concentration
 
-from .processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints
+from .processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint
 
 import ast
 
@@ -62,9 +62,9 @@ def serie_parameters_set_list_api(request):
 # def realtime_datapoints_list_api(request):
 
 #     # richiama il processign realtime che aggiorna i dati output
-#     get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()
+#     get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint()
 
-#     rt_records = RealtimeDatapoints.objects.all()
+#     rt_records = RealtimeDatapoint.objects.all()
 #     data = {"realtime_records": list(rt_records.values())}
 #     # lasciare vuota la coppia di parentesi dopo values vuol dire includere tutti i valori, 
 #     # ma la parentesi deve esistere
@@ -100,7 +100,7 @@ def historical_datapoint_subset_api(request):
             status=400
         )
 
-    basemanager_of_historical_datapoint = HistoricalDatapoints.objects.filter(
+    basemanager_of_historical_datapoint = HistoricalDatapoint.objects.filter(
         area_parameters_set=area_parameters_set,
         last_update_time__gte=start_date,
         last_update_time__lte=end_date
@@ -211,7 +211,7 @@ def serie_parameters_set_detail_api(request, pk):
 # api/realtime_datapoint_detail/<int:pk>
 def realtime_datapoint_detail_api(request, pk):
 
-    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoints()
+    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint()
 
     # substitute with using the most recent in historical
     # and do the vaulation with the helper
@@ -220,7 +220,7 @@ def realtime_datapoint_detail_api(request, pk):
         area_parameters_set = AreaParametersSet.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        realtime_datapoint = RealtimeDatapoints.objects.get(area_parameters_set=area_parameters_set)
+        realtime_datapoint = RealtimeDatapoint.objects.get(area_parameters_set=area_parameters_set)
 
         data = {
                 # "area_parameters_set":dict(area_parameters_set).items()

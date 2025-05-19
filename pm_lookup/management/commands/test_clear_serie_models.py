@@ -17,7 +17,7 @@ This command is to delete all data in the series models.
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        # RealtimeDatapoints.objects.all().delete()
+        # RealtimeDatapoint.objects.all().delete()
 
         # deleting the series(+graphs), not the historical dataponts
         SerieParametersSet.objects.all().delete()

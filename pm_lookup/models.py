@@ -88,7 +88,7 @@ class AreaParametersSet(models.Model):
         verbose_name_plural = "sets of parameters of areas"  # Nome al plurale
 
 
-class RealtimeDatapoints(models.Model):
+class RealtimeDatapoint(models.Model):
 
     area_parameters_set = models.OneToOneField(
         'AreaParametersSet',
@@ -151,7 +151,7 @@ class RealtimeDatapoints(models.Model):
         verbose_name_plural = "realtime datapoints"  # Nome al plurale
 
 
-class HistoricalDatapoints(models.Model):
+class HistoricalDatapoint(models.Model):
 
     area_parameters_set = models.ForeignKey(
         'AreaParametersSet',
