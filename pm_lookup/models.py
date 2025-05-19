@@ -30,16 +30,42 @@ class TargetArea(models.Model):
 
     # Ho reso il nome univoco così sono obbligato a specificare la diversità nel nome se anche cambio 
     # le coordinate del centro o il raggio
-    name = models.CharField(max_length=256, blank=False, null=False, unique=True)
+    name = models.CharField(
+        max_length=256, 
+        blank=False, 
+        null=False, 
+        unique=True,
+        help_text="""Set the name for this area."""
+    )
 
     description = models.TextField(null=False, blank=True)
 
-    latitude = models.FloatField(null=False, blank=False)
+    latitude = models.FloatField(
+        null=False, 
+        blank=False,
+        help_text="""Set the latitude of the center of this area
+        <br>
+        e.g.<br>
+        Y.YY... (WGS84)
+        """
+    )
 
-    longitude = models.FloatField(null=False, blank=False)
+    longitude = models.FloatField(
+        null=False, 
+        blank=False,
+        help_text="""Set the longitude of the center of this area 
+        <br>
+        e.g.<br>
+        X.XX... (WGS84)
+        """
+    )
 
-    radius = models.FloatField(null=False, blank=False)
-    # deve essere integer
+    radius = models.FloatField(
+        null=False, 
+        blank=False,
+        help_text="""Set the radius [km] that will define the boundary of this area as a circle around the center."""
+    )
+
 
 
     def __str__(self):       
@@ -179,7 +205,7 @@ class DatapointsSerieParameters(models.Model):
         max_length=256, 
         blank=False, 
         null=False,
-        help_text="""Declare a name for this set of parameters"""
+        help_text="""Set the name for this set of parameters defining a serie."""
         )
 
     description = models.TextField(null=False, blank=True)
