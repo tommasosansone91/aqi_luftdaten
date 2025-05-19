@@ -22,4 +22,4 @@ class Command(BaseCommand):
 
         serie_parameters_set_model = SerieParametersSet()
 
-        serie_parameters_set_model.model_save_triggered_generate_series_and_draw_graphs()
+        serie_parameters_set_model.generate_series_and_draw_graphs()
