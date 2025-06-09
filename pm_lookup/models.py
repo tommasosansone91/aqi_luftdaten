@@ -1,6 +1,5 @@
 from django.db import models
 
-
 from datetime import datetime
 from datetime import timedelta
 from django.utils import timezone
@@ -9,8 +8,6 @@ import uuid
 
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-
-from asgiref.sync import sync_to_async
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
