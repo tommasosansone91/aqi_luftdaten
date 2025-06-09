@@ -7,6 +7,12 @@ from django.utils import timezone
 
 import uuid
 
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from pm_lookup.configs.constants import COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
 
 from pm_lookup.processing.model_update_triggered_processing_1 import content_of_generate_series_and_draw_graphs
@@ -263,17 +269,32 @@ class SerieParametersSet(models.Model):
 
     # default: create a time serie of 1h aggregation and having a 1-day time horizon
 
-    def generate_series_and_draw_graphs(self):
-        content_of_generate_series_and_draw_graphs()
+    async def generate_series_and_draw_graphs_async(self):
+        await content_of_generate_series_and_draw_graphs()
 
+    def generate_series_and_draw_graphs(self):
+        # Use a thread pool to run the async function
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        executor = ThreadPoolExecutor(max_workers=1)
+
+        # Schedule the async function
+        loop.run_in_executor(executor, self._run_async)
+
+    def _run_async(self):
+        # Create a new event loop and run the async method
+        asyncio.run(self.generate_series_and_draw_graphs_async())
 
     def save(self, *args, **kwargs):
-
         # First, save the instance
-        super().save(*args, **kwargs)  
-
+        super().save(*args, **kwargs) 
+        print("Changes in model have been saved!") 
+        print("Triggering the rebuilding and redrawing of the corresponding series!")
+        
         # Then rebuild series and graphs
-        self.generate_series_and_draw_graphs()  
+        self.generate_series_and_draw_graphs() 
+
+        print("Wait for the serie rebuilding and redrawing to finish...") 
 
 
 
@@ -292,6 +313,11 @@ class SerieParametersSet(models.Model):
         verbose_name = SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME  # Nome al singolare
         verbose_name_plural = "sets of parameters of series"  # Nome al plurale
 
+
+# Using Django's post_save signal
+@receiver(post_save, sender=SerieParametersSet)
+def trigger_async_generation(sender, instance, **kwargs):
+    instance.generate_series_and_draw_graphs()
 
 
 class ComputedSerie(models.Model):
