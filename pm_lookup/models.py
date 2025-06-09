@@ -295,7 +295,7 @@ class SerieParametersSet(models.Model):
         # Then rebuild series and graphs
         self.generate_series_and_draw_graphs() 
 
-        print("Serie rebuilding and redrawing has finished!")
+        print("Wait for the serie rebuilding and redrawing to finish...") 
 
 
 
