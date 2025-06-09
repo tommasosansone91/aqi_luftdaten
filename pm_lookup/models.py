@@ -4,12 +4,10 @@ from django.db import models
 from datetime import datetime
 from datetime import timedelta
 from django.utils import timezone
-from django.utils.timezone import now
-
-from pm_lookup.configs.constants import COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
-
 
 import uuid
+
+from pm_lookup.configs.constants import COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
 
 from pm_lookup.processing.model_update_triggered_processing_1 import content_of_generate_series_and_draw_graphs
 
