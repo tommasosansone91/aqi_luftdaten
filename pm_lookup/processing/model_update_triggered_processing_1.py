@@ -18,7 +18,9 @@ from pm_lookup.configs.pollutants_data import POLLUTANTS_DATA
 
 
 
+from asgiref.sync import sync_to_async
 
+@sync_to_async
 def content_of_generate_series_and_draw_graphs():
 
     try:
