@@ -6,16 +6,12 @@ from django.utils import timezone
 
 import uuid
 
-import asyncio
-from concurrent.futures import ThreadPoolExecutor
-
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from pm_lookup.configs.constants import COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
 
-from pm_lookup.processing.model_update_triggered_processing_1 import content_of_generate_series_and_draw_graphs
-
+from pm_lookup.processing.asynchronous_components_1 import AsynchronousComponentsToolbox1
 
 
 # Create your models here.
@@ -265,33 +261,29 @@ class SerieParametersSet(models.Model):
         ) 
     
     
-
     # default: create a time serie of 1h aggregation and having a 1-day time horizon
 
-    async def generate_series_and_draw_graphs_async(self):
-        await content_of_generate_series_and_draw_graphs()
+    #----------------------------
+    # asynchronous running block
+    #----------------------------
 
-    def generate_series_and_draw_graphs(self):
-        # Create a thread pool executor
-        executor = ThreadPoolExecutor(max_workers=1)
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+    model_update_processing_1 = AsynchronousComponentsToolbox1()
+    print("Generated instance model_update_processing_1 of class AsynchronousComponentsToolbox1!")
 
-        # Run the async function in the new event loop
-        loop.run_in_executor(executor, self._run_async)
+    #----------------------------
 
-    def _run_async(self):
-        asyncio.run(self.generate_series_and_draw_graphs_async())
 
     def save(self, *args, **kwargs):
+
         # First, save the instance
         super().save(*args, **kwargs) 
         print("Changes in model have been saved!") 
-        print("Triggering the rebuilding and redrawing of the corresponding series!")
-        
-        # Then rebuild series and graphs
-        self.generate_series_and_draw_graphs() 
 
+        # Then rebuild series and graphs
+        print("Triggering the rebuilding and redrawing of the corresponding series!")
+        self.model_update_processing_1.generate_series_and_draw_graphs() 
+
+        print("Triggered the rebuilding and redrawing of the corresponding series!")
         print("Wait for the serie rebuilding and redrawing to finish...") 
 
 
@@ -315,7 +307,8 @@ class SerieParametersSet(models.Model):
 # Using Django's post_save signal
 @receiver(post_save, sender=SerieParametersSet)
 def trigger_async_generation(sender, instance, **kwargs):
-    instance.generate_series_and_draw_graphs()
+    instance.model_update_processing_1.generate_series_and_draw_graphs() 
+
 
 
 class ComputedSerie(models.Model):
