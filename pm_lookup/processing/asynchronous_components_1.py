@@ -5,7 +5,7 @@ from pm_lookup.processing.model_update_triggered_processing_1 import content_of_
 
 class AsynchronousComponentsToolbox1:
     # this class include all the asynchronous components required to manage the update of the serie parameters model.
-
+    # when it is run by the save method of a model.
 
     def generate_series_and_draw_graphs(self):
 
@@ -15,6 +15,12 @@ class AsynchronousComponentsToolbox1:
 
         # create a new loop.
         # it manages the execution of asynchronous tasks.
+
+            # Note: You generally want to avoid creating a new event loop and setting it
+            # for every call. For simple scripts, it might work, but in a more complex
+            # Django application, you might already have an event loop, especially if
+            # using ASGI or other async features.
+
         loop_1 = asyncio.new_event_loop()
 
         # set the newly created event loop as the current event loop.
