@@ -6,7 +6,7 @@
 
 from django.core.management.base import BaseCommand
 
-from pm_lookup.processing.asynchronous_components_1 import AsynchronousComponentsToolbox1
+from pm_lookup.processing.asynchronous_components_2 import AsynchronousComponentsToolbox2
 
 """
 This command is to recreate the time series 
@@ -21,13 +21,13 @@ class Command(BaseCommand):
 
         print("BaseCommand generate_series_and_draw_graphs - S")
 
-        model_update_processing_1 = AsynchronousComponentsToolbox1()
-        print("Generated instance model_update_processing_1 of class AsynchronousComponentsToolbox1!")
+        model_update_processing_2 = AsynchronousComponentsToolbox2()
+        print("Generated instance model_update_processing_2 of class AsynchronousComponentsToolbox2!")
 
         print("Triggering the rebuilding and redrawing of the corresponding series!")
-        model_update_processing_1.generate_series_and_draw_graphs() 
+        model_update_processing_2.generate_series_and_draw_graphs() 
 
         print("Triggered the rebuilding and redrawing of the corresponding series!")
         print("Wait for the serie rebuilding and redrawing to finish...") 
 
-        print("BaseCommand generate_series_and_draw_graphs- E")
+        print("BaseCommand generate_series_and_draw_graphs - E")
