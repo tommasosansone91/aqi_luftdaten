@@ -14,3 +14,7 @@ ALL_SENSORS_DATA_URL = "https://data.sensor.community/static/v2/data.json"
 
 SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME = "set of parameters of serie"
 COMPUTED_SERIE_META_VERBOSE_NAME = "computed serie"
+
+
+ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_MODEL = "save method of a model"
+ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_BASECOMMAND = "baseCommand"
