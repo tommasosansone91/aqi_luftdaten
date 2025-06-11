@@ -9,7 +9,7 @@ import uuid
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from pm_lookup.configs.constants import CALLER_CHOICE_MODEL, COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
+from pm_lookup.configs.constants import ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_MODEL, COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
 
 from pm_lookup.processing.asynchronous_components_1 import AsynchronousComponentsToolbox1
 
@@ -267,7 +267,8 @@ class SerieParametersSet(models.Model):
     # asynchronous running block
     #----------------------------
 
-    model_update_processing_1 = AsynchronousComponentsToolbox1(CALLER_CHOICE_MODEL)
+    caller = ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_MODEL
+    model_update_processing_1 = AsynchronousComponentsToolbox1(caller)
     print("Generated instance model_update_processing_1 of class AsynchronousComponentsToolbox1!")
 
     #----------------------------

@@ -1,7 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
 
-from pm_lookup.configs.constants import CALLER_CHOICE_BASECOMMAND
+from pm_lookup.configs.constants import ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_BASECOMMAND
 
 from pm_lookup.processing.model_update_triggered_processing_1 import content_of_generate_series_and_draw_graphs
 
@@ -37,7 +37,7 @@ class AsynchronousComponentsToolbox1():
         # this offloads the execution of self._run_async to the executor, making it run asynchronously without blocking the main thread.
         future_object_1 = loop_1.run_in_executor(executor_1, self._run_async)
 
-        if self.caller in (CALLER_CHOICE_BASECOMMAND):
+        if self.caller in (ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_BASECOMMAND):
 
             # Wait for the future to complete and get its result (or propagate exceptions).
             # This blocks the main thread (of the management command) until the async task is done.

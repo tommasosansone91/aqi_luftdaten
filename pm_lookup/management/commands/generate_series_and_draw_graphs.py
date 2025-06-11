@@ -6,7 +6,7 @@
 
 from django.core.management.base import BaseCommand
 
-from pm_lookup.configs.constants import CALLER_CHOICE_BASECOMMAND
+from pm_lookup.configs.constants import ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_BASECOMMAND
 
 from pm_lookup.processing.asynchronous_components_1 import AsynchronousComponentsToolbox1
 
@@ -23,7 +23,9 @@ class Command(BaseCommand):
 
         print("BaseCommand generate_series_and_draw_graphs - S")
 
-        model_update_processing_1 = AsynchronousComponentsToolbox1(CALLER_CHOICE_BASECOMMAND)
+        caller = ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_BASECOMMAND
+        model_update_processing_1 = AsynchronousComponentsToolbox1(caller)
+
         print("Generated instance model_update_processing_2 of class AsynchronousComponentsToolbox2!")
 
         print("Triggering the rebuilding and redrawing of the corresponding series!")
