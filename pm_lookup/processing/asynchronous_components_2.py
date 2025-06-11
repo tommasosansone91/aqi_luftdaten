@@ -23,11 +23,11 @@ class AsynchronousComponentsToolbox2:
         # Run the async function in the (context of) new event loop, by using the thread pool executor.
         # this offloads the execution of self._run_async to the executor, making it run asynchronously without blocking the main thread.
         # Crucially, we need to wait for this task to complete.
-        future_1 = loop_1.run_in_executor(executor_1, self._run_async)
+        future_object_1 = loop_1.run_in_executor(executor_1, self._run_async)
 
         # Wait for the future to complete and get its result (or propagate exceptions).
         # This blocks the main thread (of the management command) until the async task is done.
-        loop_1.run_until_complete(future_1)
+        loop_1.run_until_complete(future_object_1)
 
         # Close the loop and shut down the executor cleanly
         loop_1.close()
