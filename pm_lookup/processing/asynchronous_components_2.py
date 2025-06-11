@@ -3,9 +3,9 @@ import asyncio
 
 from pm_lookup.processing.model_update_triggered_processing_1 import content_of_generate_series_and_draw_graphs
 
-class AsynchronousComponentsToolbox1:
+class AsynchronousComponentsToolbox2:
     # this class include all the asynchronous components required to manage the update of the serie parameters model.
-    # when it is run by the save method of a model.
+    # when it is run by a base command.
 
     def generate_series_and_draw_graphs(self):
 
@@ -15,12 +15,6 @@ class AsynchronousComponentsToolbox1:
 
         # create a new loop.
         # it manages the execution of asynchronous tasks.
-
-            # Note: You generally want to avoid creating a new event loop and setting it
-            # for every call. For simple scripts, it might work, but in a more complex
-            # Django application, you might already have an event loop, especially if
-            # using ASGI or other async features.
-
         loop_1 = asyncio.new_event_loop()
 
         # set the newly created event loop as the current event loop.
@@ -28,7 +22,17 @@ class AsynchronousComponentsToolbox1:
 
         # Run the async function in the (context of) new event loop, by using the thread pool executor.
         # this offloads the execution of self._run_async to the executor, making it run asynchronously without blocking the main thread.
-        loop_1.run_in_executor(executor_1, self._run_async)
+        # Crucially, we need to wait for this task to complete.
+        future_object_1 = loop_1.run_in_executor(executor_1, self._run_async)
+
+        # Wait for the future to complete and get its result (or propagate exceptions).
+        # This blocks the main thread (of the management command) until the async task is done.
+        loop_1.run_until_complete(future_object_1)
+
+        # Close the loop and shut down the executor cleanly
+        loop_1.close()
+        executor_1.shutdown(wait=True) # Ensure all tasks are finished before shutting down
+
 
     def _run_async(self):
         # use asyncio.run() method to run a function that was defined as async.
