@@ -49,6 +49,8 @@ class AreaParametersSet(models.Model):
         <br>
         e.g.<br>
         Y.YY... (WGS84)
+        <br>
+        It will not be possible to change this field value after the object is saved in the model.
         """
     )
 
@@ -59,13 +61,17 @@ class AreaParametersSet(models.Model):
         <br>
         e.g.<br>
         X.XX... (WGS84)
+        <br>
+        It will not be possible to change this field value after the object is saved in the model.
         """
     )
 
     radius = models.FloatField(
         null=False, 
         blank=False,
-        help_text="""Set the radius [km] that will define the boundary of this area as a circle around the center."""
+        help_text="""Set the radius [km] that will define the boundary of this area as a circle around the center.
+        <br>
+        It will not be possible to change this field value after the object is saved in the model."""
     )
 
 

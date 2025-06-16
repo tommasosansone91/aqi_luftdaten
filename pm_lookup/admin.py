@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 
 from .models import AreaParametersSet
@@ -34,8 +35,25 @@ class AreaParametersSetResource(resources.ModelResource):
         # fields = ('id', 'name', 'price') # per includere i campi
         # exclude = ('id') # per escludere i campi
 
+
+class AreaParametersSetAdminForm(forms.ModelForm):
+    
+    class Meta:
+        model = AreaParametersSet
+        fields = '__all__'  # Include all fields in the form
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:  # Check if the object already exists
+            self.fields['latitude'].widget.attrs['readonly'] = True
+            self.fields['longitude'].widget.attrs['readonly'] = True
+            self.fields['radius'].widget.attrs['readonly'] = True
+
+
 class AreaParametersSetAdmin(ImportExportModelAdmin):
     resource_class = AreaParametersSetResource
+    
+    form = AreaParametersSetAdminForm
 
 admin.site.register(AreaParametersSet, AreaParametersSetAdmin)
 
