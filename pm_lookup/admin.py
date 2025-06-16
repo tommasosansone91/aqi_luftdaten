@@ -44,6 +44,7 @@ class AreaParametersSetAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # this is to make the following fields not editable from django admin after the object is saved into the model.
         if self.instance and self.instance.pk:  # Check if the object already exists
             self.fields['latitude'].widget.attrs['readonly'] = True
             self.fields['longitude'].widget.attrs['readonly'] = True
