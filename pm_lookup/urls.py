@@ -9,15 +9,39 @@ urlpatterns = [
     # pagine web
     #------------
 
-    path('', views.home, name="home"),
+    path(
+        '', 
+        views.home, 
+        name="home"
+        ),
 
-    path('catalogo_api', views.catalogo_api, name="catalogo_api"),
-    path('catalogo_aree_interesse', views.catalogo_aree_interesse, name="catalogo_aree_interesse"),
-    path('catalogo_set_parametri_definizione_serie_storiche', views.catalogo_set_parametri_definizione_serie_storiche, name="catalogo_set_parametri_definizione_serie_storiche"),
+    path(
+        'catalogo_api', 
+        views.catalogo_api, 
+        name="catalogo_api"
+        ),
+    path(
+        'catalogo_aree_interesse', 
+        views.catalogo_aree_interesse, 
+        name="catalogo_aree_interesse"
+        ),
+    path(
+        'catalogo_set_parametri_definizione_serie_storiche', 
+         views.catalogo_set_parametri_definizione_serie_storiche, 
+         name="catalogo_set_parametri_definizione_serie_storiche"
+         ),
     
-    path('valori_realtime', views.valori_realtime, name="valori_realtime"),
+    path(
+        'valori_realtime', 
+        views.valori_realtime, 
+        name="valori_realtime"
+        ),
     
-    path('grafici_serie_storiche', views.grafici_serie_storiche, name="grafici_serie_storiche"),
+    path(
+        'grafici_serie_storiche', 
+        views.grafici_serie_storiche, 
+        name="grafici_serie_storiche"
+        ),
     
 
     # api urls
@@ -30,8 +54,16 @@ urlpatterns = [
     #-------------
 
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
-    path('api/area_parameters_set_list', api.area_parameters_set_list_api, name="area_parameters_set_list"),
-    path('api/serie_parameters_set_list', api.serie_parameters_set_list_api, name="serie_parameters_set_list"),
+    path(
+        'api/area_parameters_set_list', 
+        api.area_parameters_set_list_api, 
+        name="area_parameters_set_list"
+        ),
+    path(
+        'api/serie_parameters_set_list', 
+        api.serie_parameters_set_list_api, 
+        name="serie_parameters_set_list"
+        ),
     # path('api/realtime_datapoints_list', api.realtime_datapoints_list_api, name="realtime_datapoints"),
 
   
@@ -41,10 +73,26 @@ urlpatterns = [
 
     # quindi devo passare in ingresso (URL) il parametro
 
-    path('api/area_parameters_set_detail/<int:pk>', api.area_parameters_set_detail_api, name="area_parameters_set_detail"),
-    path('api/serie_parameters_set_detail/<int:pk>', api.serie_parameters_set_detail_api, name="serie_parameters_set_detail"),
-    path('api/realtime_datapoint_detail/<int:pk>', api.realtime_datapoint_detail_api, name="realtime_datapoint_detail"),
-    path('api/computed_serie_detail/<int:pk>', api.computed_serie_detail_api, name="computed_serie_detail"),
+    path(
+        'api/area_parameters_set_detail/<int:pk>', 
+        api.area_parameters_set_detail_api, 
+        name="area_parameters_set_detail"
+        ),
+    path(
+        'api/serie_parameters_set_detail/<int:pk>', 
+        api.serie_parameters_set_detail_api, 
+        name="serie_parameters_set_detail"
+        ),
+    path(
+        'api/realtime_datapoint_detail/<int:pk>', 
+         api.realtime_datapoint_detail_api, 
+         name="realtime_datapoint_detail"
+         ),
+    path(
+        'api/computed_serie_detail/<int:pk>', 
+        api.computed_serie_detail_api, 
+        name="computed_serie_detail"
+        ),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.
     # prendere un insieme di record corrisondenti ad una città ... è prendere una serie storica, quindi tanto vale
@@ -56,7 +104,11 @@ urlpatterns = [
     # api con molti filtri
     #-----------------------
 
-    path('api/historical_datapoints_subset', api.historical_datapoint_subset_api, name="historical_datapoints_subset"),    
+    path(
+        'api/historical_datapoints_subset', 
+        api.historical_datapoint_subset_api, 
+        name="historical_datapoints_subset"
+        ),    
 
 
     
