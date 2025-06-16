@@ -322,12 +322,12 @@ class ComputedSerie(models.Model):
     # il primo attributo è il modello cui è associato
 
     # postgres non prende array + datetime
-    record_time_values = models.TextField( blank=False, null=False) 
+    record_time_values = models.JSONField(blank=False, null=False)
 
-    PM10_mean_values = models.TextField( null=False, blank=False)
-    PM25_mean_values = models.TextField( null=False, blank=False)
+    PM10_mean_values = models.JSONField(null=False, blank=False)
+    PM25_mean_values = models.JSONField(null=False, blank=False)
 
-    number_of_contributing_sensors_values = models.TextField(null=True)
+    number_of_contributing_sensors_values = models.JSONField(null=True)
 
     PM10_graph_div = models.TextField()
     PM25_graph_div = models.TextField()

@@ -1,4 +1,5 @@
 
+import traceback
 import numpy as np
 from django.utils import timezone
 
@@ -16,9 +17,8 @@ from pm_lookup.processing.utils.graphs_drawing_helpers import return_graph_title
 
 from pm_lookup.configs.pollutants_data import POLLUTANTS_DATA
 
-
-
 from asgiref.sync import sync_to_async
+
 
 @sync_to_async
 def content_of_generate_series_and_draw_graphs():
@@ -300,6 +300,8 @@ def content_of_generate_series_and_draw_graphs():
             # save data into ComputedSerie object
 
             # lists must be stringified
+
+            # try:
             
             new_datapoints_serie_computed_element = ComputedSerie(
 
@@ -309,12 +311,14 @@ def content_of_generate_series_and_draw_graphs():
 
                 # il join deve essere usato sulle liste, non sugli array
 
-                record_time_values = '[' + ', '.join(str(e) for e in  last_update_time_values ) +']',
+                # Convert datetime objects to ISO format strings
+                # this is because Object of type datetime is not JSON serializable
+                record_time_values = [dt.isoformat() for dt in last_update_time_values], # This should be a list
+                
+                PM10_mean_values = PM10_mean_values, # This should be a list
+                PM25_mean_values = PM25_mean_values, # This should be a list
 
-                PM10_mean_values = '[' + ', '.join(str(e) for e in  PM10_mean_values ) +']',
-                PM25_mean_values = '[' + ', '.join(str(e) for e in  PM25_mean_values ) +']',
-
-                number_of_contributing_sensors_values = '[' + ', '.join(str(e) for e in  mean_number_of_contributing_sensors_values ) +']',
+                number_of_contributing_sensors_values = mean_number_of_contributing_sensors_values, # This should be a list
 
                 PM10_graph_div = graph_PM10,
                 PM25_graph_div = graph_PM25
@@ -325,6 +329,10 @@ def content_of_generate_series_and_draw_graphs():
 
             # a set of parameters was used as input to create the computed serie+graph
 
+            # except Exception as e:
+            #     print(f"Error while saving a new computed serie model object: {e}")
+            #     print("printing the complete traceback:\n")
+            #     traceback.print_exc()
 
             print("Predisposti dati ed elementi del grafico per la serie storica per il set dei parametri {}!".format(set_osp) )  
 
@@ -333,6 +341,8 @@ def content_of_generate_series_and_draw_graphs():
 
     except Exception as e:
         print(f"Error during series generation: {e}")
+        print("printing the complete traceback:\n")
+        traceback.print_exc()
 
     print("content_of_generate_series_and_draw_graphs - E")
 

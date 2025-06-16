@@ -13,8 +13,6 @@ from .processing.utils.air_quality_evaluators import evaluate_pollutant_concentr
 
 from .processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint
 
-import ast
-
 from django.utils.dateparse import parse_datetime
 
 
@@ -280,8 +278,8 @@ def computed_serie_detail_api(request, pk):
         computed_serie = ComputedSerie.objects.get(serie_parameters_set=parameters_set)
         
         # this has to be turned to json
-        PM10_mean_values = ast.literal_eval(computed_serie.PM10_mean_values)
-        PM25_mean_values = ast.literal_eval(computed_serie.PM25_mean_values)
+        PM10_mean_values = computed_serie.PM10_mean_values
+        PM25_mean_values = computed_serie.PM25_mean_values
 
         PM10_mean_cathegory_label_values = [ evaluate_pollutant_concentration("PM10", i)[0] for i in PM10_mean_values ]
         PM25_mean_cathegory_label_values = [ evaluate_pollutant_concentration("PM25", i)[0] for i in PM25_mean_values ]
