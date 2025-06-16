@@ -56,12 +56,12 @@ urlpatterns = [
     # poichè ho messo la sua views in un altro py, devo metterne il nome prima della funzione di views
     path(
         'api/area_parameters_set_list', 
-        api.area_parameters_set_list_api, 
+        api.area_parameters_set_getall_api, 
         name="area_parameters_set_list"
         ),
     path(
         'api/serie_parameters_set_list', 
-        api.serie_parameters_set_list_api, 
+        api.serie_parameters_set_getall_api, 
         name="serie_parameters_set_list"
         ),
     # path('api/realtime_datapoints_list', api.realtime_datapoints_list_api, name="realtime_datapoints"),
@@ -74,31 +74,31 @@ urlpatterns = [
     # quindi devo passare in ingresso (URL) il parametro
 
     path(
-        'api/area_parameters_set_detail/<int:pk>', 
-        api.area_parameters_set_detail_api, 
-        name="area_parameters_set_detail"
+        'api/area_parameters_set/<int:pk>', 
+        api.area_parameters_set_getbyid_api, 
+        name="area_parameters_set"
         ),
     path(
-        'api/serie_parameters_set_detail/<int:pk>', 
-        api.serie_parameters_set_detail_api, 
-        name="serie_parameters_set_detail"
+        'api/serie_parameters_set/<int:pk>', 
+        api.serie_parameters_set_getbyid_api, 
+        name="serie_parameters_set"
         ),
     path(
-        'api/realtime_datapoint_detail/<int:pk>', 
-         api.realtime_datapoint_detail_api, 
-         name="realtime_datapoint_detail"
+        'api/realtime_datapoint/<int:pk>', 
+         api.realtime_datapoint_getbyareaparameterssetid_api, 
+         name="realtime_datapoint"
          ),
     path(
-        'api/computed_serie_detail/<int:pk>', 
-        api.computed_serie_detail_api, 
-        name="computed_serie_detail"
+        'api/computed_serie/<int:pk>', 
+        api.computed_serie_getbyserieparameterssetid_api, 
+        name="computed_serie"
         ),
 
     # non c'è il dettaglio degli history data perchè così prendo un record solo. è inutile.. ho una ok per ogni record.
     # prendere un insieme di record corrisondenti ad una città ... è prendere una serie storica, quindi tanto vale
     # path('api/historical_datapoints_detail/<int:pk>', api.historical_datapoints_detail_api, name="historical_datapoints_detail"),
 
-    # path('api/computed_serie_detail/<int:pk>', api.computed_serie_detail_api, name="computed_serie_detail"),
+    # path('api/computed_serie/<int:pk>', api.computed_serie_api, name="computed_serie"),
    
 
     # api con molti filtri
@@ -106,7 +106,7 @@ urlpatterns = [
 
     path(
         'api/historical_datapoints_subset', 
-        api.historical_datapoint_subset_api, 
+        api.historical_datapoint_subset_getbyfilter_api, 
         name="historical_datapoints_subset"
         ),    
 

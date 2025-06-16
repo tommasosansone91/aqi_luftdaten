@@ -87,9 +87,13 @@
     
     <h5>Set di parametri di definizione di una specifica area di interesse</h5>
 
+    <p><small>
+        L'id si riferisce al set di parametri che definisce l'area di interesse.
+    </p></small>
+
     
     <div class="container">
-    <code><a target="_blank" href="{% url 'area_parameters_set_detail' pk=1 %}">{{ request.get_host }}{% url 'area_parameters_set_detail' pk=1 %}</a></code>
+    <code><a target="_blank" href="{% url 'area_parameters_set' pk=1 %}">{{ request.get_host }}{% url 'area_parameters_set' pk=1 %}</a></code>
     </div>
 
     <br><br>
@@ -97,9 +101,13 @@
 
     <h5>Set di parametri di definizione di una specifica serie storica</h5>
 
+    <p><small>
+        L'id si riferisce al set di parametri che definisce la serie.
+    </p></small>
+
     
     <div class="container">
-    <code><a target="_blank" href="{% url 'serie_parameters_set_detail' pk=1 %}">{{ request.get_host }}{% url 'serie_parameters_set_detail' pk=1 %}</a></code>
+    <code><a target="_blank" href="{% url 'serie_parameters_set' pk=1 %}">{{ request.get_host }}{% url 'serie_parameters_set' pk=1 %}</a></code>
     </div>
 
     <br><br>
@@ -107,9 +115,13 @@
 
     <h5>Valori real-time degli inquinanti di una specifica area di interesse</h5>
 
+    <p><small>
+        L'id si riferisce al set di parametri che definisce l'area di interesse.
+    </p></small>
+
     
     <div class="container">
-    <code><a target="_blank" href="{% url 'realtime_datapoint_detail' pk=1 %}">{{ request.get_host }}{% url 'realtime_datapoint_detail' pk=1 %}</a></code>
+    <code><a target="_blank" href="{% url 'realtime_datapoint' pk=1 %}">{{ request.get_host }}{% url 'realtime_datapoint' pk=1 %}</a></code>
     </div>
 
     <br><br>
@@ -119,11 +131,15 @@
         perchè non avrebbe senso -->
 
 
-    <h5>Serie storica degli inquinanti di una specifica area di interesse</h5>
+    <h5>Serie storica degli inquinanti di uno specifico set di parametri</h5>
+
+    <p><small>
+        L'id si riferisce al set di parametri che definisce la serie.
+    </p></small>
 
     
     <div class="container">
-    <code><a target="_blank" href="{% url 'computed_serie_detail' pk=1 %}">{{ request.get_host }}{% url 'computed_serie_detail' pk=1 %}</a></code>
+    <code><a target="_blank" href="{% url 'computed_serie' pk=1 %}">{{ request.get_host }}{% url 'computed_serie' pk=1 %}</a></code>
     </div>
 
     <br><br>
