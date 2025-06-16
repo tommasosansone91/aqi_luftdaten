@@ -39,7 +39,9 @@ MODEL_SERIEPARAMETERSSET_META_NAME = "set of parameters of serie"
 
 DATA_REALTIMEDATAPOINT_API_NAME = "realtime_datapoint"
 
-MODEL_HISTORICALDATAPOINT_API_PLURAL_NAME = "list_of_historical_datapoints"
+# MODEL_HISTORICALDATAPOINT_API_NAME = "historical_datapoint"  # no need to define it
+MODEL_HISTORICALDATAPOINT_API_PLURAL_NAME = "historical_datapoints_subset"
+                                            # "list_of_historical_datapoints"
 
 MODEL_COMPUTEDSERIE_API_NAME = "computed_serie"
 MODEL_COMPUTEDSERIE_META_NAME = "computed serie"
