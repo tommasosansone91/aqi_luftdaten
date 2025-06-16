@@ -55,6 +55,10 @@ class RealtimeDatapointResource(resources.ModelResource):
 class RealtimeDatapointAdmin(ImportExportModelAdmin):
     resource_class = RealtimeDatapointResource
 
+    # Adding the 'uuid' field to the readonly fields list - it is not editable, yet visible
+    readonly_fields = ('uuid',)
+    # @note: this line is not related to ImportExportModel plugin
+
 admin.site.register(RealtimeDatapoint, RealtimeDatapointAdmin)
 
 
@@ -71,7 +75,13 @@ class HistoricalDatapointResource(resources.ModelResource):
         # exclude = ('id') # per escludere i campi
 
 class HistoricalDatapointAdmin(ImportExportModelAdmin):
+    # note:
+    # ImportExportModel is just the class (one of the classes) HistoricalDatapointAdmin inherits from
     resource_class = HistoricalDatapointResource
+
+    # Adding the 'uuid' field to the readonly fields list - it is not editable, yet visible
+    readonly_fields = ('uuid',)
+    # @note: this line is not related to ImportExportModel plugin
 
     # aggiungo il filtro laterale per selezionare a seconda della area di interesse
     list_filter = ['area_parameters_set__name']

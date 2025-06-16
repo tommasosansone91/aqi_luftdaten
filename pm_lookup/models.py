@@ -110,7 +110,7 @@ class RealtimeDatapoint(models.Model):
     # )
     # il primo attributo è il modello cui è associato
 
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
 
     last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
@@ -162,7 +162,7 @@ class HistoricalDatapoint(models.Model):
     )
     # il primo attributo è il modello cui è associato
 
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
 
     last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
