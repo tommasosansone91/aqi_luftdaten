@@ -18,8 +18,8 @@ staticfiles/
 # forcing ignore og virtual envitronment
 venv/
 
-# ignoring migrations
-**/migrations/*
+# ignoring migrations - not a good idea
+# **/migrations/*
 
 
 
