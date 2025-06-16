@@ -3,6 +3,8 @@
 from django.http import JsonResponse
 from datetime import datetime, timezone
 
+from pm_lookup.configs.constants import DATA_REALTIMEDATAPOINT_API_NAME, MODEL_AREAPARAMETERSSET_API_NAME, MODEL_AREAPARAMETERSSET_API_PLURAL_NAME, MODEL_COMPUTEDSERIE_API_NAME, MODEL_HISTORICALDATAPOINT_API_PLURAL_NAME, MODEL_SERIEPARAMETERSSET_API_NAME, MODEL_SERIEPARAMETERSSET_API_PLURAL_NAME
+
 from .models import AreaParametersSet
 from .models import RealtimeDatapoint
 from .models import HistoricalDatapoint
@@ -24,7 +26,7 @@ from django.utils.dateparse import parse_datetime
 def area_parameters_set_list_api(request):
     basemanager_of_area_parameters_set = AreaParametersSet.objects.all()
     data = {
-            "list_of_area_parameters_set": list(
+            "{}".format(MODEL_AREAPARAMETERSSET_API_PLURAL_NAME): list(
                 basemanager_of_area_parameters_set.values(
                     "pk",
                     "name",
@@ -41,7 +43,7 @@ def area_parameters_set_list_api(request):
 def serie_parameters_set_list_api(request):
     basemanager_of_serie_parameters_set = SerieParametersSet.objects.all()
     data = {
-            "list_of_serie_parameters_set": list(
+            "{}".format(MODEL_SERIEPARAMETERSSET_API_PLURAL_NAME): list(
                 basemanager_of_serie_parameters_set.values(
                     "pk",
                     "area_parameters_set",
@@ -129,7 +131,7 @@ def historical_datapoint_subset_api(request):
         )
 
     data = {
-            "list_of_historical_datapoints": list_of_historical_datapoint
+            "{}".format(MODEL_HISTORICALDATAPOINT_API_PLURAL_NAME): list_of_historical_datapoint
             }
 
     response = JsonResponse(data, safe=False)
@@ -147,7 +149,7 @@ def area_parameters_set_detail_api(request, pk):
         area_parameters_set = AreaParametersSet.objects.get(pk=pk)
         data = {
                 # "area":dict(area).items()
-                "area_parameters_set":
+                "{}".format(MODEL_AREAPARAMETERSSET_API_NAME):
                     {
                         "pk":area_parameters_set.pk,
                         "name":area_parameters_set.name,
@@ -179,7 +181,7 @@ def serie_parameters_set_detail_api(request, pk):
         parameters_set = SerieParametersSet.objects.get(pk=pk)
         data = {
                 # "parameters_set":dict(parameters_set).items()
-                "set_of_parameters_of_serie":
+                "".format(MODEL_SERIEPARAMETERSSET_API_NAME):
                     {
                         "pk":parameters_set.area_parameters_set.pk,
                         "area_parameters_set":parameters_set.area_parameters_set.pk,
@@ -222,7 +224,7 @@ def realtime_datapoint_detail_api(request, pk):
 
         data = {
                 # "area_parameters_set":dict(area_parameters_set).items()
-                "realtime_datapoint":
+                "{}".format(DATA_REALTIMEDATAPOINT_API_NAME):
                     {   
                         # così la pk per richiamare
                         "pk":realtime_datapoint.area_parameters_set.pk,
@@ -287,21 +289,33 @@ def computed_serie_detail_api(request, pk):
         PM25_mean_cathegory_values = [ evaluate_pollutant_concentration("PM25", i)[1] for i in PM25_mean_values ]
         
         data = {
-                # "area":dict(area).items()
-                "computed_serie":
-                    {   
-                        # così la pk per richiamare
-                        "pk" : computed_serie.serie_parameters_set.area_parameters_set.pk,
+                "{}".format(MODEL_SERIEPARAMETERSSET_API_NAME):
+                    {
+                        # dati del serie_parameters_set associati
+                        "serie_parameters_set_id": computed_serie.serie_parameters_set.pk,
+                        "title": computed_serie.serie_parameters_set.title,
+                        "description": computed_serie.serie_parameters_set.description ,
+                        "time_horizon": computed_serie.serie_parameters_set.time_horizon ,
+                        "aggregation_period": computed_serie.serie_parameters_set.aggregation_period ,
 
+                    },
+                "{}".format(MODEL_AREAPARAMETERSSET_API_NAME):
+                    {
                         # dati della area associata
+                        "area_parameters_set_id": computed_serie.serie_parameters_set.area_parameters_set.pk,
                         "name" : computed_serie.serie_parameters_set.area_parameters_set.name,
                         "longitude" : computed_serie.serie_parameters_set.area_parameters_set.longitude,
                         "latitude" : computed_serie.serie_parameters_set.area_parameters_set.latitude,
                         "radius" : computed_serie.serie_parameters_set.area_parameters_set.radius,
+                    },
 
-                        # dati del serie_parameters_set associati
+                # "area":dict(area).items()
+                "{}".format(MODEL_COMPUTEDSERIE_API_NAME):
+                    {   
+                        # così la pk per richiamare
+                        "pk" : computed_serie.pk,
 
-                        # dati della rilevazione                        
+                        # dati della serie costruita                       
                         "computed_serie_time_values" : computed_serie.record_time_values, 
 
                         "PM10_mean_values" : computed_serie.PM10_mean_values,

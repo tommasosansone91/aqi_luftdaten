@@ -9,7 +9,7 @@ import uuid
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from pm_lookup.configs.constants import ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_MODEL, COMPUTED_SERIE_META_VERBOSE_NAME, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME
+from pm_lookup.configs.constants import ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_MODEL, MODEL_COMPUTEDSERIE_META_NAME, MODEL_SERIEPARAMETERSSET_META_NAME
 
 from pm_lookup.processing.asynchronous_components_1 import AsynchronousComponentsToolbox1
 
@@ -290,7 +290,7 @@ class SerieParametersSet(models.Model):
 
 
     def __str__(self):       
-        return  "%s ( %s ) (%s)"  %  ( self.title , self.area_parameters_set.name, SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME )  
+        return  "%s ( %s ) (%s)"  %  ( self.title , self.area_parameters_set.name, MODEL_SERIEPARAMETERSSET_META_NAME )  
         
  
     class Meta:
@@ -301,7 +301,7 @@ class SerieParametersSet(models.Model):
 
         unique_together = ('area_parameters_set', 'time_horizon', 'aggregation_period')
 
-        verbose_name = SET_OF_PARAMETERS_OF_SERIE_META_VERBOSE_NAME  # Nome al singolare
+        verbose_name = MODEL_SERIEPARAMETERSSET_META_NAME  # Nome al singolare
         verbose_name_plural = "sets of parameters of series"  # Nome al plurale
 
 
@@ -335,7 +335,7 @@ class ComputedSerie(models.Model):
 
 
     def __str__(self):       
-        return  "%s ( %s ) (%s)"  %  ( self.serie_parameters_set.title , self.serie_parameters_set.area_parameters_set.name, COMPUTED_SERIE_META_VERBOSE_NAME )  
+        return  "%s ( %s ) (%s)"  %  ( self.serie_parameters_set.title , self.serie_parameters_set.area_parameters_set.name, MODEL_COMPUTEDSERIE_META_NAME )  
         
  
     class Meta:
@@ -344,5 +344,5 @@ class ComputedSerie(models.Model):
             'serie_parameters_set__area_parameters_set__name'
         ]
 
-        verbose_name = COMPUTED_SERIE_META_VERBOSE_NAME  # Nome al singolare
+        verbose_name = MODEL_COMPUTEDSERIE_META_NAME  # Nome al singolare
         verbose_name_plural = "computed series"  # Nome al plurale
