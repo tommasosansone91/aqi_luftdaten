@@ -47,6 +47,24 @@ MODEL_COMPUTEDSERIE_API_NAME = "computed_serie"
 MODEL_COMPUTEDSERIE_META_NAME = "computed serie"
 # MODEL_COMPUTEDSERIE_META_PLURAL_NAME = "computed series"
 
+EMPTY_GRAPH_HTML_SNIPPET = """
+<div style="
+    margin: 2em 0;
+    padding: 1.5em;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+">
+    <strong>⚠️ Grafico vuoto</strong><br>
+    Non sono presenti dati per l'area di interesse e le date selezionate nei parametri della serie.
+</div>
+"""
+
+
 
 # choices
 #---------
