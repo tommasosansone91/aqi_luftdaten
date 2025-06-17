@@ -96,67 +96,67 @@ class AreaParametersSet(models.Model):
         verbose_name_plural = "sets of parameters of areas"  # Nome al plurale
 
 
-class RealtimeDatapoint(models.Model):
+# class RealtimeDatapoint(models.Model):
 
-    area_parameters_set = models.OneToOneField(
-        'AreaParametersSet',
-        on_delete=models.CASCADE,
+#     area_parameters_set = models.OneToOneField(
+#         'AreaParametersSet',
+#         on_delete=models.CASCADE,
         
-    )
+#     )
     
-    # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .name. .radius, ecc
+#     # name, radius lat e long le prendo dal target area input data (onetoonefield) usando il .name. .radius, ecc
     
-    # AreaParametersSet_name = models.ForeignKey(
-    #     'AreaParametersSet',
-    #     # AreaParametersSet_name = models.ForeignKey('AreaParametersSet', on_delete....)
-    #     # vuol dire: in questo campo metti l'id del modello 'AreaParametersSet'
+#     # AreaParametersSet_name = models.ForeignKey(
+#     #     'AreaParametersSet',
+#     #     # AreaParametersSet_name = models.ForeignKey('AreaParametersSet', on_delete....)
+#     #     # vuol dire: in questo campo metti l'id del modello 'AreaParametersSet'
         
-    #     # nota che l'attributo è in minuscolo
-    #     on_delete=models.CASCADE,
-    # )
-    # il primo attributo è il modello cui è associato
+#     #     # nota che l'attributo è in minuscolo
+#     #     on_delete=models.CASCADE,
+#     # )
+#     # il primo attributo è il modello cui è associato
 
-    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+#     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
 
-    last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
+#     last_update_time = models.DateTimeField(blank=False, null=False, default=timezone.now )
 
-    number_of_contributing_sensors = models.PositiveIntegerField(null=True)
+#     number_of_contributing_sensors = models.PositiveIntegerField(null=True)
 
-    # these could be switched to a single json
+#     # these could be switched to a single json
 
-    PM10_mean = models.FloatField(null=False, blank=False)
-    PM25_mean = models.FloatField(null=False, blank=False)
+#     PM10_mean = models.FloatField(null=False, blank=False)
+#     PM25_mean = models.FloatField(null=False, blank=False)
 
-    # only the realtime data carries field for air quality cathegory and label, 
-    # as it is useful to display its color in the homepage
-    PM10_mean_cathegory_label = models.TextField( blank=False, null=False)
-    PM25_mean_cathegory_label = models.TextField( blank=False, null=False)
+#     # only the realtime data carries field for air quality cathegory and label, 
+#     # as it is useful to display its color in the homepage
+#     PM10_mean_cathegory_label = models.TextField( blank=False, null=False)
+#     PM25_mean_cathegory_label = models.TextField( blank=False, null=False)
 
-    PM10_mean_cathegory  = models.CharField(max_length=50, blank=False, null=False)
-    PM25_mean_cathegory = models.CharField(max_length=50, blank=False, null=False)
-
-
-    def __str__(self):       
-        return  "%s (%s) [ %s ]"  %  (
-                                    self.area_parameters_set.name,
-                                    self.area_parameters_set.id, 
-                                    datetime.strftime(
-                                        self.last_update_time, 
-                                        "%H:%M:%S %d-%m-%Y"
-                                        ) 
-                                    )  
+#     PM10_mean_cathegory  = models.CharField(max_length=50, blank=False, null=False)
+#     PM25_mean_cathegory = models.CharField(max_length=50, blank=False, null=False)
 
 
-    class Meta:
-        ordering = [
-            '-area_parameters_set__radius', 
-            'area_parameters_set__name'
-        ]
-        # fixato così
-        # ordering = ['-area_parameters_set.radius', 'area_parameters_set.name']
+#     def __str__(self):       
+#         return  "%s (%s) [ %s ]"  %  (
+#                                     self.area_parameters_set.name,
+#                                     self.area_parameters_set.id, 
+#                                     datetime.strftime(
+#                                         self.last_update_time, 
+#                                         "%H:%M:%S %d-%m-%Y"
+#                                         ) 
+#                                     )  
 
-        verbose_name = "realtime datapoint"  # Nome al singolare
-        verbose_name_plural = "realtime datapoints"  # Nome al plurale
+
+#     class Meta:
+#         ordering = [
+#             '-area_parameters_set__radius', 
+#             'area_parameters_set__name'
+#         ]
+#         # fixato così
+#         # ordering = ['-area_parameters_set.radius', 'area_parameters_set.name']
+
+#         verbose_name = "realtime datapoint"  # Nome al singolare
+#         verbose_name_plural = "realtime datapoints"  # Nome al plurale
 
 
 class HistoricalDatapoint(models.Model):

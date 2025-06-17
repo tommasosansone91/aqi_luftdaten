@@ -1,15 +1,12 @@
 from django.shortcuts import render
 
-from pm_lookup.processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint
+from pm_lookup.processing.utils.sensors_network_data_processing import extract_data_from_sensors_network_for_all_places
 
 from .models import AreaParametersSet
-from .models import RealtimeDatapoint
 from .models import SerieParametersSet
 from .models import ComputedSerie
 
 from django.contrib.admin.views.decorators import staff_member_required
-
-
 
 
 # Create your views here.
@@ -59,15 +56,12 @@ def catalogo_set_parametri_definizione_serie_storiche(request):
 #-------------------
 
 def valori_realtime(request):
-    
-    #  ranna il processing senza rendere niente in una variabile
-    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint()
 
     # va a prendere i dati nei modelli
     aree_di_interesse = AreaParametersSet.objects.all()    
-    n_aree_di_interesse = AreaParametersSet.objects.all().count()    
+    n_aree_di_interesse = AreaParametersSet.objects.all().count()  
 
-    record_sensori = RealtimeDatapoint.objects.all()
+    record_sensori = extract_data_from_sensors_network_for_all_places()["processed_data_for_all_places"]
 
     context_dict = {
                     'aree_di_interesse':aree_di_interesse,

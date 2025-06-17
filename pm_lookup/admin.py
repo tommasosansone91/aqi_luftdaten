@@ -2,7 +2,6 @@ from django import forms
 from django.contrib import admin
 
 from .models import AreaParametersSet
-from .models import RealtimeDatapoint
 from .models import HistoricalDatapoint
 from .models import SerieParametersSet
 from .models import ComputedSerie
@@ -57,28 +56,6 @@ class AreaParametersSetAdmin(ImportExportModelAdmin):
     form = AreaParametersSetAdminForm
 
 admin.site.register(AreaParametersSet, AreaParametersSetAdmin)
-
-
-# registrazione modello RealtimeDatapoint
-#--------------------------------------------------
-
-# questo modello controlla i field associati al tool import export, non all'admin
-class RealtimeDatapointResource(resources.ModelResource):
-
-    class Meta:
-        model = RealtimeDatapoint
-        
-        # fields = ('id', 'name', 'price') # per includere i campi
-        exclude = ('id') # per escludere i campi
-
-class RealtimeDatapointAdmin(ImportExportModelAdmin):
-    resource_class = RealtimeDatapointResource
-
-    # Adding the 'uuid' field to the readonly fields list - it is not editable, yet visible
-    readonly_fields = ('uuid',)
-    # @note: this line is not related to ImportExportModel plugin
-
-admin.site.register(RealtimeDatapoint, RealtimeDatapointAdmin)
 
 
 #  registrazione modello HistoricalDatapoint

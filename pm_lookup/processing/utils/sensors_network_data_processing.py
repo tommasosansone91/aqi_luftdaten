@@ -53,6 +53,8 @@ def extract_data_from_sensors_network_for_all_places():
 
     processed_data_for_all_places = list()
 
+    print("Inizio ricerca sensori nelle aree di interesse...")
+
 
     for place in input_data:
 
@@ -144,11 +146,12 @@ def extract_data_from_sensors_network_for_all_places():
                     print("    Timestamp: %s" % timestamp_value)                 
 
                 else:
-                    print("    Questo sensore non possiede dati di particolato")    
+                    print("    Questo sensore non possiede dati di particolato.")    
 
             # end processing for one sensonr
 
         # end processing for all sensors
+        print("Fine ricerca dati per %s." % place_name)
 
         # aggregating arrays of data
 
@@ -225,21 +228,22 @@ def extract_data_from_sensors_network_for_all_places():
 
         print("Valori del particolato raccolti da %s sensori per %s:" % (number_of_contributing_sensors, place_name))
 
-        print("PM10:")
-        print(PM10_list)  
+        print("    PM10:")
+        print("    {}".format(PM10_list) )  
 
-        print("PM2.5:")
-        print(PM25_list)  
+        print("    PM2.5:")
+        print("    {}".format(PM25_list) )
 
-        print("Orari delle rilevazioni:")
-        print(timestamp_list) 
+        print("    Orari delle rilevazioni:")
+        print("    {}".format(timestamp_list)) 
 
-        print("Valore medio del PM10 per %s: %s µg/m³. %s" % (place_name, PM10_mean, PM10_mean_cathegory_label))
-        print("Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_mean_cathegory_label))
-        print("Timestamp delle osservazioni per %s: %s" % (place_name, oldest_record_time_among_sensors_for_one_place))
+        print("    Valore medio del PM10 per %s: %s µg/m³. %s" % (place_name, PM10_mean, PM10_mean_cathegory_label))
+        print("    Valore medio del PM2.5 per %s: %s µg/m³. %s" % (place_name, PM25_mean, PM25_mean_cathegory_label))
+        print("    Timestamp delle osservazioni per %s: %s" % (place_name, oldest_record_time_among_sensors_for_one_place))
 
         # end the processing for one place
 
+    print("Fine ricerca sensori nelle aree di interesse.")
 
     api_data = {
             'api_URL': api_URL, 

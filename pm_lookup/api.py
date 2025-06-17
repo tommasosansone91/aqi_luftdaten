@@ -4,16 +4,14 @@ from django.http import JsonResponse
 from datetime import datetime, timezone
 
 from pm_lookup.configs.constants import DATA_REALTIMEDATAPOINT_API_NAME, MODEL_AREAPARAMETERSSET_API_NAME, MODEL_AREAPARAMETERSSET_API_PLURAL_NAME, MODEL_COMPUTEDSERIE_API_NAME, MODEL_HISTORICALDATAPOINT_API_PLURAL_NAME, MODEL_SERIEPARAMETERSSET_API_NAME, MODEL_SERIEPARAMETERSSET_API_PLURAL_NAME
+from pm_lookup.processing.utils.sensors_network_data_processing import extract_data_from_sensors_network_for_all_places
 
 from .models import AreaParametersSet
-from .models import RealtimeDatapoint
 from .models import HistoricalDatapoint
 from .models import SerieParametersSet
 from .models import ComputedSerie
 
 from .processing.utils.air_quality_evaluators import evaluate_pollutant_concentration
-
-from .processing.realtime_processing_1 import get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint
 
 from django.utils.dateparse import parse_datetime
 
@@ -183,7 +181,7 @@ def serie_parameters_set_getbyid_api(request, pk):
                 # "parameters_set":dict(parameters_set).items()
                 "".format(MODEL_SERIEPARAMETERSSET_API_NAME):
                     {
-                        "pk":parameters_set.area_parameters_set.pk,
+                        "pk":parameters_set.pk,
                         "area_parameters_set":parameters_set.area_parameters_set.pk,
                         "title":parameters_set.title,
                         "description":parameters_set.description,
@@ -211,7 +209,7 @@ def serie_parameters_set_getbyid_api(request, pk):
 # api/realtime_datapoint/<int:pk>
 def realtime_datapoint_getbyareaparameterssetid_api(request, pk):
 
-    get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint()
+    record_sensori = extract_data_from_sensors_network_for_all_places()["processed_data_for_all_places"]
 
     # substitute with using the most recent in historical
     # and do the vaulation with the helper
@@ -220,35 +218,37 @@ def realtime_datapoint_getbyareaparameterssetid_api(request, pk):
         area_parameters_set = AreaParametersSet.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        realtime_datapoint = RealtimeDatapoint.objects.get(area_parameters_set=area_parameters_set)
+        realtime_datapoint = [diz for diz in record_sensori if diz["area_parameters_set_id"] == pk ][0]
+        # only one element should match the condition
+
 
         data = {
                 # "area_parameters_set":dict(area_parameters_set).items()
                 "{}".format(DATA_REALTIMEDATAPOINT_API_NAME):
                     {   
-                        # così la pk per richiamare
-                        "pk":realtime_datapoint.area_parameters_set.pk,
+                        # non c'è una pk per il dato realtime perchè non proviene da un modello
+                        # ma per ogni area c'è un solo dato realtime
+                        "area_parameters_set_id" : area_parameters_set.pk,
 
                         # # dati della area associata
-                        # "name":realtime_datapoint.area_parameters_set.name,
-                        # "longitude":realtime_datapoint.area_parameters_set.longitude,
-                        # "latitude":realtime_datapoint.area_parameters_set.latitude,
-                        # "radius":realtime_datapoint.area_parameters_set.radius,
+                        # "name":area_parameters_set.name,
+                        # "longitude":area_parameters_set.longitude,
+                        # "latitude":area_parameters_set.latitude,
+                        # "radius":area_parameters_set.radius,
 
                         # dati della rilevazione                        
-                        "last_update_time" : realtime_datapoint.last_update_time, 
+                        "last_update_time" : realtime_datapoint["last_update_time"], 
 
-                        "PM10_mean" : realtime_datapoint.PM10_mean,
-                        "PM25_mean" : realtime_datapoint.PM25_mean, 
+                        "PM10_mean" : realtime_datapoint["PM10_mean"],
+                        "PM25_mean" : realtime_datapoint["PM25_mean"], 
 
-                        "PM10_mean_cathegory_label" : evaluate_pollutant_concentration("PM10", realtime_datapoint.PM10_mean)[0],
-                        "PM25_mean_cathegory_label"  : evaluate_pollutant_concentration("PM25", realtime_datapoint.PM10_mean)[0],
+                        "PM10_mean_cathegory_label" : evaluate_pollutant_concentration("PM10", realtime_datapoint["PM10_mean"])[0],
+                        "PM25_mean_cathegory_label"  : evaluate_pollutant_concentration("PM25", realtime_datapoint["PM25_mean"])[0],
 
-                        "PM10_mean_cathegory_value" : evaluate_pollutant_concentration("PM10", realtime_datapoint.PM10_mean)[1],
-                        "PM25_mean_cathegory_value" : evaluate_pollutant_concentration("PM25", realtime_datapoint.PM10_mean)[1],
+                        "PM10_mean_cathegory_value" : evaluate_pollutant_concentration("PM10", realtime_datapoint["PM10_mean"])[1],
+                        "PM25_mean_cathegory_value" : evaluate_pollutant_concentration("PM25", realtime_datapoint["PM25_mean"])[1],
 
-                        "number_of_contributing_sensors" : realtime_datapoint.number_of_contributing_sensors,
-
+                        "number_of_contributing_sensors" : realtime_datapoint["number_of_contributing_sensors"],
 
                     }        
                 } 
