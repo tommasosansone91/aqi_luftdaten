@@ -24,7 +24,7 @@ from django.utils.dateparse import parse_datetime
 def area_parameters_set_getall_api(request):
     basemanager_of_area_parameters_set = AreaParametersSet.objects.all()
     data = {
-            "{}".format(MODEL_AREAPARAMETERSSET_API_PLURAL_NAME): list(
+            "{}".format(MODEL_AREAPARAMETERSSET_API_PLURAL_NAME) : list(
                 basemanager_of_area_parameters_set.values(
                     "pk",
                     "name",
@@ -41,7 +41,7 @@ def area_parameters_set_getall_api(request):
 def serie_parameters_set_getall_api(request):
     basemanager_of_serie_parameters_set = SerieParametersSet.objects.all()
     data = {
-            "{}".format(MODEL_SERIEPARAMETERSSET_API_PLURAL_NAME): list(
+            "{}".format(MODEL_SERIEPARAMETERSSET_API_PLURAL_NAME) : list(
                 basemanager_of_serie_parameters_set.values(
                     "pk",
                     "area_parameters_set",
@@ -178,7 +178,7 @@ def serie_parameters_set_getbyid_api(request, pk):
     try:
         serie_parameters_set = SerieParametersSet.objects.get(pk=pk)
         data = {
-                "".format(MODEL_SERIEPARAMETERSSET_API_NAME):
+                "{}".format(MODEL_SERIEPARAMETERSSET_API_NAME):
                     {
                         "pk":serie_parameters_set.pk,
                         "area_parameters_set":serie_parameters_set.area_parameters_set.pk,
