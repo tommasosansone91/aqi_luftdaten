@@ -1,34 +1,101 @@
 # reset_db_and_migrations
 
-delete all files inside folder migrations, except `__init__.py`
+## hard fix migration issues by recreating model as if it were the first time in the app history
 
-    source venv/bin/activate
+>[!CAUTION]
+> migrations must **never** be gitignored.
 
-    psql -h localhost -U postgres -d postgres
+create models as you were doing it for the first time in the app history:
 
-    drop database aqiluftdaten;
+delete the tables and the history of migrations in the database: drop the database:
 
-    create database aqiluftdaten;
+-     psql -h localhost -U postgres -d postgres
 
-    alter database aqiluftdaten OWNER TO luftdaten_main;
+-     drop database aqiluftdaten;
 
-    exit
+recreate a fresh database:
 
-    psql -h localhost -U luftdaten_main -d aqiluftdaten
+-     create database aqiluftdaten;
 
-    python manage.py migrate
+-     alter database aqiluftdaten OWNER TO luftdaten_main;
 
-    python manage.py makemigrations
+-     exit
 
-    python manage.py createsuperuser
+-     psql -h localhost -U luftdaten_main -d aqiluftdaten
 
+delete the history of migrations on the migration folder
+
+- delete all files inside folder migrations, except `__init__.py`
+
+create models (this is as you were doing it for the first time in the app history):
+
+-     source venv/bin/activate
+
+-     python manage.py makemigrations
+
+-     python manage.py migrate
+
+align the project models to the remote project models:
+
+-     git restore pm_lookup/migrations/
+
+discard the history of migrations tracked in the database: drop the database:
+
+-     psql -h localhost -U postgres -d postgres
+
+-     drop database aqiluftdaten;
+
+-     create database aqiluftdaten;
+
+-     alter database aqiluftdaten OWNER TO luftdaten_main;
+
+-     exit
+
+-     psql -h localhost -U luftdaten_main -d aqiluftdaten
+
+run the makemigration command, just to verify that it will have no effect
+
+-     source venv/bin/activate
+
+-     python manage.py makemigrations
+
+generate the tables in the db: run the migration command
+
+-     python manage.py migrate
+
+recreate the superuser 
+
+-     python manage.py createsuperuser
+
+
+## git strategy for migrations
+
+>[!IMPORTANT]
+> The folder must be aligned across all the developing machines.
+
+Every time a developer work on the model, it should 
+
+- git pull the migrations, 
+
+- apply them via makemigrations, migrate, 
+
+- apply the new migrations via makemigrations, migrate
+
+- commit and push the migrations.
 
 
 -----------
 
-psql -h localhost -U luftdaten_main -d aqiluftdaten
+## useful commands
 
-\dt
+access the db
+
+    psql -h localhost -U luftdaten_main -d aqiluftdaten
+
+
+show all tables
+
+    \dt
 
 
 -------------

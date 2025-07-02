@@ -21,6 +21,13 @@ ALL_SENSORS_DATA_URL = "https://data.sensor.community/static/v2/data.json"
 # https://data.sensor.community/static/v2/data.json dati 5 min
 
 
+# choices
+#---------
+
+ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_MODEL = "save method of a model"
+ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_BASECOMMAND = "baseCommand"
+
+
 # model names
 #-------------
 
@@ -48,8 +55,25 @@ MODEL_COMPUTEDSERIE_META_NAME = "computed serie"
 # MODEL_COMPUTEDSERIE_META_PLURAL_NAME = "computed series"
 
 
-# choices
-#---------
+# empty graph snippet
+#----------------------
 
-ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_MODEL = "save method of a model"
-ASYNCHRONOUS_COMPONENTS_TOOLBOX_CALLER_CHOICE_BASECOMMAND = "baseCommand"
+EMPTY_GRAPH_HTML_SNIPPET_LONG_MESSAGE = """Non sono presenti dati per l'area di interesse e i parametri della serie selezionati per questo grafico."""
+
+EMPTY_GRAPH_HTML_SNIPPET = """
+<div style="
+    margin: 2em 0;
+    padding: 1.5em;
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+">
+    <strong>Grafico vuoto</strong><br>
+    {}
+</div>
+""".format(EMPTY_GRAPH_HTML_SNIPPET_LONG_MESSAGE)
+

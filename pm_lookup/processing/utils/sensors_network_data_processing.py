@@ -205,7 +205,7 @@ def extract_data_from_sensors_network_for_all_places():
 
         processed_data_from_detected_sensors_for_one_place = {
 
-            "area_parameters_set_id": place_id,
+            "area_parameters_set": place,
             # all'inizio del ciclo savlo la id dell'oggetto che sto scorrendo
             # quindi qui dico: salva i dati nel campo foreign key 
             # che rimanda all'oggetto avente per id quello che mi sono salvato

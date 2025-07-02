@@ -17,6 +17,8 @@ from pm_lookup.processing.utils.graphs_drawing_helpers import return_graph_title
 
 from pm_lookup.configs.pollutants_data import POLLUTANTS_DATA
 
+from pm_lookup.configs.constants import EMPTY_GRAPH_HTML_SNIPPET
+
 from asgiref.sync import sync_to_async
 
 
@@ -210,7 +212,7 @@ def content_of_generate_series_and_draw_graphs():
 
 
             if PM10_values_array.size == 0:
-                graph_PM10="NO DATA"
+                graph_PM10=EMPTY_GRAPH_HTML_SNIPPET
 
             else:
                 
@@ -260,7 +262,7 @@ def content_of_generate_series_and_draw_graphs():
                                 )
             
             if PM25_values_array.size == 0:
-                graph_PM25="NO DATA"
+                graph_PM25=EMPTY_GRAPH_HTML_SNIPPET
 
             else:  
 

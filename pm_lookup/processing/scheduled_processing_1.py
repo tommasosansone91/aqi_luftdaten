@@ -16,11 +16,13 @@ def get_data_from_luftdaten_api_and_save_them_in_HistoricalDatapoint():
 
         try:
 
+            area_parameters_set_object = AreaParametersSet.objects.get(
+                    id=place["area_parameters_set"].id
+                )
+
             new_historical_record = HistoricalDatapoint(
                 
-                area_parameters_set = AreaParametersSet.objects.get(
-                    id=place["area_parameters_set_id"]
-                    ),
+                area_parameters_set = area_parameters_set_object,
 
                 last_update_time = place["last_update_time"],
 
@@ -32,17 +34,13 @@ def get_data_from_luftdaten_api_and_save_them_in_HistoricalDatapoint():
             
             new_historical_record.save()
 
-            object_place = AreaParametersSet.objects.get(
-                    id=place["area_parameters_set_id"]
-                    )
-
-            print("Dati per %s salvati nel modello storico!" % object_place.name)
+            print("Dati per %s salvati nel modello storico!" % area_parameters_set_object.name)
 
         except Exception as e:
             print(e)
             # print("Vincolo unique together violato: i dati acquisiti sono uguali ai precedenti.")
             print("Viene impedita l'aggiunta del record [area di interesse: %s Timestamp: %s PM10: %s PM2.5: %s] al modello storico .".format(
-                object_place,  # using the object string representation of TargetAarea
+                area_parameters_set_object,  # using the object string representation of TargetAarea
                 place["last_update_time"], 
                 place["PM10_mean"], 
                 place["PM25_mean"]

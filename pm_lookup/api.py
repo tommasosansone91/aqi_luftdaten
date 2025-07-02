@@ -24,7 +24,7 @@ from django.utils.dateparse import parse_datetime
 def area_parameters_set_getall_api(request):
     basemanager_of_area_parameters_set = AreaParametersSet.objects.all()
     data = {
-            "{}".format(MODEL_AREAPARAMETERSSET_API_PLURAL_NAME): list(
+            "{}".format(MODEL_AREAPARAMETERSSET_API_PLURAL_NAME) : list(
                 basemanager_of_area_parameters_set.values(
                     "pk",
                     "name",
@@ -41,7 +41,7 @@ def area_parameters_set_getall_api(request):
 def serie_parameters_set_getall_api(request):
     basemanager_of_serie_parameters_set = SerieParametersSet.objects.all()
     data = {
-            "{}".format(MODEL_SERIEPARAMETERSSET_API_PLURAL_NAME): list(
+            "{}".format(MODEL_SERIEPARAMETERSSET_API_PLURAL_NAME) : list(
                 basemanager_of_serie_parameters_set.values(
                     "pk",
                     "area_parameters_set",
@@ -176,17 +176,16 @@ def area_parameters_set_getbyid_api(request, pk):
 def serie_parameters_set_getbyid_api(request, pk):
 
     try:
-        parameters_set = SerieParametersSet.objects.get(pk=pk)
+        serie_parameters_set = SerieParametersSet.objects.get(pk=pk)
         data = {
-                # "parameters_set":dict(parameters_set).items()
-                "".format(MODEL_SERIEPARAMETERSSET_API_NAME):
+                "{}".format(MODEL_SERIEPARAMETERSSET_API_NAME):
                     {
-                        "pk":parameters_set.pk,
-                        "area_parameters_set":parameters_set.area_parameters_set.pk,
-                        "title":parameters_set.title,
-                        "description":parameters_set.description,
-                        "time_horizon":parameters_set.time_horizon,
-                        "aggregation_period":parameters_set.aggregation_period,
+                        "pk":serie_parameters_set.pk,
+                        "area_parameters_set":serie_parameters_set.area_parameters_set.pk,
+                        "title":serie_parameters_set.title,
+                        "description":serie_parameters_set.description,
+                        "time_horizon":serie_parameters_set.time_horizon,
+                        "aggregation_period":serie_parameters_set.aggregation_period,
                     }        
                 } 
         response = JsonResponse(data)
@@ -218,7 +217,7 @@ def realtime_datapoint_getbyareaparameterssetid_api(request, pk):
         area_parameters_set = AreaParametersSet.objects.get(pk=pk)
         # confidando che ne prenda solo uno, il get è sulla pk!
 
-        realtime_datapoint = [diz for diz in record_sensori if diz["area_parameters_set_id"] == pk ][0]
+        realtime_datapoint = [diz for diz in record_sensori if diz["area_parameters_set"].id == pk ][0]
         # only one element should match the condition
 
 
@@ -228,7 +227,7 @@ def realtime_datapoint_getbyareaparameterssetid_api(request, pk):
                     {   
                         # non c'è una pk per il dato realtime perchè non proviene da un modello
                         # ma per ogni area c'è un solo dato realtime
-                        "area_parameters_set_id" : area_parameters_set.pk,
+                        "area_parameters_set" : area_parameters_set.pk,
 
                         # # dati della area associata
                         # "name":area_parameters_set.name,
@@ -276,8 +275,8 @@ def computed_serie_getbyserieparameterssetid_api(request, pk):
 
     try:
         # the pk is the parameters set one
-        parameters_set = SerieParametersSet.objects.get(pk=pk)
-        computed_serie = ComputedSerie.objects.get(serie_parameters_set=parameters_set)
+        serie_parameters_set = SerieParametersSet.objects.get(pk=pk)
+        computed_serie = ComputedSerie.objects.get(serie_parameters_set=serie_parameters_set)
         
         # this has to be turned to json
         PM10_mean_values = computed_serie.PM10_mean_values
@@ -315,6 +314,8 @@ def computed_serie_getbyserieparameterssetid_api(request, pk):
                     {   
                         # così la pk per richiamare
                         "pk" : computed_serie.pk,
+
+                        "serie_parameters_set" : serie_parameters_set.pk,
 
                         # dati della serie costruita                       
                         "computed_serie_time_values" : computed_serie.record_time_values, 
