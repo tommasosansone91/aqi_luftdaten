@@ -1,6 +1,6 @@
 # Install on Raspberry pi
 
-This procedure gives instructions on how to install the app aqi_luftdaten on a Raspberry pi.
+This procedure gives instructions on how to install the app aqi_graphs_dashboard on a Raspberry pi.
 
 > [!IMPORTANT]
 > The Raspberry pi and the PC used for the deploy must be connected to the same LAN network.
@@ -108,7 +108,7 @@ get the git clone link from github:
 > On development, git clone the project by using the github link starting with  `git@`.
 > This one allows to git push the project easily by using github SSH authentication method (SSH key exchange between github and the machine).
 
-    git clone https://github.com/tommasosansone91/aqi_luftdaten.git
+    git clone https://github.com/tommasosansone91/aqi_graphs_dashboard.git
 
 
 ## Install Nginx as web server and reverse proxy
@@ -116,7 +116,7 @@ get the git clone link from github:
 This is the *web server* (server the static files) and *reverse proxy* (forwards the dynamic requests to Django).
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
     apt-get update
@@ -186,31 +186,31 @@ enter the postgres shell as `postgres` user
 
 create the new database
 
-    create database aqiluftdaten;
+    create database aqi_graphs_dashboard;
 
 create a "main" and a "readonly" user for the app
 
-    create user luftdaten_main WITH ENCRYPTED PASSWORD 'aqimain';  # choose short one
+    create user aqigd_main WITH ENCRYPTED PASSWORD 'aqigdmain';  # choose short one
 
-    create user luftdaten_readonly WITH ENCRYPTED PASSWORD 'aqireadonly';  # choose short one
+    create user aqigd_readonly WITH ENCRYPTED PASSWORD 'aqigdreadonly';  # choose short one
 
 make the main user the owner of the database
 
-    alter database aqiluftdaten OWNER TO luftdaten_main;
+    alter database aqi_graphs_dashboard OWNER TO aqigd_main;
 
 exit the shell and test to reopen it as the "main user of the app"
 
     exit
 
-    psql -h localhost -U luftdaten_main -d aqiluftdaten
+    psql -h localhost -U aqigd_main -d aqi_graphs_dashboard
 
 
 > [!IMPORTANT]
 > The database name, the database-owner user and its password become the credentials for the Django app to access the database.
 
-    'NAME': 'aqiluftdaten',
-    'USER': 'luftdaten_main',
-    'PASSWORD': 'aqimain',
+    'NAME': 'aqi_graphs_dashboard',
+    'USER': 'aqigd_main',
+    'PASSWORD': 'aqigdmain',
 
 These credentials must be inserted in the `DATABASES` variable in `settings.py` module of the Django main app (the one created by default by django, at the same folder level of the other django apps inside that Django project).
 
@@ -254,7 +254,7 @@ These credentials must be inserted in the `DATABASES` variable in `settings.py` 
 
     sudo su
 
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
 
 specifically use python3 to create a virtual environment for the app in folder `venv`
 
@@ -268,7 +268,7 @@ ativate and deactivate the virtual environment only for testing
 ## Install the python modules web framework django
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
 > [!WARNING]
@@ -299,7 +299,7 @@ for every package which raises problems, open the file `requirements.txt`, look 
 Once the app framework and postgres are both installed, create the tables required by the app to operate correctly.
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
     python manage.py makemigrations
@@ -311,7 +311,7 @@ Once the app framework and postgres are both installed, create the tables requir
 Create superuser in order to access the admin section of the app.
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
     python manage.py createsuperuser
@@ -330,14 +330,14 @@ So, every time new static files are developed in `STATICFILES_DIRS` folders, the
 This can be done by running the django command `collectstatic`.
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
     python manage.py collectstatic   
 
 ## Configure the app to be hosted on the RPi
 
-In `aqi_luftdaten/settings.py`, insert the IP of the RPi in the list variable `ALLOWED_HOSTS`
+In `aqi_graphs_dashboard/settings.py`, insert the IP of the RPi in the list variable `ALLOWED_HOSTS`
 
     ALLOWED_HOSTS = ['<RPi_IP>']
 
@@ -350,7 +350,7 @@ to allow the app to be hosted on any server (not recommanded for security reason
 In the end, test that the app can be on the RPi without throwing any error.
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
     python manage.py runserver 0.0.0.0:8001
@@ -359,7 +359,7 @@ In the end, test that the app can be on the RPi without throwing any error.
 ## Configure Nginx to serve the app
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
 the default nginx configuration files are at paths
@@ -373,7 +373,7 @@ but we do not need the one in `sites-enabled`, so you can delete it
 
 Create the symbolic link
 
-    ln -s /var/www/aqi_luftdaten/infrastructure/nginx/aqi_luftdaten_nginx.conf /etc/nginx/conf.d/
+    ln -s /var/www/aqi_graphs_dashboard/infrastructure/nginx/aqi_graphs_dashboard_nginx.conf /etc/nginx/conf.d/
 
 Check that the symbolic link is right, run 
 
@@ -381,10 +381,10 @@ Check that the symbolic link is right, run
 
 you should see
 
-    lrwxrwxrwx 1 root root   68 May  5 21:18 aqi_luftdaten_nginx.conf -> /var/www/aqi_luftdaten/infrastructure/nginx/aqi_luftdaten_nginx.conf
+    lrwxrwxrwx 1 root root   68 May  5 21:18 aqi_graphs_dashboard_nginx.conf -> /var/www/aqi_graphs_dashboard/infrastructure/nginx/aqi_graphs_dashboard_nginx.conf
 
 
-This allows Nginx to find the app-specific configuration file `infrastructure/nginx/aqi_luftdaten_nginx.conf` when it searches for configuration files.
+This allows Nginx to find the app-specific configuration file `infrastructure/nginx/aqi_graphs_dashboard_nginx.conf` when it searches for configuration files.
 
 ### Check that Nginx is working
 
@@ -410,7 +410,7 @@ in case of errors, to rollback to the previous configuration, run
 
     sudo su
     cd /etc/nginx/conf.d/
-    rm /etc/nginx/conf.d/aqi_luftdaten_nginx.conf
+    rm /etc/nginx/conf.d/aqi_graphs_dashboard_nginx.conf
 
     systemctl stop nginx.service
     systemctl start nginx.service
@@ -425,7 +425,7 @@ In other words, it is a web server designed to run Python web applications that 
 ### install gunicorn
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
     pip install gunicorn
@@ -439,25 +439,25 @@ In other words, it is a web server designed to run Python web applications that 
 
 The files in the app folder `infrastructure/wsgi/` must be symbolically linked into the root directory of the project.
 
-    /var/www/aqi_luftdaten/
+    /var/www/aqi_graphs_dashboard/
 
 Run
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate 
 
 Create the symbolic link
 
-    ln -s /var/www/aqi_luftdaten/infrastructure/wsgi/aqi_luftdaten.wsgi /var/www/aqi_luftdaten/
+    ln -s /var/www/aqi_graphs_dashboard/infrastructure/wsgi/aqi_graphs_dashboard.wsgi /var/www/aqi_graphs_dashboard/
 
 Check that the symbolic link is right, run 
 
-    ll /var/www/aqi_luftdaten/
+    ll /var/www/aqi_graphs_dashboard/
 
 you should see the symbolic link and check that it is not colored in red
 
-    lrwxrwxrwx  1 root root   74 May  5 15:26 aqi_luftdaten.wsgi -> /var/www/aqi_luftdaten/infrastructure/wsgi/aqi_luftdaten.wsgi
+    lrwxrwxrwx  1 root root   74 May  5 15:26 aqi_graphs_dashboard.wsgi -> /var/www/aqi_graphs_dashboard/infrastructure/wsgi/aqi_graphs_dashboard.wsgi
 
 
 ### run the app manually via gunicorn
@@ -467,10 +467,10 @@ It binds the app **internal** port (8001) on which the app is exposed by the com
 The `--bind` part tells Gunicorn that it has to listen HTTP requests coming from that port (from the app).
 
     sudo su
-    cd /var/www/aqi_luftdaten
+    cd /var/www/aqi_graphs_dashboard
     source venv/bin/activate
 
-    PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8001
+    PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_graphs_dashboard.wsgi:application --bind localhost:8001
 
 See here why PYTHONPATH=\`pwd\`/.. is required at the start of the line.
 
@@ -488,16 +488,16 @@ http://192.168.1.106:3001/
 > The starting, stopping and starting-at-boot of the app should be managed via systemd and the systemctl syntax, which should be implemented as last step of the app installation process.
 
     sudo su
-    cd /var/www/aqi_luftdaten/
+    cd /var/www/aqi_graphs_dashboard/
     source venv/bin/activate
 
-    sudo nohup env PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_luftdaten.wsgi:application --bind localhost:8001 > /home/pi/aqi_luftdaten.log 2>&1 &
+    sudo nohup env PYTHONPATH=`pwd`/.. venv/bin/gunicorn aqi_graphs_dashboard.wsgi:application --bind localhost:8001 > /home/pi/aqi_graphs_dashboard.log 2>&1 &
 
 
 #### check that the app is up and running
 
     echo "Grepping the app name from ps aux"
-    echo "$(ps aux | grep 'aqi_luftdaten')"
+    echo "$(ps aux | grep 'aqi_graphs_dashboard')"
 
 
 #### exit the machine gracefully
@@ -523,22 +523,22 @@ of the RPi.
 Run
 
     sudo su
-    cd /var/www/aqi_luftdaten/
+    cd /var/www/aqi_graphs_dashboard/
     source venv/bin/activate
     
 Create the symbolic link
 
-    ln -s /var/www/aqi_luftdaten/infrastructure/cron/aqi_luftdaten-cron /etc/cron.d/
+    ln -s /var/www/aqi_graphs_dashboard/infrastructure/cron/aqi_graphs_dashboard_cron /etc/cron.d/
 
 Check that the symbolic link is right, run
 
-    ll /etc/cron.d/aqi_luftdaten-cron
+    ll /etc/cron.d/aqi_graphs_dashboard_cron
 
 you should see
 
-    lrwxrwxrwx 1 root root 46 May  1 10:59 /etc/cron.d/aqi_luftdaten-cron -> /var/www/aqi_luftdaten/infrastructure/cron/aqi_luftdaten-cron
+    lrwxrwxrwx 1 root root 46 May  1 10:59 /etc/cron.d/aqi_graphs_dashboard_cron -> /var/www/aqi_graphs_dashboard/infrastructure/cron/aqi_graphs_dashboard_cron
 
-This allows cron to find the app-specific cron file `infrastructure/cron/aqi_luftdaten-cron` .
+This allows cron to find the app-specific cron file `infrastructure/cron/aqi_graphs_dashboard_cron` .
 
 **NOTE:**
 No `chmod` of the cron files is needed.<br>
@@ -553,7 +553,7 @@ Just enable the execution of the files target of the cron
 
 Create directrory to host logs
 
-    sudo mkdir /var/log/aqi_luftdaten/
+    sudo mkdir /var/log/aqi_graphs_dashboard/
 
 
 ## Turn the app into a service
@@ -572,38 +572,38 @@ The second one will allow them to be automatically started as service as the mac
 Run
 
     sudo su
-    cd /var/www/aqi_luftdaten/
+    cd /var/www/aqi_graphs_dashboard/
     source venv/bin/activate
 
 Create the symbolic links
 
-    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/
-    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/multi-user.target.wants/
+    ln -s /var/www/aqi_graphs_dashboard/infrastructure/systemd/aqi_graphs_dashboard.service /etc/systemd/system/
+    ln -s /var/www/aqi_graphs_dashboard/infrastructure/systemd/aqi_graphs_dashboard.service /etc/systemd/system/multi-user.target.wants/
 
 Check that the symbolic link is right, run
 
-    ll /etc/systemd/system/multi-user.target.wants/aqi_luftdaten.service
-    ll /etc/systemd/system/aqi_luftdaten.service
+    ll /etc/systemd/system/multi-user.target.wants/aqi_graphs_dashboard.service
+    ll /etc/systemd/system/aqi_graphs_dashboard.service
 
 you should see
 
-    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/multi-user.target.wants/aqi_luftdaten.service -> /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service
+    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/multi-user.target.wants/aqi_graphs_dashboard.service -> /var/www/aqi_graphs_dashboard/infrastructure/systemd/aqi_graphs_dashboard.service
     
-    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/aqi_luftdaten.service -> /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service
+    lrwxrwxrwx 1 root root 52 May  1 11:04 /etc/systemd/system/aqi_graphs_dashboard.service -> /var/www/aqi_graphs_dashboard/infrastructure/systemd/aqi_graphs_dashboard.service
 
 start the service 
 
-    sudo systemctl start aqi_luftdaten.service
+    sudo systemctl start aqi_graphs_dashboard.service
 
 and check it is allright
 
-    sudo systemctl status aqi_luftdaten.service
+    sudo systemctl status aqi_graphs_dashboard.service
 
 To make this service automatically run on boot
 
     sudo systemctl daemon-reload
-    sudo systemctl enable aqi_luftdaten.service
-    sudo systemctl restart aqi_luftdaten.service  # there is no real need to run this
+    sudo systemctl enable aqi_graphs_dashboard.service
+    sudo systemctl restart aqi_graphs_dashboard.service  # there is no real need to run this
 
 In the end, test that the service works after the RPi booting
 
@@ -621,7 +621,7 @@ http://192.168.1.106:3001/
 In case you want to disable the program on boot
 
     sudo systemctl daemon-reload
-    sudo systemctl disable aqi_luftdaten.service
+    sudo systemctl disable aqi_graphs_dashboard.service
 
 Documentation https://www.freedesktop.org/software/systemd/man/systemd.service.html
 
@@ -631,10 +631,10 @@ In case you change nginx or wsgi configurations, reload the daemon and restart t
 
     /etc/init.d/nginx restart
     sudo systemctl daemon-reload
-    sudo systemctl restart aqi_luftdaten.service
+    sudo systemctl restart aqi_graphs_dashboard.service
 
 <hr>
 
 ```diff
-+ The app aqi_luftdaten is now successfully installed!
++ The app aqi_graphs_dashboard is now successfully installed!
 ```

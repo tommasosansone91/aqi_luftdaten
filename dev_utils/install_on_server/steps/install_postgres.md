@@ -39,22 +39,22 @@ rootpassword
 
     psql -h localhost -U postgres -d postgres
 
-    create database aqiluftdaten;
+    create database aqi_graphs_dashboard;
 
-    create user luftdaten_main WITH ENCRYPTED PASSWORD 'aqimain';  # choose short one
-    create user luftdaten_readonly WITH ENCRYPTED PASSWORD 'aqireadonly';  # choose short one
+    create user aqigd_main WITH ENCRYPTED PASSWORD 'aqigdmain';  # choose short one
+    create user aqigd_readonly WITH ENCRYPTED PASSWORD 'aqigdreadonly';  # choose short one
 
-    alter database aqiluftdaten OWNER TO luftdaten_main;
+    alter database aqi_graphs_dashboard OWNER TO aqigd_main;
 
     exit
 
-    psql -h localhost -U luftdaten_main -d aqiluftdaten
+    psql -h localhost -U aqigd_main -d aqi_graphs_dashboard
 
 
 --> questa configurazione risulta nelle seguenti credenziali
 
-    'NAME': 'aqiluftdaten',
-    'USER': 'luftdaten_main',
-    'PASSWORD': 'aqimain',
+    'NAME': 'aqi_graphs_dashboard',
+    'USER': 'aqigd_main',
+    'PASSWORD': 'aqigdmain',
 
 inserisci queste credenziali su settings.py (app di default creata da django)

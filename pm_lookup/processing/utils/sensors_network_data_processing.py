@@ -135,7 +135,7 @@ def extract_data_from_sensors_network_for_all_places():
                     # correzione del timestamp da una zona ad un'altra 
                     timestamp_value = convert_datetime_timezone(timestamp_value, "Europe/London", "Europe/Berlin")
                     
-                    # e sposta avanti la lancetta di uno se è attiva l'ora legale. infatti il server di luftdaten non ne tiene conto.
+                    # e sposta avanti la lancetta di uno se è attiva l'ora legale. infatti il server di Sensor Community non ne tiene conto.
                     
                     # se è attiva l'ora legale nel tempo locale
                     if time.localtime().tm_isdst != 0:

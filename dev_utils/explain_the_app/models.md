@@ -21,7 +21,7 @@ In order for the application to get and record data, it has to be filled with at
 
 This is the so-called "history data model".
 
-It contains all the processed data got from the raw data coming from the Luftdaten API, for each location.
+It contains all the processed data got from the raw data coming from the Sensor Community API, for each location.
 
 
 #### RealtimeDatapoints	

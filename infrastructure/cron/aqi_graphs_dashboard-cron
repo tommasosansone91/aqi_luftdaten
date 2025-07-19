@@ -1,0 +1,17 @@
+#-------------------------
+# cron per aqi_graphs_dashboard
+#-------------------------
+
+# sudo vim /etc/cron.d/aqi_graphs_dashboard_cron
+
+# chiama la api e salva i valori nel modello storico
+# ricostruisci le serie e ridisegna i grafici attingendo al modello storico
+0 * * * * root bash /var/www/aqi_graphs_dashboard/infrastructure/sh/save_current_data_and_arrange_series_and_graphs.sh >/var/log/aqi_graphs_dashboard/save_current_data_and_arrange_series_and_graphs.log
+
+
+
+# tests
+# -------
+
+# * * * * * root cd /home/pi/;touch hello_time.txt;echo "hello the time is $(date)" >> hello_time.txt
+# * * * * * root bash /var/www/aqi_graphs_dashboard/infrastructure/sh/save_current_data_and_arrange_series_and_graphs.sh >/var/log/aqi_graphs_dashboard/save_current_data_and_arrange_series_and_graphs.log

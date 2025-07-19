@@ -22,7 +22,7 @@ milano timehorizon=1day timedelta=1h
 
 
 
-  PGPASSWORD=aqimain pg_dump -U luftdaten_main -d aqiluftdaten -t pm_lookup_AreaParametersSet \
+  PGPASSWORD=aqigdmain pg_dump -U aqigd_main -d aqi_graphs_dashboard -t pm_lookup_AreaParametersSet \
   --data-only \
   --inserts \
   --column-inserts \

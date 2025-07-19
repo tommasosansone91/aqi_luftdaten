@@ -1,4 +1,4 @@
-<h1>AQI Luftdaten app</h1>
+<h1>AQI Sensor Community app</h1>
     
 <br>
 
@@ -8,7 +8,7 @@
 </p>
 
 <p>
-    L'app funziona grazie ai dati registrati dalle centraline <a target="_blank" href="https://luftdaten.info/it/benvenuto/">Luftdaten</a>, 
+    L'app funziona grazie ai dati registrati dalle centraline <a target="_blank" href="https://luftdaten.info/it/benvenuto/">Sensor Community</a>, 
     un progetto di scienza partecipata che permette ai cittadini di <a target="_blank" href="https://www.produzionidalbasso.com/project/1-000-centraline-dal-basso-in-italia/">acquistare</a> o <a target="_blank" href="http://centralinedalbasso.org/">costruire</a> in maniera autonoma delle centraline di rilevamento del particolato.
 </p>    
 
@@ -19,7 +19,7 @@
 </p>
 
 <p>
-    Questa applicazione seleziona i dati registrati dalle centraline Luftdaten presenti in una certa area definita dall'utente,
+    Questa applicazione seleziona i dati registrati dalle centraline Sensor Community presenti in una certa area definita dall'utente,
     esegue una media aritmetica tra i valori registrati per il particolato e infine li mostra all'utente, 
     specificando la categoria della qualità dell'aria in cui ricadono i valori monitorati.
 </p>
@@ -33,4 +33,4 @@
 
 ## Guida all'installazione
 
-https://github.com/tommasosansone91/aqi_luftdaten/blob/master/dev_utils/install_on_raspberrypi.md
+https://github.com/tommasosansone91/aqi_graphs_dashboard/blob/master/dev_utils/install_on_raspberrypi.md

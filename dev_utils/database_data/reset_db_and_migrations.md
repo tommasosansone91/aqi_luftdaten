@@ -11,17 +11,17 @@ delete the tables and the history of migrations in the database: drop the databa
 
 -     psql -h localhost -U postgres -d postgres
 
--     drop database aqiluftdaten;
+-     drop database aqi_graphs_dashboard;
 
 recreate a fresh database:
 
--     create database aqiluftdaten;
+-     create database aqi_graphs_dashboard;
 
--     alter database aqiluftdaten OWNER TO luftdaten_main;
+-     alter database aqi_graphs_dashboard OWNER TO aqigd_main;
 
 -     exit
 
--     psql -h localhost -U luftdaten_main -d aqiluftdaten
+-     psql -h localhost -U aqigd_main -d aqi_graphs_dashboard
 
 delete the history of migrations on the migration folder
 
@@ -43,15 +43,15 @@ discard the history of migrations tracked in the database: drop the database:
 
 -     psql -h localhost -U postgres -d postgres
 
--     drop database aqiluftdaten;
+-     drop database aqi_graphs_dashboard;
 
--     create database aqiluftdaten;
+-     create database aqi_graphs_dashboard;
 
--     alter database aqiluftdaten OWNER TO luftdaten_main;
+-     alter database aqi_graphs_dashboard OWNER TO aqigd_main;
 
 -     exit
 
--     psql -h localhost -U luftdaten_main -d aqiluftdaten
+-     psql -h localhost -U aqigd_main -d aqi_graphs_dashboard
 
 run the makemigration command, just to verify that it will have no effect
 
@@ -90,7 +90,7 @@ Every time a developer work on the model, it should
 
 access the db
 
-    psql -h localhost -U luftdaten_main -d aqiluftdaten
+    psql -h localhost -U aqigd_main -d aqi_graphs_dashboard
 
 
 show all tables

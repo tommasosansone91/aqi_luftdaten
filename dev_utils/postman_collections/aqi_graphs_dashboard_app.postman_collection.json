@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "bf2acf46-b1bb-402d-9da5-52ab470419b1",
-		"name": "aqi_luftdaten_app",
+		"name": "aqi_graphs_dashboard_app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21643682"
 	},

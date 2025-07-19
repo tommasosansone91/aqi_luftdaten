@@ -2,7 +2,7 @@
 
 # this file will be triggered by the cron and launch the BaseCommand to store data into the database.
 
-cd /var/www/aqi_luftdaten
+cd /var/www/aqi_graphs_dashboard
 
 # source venv/bin/activate
 # it is not needed since I specify the python interpreter from the venv in the next line

@@ -38,9 +38,9 @@ in settings.py
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'aqiluftdaten',
-            'USER': 'luftdaten_main',
-            'PASSWORD': 'aqimain',
+            'NAME': 'aqi_graphs_dashboard',
+            'USER': 'aqigd_main',
+            'PASSWORD': 'aqigdmain',
             'HOST': 'localhost',
             # 'HOST': '0.0.0.0',
             'PORT': '5432',

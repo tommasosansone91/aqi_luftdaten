@@ -60,7 +60,7 @@ def serie_parameters_set_getall_api(request):
 # def realtime_datapoints_list_api(request):
 
 #     # richiama il processign realtime che aggiorna i dati output
-#     get_data_from_luftdaten_api_and_save_them_in_RealtimeDatapoint()
+#     get_data_from_sensorcommunity_api_and_save_them_in_RealtimeDatapoint()
 
 #     rt_records = RealtimeDatapoint.objects.all()
 #     data = {"realtime_records": list(rt_records.values())}

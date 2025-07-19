@@ -18,7 +18,7 @@ e creare un link simbolico verso
 
 utilizzo il file sorgente nella directory dell'app senza spostarlo
 
-    systemd/aqi_luftdaten.service
+    systemd/aqi_graphs_dashboard.service
 
 ne abilito l'esecuzione e ne creo un link simbolico verso 
 
@@ -27,7 +27,7 @@ ne abilito l'esecuzione e ne creo un link simbolico verso
 
 Ciò lo faccio mediante i comandi
 
-    sudo chmod +x aqi_luftdaten.service
+    sudo chmod +x aqi_graphs_dashboard.service
 
-    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/
-    ln -s /var/www/aqi_luftdaten/infrastructure/systemd/aqi_luftdaten.service /etc/systemd/system/multi-user.target.wants/
+    ln -s /var/www/aqi_graphs_dashboard/infrastructure/systemd/aqi_graphs_dashboard.service /etc/systemd/system/
+    ln -s /var/www/aqi_graphs_dashboard/infrastructure/systemd/aqi_graphs_dashboard.service /etc/systemd/system/multi-user.target.wants/

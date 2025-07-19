@@ -14,7 +14,7 @@ create key .pem
 chiamala col nome dell'app che vai a caricarci, solo per chiarezza
 
 es 
-aqi_luftdaten.pem
+aqi_graphs_dashboard.pem
 
 allow http traffic flag sì
 
@@ -27,9 +27,9 @@ salvat l'ip publbico (a ogni stop di ec2 instance cambia)
 
 vai nella cartella di linux dove hai salvato la .pem
 
-    chmod 400 aqi_luftdaten.pem
+    chmod 400 aqi_graphs_dashboard.pem
 
-    ssh -i aqi_luftdaten.pem ec2-user@<ip_publbico_istanza>
+    ssh -i aqi_graphs_dashboard.pem ec2-user@<ip_publbico_istanza>
 
 ->entra nella vm
 
@@ -59,9 +59,9 @@ vedi file
 
 ## deploy app
 
-    git clone https://github.com/tommasosansone91/aqi_luftdaten.git
+    git clone https://github.com/tommasosansone91/aqi_graphs_dashboard.git
 
-    cd aqi_luftdaten/
+    cd aqi_graphs_dashboard/
 
 
 ## installa app
