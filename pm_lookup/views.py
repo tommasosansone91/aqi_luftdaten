@@ -8,6 +8,11 @@ from .models import ComputedSerie
 
 from django.contrib.admin.views.decorators import staff_member_required
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.utils.timezone import now
+
 
 # Create your views here.
 
@@ -97,4 +102,48 @@ def grafici_serie_storiche(request):
 
     return render(request, 'grafici_serie_storiche.html', context_dict)
 
+
+# custom messages system view
+#----------------------------------
+
+_messages = []
+
+@csrf_exempt
+def publish_message(request):
+    print("publishing messages...")
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+
+            text = data.get("text")
+            color = data.get("background_color", "#ffffff")  # default: white
+            timestamp = data.get(
+                "timestamp", 
+                now().isoformat()  # Django-aware timestamp
+            ) 
+
+            if text:
+                _messages.append(
+                    {
+                    "timestamp": timestamp,  
+                    "text": text,
+                    "background_color": color
+                    }
+                )
+                return JsonResponse({"status": "ok"})
+            else:
+                return JsonResponse({"error": "No message provided"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"status": "error"}, status=400)
+
+
+def get_messages(request):
+    print("getting messages...")
+    return JsonResponse({"messages": _messages})
+
+
+def message_display_page(request):
+    return render(request, 'messaging_system/message.html')
 

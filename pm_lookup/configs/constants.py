@@ -55,6 +55,16 @@ MODEL_COMPUTEDSERIE_META_NAME = "computed serie"
 # MODEL_COMPUTEDSERIE_META_PLURAL_NAME = "computed series"
 
 
+# custom messaging system messages 
+#----------------------------------
+
+MESSAGE_TEXT_SERIE_GENERATION_STARTED = "Serie generation started..."
+MESSAGE_BOX_BACKGROUND_COLOR_SERIE_GENERATION_STARTED = "#81c9e1"
+MESSAGE_TEXT_SERIE_GENERATION_ENDED = "Serie generation successfully completed!"
+MESSAGE_BOX_BACKGROUND_COLOR_SERIE_GENERATION_ENDED = "#81e1b9"
+
+
+
 # empty graph snippet
 #----------------------
 

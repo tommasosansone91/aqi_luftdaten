@@ -108,7 +108,29 @@ urlpatterns = [
         'api/historical_datapoints_subset', 
         api.historical_datapoint_subset_getbyfilter_api, 
         name="historical_datapoints_subset"
-        ),    
+        ),   
+
+
+    # custom messaging system
+    # ------------------------- 
+
+    path(
+        'publish_message/', 
+        views.publish_message, 
+        name='publish_message'
+        ),
+
+    path(
+        'get_messages/', 
+         views.get_messages, 
+         name='get_messages'
+         ),
+
+    path(
+        'show_messages/', 
+        views.message_display_page, 
+        name='show_messages'
+        ),
 
 
     

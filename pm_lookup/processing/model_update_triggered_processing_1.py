@@ -17,9 +17,12 @@ from pm_lookup.processing.utils.graphs_drawing_helpers import return_graph_title
 
 from pm_lookup.configs.pollutants_data import POLLUTANTS_DATA
 
-from pm_lookup.configs.constants import EMPTY_GRAPH_HTML_SNIPPET
+from pm_lookup.configs.constants import EMPTY_GRAPH_HTML_SNIPPET, MESSAGE_BOX_BACKGROUND_COLOR_SERIE_GENERATION_ENDED, MESSAGE_BOX_BACKGROUND_COLOR_SERIE_GENERATION_STARTED, MESSAGE_TEXT_SERIE_GENERATION_ENDED, MESSAGE_TEXT_SERIE_GENERATION_STARTED
 
 from asgiref.sync import sync_to_async
+
+import requests
+from django.utils.timezone import now
 
 
 @sync_to_async
@@ -27,6 +30,24 @@ def content_of_generate_series_and_draw_graphs():
 
     try:
         print("content_of_generate_series_and_draw_graphs - S") 
+
+        # send message ------------
+
+        try:
+            requests.post(
+                "http://localhost:8000/publish_message/",
+                json={
+                    "timestamp": now().isoformat(), # Django-aware timestamp
+                    "text": MESSAGE_TEXT_SERIE_GENERATION_STARTED,
+                    "background_color": MESSAGE_BOX_BACKGROUND_COLOR_SERIE_GENERATION_STARTED  # light blue
+                },
+                    timeout=5
+                )
+        except Exception as e:
+            print(f"Failed to send start message: {e}")
+
+        # -----------------------------
+
 
         from pm_lookup.models import ComputedSerie, SerieParametersSet, HistoricalDatapoint
         # This way, the function is only imported after Django has fully loaded the models 
@@ -340,6 +361,24 @@ def content_of_generate_series_and_draw_graphs():
 
         print("Predisposti dati ed elementi dei grafici per le serie storiche per tutti i set di parametri!") 
 
+
+
+        # send message ------------------
+
+        try:
+            requests.post(
+                "http://localhost:8000/publish_message/",
+                json={
+                    "timestamp": now().isoformat(), # Django-aware timestamp
+                    "text": MESSAGE_TEXT_SERIE_GENERATION_ENDED,
+                    "background_color": MESSAGE_BOX_BACKGROUND_COLOR_SERIE_GENERATION_ENDED  # light green
+                },
+                timeout=5
+            )
+        except Exception as e:
+            print(f"Failed to send end message: {e}")
+
+        # -------------------------------
 
     except Exception as e:
         print(f"Error during series generation: {e}")
